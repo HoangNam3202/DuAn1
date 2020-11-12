@@ -9,8 +9,8 @@
 
     <style name="TinNhanMoi" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">#F86436</item>
-        <item name="colorPrimaryDark">#F3A289</item>
+        <item name="colorPrimary">#0BDE9B</item>
+        <item name="colorPrimaryDark">#CDC579</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 

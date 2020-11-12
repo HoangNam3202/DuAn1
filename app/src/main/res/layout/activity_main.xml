@@ -34,10 +34,11 @@
         android:background="#fff"
         app:layout_anchor="@+id/view_pager"
         app:layout_anchorGravity="bottom|center"
-        app:tabIndicatorColor="#E86035"
-        app:tabSelectedTextColor="#E86035"
+        app:tabIndicatorColor="#0BDE9B"
+        app:tabSelectedTextColor="#E8E535"
         app:tabTextColor="#9C9C9C"
         app:tabMode="fixed"
         app:tabIndicatorGravity="top"
+
         />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
