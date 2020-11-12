@@ -1,117 +1,298 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LoginActivity"
-    android:orientation="vertical"
     android:background="@drawable/hinhnen"
-    >
+    android:orientation="vertical">
 
     <TextView
+        android:id="@+id/tvDangKyTaiKhoan"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Xin Chào"
-        android:textSize="36dp"
+        android:layout_marginTop="30dp"
         android:gravity="center"
+        android:text="Đăng ký tài khoản"
         android:textColor="#fff"
-        android:layout_marginTop="30dp"
-        android:textStyle="bold|italic"
-        />
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="40dp"
-        android:layout_marginRight="40dp"
-        android:layout_marginTop="30dp"
-        android:hint="Tên đăng kí"
-        android:gravity="center"
-        android:id="@+id/edtTen"
-        android:background="@drawable/edt_bg"
-        android:padding="15dp"
-        android:maxLines="1"
-        android:lines="1"
-
-        />
-
-<!--    <EditText-->
-<!--        android:id="@+id/edtMatKhau"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginLeft="40dp"-->
-<!--        android:layout_marginTop="40dp"-->
-<!--        android:layout_marginRight="40dp"-->
-<!--        android:background="@drawable/edt_bg"-->
-<!--        android:drawableRight="@drawable/eys"-->
-<!--        android:padding="15dp"-->
-<!--        android:drawableTint="#2196F3"-->
-<!--        android:gravity="center"-->
-<!--        android:hint="Mật khẩu" />-->
-
+        android:textSize="36dp"
+        android:textStyle="bold|italic" />
 
 
     <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tilTenTaiKhoan"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:hintEnabled="false"
-        android:layout_marginTop="40dp"
-        app:passwordToggleEnabled="true"
+        android:layout_below="@+id/tvDangKyTaiKhoan"
+        android:layout_marginTop="10dp"
+        app:hintEnabled="false">
 
-        >
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edtTenTaiKhoan"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/edt_bg"
+            android:drawableTint="#2196F3"
+            android:gravity="center"
+            android:hint="Tên tài khoản"
+            android:inputType="textPassword"
+            android:lines="1"
+            android:maxLines="1" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+
+        android:id="@+id/tilMatKhau"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tilTenTaiKhoan"
+        android:layout_marginTop="10dp"
+        app:hintEnabled="false">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/edtMatKhau"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="40dp"
-            android:layout_marginRight="40dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:background="@drawable/edt_bg"
-            android:padding="15dp"
             android:drawableTint="#2196F3"
             android:gravity="center"
             android:hint="Mật khẩu"
             android:inputType="textPassword"
-            android:maxLines="1"
             android:lines="1"
-            />
+            android:maxLines="1" />
+    </com.google.android.material.textfield.TextInputLayout>
 
-    </com.google.android.material.textfield.TextInputLayout><com.google.android.material.textfield.TextInputLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    app:hintEnabled="false"
-    android:layout_marginTop="40dp"
-    app:passwordToggleEnabled="true"
+    <com.google.android.material.textfield.TextInputLayout
 
-    >
-
-    <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/edtMatKhauNhapLai"
+        android:id="@+id/tilNhapLaiMatKhau"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="40dp"
-        android:layout_marginRight="40dp"
-        android:background="@drawable/edt_bg"
-        android:padding="15dp"
-        android:drawableTint="#2196F3"
-        android:gravity="center"
-        android:hint="Nhập lại mật khẩu"
-        android:inputType="textPassword"
-        android:maxLines="1"
-        android:lines="1"
-        />
+        android:layout_below="@+id/tilMatKhau"
+        android:layout_marginTop="10dp"
+        app:hintEnabled="false">
 
-</com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edtNhapLaiMatKhau"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/edt_bg"
+            android:drawableTint="#2196F3"
+            android:gravity="center"
+            android:hint="Nhập lại mật khẩu"
+            android:inputType="textPassword"
+            android:lines="1"
+            android:maxLines="1" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+
+        android:id="@+id/tilSoDienThoai"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tilNhapLaiMatKhau"
+        android:layout_marginTop="10dp"
+        app:hintEnabled="false">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edtSoDienThoai"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/edt_bg"
+            android:drawableTint="#2196F3"
+            android:gravity="center"
+            android:hint="Nhập số điện thoại"
+            android:inputType="textPassword"
+            android:lines="1"
+            android:maxLines="1" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+
+        android:id="@+id/tilDiaChi"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tilSoDienThoai"
+        android:layout_marginTop="10dp"
+        app:hintEnabled="false">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edtDiaChi"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/edt_bg"
+            android:drawableTint="#2196F3"
+            android:gravity="center"
+            android:hint="Nhập địa chỉ"
+            android:inputType="textPassword"
+            android:lines="1"
+            android:maxLines="1" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <ImageView
+        android:id="@+id/ivHinhDaiDien"
+        android:layout_width="180dp"
+        android:layout_height="180dp"
+        android:layout_below="@+id/tilDiaChi"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="18dp"
+        android:layout_marginEnd="217dp"
+        android:layout_marginRight="217dp"
+        android:src="@drawable/pqt" />
 
     <Button
+        android:id="@+id/btnChonHinhDaiDien"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tilDiaChi"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginStart="238dp"
+        android:layout_marginLeft="238dp"
+        android:layout_marginTop="85dp"
+        android:background="@drawable/gradient_btn"
+        android:layout_marginEnd="74dp"
+        android:layout_marginRight="74dp"
+        android:textColor="@color/colorWhite"
+        android:text="chọn hình" />
+
+    <Button
+        android:id="@+id/btnDangKy"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="GO !"
-        android:layout_marginTop="40dp"
+        android:layout_below="@+id/ivHinhDaiDien"
         android:layout_marginLeft="40dp"
+        android:layout_marginTop="20dp"
         android:layout_marginRight="40dp"
         android:background="@drawable/gradient_btn"
-        android:id="@+id/btnGo"
-        android:textColor="#fff"
-        />
-</LinearLayout>
+        android:text="Đăng ký"
+        android:textColor="#fff" />
+
+</RelativeLayout>
+
+
+    <!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+    <!--    xmlns:app="http://schemas.android.com/apk/res-auto"-->
+    <!--    xmlns:tools="http://schemas.android.com/tools"-->
+    <!--    android:layout_width="match_parent"-->
+    <!--    android:layout_height="match_parent"-->
+    <!--    android:background="@drawable/hinhnen"-->
+    <!--    android:orientation="vertical"-->
+    <!--    tools:context=".LoginActivity">-->
+
+    <!--    <TextView-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_marginTop="30dp"-->
+    <!--        android:gravity="center"-->
+    <!--        android:text="Xin Chào"-->
+    <!--        android:textColor="#fff"-->
+    <!--        android:textSize="36dp"-->
+    <!--        android:textStyle="bold|italic" />-->
+
+    <!--    <EditText-->
+    <!--        android:id="@+id/edtTen"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_marginLeft="40dp"-->
+    <!--        android:layout_marginTop="30dp"-->
+    <!--        android:layout_marginRight="40dp"-->
+    <!--        android:background="@drawable/edt_bg"-->
+    <!--        android:gravity="center"-->
+    <!--        android:hint="Tên đăng kí"-->
+    <!--        android:lines="1"-->
+    <!--        android:maxLines="1"-->
+    <!--        android:padding="15dp"-->
+
+    <!--        />-->
+
+    <!--    <EditText-->
+    <!--        android:id="@+id/edtMatKhau"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_marginLeft="40dp"-->
+    <!--        android:layout_marginTop="40dp"-->
+    <!--        android:layout_marginRight="40dp"-->
+    <!--        android:background="@drawable/edt_bg"-->
+    <!--        android:drawableRight="@drawable/eys"-->
+    <!--        android:padding="15dp"-->
+    <!--        android:drawableTint="#2196F3"-->
+    <!--        android:gravity="center"-->
+    <!--        android:hint="Mật khẩu" />-->
+
+
+    <!--    <com.google.android.material.textfield.TextInputLayout-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_marginTop="40dp"-->
+    <!--        app:hintEnabled="false"-->
+    <!--        app:passwordToggleEnabled="true"-->
+
+    <!--        >-->
+
+    <!--        <com.google.android.material.textfield.TextInputEditText-->
+    <!--            android:id="@+id/edtMatKhau"-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_marginLeft="40dp"-->
+    <!--            android:layout_marginRight="40dp"-->
+    <!--            android:background="@drawable/edt_bg"-->
+    <!--            android:drawableTint="#2196F3"-->
+    <!--            android:gravity="center"-->
+    <!--            android:hint="Mật khẩu"-->
+    <!--            android:inputType="textPassword"-->
+    <!--            android:lines="1"-->
+    <!--            android:maxLines="1"-->
+    <!--            android:padding="15dp" />-->
+
+    <!--    </com.google.android.material.textfield.TextInputLayout>-->
+
+    <!--    <com.google.android.material.textfield.TextInputLayout-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_marginTop="40dp"-->
+    <!--        app:hintEnabled="false"-->
+    <!--        app:passwordToggleEnabled="true"-->
+
+    <!--        >-->
+
+    <!--        <com.google.android.material.textfield.TextInputEditText-->
+    <!--            android:id="@+id/edtMatKhauNhapLai"-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_marginLeft="40dp"-->
+    <!--            android:layout_marginRight="40dp"-->
+    <!--            android:background="@drawable/edt_bg"-->
+    <!--            android:drawableTint="#2196F3"-->
+    <!--            android:gravity="center"-->
+    <!--            android:hint="Nhập lại mật khẩu"-->
+    <!--            android:inputType="textPassword"-->
+    <!--            android:lines="1"-->
+    <!--            android:maxLines="1"-->
+    <!--            android:padding="15dp" />-->
+
+    <!--    </com.google.android.material.textfield.TextInputLayout>-->
+
+    <!--            <Button-->
+    <!--                android:id="@+id/btnGo"-->
+    <!--                android:layout_width="match_parent"-->
+    <!--                android:layout_height="wrap_content"-->
+    <!--                android:layout_marginLeft="40dp"-->
+    <!--                android:layout_marginTop="40dp"-->
+    <!--                android:layout_marginRight="40dp"-->
+    <!--                android:background="@drawable/gradient_btn"-->
+    <!--                android:text="GO !"-->
+    <!--                android:textColor="#fff" />-->
+    <!--</LinearLayout>-->
