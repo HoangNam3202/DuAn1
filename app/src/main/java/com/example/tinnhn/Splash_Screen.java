@@ -29,4 +29,7 @@ public class Splash_Screen extends AppCompatActivity {
             }
         };  thread.start();
     }
+    private void abc(){
+        //safasf/safdasdf/sfas/f
+    }
 }
