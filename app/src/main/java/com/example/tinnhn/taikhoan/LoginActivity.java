@@ -1,4 +1,4 @@
-package com.example.tinnhn;
+package com.example.tinnhn.taikhoan;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -10,6 +10,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.tinnhn.R;
 
 public class LoginActivity extends AppCompatActivity {
     SharedPreferences sharedPreferences;
