@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AddActivity"
+    android:background="#fff"
+    >
+
+    <EditText
+        android:id="@+id/edtNguoiNhan"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:backgroundTint="#fff"
+        android:drawableRight="@drawable/user_icon"
+        android:hint="Người nhận"
+        android:padding="15dp" />
+
+    <EditText
+        android:id="@+id/edtNoiDung"
+        android:layout_width="333dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginBottom="0dp"
+        android:background="#fff"
+        android:hint="Nội dung"
+        android:maxLines="1"
+        android:lines="1"
+        android:padding="20dp" />
+
+    <TextView
+        android:id="@+id/txtChange"
+        android:layout_width="372dp"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/edtNoiDung"
+        android:layout_below="@+id/edtNguoiNhan"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginStart="13dp"
+        android:layout_marginLeft="13dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="13dp"
+        android:layout_marginRight="13dp"
+        android:layout_marginBottom="112dp"
+        android:textSize="24dp" />
+
+    <Button
+        android:id="@+id/btbGui"
+        android:layout_width="wrap_content"
+        android:layout_height="135dp"
+        android:layout_below="@+id/txtChange"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="80dp"
+        android:layout_marginLeft="80dp"
+        android:layout_marginTop="11dp"
+        android:layout_marginEnd="3dp"
+        android:layout_marginRight="3dp"
+        android:layout_marginBottom="5dp"
+        android:background="@drawable/radius"
+        android:textColor="#fff"
+        android:text="Gửi" />
+
+
+</RelativeLayout>
