@@ -19,15 +19,9 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".LoginActivity"
+            android:name=".taikhoan.LoginActivity"
             android:label="Đăng Nhập"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
-
-        </activity>
-        <activity
-            android:name=".DangKiActivity"
-            android:label="Đăng kí"
-            android:parentActivityName=".LoginActivity">
 
         </activity>
         <activity

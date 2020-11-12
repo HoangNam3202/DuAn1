@@ -5,14 +5,16 @@ import java.io.File;
 public class TaiKhoan {
     private int idTaiKhoan;
     private String tenTaiKhoan;
+    private String email;
     private String matKhau;
     private String soDienThoai;
     private String diaChi;
-    private File hinhDaiDien;
+    private int hinhDaiDien;
 
-    public TaiKhoan(int idTaiKhoan, String tenTaiKhoan, String matKhau, String soDienThoai, String diaChi, File hinhDaiDien) {
+    public TaiKhoan(int idTaiKhoan, String tenTaiKhoan, String email, String matKhau, String soDienThoai, String diaChi, int hinhDaiDien) {
         this.idTaiKhoan = idTaiKhoan;
         this.tenTaiKhoan = tenTaiKhoan;
+        this.email = email;
         this.matKhau = matKhau;
         this.soDienThoai = soDienThoai;
         this.diaChi = diaChi;
@@ -33,6 +35,14 @@ public class TaiKhoan {
 
     public void setTenTaiKhoan(String tenTaiKhoan) {
         this.tenTaiKhoan = tenTaiKhoan;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getMatKhau() {
@@ -59,11 +69,11 @@ public class TaiKhoan {
         this.diaChi = diaChi;
     }
 
-    public File getHinhDaiDien() {
+    public int getHinhDaiDien() {
         return hinhDaiDien;
     }
 
-    public void setHinhDaiDien(File hinhDaiDien) {
+    public void setHinhDaiDien(int hinhDaiDien) {
         this.hinhDaiDien = hinhDaiDien;
     }
 }
