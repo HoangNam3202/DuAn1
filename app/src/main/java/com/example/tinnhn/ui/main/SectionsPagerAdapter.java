@@ -17,7 +17,7 @@ import com.example.tinnhn.R;
 public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
     @StringRes
-    private static final int[] TAB_TITLES = new int[]{R.string.tin_nhan, R.string.danh_sach,R.string.group,R.string.ca_nhan};
+    private static final int[] TAB_TITLES = new int[]{R.string.tin_nhan, R.string.danh_sach, R.string.group, R.string.ca_nhan};
     private final Context mContext;
     private PlaceholderFragment placeholderFragment;
     private SecondFragment secondFragment;
@@ -37,17 +37,14 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         // getItem is called to instantiate the fragment for the given page.
         // Return a PlaceholderFragment (defined as a static inner class below).
-        if(position == 0){
-            return  placeholderFragment;
-        }
-        else if(position == 1){
-            return  secondFragment;
-        }
-        else if(position == 2){
-            return  groupFragment;
-        }
-        else if(position == 3){
-            return  settingFragment;
+        if (position == 0) {
+            return placeholderFragment;
+        } else if (position == 1) {
+            return secondFragment;
+        } else if (position == 2) {
+            return groupFragment;
+        } else if (position == 3) {
+            return settingFragment;
         }
         return null;
     }

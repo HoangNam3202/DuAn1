@@ -1,4 +1,4 @@
-package com.example.tinnhn;
+package com.example.tinnhn.taikhoan;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -11,6 +11,8 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.tinnhn.R;
+
 public class LoginActivity extends AppCompatActivity {
     SharedPreferences sharedPreferences;
 
@@ -18,14 +20,13 @@ public class LoginActivity extends AppCompatActivity {
 
     boolean check = false;
 
-    DatabaseHelper databasehelper;
+//    DatabaseHelper databasehelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
-        setContentView(R.layout.activity_main2);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        setContentView(R.layout.activity_login);
 
         initPreferences();
 
@@ -37,7 +38,7 @@ public class LoginActivity extends AppCompatActivity {
         txtDangKi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(LoginActivity.this,DangKiActivity.class);
+                Intent intent = new Intent(LoginActivity.this, DangKiActivity.class);
                 startActivity(intent);
             }
         });
@@ -46,7 +47,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void initPreferences() {
-        sharedPreferences = getSharedPreferences("mylogin",MODE_PRIVATE);
+        sharedPreferences = getSharedPreferences("mylogin", MODE_PRIVATE);
         editor = sharedPreferences.edit();
     }
 }

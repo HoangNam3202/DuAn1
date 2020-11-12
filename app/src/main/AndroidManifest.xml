@@ -9,7 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar">
-        <activity android:name=".Splash_Screen"
+        <activity android:name=".taikhoan.DangKiActivity"
             android:label="Tin Nhắn"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
             <intent-filter>
