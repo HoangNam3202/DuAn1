@@ -36,5 +36,8 @@
         app:layout_anchorGravity="bottom|center"
         app:tabIndicatorColor="#E86035"
         app:tabSelectedTextColor="#E86035"
-        app:tabTextColor="#9C9C9C" />
+        app:tabTextColor="#9C9C9C"
+        app:tabMode="fixed"
+        app:tabIndicatorGravity="top"
+        />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
