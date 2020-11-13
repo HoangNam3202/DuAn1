@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
         tabs.getTabAt(1).setIcon(R.drawable.group);
         tabs.getTabAt(2).setIcon(R.drawable.friend);
         tabs.getTabAt(3).setIcon(R.drawable.gear);
-        tabs.getTabAt(0).getIcon().setColorFilter(getResources().getColor(android.R.color.black), PorterDuff.Mode.SRC_IN);
+        tabs.getTabAt(0).getIcon().setColorFilter(getResources().getColor(R.color.colorItemSelected), PorterDuff.Mode.SRC_IN);
         tabs.getTabAt(1).getIcon().setColorFilter(getResources().getColor(R.color.colorItem), PorterDuff.Mode.SRC_IN);
         tabs.getTabAt(2).getIcon().setColorFilter(getResources().getColor(R.color.colorItem), PorterDuff.Mode.SRC_IN);
         tabs.getTabAt(3).getIcon().setColorFilter(getResources().getColor(R.color.colorItem), PorterDuff.Mode.SRC_IN);
@@ -61,25 +61,25 @@ public class MainActivity extends AppCompatActivity {
                 switch (tab.getPosition())
                 {
                     case 0:
-                        tabs.getTabAt(0).getIcon().setColorFilter(getResources().getColor(android.R.color.black), PorterDuff.Mode.SRC_IN);
+                        tabs.getTabAt(0).getIcon().setColorFilter(getResources().getColor(R.color.colorItemSelected), PorterDuff.Mode.SRC_IN);
                         tabs.getTabAt(1).getIcon().setColorFilter(getResources().getColor(R.color.colorItem), PorterDuff.Mode.SRC_IN);
                         tabs.getTabAt(2).getIcon().setColorFilter(getResources().getColor(R.color.colorItem), PorterDuff.Mode.SRC_IN);
                         tabs.getTabAt(3).getIcon().setColorFilter(getResources().getColor(R.color.colorItem), PorterDuff.Mode.SRC_IN);
                         break;
                     case 1:
-                        tabs.getTabAt(1).getIcon().setColorFilter(getResources().getColor(android.R.color.black), PorterDuff.Mode.SRC_IN);
+                        tabs.getTabAt(1).getIcon().setColorFilter(getResources().getColor(R.color.colorItemSelected), PorterDuff.Mode.SRC_IN);
                         tabs.getTabAt(0).getIcon().setColorFilter(getResources().getColor(R.color.colorItem), PorterDuff.Mode.SRC_IN);
                         tabs.getTabAt(2).getIcon().setColorFilter(getResources().getColor(R.color.colorItem), PorterDuff.Mode.SRC_IN);
                         tabs.getTabAt(3).getIcon().setColorFilter(getResources().getColor(R.color.colorItem), PorterDuff.Mode.SRC_IN);
                         break;
                     case 2:
-                        tabs.getTabAt(2).getIcon().setColorFilter(getResources().getColor(android.R.color.black), PorterDuff.Mode.SRC_IN);
+                        tabs.getTabAt(2).getIcon().setColorFilter(getResources().getColor(R.color.colorItemSelected), PorterDuff.Mode.SRC_IN);
                         tabs.getTabAt(1).getIcon().setColorFilter(getResources().getColor(R.color.colorItem), PorterDuff.Mode.SRC_IN);
                         tabs.getTabAt(0).getIcon().setColorFilter(getResources().getColor(R.color.colorItem), PorterDuff.Mode.SRC_IN);
                         tabs.getTabAt(3).getIcon().setColorFilter(getResources().getColor(R.color.colorItem), PorterDuff.Mode.SRC_IN);
                         break;
                     case 3:
-                        tabs.getTabAt(3).getIcon().setColorFilter(getResources().getColor(android.R.color.black), PorterDuff.Mode.SRC_IN);
+                        tabs.getTabAt(3).getIcon().setColorFilter(getResources().getColor(R.color.colorItemSelected), PorterDuff.Mode.SRC_IN);
                         tabs.getTabAt(1).getIcon().setColorFilter(getResources().getColor(R.color.colorItem), PorterDuff.Mode.SRC_IN);
                         tabs.getTabAt(0).getIcon().setColorFilter(getResources().getColor(R.color.colorItem), PorterDuff.Mode.SRC_IN);
                         tabs.getTabAt(2).getIcon().setColorFilter(getResources().getColor(R.color.colorItem), PorterDuff.Mode.SRC_IN);
