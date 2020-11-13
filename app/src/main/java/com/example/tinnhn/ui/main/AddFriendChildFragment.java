@@ -8,12 +8,10 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.viewpager.widget.ViewPager;
 
 import com.example.tinnhn.R;
-import com.google.android.material.tabs.TabLayout;
 
-public class GroupFragment extends Fragment {
+public class AddFriendChildFragment extends Fragment {
 
     private View mRoot;
 
@@ -21,7 +19,8 @@ public class GroupFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mRoot = inflater.inflate(R.layout.fragment_main2,container,false);
+        mRoot = inflater.inflate(R.layout.fragment_add_friends_child,container,false);
+
 
         return mRoot;
     }

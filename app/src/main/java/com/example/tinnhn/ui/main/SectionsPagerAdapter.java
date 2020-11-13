@@ -2,7 +2,6 @@ package com.example.tinnhn.ui.main;
 
 import android.content.Context;
 
-import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -20,7 +19,7 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
     private static final int[] TAB_TITLES = new int[]{R.string.tin_nhan, R.string.danh_sach, R.string.group, R.string.ca_nhan};
     private final Context mContext;
     private PlaceholderFragment placeholderFragment;
-    private SecondFragment secondFragment;
+    private FriendsFragment friendsFragment;
     private GroupFragment groupFragment;
     private SettingFragment settingFragment;
 
@@ -28,7 +27,7 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
         super(fm);
         mContext = context;
         placeholderFragment = new PlaceholderFragment();
-        secondFragment = new SecondFragment();
+        friendsFragment = new FriendsFragment();
         groupFragment = new GroupFragment();
         settingFragment = new SettingFragment();
     }
@@ -40,9 +39,9 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
         if (position == 0) {
             return placeholderFragment;
         } else if (position == 1) {
-            return secondFragment;
-        } else if (position == 2) {
             return groupFragment;
+        } else if (position == 2) {
+            return friendsFragment;
         } else if (position == 3) {
             return settingFragment;
         }

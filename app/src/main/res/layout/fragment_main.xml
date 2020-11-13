@@ -17,7 +17,7 @@
         android:background="@drawable/gradient_bg"
         android:drawableLeft="@drawable/ic_baseline_search_24"
         android:drawablePadding="10dp"
-        android:hint="Tìm kiếm"
+        android:hint="Search"
         android:minHeight="?actionBarSize"
         android:padding="11dp"
         android:textStyle="normal"

@@ -5,4 +5,6 @@
     <string name="underlight"><u>Đăng Ký</u></string>
     <string name="group">Groups</string>
     <string name="ca_nhan">Cá Nhân</string>
+    <string name="ban_be">Friends</string>
+    <string name="them_ban_be">Add Friends</string>
 </resources>
