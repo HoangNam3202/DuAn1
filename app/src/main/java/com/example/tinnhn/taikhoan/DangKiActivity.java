@@ -1,6 +1,7 @@
 package com.example.tinnhn.taikhoan;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
@@ -17,19 +18,22 @@ import com.google.android.material.textfield.TextInputLayout;
 
 import java.io.File;
 import java.util.ArrayList;
-
+import static com.example.tinnhn.taikhoan.LoginActivity.taiKhoanArrayList;
 public class DangKiActivity extends AppCompatActivity {
     TextInputLayout tilTenTaiKhoan, tilEmail, tilMatKhau, tilNhapLaiMatKhau, tilSoDienThoai, tilDiaChi;
     TextInputEditText edtTenTaiKhoan, edtEmail, edtMatKhau, edtNhapLaiMatKhau, edtSoDienThoai, edtDiaChi;
     ImageView ivHinhDaiDien;
     Button btnChonHinhDaiDien, btnDangKy;
-    public static ArrayList<TaiKhoan> taiKhoanArrayList;
+//    public static ArrayList<TaiKhoan> taiKhoanArrayList;
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dang_ki);
 //        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         DangKy();
     }
 
@@ -62,7 +66,7 @@ public class DangKiActivity extends AppCompatActivity {
                 if (kiemTraMatKhau && matKhau.length() > 0) {
                     taiKhoanArrayList.add(new TaiKhoan(RandomString(9), tenTaiKhoan, email, matKhau, soDienThoai, diaChi, 0));
                     Toast.makeText(DangKiActivity.this, "Đăng ký thành công!", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(DangKiActivity.this,LoginActivity.class));
+                    startActivity(new Intent(DangKiActivity.this, LoginActivity.class));
                     finish();
                 } else {
                     Toast.makeText(DangKiActivity.this, "Mật khẩu không khớp", Toast.LENGTH_SHORT).show();

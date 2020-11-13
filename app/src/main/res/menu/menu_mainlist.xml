@@ -2,25 +2,25 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:title=""
         android:id="@+id/menu_TenHienThi"
-        app:showAsAction="always"
-        >
+        android:title=""
+        app:showAsAction="always">
+
     </item>
     <item
-        android:title="Đăng xuất"
         android:id="@+id/menu_Dangxuat"
-        >
+        android:title="Đăng xuất">
+
     </item>
     <item
-    android:title="Thoát"
-    android:id="@+id/menu_Thoat"
-    >
+        android:id="@+id/menu_Thoat"
+        android:title="Thoát">
+
     </item>
 
     <item
-        android:title="Xóa toàn bộ danh sách"
         android:id="@+id/menu_Xoa"
-        >
+        android:title="Xóa toàn bộ danh sách">
+
     </item>
 </menu>

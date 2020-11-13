@@ -8,6 +8,7 @@ import android.graphics.PorterDuff;
 import android.os.Build;
 import android.os.Bundle;
 
+import com.example.tinnhn.taikhoan.LoginActivity;
 import com.example.tinnhn.ui.main.PlaceholderFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
@@ -58,8 +59,7 @@ public class MainActivity extends AppCompatActivity {
         tabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                switch (tab.getPosition())
-                {
+                switch (tab.getPosition()) {
                     case 0:
                         tabs.getTabAt(0).getIcon().setColorFilter(getResources().getColor(android.R.color.black), PorterDuff.Mode.SRC_IN);
                         tabs.getTabAt(1).getIcon().setColorFilter(getResources().getColor(R.color.colorItem), PorterDuff.Mode.SRC_IN);
@@ -112,13 +112,15 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
         switch (item.getItemId()) {
-            case R.id.menu_Xoa:
-
-                break;
             case R.id.menu_Dangxuat:
-
+                XoaGhiNhoDangNhap();
+                startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                finish();
                 break;
             case R.id.menu_Thoat:
+
+                break;
+            case R.id.menu_Xoa:
 
                 break;
             default:
@@ -127,4 +129,12 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    private void XoaGhiNhoDangNhap() {
+        SharedPreferences sharedPreferences;
+        SharedPreferences.Editor editor;
+        sharedPreferences = getSharedPreferences("GhiNhoDangNhap", MODE_PRIVATE);
+        editor = sharedPreferences.edit();
+        editor.remove("tenTaiKhoan");
+        editor.commit();
+    }
 }

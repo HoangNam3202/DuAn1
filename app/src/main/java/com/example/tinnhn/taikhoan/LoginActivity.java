@@ -18,23 +18,57 @@ import com.example.tinnhn.R;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
-import static com.example.tinnhn.taikhoan.DangKiActivity.taiKhoanArrayList;
+import java.util.ArrayList;
 
 
 public class LoginActivity extends AppCompatActivity {
+    public static ArrayList<TaiKhoan> taiKhoanArrayList;
     EditText edtTenTaiKhoan;
     TextInputLayout tilMatKhau;
     TextInputEditText edtMatKhau;
     CheckBox cbGhiNhoDangNhap;
     Button btnDangNhap;
     TextView txtQuenMatKhau, txtDangKy;
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_login);
+
+        taiKhoanArrayList = new ArrayList<>();
+        taiKhoanArrayList.add(new TaiKhoan(1,"pqt123","pqt123@gmail.com", "123123","05456","asdfsadf",0));
+
+        sharedPreferences = getSharedPreferences("GhiNhoDangNhap", MODE_PRIVATE);
+        editor = sharedPreferences.edit();
+
+        KiemTraGhiNhoDangNhap();
         DangNhap();
+        txtDangKy = findViewById(R.id.txtDangKy);
+        txtDangKy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(LoginActivity.this, DangKiActivity.class));
+            }
+        });
+        txtQuenMatKhau = findViewById(R.id.txtQuenMatKhau);
+        txtQuenMatKhau.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(LoginActivity.this, QuenMatKhauActivity.class));
+            }
+        });
+    }
+
+    private void KiemTraGhiNhoDangNhap() {
+        String tenTaiKhoan = sharedPreferences.getString("tenTaiKhoan", "");
+        if (tenTaiKhoan.length() != 0) {
+            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+            finish();
+        }
     }
 
     private void DangNhap() {
@@ -58,6 +92,12 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 }
                 if (xacNhan) {
+                    if (cbGhiNhoDangNhap.isChecked()) {
+                        editor.putString("tenTaiKhoan", tenTaiKhoan);
+                    } else {
+                        editor.remove("tenTaiKhoan");
+                    }
+                    editor.commit();
                     startActivity(new Intent(LoginActivity.this, MainActivity.class));
                     finish();
                 } else {
