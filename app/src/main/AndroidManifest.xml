@@ -9,21 +9,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar">
-        <activity android:name=".taikhoan.DangKiActivity"
+        <activity
+            android:name=".taikhoan.LoginActivity"
             android:label="Tin Nhắn"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
 
         </activity>
         <activity
-            android:name=".LoginActivity"
+            android:name="com.example.tinnhn.taikhoan.DangKiActivity"
             android:label="Đăng Nhập"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
-
-        </activity>
-        <activity
-            android:name=".DangKiActivity"
-            android:label="Đăng kí"
-            android:parentActivityName=".LoginActivity">
 
         </activity>
         <activity
@@ -42,6 +37,10 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+
+        <activity android:name="com.example.tinnhn.taikhoan.QuenMatKhauActivity">
+
         </activity>
     </application>
 

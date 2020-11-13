@@ -2,7 +2,7 @@
     <string name="app_name">Tin Nhắn</string>
     <string name="tin_nhan">Tin Nhắn</string>
     <string name="danh_sach">Danh Bạ</string>
-    <string name="underlight"><u>Đăng Kí</u></string>
+    <string name="underlight"><u>Đăng Ký</u></string>
     <string name="group">Groups</string>
     <string name="ca_nhan">Cá Nhân</string>
 </resources>
