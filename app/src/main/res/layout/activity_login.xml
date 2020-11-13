@@ -22,19 +22,28 @@
     <EditText
         android:id="@+id/edtTenTaiKhoan"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:layout_marginLeft="40dp"
         android:layout_marginTop="40dp"
         android:layout_marginRight="40dp"
         android:background="@drawable/edt_bg"
-        android:gravity="center"
         android:hint="Tên tài khoản *"
+        android:gravity="center"
         android:lines="1"
         android:maxLines="1"
-        android:padding="15dp"
         android:textColorHint="@color/colorOrange"
 
         />
+    <TextView
+        android:id="@+id/tvTenTaiKhoan"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:gravity="center"
+        android:text=""
+        android:textStyle="bold"
+        android:textColor="@color/colorWhite" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tilMatKhau"
@@ -49,7 +58,7 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/edtMatKhau"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:background="@drawable/edt_bg"
             android:drawableTint="#2196F3"
             android:gravity="center"
@@ -57,16 +66,24 @@
             android:inputType="textPassword"
             android:lines="1"
             android:maxLines="1"
-            android:padding="15dp"
             android:textColorHint="@color/colorOrange" />
     </com.google.android.material.textfield.TextInputLayout>
+    <TextView
+        android:id="@+id/tvMatKhau"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tilMatKhau"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:gravity="center"
+        android:text=""
+        android:textColor="@color/colorWhite" />
 
     <CheckBox
         android:id="@+id/cbGhiNhoDangNhap"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="40dp"
-        android:layout_marginTop="10dp"
         android:layout_marginRight="40dp"
         android:text="Ghi nhớ đăng nhập" />
 

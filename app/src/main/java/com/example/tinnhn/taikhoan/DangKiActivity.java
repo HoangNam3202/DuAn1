@@ -1,7 +1,6 @@
 package com.example.tinnhn.taikhoan;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -33,7 +32,6 @@ public class DangKiActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dang_ki);
 //        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
         DangKy();
     }
 
@@ -58,7 +56,7 @@ public class DangKiActivity extends AppCompatActivity {
         tvDiaChi = findViewById(R.id.tvDiaChi);
         btnDangKy = findViewById(R.id.btnDangKy);
         taiKhoanArrayList = new ArrayList<>();
-        //Kiểm tra nhập hợp lệ lần 1
+        //Kiểm tra nhập hợp lệ
         final String checkTenTaiKhoan = "[a-zA-Z0-9+]{6,50}";
         final String checkSoDienThoai = "0[2-9]\\d{8}";
         final String checkEmail = "[a-zA-Z0-9.]+@[a-z]+(\\.+[a-z]+){1,2}";
@@ -218,22 +216,27 @@ public class DangKiActivity extends AppCompatActivity {
         btnDangKy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String tenTaiKhoan, email, matKhau, nhapLaiMatKhau, soDienThoai, diaChi;
-                tenTaiKhoan = edtTenTaiKhoan.getText().toString().trim();
-                email = edtEmail.getText().toString().trim();
-                matKhau = edtMatKhau.getText().toString().trim();
-                nhapLaiMatKhau = edtNhapLaiMatKhau.getText().toString().trim();
-                soDienThoai = edtSoDienThoai.getText().toString().trim();
-                diaChi = edtDiaChi.getText().toString().trim();
-                boolean kiemTraMatKhau = matKhau.equals(nhapLaiMatKhau);
-                if (kiemTraMatKhau && matKhau.length() > 0) {
-                    taiKhoanArrayList.add(new TaiKhoan(RandomString(9), tenTaiKhoan, email, matKhau, soDienThoai, diaChi, 0));
-                    Toast.makeText(DangKiActivity.this, "Đăng ký thành công!", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(DangKiActivity.this, LoginActivity.class));
-                    finish();
+                if (kiemTra[0] && kiemTra[1] && kiemTra[2] && kiemTra[3] && kiemTra[4] && kiemTra[5]) {
+                    String tenTaiKhoan, email, matKhau, nhapLaiMatKhau, soDienThoai, diaChi;
+                    tenTaiKhoan = edtTenTaiKhoan.getText().toString().trim();
+                    email = edtEmail.getText().toString().trim();
+                    matKhau = edtMatKhau.getText().toString().trim();
+                    nhapLaiMatKhau = edtNhapLaiMatKhau.getText().toString().trim();
+                    soDienThoai = edtSoDienThoai.getText().toString().trim();
+                    diaChi = edtDiaChi.getText().toString().trim();
+                    boolean kiemTraMatKhau = matKhau.equals(nhapLaiMatKhau);
+                    if (kiemTraMatKhau) {
+                        taiKhoanArrayList.add(new TaiKhoan(RandomString(9), tenTaiKhoan, email, matKhau, soDienThoai, diaChi, 0));
+                        Toast.makeText(DangKiActivity.this, "Đăng ký thành công", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(DangKiActivity.this, LoginActivity.class));
+                        finish();
+                    } else {
+                        Toast.makeText(DangKiActivity.this, "Mật khẩu không khớp", Toast.LENGTH_SHORT).show();
+                    }
                 } else {
-                    Toast.makeText(DangKiActivity.this, "Mật khẩu không khớp", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(DangKiActivity.this, "Nhập chưa hợp lệ", Toast.LENGTH_SHORT).show();
                 }
+
             }
         });
     }
