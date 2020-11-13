@@ -73,6 +73,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/tilEmail"
         android:layout_marginTop="10dp"
+        app:passwordToggleEnabled="true"
         app:hintEnabled="false">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -97,6 +98,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/tilMatKhau"
         android:layout_marginTop="10dp"
+        app:passwordToggleEnabled="true"
         app:hintEnabled="false">
 
         <com.google.android.material.textfield.TextInputEditText

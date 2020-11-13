@@ -61,6 +61,9 @@ public class DangKiActivity extends AppCompatActivity {
                 boolean kiemTraMatKhau = matKhau.equals(nhapLaiMatKhau);
                 if (kiemTraMatKhau && matKhau.length() > 0) {
                     taiKhoanArrayList.add(new TaiKhoan(RandomString(9), tenTaiKhoan, email, matKhau, soDienThoai, diaChi, 0));
+                    Toast.makeText(DangKiActivity.this, "Đăng ký thành công!", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(DangKiActivity.this,LoginActivity.class));
+                    finish();
                 } else {
                     Toast.makeText(DangKiActivity.this, "Mật khẩu không khớp", Toast.LENGTH_SHORT).show();
                 }
