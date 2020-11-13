@@ -2,12 +2,13 @@ package com.example.tinnhn.taikhoan;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.Cursor;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,17 +17,16 @@ import com.example.tinnhn.R;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
-import java.io.File;
 import java.util.ArrayList;
+
 import static com.example.tinnhn.taikhoan.LoginActivity.taiKhoanArrayList;
+
 public class DangKiActivity extends AppCompatActivity {
     TextInputLayout tilTenTaiKhoan, tilEmail, tilMatKhau, tilNhapLaiMatKhau, tilSoDienThoai, tilDiaChi;
     TextInputEditText edtTenTaiKhoan, edtEmail, edtMatKhau, edtNhapLaiMatKhau, edtSoDienThoai, edtDiaChi;
+    TextView tvTenTaiKhoan, tvEmail, tvMatKhau, tvNhapLaiMatKhau, tvSoDienThoai, tvDiaChi;
     ImageView ivHinhDaiDien;
     Button btnChonHinhDaiDien, btnDangKy;
-//    public static ArrayList<TaiKhoan> taiKhoanArrayList;
-    SharedPreferences sharedPreferences;
-    SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,8 +50,171 @@ public class DangKiActivity extends AppCompatActivity {
         edtNhapLaiMatKhau = findViewById(R.id.edtNhapLaiMatKhau);
         edtSoDienThoai = findViewById(R.id.edtSoDienThoai);
         edtDiaChi = findViewById(R.id.edtDiaChi);
+        tvTenTaiKhoan = findViewById(R.id.tvTenTaiKhoan);
+        tvEmail = findViewById(R.id.tvEmail);
+        tvMatKhau = findViewById(R.id.tvMatKhau);
+        tvNhapLaiMatKhau = findViewById(R.id.tvNhapLaiMatKhau);
+        tvSoDienThoai = findViewById(R.id.tvSoDienThoai);
+        tvDiaChi = findViewById(R.id.tvDiaChi);
         btnDangKy = findViewById(R.id.btnDangKy);
         taiKhoanArrayList = new ArrayList<>();
+        //Kiểm tra nhập hợp lệ lần 1
+        final String checkTenTaiKhoan = "[a-zA-Z0-9+]{6,50}";
+        final String checkSoDienThoai = "0[2-9]\\d{8}";
+        final String checkEmail = "[a-zA-Z0-9.]+@[a-z]+(\\.+[a-z]+){1,2}";
+        final String checkMatKhau = "[a-zA-Z0-9+]{6,300}";
+        final boolean[] kiemTra = new boolean[6];
+        int i = 0;
+        while (i < 6) {
+            kiemTra[i] = false;
+            i++;
+        }
+        edtTenTaiKhoan.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.toString().matches(checkTenTaiKhoan)) {
+                    tvTenTaiKhoan.setText("OK");
+                    tvTenTaiKhoan.setTextColor(getResources().getColor(R.color.colorSuccess));
+                    kiemTra[0] = true;
+                } else {
+                    tvTenTaiKhoan.setText("NOT OK");
+                    tvTenTaiKhoan.setTextColor(getResources().getColor(R.color.colorDanger));
+                    kiemTra[0] = false;
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        edtEmail.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.toString().matches(checkEmail)) {
+                    tvEmail.setText("OK");
+                    tvEmail.setTextColor(getResources().getColor(R.color.colorSuccess));
+                    kiemTra[1] = true;
+                } else {
+                    tvEmail.setText("NOT OK");
+                    tvEmail.setTextColor(getResources().getColor(R.color.colorDanger));
+                    kiemTra[1] = false;
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        edtMatKhau.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.toString().matches(checkMatKhau)) {
+                    tvMatKhau.setText("OK");
+                    tvMatKhau.setTextColor(getResources().getColor(R.color.colorSuccess));
+                    kiemTra[2] = true;
+                } else {
+                    tvMatKhau.setText("NOT OK");
+                    tvMatKhau.setTextColor(getResources().getColor(R.color.colorDanger));
+                    kiemTra[2] = false;
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        edtNhapLaiMatKhau.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.toString().matches(checkMatKhau) && s.toString().equals(edtMatKhau.getText().toString())) {
+                    tvNhapLaiMatKhau.setText("OK");
+                    tvNhapLaiMatKhau.setTextColor(getResources().getColor(R.color.colorSuccess));
+                    kiemTra[3] = true;
+                } else {
+                    tvNhapLaiMatKhau.setText("NOT OK");
+                    tvNhapLaiMatKhau.setTextColor(getResources().getColor(R.color.colorDanger));
+                    kiemTra[3] = false;
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        edtSoDienThoai.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.toString().matches(checkSoDienThoai)) {
+                    tvSoDienThoai.setText("OK");
+                    tvSoDienThoai.setTextColor(getResources().getColor(R.color.colorSuccess));
+                    kiemTra[4] = true;
+                } else {
+                    tvSoDienThoai.setText("NOT OK");
+                    tvSoDienThoai.setTextColor(getResources().getColor(R.color.colorDanger));
+                    kiemTra[4] = false;
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        edtDiaChi.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.toString().length() != 0) {
+                    tvDiaChi.setText("OK");
+                    tvDiaChi.setTextColor(getResources().getColor(R.color.colorSuccess));
+                    kiemTra[5] = true;
+                } else {
+                    tvDiaChi.setText("NOT OK");
+                    tvDiaChi.setTextColor(getResources().getColor(R.color.colorDanger));
+                    kiemTra[5] = false;
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        //
         btnDangKy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
