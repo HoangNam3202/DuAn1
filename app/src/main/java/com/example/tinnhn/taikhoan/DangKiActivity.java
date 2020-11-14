@@ -28,14 +28,15 @@ public class DangKiActivity extends AppCompatActivity {
     TextView tvTenTaiKhoan, tvEmail, tvMatKhau, tvNhapLaiMatKhau, tvSoDienThoai, tvDiaChi;
     ImageView ivHinhDaiDien;
     Button btnChonHinhDaiDien, btnDangKy;
-    DatabaseReference databaseReference;
+    DBFirebase dbFirebase = new DBFirebase();
+//    DatabaseReference databaseReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dang_ki);
 //        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        databaseReference = FirebaseDatabase.getInstance().getReference();
+//        databaseReference = FirebaseDatabase.getInstance().getReference();
         DangKy();
     }
 
@@ -232,7 +233,8 @@ public class DangKiActivity extends AppCompatActivity {
                         TaiKhoan taiKhoan = new TaiKhoan(RandomString(9), tenTaiKhoan, email, matKhau, soDienThoai, diaChi, 0);
                         taiKhoanArrayList.add(taiKhoan);
                         // thêm tài khoản vào DB
-                        databaseReference.child("TaiKhoan").push().setValue(taiKhoan);
+                        dbFirebase.ThemTaiKhoan(taiKhoan);
+//                        databaseReference.child("TaiKhoan").push().setValue(taiKhoan);
                         //
                         Toast.makeText(DangKiActivity.this, "Đăng ký thành công", Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(DangKiActivity.this, LoginActivity.class));
