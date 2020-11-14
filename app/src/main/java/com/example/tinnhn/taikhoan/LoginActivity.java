@@ -166,11 +166,10 @@ public class LoginActivity extends AppCompatActivity {
                 } else {
                     Toast.makeText(LoginActivity.this, "Nhập chưa hợp lệ", Toast.LENGTH_SHORT).show();
                 }
-
             }
         });
-
     }
+
 }
 //    SharedPreferences sharedPreferences;
 //    SharedPreferences.Editor editor;
