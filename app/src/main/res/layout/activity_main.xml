@@ -31,7 +31,7 @@
         android:id="@+id/tabs"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#fff"
+        android:background="@drawable/bg_tab_main"
         app:layout_anchor="@+id/view_pager"
         app:layout_anchorGravity="bottom|center"
         app:tabIndicatorColor="#0BDE9B"

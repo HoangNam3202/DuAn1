@@ -44,16 +44,14 @@ public class ArrayAdapter extends BaseAdapter {
 
 
 
-        TextView txtTen = view.findViewById(R.id.txtTen);
-        TextView txtHoiThoai = view.findViewById(R.id.txtNgay);
-        ImageView img = view.findViewById(R.id.imgAnh);
-        TextView txtNgay = view.findViewById(R.id.txtGio);
+        TextView tvUser_tin_nhan = view.findViewById(R.id.tvHoiThoai_User_tin_nhan);
+        TextView tv_HoiThoaiBanCuaUser = view.findViewById(R.id.tv_HoiThoaiBanCuaUser);
+        ImageView imgAnh_User_tin_nhan = view.findViewById(R.id.imgAnh_User_tin_nhan);
+        ImageView imgAnh_Ban_Cua_User = view.findViewById(R.id.imgAnh_Ban_Cua_User);
 
         TinNhan tinNhan = tinNhanList.get(i);
-        txtTen.setText(tinNhan.getTenNguoiDung());
-        txtHoiThoai.setText(tinNhan.getHoiThoai());
-        img.setImageResource(tinNhan.getHinh());
-        txtNgay.setText(tinNhan.getNgay());
+        tvUser_tin_nhan.setText(tinNhan.HoiThoai);
+        tv_HoiThoaiBanCuaUser.setText(tinNhan.HoiThoai);
 
         return view;
     }
