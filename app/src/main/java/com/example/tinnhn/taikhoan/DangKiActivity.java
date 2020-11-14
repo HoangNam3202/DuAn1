@@ -15,6 +15,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.tinnhn.R;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
@@ -26,11 +28,14 @@ public class DangKiActivity extends AppCompatActivity {
     TextView tvTenTaiKhoan, tvEmail, tvMatKhau, tvNhapLaiMatKhau, tvSoDienThoai, tvDiaChi;
     ImageView ivHinhDaiDien;
     Button btnChonHinhDaiDien, btnDangKy;
+    DatabaseReference databaseReference;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dang_ki);
 //        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        databaseReference = FirebaseDatabase.getInstance().getReference();
         DangKy();
     }
 
@@ -54,7 +59,6 @@ public class DangKiActivity extends AppCompatActivity {
         tvSoDienThoai = findViewById(R.id.tvSoDienThoai);
         tvDiaChi = findViewById(R.id.tvDiaChi);
         btnDangKy = findViewById(R.id.btnDangKy);
-        taiKhoanArrayList = new ArrayList<>();
         //Kiểm tra nhập hợp lệ
         final String checkTenTaiKhoan = "[a-zA-Z0-9+]{6,50}";
         final String checkSoDienThoai = "0[2-9]\\d{8}";
@@ -225,8 +229,11 @@ public class DangKiActivity extends AppCompatActivity {
                     diaChi = edtDiaChi.getText().toString().trim();
                     boolean kiemTraMatKhau = matKhau.equals(nhapLaiMatKhau);
                     if (kiemTraMatKhau) {
-//                        taiKhoanArrayList.add(new TaiKhoan(RandomString(9), tenTaiKhoan, email, matKhau, soDienThoai, diaChi, 0));
-
+                        TaiKhoan taiKhoan = new TaiKhoan(RandomString(9), tenTaiKhoan, email, matKhau, soDienThoai, diaChi, 0);
+                        taiKhoanArrayList.add(taiKhoan);
+                        // thêm tài khoản vào DB
+                        databaseReference.child("TaiKhoan").push().setValue(taiKhoan);
+                        //
                         Toast.makeText(DangKiActivity.this, "Đăng ký thành công", Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(DangKiActivity.this, LoginActivity.class));
                         finish();

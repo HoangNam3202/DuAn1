@@ -43,7 +43,6 @@ public class QuenMatKhauActivity extends AppCompatActivity {
         tvSoDienThoai = findViewById(R.id.tvSoDienThoai);
         tvMatKhau = findViewById(R.id.tvMatKhau);
         tvNhapLaiMatKhau = findViewById(R.id.tvNhapLaiMatKhau);
-
         // kiểm tra nhập hợp lệ
         final String checkTenTaiKhoan = "[a-zA-Z0-9+]{6,50}";
         final String checkSoDienThoai = "0[2-9]\\d{8}";
