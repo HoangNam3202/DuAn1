@@ -10,7 +10,7 @@
         android:id="@+id/tvDangKyTaiKhoan"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="10dp"
         android:gravity="center"
         android:text="Đăng ký tài khoản"
         android:textColor="#fff"
@@ -24,12 +24,14 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvDangKyTaiKhoan"
         android:layout_marginTop="10dp"
+        app:errorEnabled="false"
+        app:errorTextColor="@color/colorOrange"
         app:hintEnabled="false">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/edtTenTaiKhoan"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="30dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:background="@drawable/edt_bg"
@@ -41,18 +43,31 @@
             android:maxLines="1" />
 
     </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:id="@+id/tvTenTaiKhoan"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tilTenTaiKhoan"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:gravity="center"
+        android:text=""
+        android:textStyle="bold"
+        android:textColor="@color/colorWhite" />
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tilEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tilTenTaiKhoan"
-        android:layout_marginTop="10dp"
+        android:layout_below="@+id/tvTenTaiKhoan"
+        app:errorEnabled="false"
         app:hintEnabled="false">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/edtEmail"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="30dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:background="@drawable/edt_bg"
@@ -64,22 +79,31 @@
             android:maxLines="1" />
 
     </com.google.android.material.textfield.TextInputLayout>
-
+    <TextView
+        android:id="@+id/tvEmail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tilEmail"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:gravity="center"
+        android:text=""
+        android:textColor="@color/colorWhite" />
 
     <com.google.android.material.textfield.TextInputLayout
 
         android:id="@+id/tilMatKhau"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tilEmail"
-        android:layout_marginTop="10dp"
-        app:passwordToggleEnabled="true"
-        app:hintEnabled="false">
+        android:layout_below="@+id/tvEmail"
+        app:errorEnabled="false"
+        app:hintEnabled="false"
+        app:passwordToggleEnabled="true">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/edtMatKhau"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="30dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:background="@drawable/edt_bg"
@@ -90,21 +114,30 @@
             android:lines="1"
             android:maxLines="1" />
     </com.google.android.material.textfield.TextInputLayout>
-
+    <TextView
+        android:id="@+id/tvMatKhau"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tilMatKhau"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:gravity="center"
+        android:text=""
+        android:textColor="@color/colorWhite" />
     <com.google.android.material.textfield.TextInputLayout
 
         android:id="@+id/tilNhapLaiMatKhau"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tilMatKhau"
-        android:layout_marginTop="10dp"
-        app:passwordToggleEnabled="true"
-        app:hintEnabled="false">
+        android:layout_below="@+id/tvMatKhau"
+        app:errorEnabled="false"
+        app:hintEnabled="false"
+        app:passwordToggleEnabled="true">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/edtNhapLaiMatKhau"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="30dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:background="@drawable/edt_bg"
@@ -115,20 +148,29 @@
             android:lines="1"
             android:maxLines="1" />
     </com.google.android.material.textfield.TextInputLayout>
-
+    <TextView
+        android:id="@+id/tvNhapLaiMatKhau"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tilNhapLaiMatKhau"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:gravity="center"
+        android:text=""
+        android:textColor="@color/colorWhite" />
     <com.google.android.material.textfield.TextInputLayout
 
         android:id="@+id/tilSoDienThoai"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tilNhapLaiMatKhau"
-        android:layout_marginTop="10dp"
+        android:layout_below="@+id/tvNhapLaiMatKhau"
+        app:errorEnabled="false"
         app:hintEnabled="false">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/edtSoDienThoai"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="30dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:background="@drawable/edt_bg"
@@ -139,20 +181,29 @@
             android:lines="1"
             android:maxLines="1" />
     </com.google.android.material.textfield.TextInputLayout>
-
+    <TextView
+        android:id="@+id/tvSoDienThoai"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tilSoDienThoai"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:gravity="center"
+        android:text=""
+        android:textColor="@color/colorWhite" />
     <com.google.android.material.textfield.TextInputLayout
 
         android:id="@+id/tilDiaChi"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tilSoDienThoai"
-        android:layout_marginTop="10dp"
+        android:layout_below="@+id/tvSoDienThoai"
+        app:errorEnabled="false"
         app:hintEnabled="false">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/edtDiaChi"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="30dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:background="@drawable/edt_bg"
@@ -163,15 +214,24 @@
             android:lines="1"
             android:maxLines="1" />
     </com.google.android.material.textfield.TextInputLayout>
-
+    <TextView
+        android:id="@+id/tvDiaChi"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tilDiaChi"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:gravity="center"
+        android:text=""
+        android:textColor="@color/colorWhite" />
     <ImageView
         android:id="@+id/ivHinhDaiDien"
-        android:layout_width="160dp"
-        android:layout_height="160dp"
-        android:layout_below="@+id/tilDiaChi"
+        android:layout_width="140dp"
+        android:layout_height="140dp"
+        android:layout_below="@+id/tvDiaChi"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_marginTop="18dp"
+        android:layout_marginTop="1dp"
         android:layout_marginEnd="217dp"
         android:layout_marginRight="217dp"
         android:src="@drawable/pqt" />
@@ -185,14 +245,14 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_marginStart="238dp"
-        android:layout_marginLeft="238dp"
-        android:layout_marginTop="85dp"
+        android:layout_marginStart="242dp"
+        android:layout_marginLeft="242dp"
+        android:layout_marginTop="47dp"
+        android:layout_marginEnd="70dp"
+        android:layout_marginRight="70dp"
         android:background="@drawable/gradient_btn"
-        android:layout_marginEnd="74dp"
-        android:layout_marginRight="74dp"
-        android:textColor="@color/colorWhite"
-        android:text="chọn hình" />
+        android:text="chọn hình"
+        android:textColor="@color/colorWhite" />
 
     <Button
         android:id="@+id/btnDangKy"
@@ -200,7 +260,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/ivHinhDaiDien"
         android:layout_marginLeft="40dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:layout_marginRight="40dp"
         android:background="@drawable/gradient_btn"
         android:text="Đăng ký"
