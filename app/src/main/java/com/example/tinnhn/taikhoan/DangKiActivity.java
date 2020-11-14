@@ -26,7 +26,6 @@ public class DangKiActivity extends AppCompatActivity {
     TextView tvTenTaiKhoan, tvEmail, tvMatKhau, tvNhapLaiMatKhau, tvSoDienThoai, tvDiaChi;
     ImageView ivHinhDaiDien;
     Button btnChonHinhDaiDien, btnDangKy;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
