@@ -226,7 +226,8 @@ public class DangKiActivity extends AppCompatActivity {
                     diaChi = edtDiaChi.getText().toString().trim();
                     boolean kiemTraMatKhau = matKhau.equals(nhapLaiMatKhau);
                     if (kiemTraMatKhau) {
-                        taiKhoanArrayList.add(new TaiKhoan(RandomString(9), tenTaiKhoan, email, matKhau, soDienThoai, diaChi, 0));
+//                        taiKhoanArrayList.add(new TaiKhoan(RandomString(9), tenTaiKhoan, email, matKhau, soDienThoai, diaChi, 0));
+
                         Toast.makeText(DangKiActivity.this, "Đăng ký thành công", Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(DangKiActivity.this, LoginActivity.class));
                         finish();
