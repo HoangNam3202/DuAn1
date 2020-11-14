@@ -11,10 +11,13 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class AddActivity extends AppCompatActivity {
+import java.util.ArrayList;
+
+public class HoiThoaiActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,7 +31,10 @@ public class AddActivity extends AppCompatActivity {
 
         final EditText edtNoiDung = findViewById(R.id.edtNoiDung);
         Button btnGui = findViewById(R.id.btbGui);
-
+        ListView list_Hoithoai = findViewById(R.id.list_Hoithoai);
+        ArrayList<HoiThoai> hoiThoaiArrayList = new ArrayList<>();
+        HoiThoaiAdapter hoiThoaiAdapter = new HoiThoaiAdapter(HoiThoaiActivity.this,R.layout.list_tin_nhan_item,hoiThoaiArrayList);
+        list_Hoithoai.setAdapter(hoiThoaiAdapter);
 
         btnGui.setOnClickListener(new View.OnClickListener() {
             @Override

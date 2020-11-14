@@ -4,11 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AddActivity"
+    tools:context=".HoiThoaiActivity"
     android:background="#fff"
     >
 
     <ListView
+        android:id="@+id/list_Hoithoai"
         android:layout_width="match_parent"
         android:layout_height="538dp"
         android:layout_above="@+id/edtNoiDung"

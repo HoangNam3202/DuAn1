@@ -1,39 +1,20 @@
 package com.example.tinnhn.ui.main;
 
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.Cursor;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
-import com.example.tinnhn.DatabaseHelper;
 import com.example.tinnhn.R;
-import com.example.tinnhn.TinNhan;
-import com.example.tinnhn.TinNhanAdapter;
-
-import java.util.ArrayList;
-import java.util.Calendar;
-
-import static android.content.Context.MODE_PRIVATE;
 
 /**
  * A placeholder fragment containing a simple view.
  */
 public class PlaceholderFragment extends Fragment {
-    DatabaseHelper databaseHelper;
     private static final String ARG_SECTION_NUMBER = "section_number";
     SharedPreferences sharedPreferences;
     private PageViewModel pageViewModel;

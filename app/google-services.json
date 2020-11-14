@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "994986171954",
+    "firebase_url": "https://duan1-f124f.firebaseio.com",
+    "project_id": "duan1-f124f",
+    "storage_bucket": "duan1-f124f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:994986171954:android:e64e3e51964bd18c55262b",
+        "android_client_info": {
+          "package_name": "com.example.tinnhn"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "994986171954-3k01lttsro5rnhssheicoaaqgrv9b0i6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyANwmLBY2CzrFijqFvHD9mQZUiB9v5tvrk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "994986171954-3k01lttsro5rnhssheicoaaqgrv9b0i6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

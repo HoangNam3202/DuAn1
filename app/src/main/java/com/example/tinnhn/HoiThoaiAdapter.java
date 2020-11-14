@@ -1,6 +1,5 @@
 package com.example.tinnhn;
 
-import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,20 +10,20 @@ import android.widget.TextView;
 
 import java.util.List;
 
-public class ArrayAdapter extends BaseAdapter {
+public class HoiThoaiAdapter extends BaseAdapter {
     private Context context;
     private int layout;
-    private List<TinNhan> tinNhanList;
+    private List<HoiThoai> hoiThoaiList;
 
-    public ArrayAdapter(Context context, int layout, List<TinNhan> tinNhanList) {
+    public HoiThoaiAdapter(Context context, int layout, List<HoiThoai> hoiThoaiList) {
         this.context = context;
         this.layout = layout;
-        this.tinNhanList = tinNhanList;
+        this.hoiThoaiList = hoiThoaiList;
     }
 
     @Override
     public int getCount() {
-        return tinNhanList.size();
+        return hoiThoaiList.size();
     }
 
     @Override
@@ -49,9 +48,8 @@ public class ArrayAdapter extends BaseAdapter {
         ImageView imgAnh_User_tin_nhan = view.findViewById(R.id.imgAnh_User_tin_nhan);
         ImageView imgAnh_Ban_Cua_User = view.findViewById(R.id.imgAnh_Ban_Cua_User);
 
-        TinNhan tinNhan = tinNhanList.get(i);
-        tvUser_tin_nhan.setText(tinNhan.HoiThoai);
-        tv_HoiThoaiBanCuaUser.setText(tinNhan.HoiThoai);
+        HoiThoai hoiThoai = hoiThoaiList.get(i);
+
 
         return view;
     }
