@@ -3,6 +3,8 @@ package com.example.tinnhn.taikhoan;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -22,16 +24,15 @@ import java.util.ArrayList;
 
 
 public class LoginActivity extends AppCompatActivity {
-    public static ArrayList<TaiKhoan> taiKhoanArrayList;
+    public static ArrayList<TaiKhoan> taiKhoanArrayList = new ArrayList<>();
     EditText edtTenTaiKhoan;
     TextInputLayout tilMatKhau;
     TextInputEditText edtMatKhau;
     CheckBox cbGhiNhoDangNhap;
     Button btnDangNhap;
-    TextView txtQuenMatKhau, txtDangKy;
+    TextView txtQuenMatKhau, txtDangKy, tvTenTaiKhoan, tvMatKhau;
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,8 +40,7 @@ public class LoginActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_login);
 
-        taiKhoanArrayList = new ArrayList<>();
-        taiKhoanArrayList.add(new TaiKhoan(1,"pqt123","pqt123@gmail.com", "123123","05456","asdfsadf",0));
+        taiKhoanArrayList.add(new TaiKhoan(1, "qweqwe", "qwe@qwe.qwe", "qweqwe", "0234234234", "qwe", 0));
 
         sharedPreferences = getSharedPreferences("GhiNhoDangNhap", MODE_PRIVATE);
         editor = sharedPreferences.edit();
@@ -75,6 +75,64 @@ public class LoginActivity extends AppCompatActivity {
         edtTenTaiKhoan = findViewById(R.id.edtTenTaiKhoan);
         tilMatKhau = findViewById(R.id.tilMatKhau);
         edtMatKhau = findViewById(R.id.edtMatKhau);
+        tvTenTaiKhoan = findViewById(R.id.tvTenTaiKhoan);
+        tvMatKhau = findViewById(R.id.tvMatKhau);
+        //Kiểm tra hợp lệ
+        final String checkTenTaiKhoan = "[a-zA-Z0-9+]{6,50}";
+        final String checkMatKhau = "[a-zA-Z0-9+]{6,300}";
+        final boolean[] kiemTra = new boolean[2];
+        kiemTra[0] = false;
+        kiemTra[1] = false;
+        edtTenTaiKhoan.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.toString().matches(checkTenTaiKhoan)) {
+                    tvTenTaiKhoan.setText("OK");
+                    tvTenTaiKhoan.setTextColor(getResources().getColor(R.color.colorSuccess));
+                    kiemTra[0] = true;
+                } else {
+                    tvTenTaiKhoan.setText("NOT OK");
+                    tvTenTaiKhoan.setTextColor(getResources().getColor(R.color.colorDanger));
+                    kiemTra[0] = false;
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        edtMatKhau.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.toString().matches(checkMatKhau)) {
+                    tvMatKhau.setText("OK");
+                    tvMatKhau.setTextColor(getResources().getColor(R.color.colorSuccess));
+                    kiemTra[1] = true;
+                } else {
+                    tvMatKhau.setText("NOT OK");
+                    tvMatKhau.setTextColor(getResources().getColor(R.color.colorDanger));
+                    kiemTra[1] = false;
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        //
         cbGhiNhoDangNhap = findViewById(R.id.cbGhiNhoDangNhap);
         btnDangNhap = findViewById(R.id.btnDangNhap);
         txtQuenMatKhau = findViewById(R.id.txtQuenMatKhau);
@@ -82,27 +140,32 @@ public class LoginActivity extends AppCompatActivity {
         btnDangNhap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String tenTaiKhoan = edtTenTaiKhoan.getText().toString().trim();
-                String matKhau = edtMatKhau.getText().toString().trim();
-                boolean xacNhan = false;
-                for (int i = 0; i < taiKhoanArrayList.size(); i++) {
-                    if (tenTaiKhoan.equals(taiKhoanArrayList.get(i).getTenTaiKhoan()) && matKhau.equals(taiKhoanArrayList.get(i).getMatKhau())) {
-                        xacNhan = true;
-                        break;
+                if (kiemTra[0] && kiemTra[1]) {
+                    String tenTaiKhoan = edtTenTaiKhoan.getText().toString().trim();
+                    String matKhau = edtMatKhau.getText().toString().trim();
+                    boolean xacNhan = false;
+                    for (int i = 0; i < taiKhoanArrayList.size(); i++) {
+                        if (tenTaiKhoan.equals(taiKhoanArrayList.get(i).getTenTaiKhoan()) && matKhau.equals(taiKhoanArrayList.get(i).getMatKhau())) {
+                            xacNhan = true;
+                            break;
+                        }
                     }
-                }
-                if (xacNhan) {
-                    if (cbGhiNhoDangNhap.isChecked()) {
-                        editor.putString("tenTaiKhoan", tenTaiKhoan);
+                    if (xacNhan) {
+                        if (cbGhiNhoDangNhap.isChecked()) {
+                            editor.putString("tenTaiKhoan", tenTaiKhoan);
+                        } else {
+                            editor.remove("tenTaiKhoan");
+                        }
+                        editor.commit();
+                        startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                        finish();
                     } else {
-                        editor.remove("tenTaiKhoan");
+                        Toast.makeText(LoginActivity.this, "Sai tên đăng nhập hoặc mật khẩu", Toast.LENGTH_SHORT).show();
                     }
-                    editor.commit();
-                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                    finish();
                 } else {
-                    Toast.makeText(LoginActivity.this, "Sai tên đăng nhập hoặc mật khẩu", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, "Nhập chưa hợp lệ", Toast.LENGTH_SHORT).show();
                 }
+
             }
         });
 
