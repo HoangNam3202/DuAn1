@@ -11,6 +11,10 @@ public class TaiKhoan {
     private String diaChi;
     private int hinhDaiDien;
 
+    public TaiKhoan() {
+        // Firebase cần rỗng để lấy data về
+    }
+
     public TaiKhoan(int idTaiKhoan, String tenTaiKhoan, String email, String matKhau, String soDienThoai, String diaChi, int hinhDaiDien) {
         this.idTaiKhoan = idTaiKhoan;
         this.tenTaiKhoan = tenTaiKhoan;

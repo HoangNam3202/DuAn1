@@ -33,6 +33,7 @@ public class LoginActivity extends AppCompatActivity {
     TextView txtQuenMatKhau, txtDangKy, tvTenTaiKhoan, tvMatKhau;
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
+    DBFirebase dbFirebase = new DBFirebase();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +48,9 @@ public class LoginActivity extends AppCompatActivity {
         editor = sharedPreferences.edit();
 
         KiemTraGhiNhoDangNhap();
+
+        taiKhoanArrayList = dbFirebase.LayDanhSachTaiKhoan();
+
         DangNhap();
         txtDangKy = findViewById(R.id.txtDangKy);
         txtDangKy.setOnClickListener(new View.OnClickListener() {
@@ -62,6 +66,7 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(new Intent(LoginActivity.this, QuenMatKhauActivity.class));
             }
         });
+
     }
 
     private void KiemTraGhiNhoDangNhap() {
@@ -160,6 +165,7 @@ public class LoginActivity extends AppCompatActivity {
                         editor.commit();
                         startActivity(new Intent(LoginActivity.this, MainActivity.class));
                         finish();
+                        taiKhoanArrayList.clear();
                     } else {
                         Toast.makeText(LoginActivity.this, "Sai tên đăng nhập hoặc mật khẩu", Toast.LENGTH_SHORT).show();
                     }

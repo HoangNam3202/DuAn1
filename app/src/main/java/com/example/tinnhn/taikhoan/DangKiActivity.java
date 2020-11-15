@@ -231,7 +231,7 @@ public class DangKiActivity extends AppCompatActivity {
                     boolean kiemTraMatKhau = matKhau.equals(nhapLaiMatKhau);
                     if (kiemTraMatKhau) {
                         TaiKhoan taiKhoan = new TaiKhoan(RandomString(9), tenTaiKhoan, email, matKhau, soDienThoai, diaChi, 0);
-                        taiKhoanArrayList.add(taiKhoan);
+//                        taiKhoanArrayList.add(taiKhoan);
                         // thêm tài khoản vào DB
                         dbFirebase.ThemTaiKhoan(taiKhoan);
 //                        databaseReference.child("TaiKhoan").push().setValue(taiKhoan);
