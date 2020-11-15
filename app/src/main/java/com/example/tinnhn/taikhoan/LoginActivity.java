@@ -33,19 +33,24 @@ public class LoginActivity extends AppCompatActivity {
     TextView txtQuenMatKhau, txtDangKy, tvTenTaiKhoan, tvMatKhau;
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
+    DBFirebase dbFirebase = new DBFirebase();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+//        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_login);
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        taiKhoanArrayList.add(new TaiKhoan(1, "qweqwe", "qwe@qwe.qwe", "qweqwe", "0234234234", "qwe", 0));
+//        taiKhoanArrayList.addo(new TaiKhoan(1, "qweqwe", "qwe@qwe.qwe", "qweqwe", "0234234234", "qwe", 0));
 
         sharedPreferences = getSharedPreferences("GhiNhoDangNhap", MODE_PRIVATE);
         editor = sharedPreferences.edit();
 
         KiemTraGhiNhoDangNhap();
+
+        taiKhoanArrayList = dbFirebase.LayDanhSachTaiKhoan();
+
         DangNhap();
         txtDangKy = findViewById(R.id.txtDangKy);
         txtDangKy.setOnClickListener(new View.OnClickListener() {
@@ -61,6 +66,7 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(new Intent(LoginActivity.this, QuenMatKhauActivity.class));
             }
         });
+
     }
 
     private void KiemTraGhiNhoDangNhap() {
@@ -159,17 +165,17 @@ public class LoginActivity extends AppCompatActivity {
                         editor.commit();
                         startActivity(new Intent(LoginActivity.this, MainActivity.class));
                         finish();
+                        taiKhoanArrayList.clear();
                     } else {
                         Toast.makeText(LoginActivity.this, "Sai tên đăng nhập hoặc mật khẩu", Toast.LENGTH_SHORT).show();
                     }
                 } else {
                     Toast.makeText(LoginActivity.this, "Nhập chưa hợp lệ", Toast.LENGTH_SHORT).show();
                 }
-
             }
         });
-
     }
+
 }
 //    SharedPreferences sharedPreferences;
 //    SharedPreferences.Editor editor;
