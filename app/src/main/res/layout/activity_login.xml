@@ -20,7 +20,7 @@
         android:textStyle="bold|italic" />
 
     <EditText
-        android:id="@+id/edtTenTaiKhoan"
+        android:id="@+id/edtEmail"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_marginLeft="40dp"
@@ -28,13 +28,13 @@
         android:layout_marginRight="40dp"
         android:background="@drawable/edt_bg"
         android:gravity="center"
-        android:hint="Tên tài khoản *"
+        android:hint="Email *"
         android:lines="1"
         android:maxLines="1"
         android:textColorHint="@color/colorOrange" />
 
     <TextView
-        android:id="@+id/tvTenTaiKhoan"
+        android:id="@+id/tvEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="40dp"
