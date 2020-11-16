@@ -3,13 +3,13 @@ package com.example.tinnhn.taikhoan;
 import java.io.File;
 
 public class TaiKhoan {
-    private int idTaiKhoan;
-    private String tenTaiKhoan;
-    private String email;
-    private String matKhau;
-    private String soDienThoai;
-    private String diaChi;
-    private int hinhDaiDien;
+    public int idTaiKhoan;
+    public String tenTaiKhoan;
+    public String email;
+    public String matKhau;
+    public String soDienThoai;
+    public String diaChi;
+    public int hinhDaiDien;
 
     public TaiKhoan() {
         // Firebase cần rỗng để lấy data về
