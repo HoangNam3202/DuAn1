@@ -1,5 +1,8 @@
 package com.example.tinnhn.taikhoan;
 
+import android.util.Log;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
@@ -8,8 +11,11 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.core.Context;
 
 import java.util.ArrayList;
+
+import static android.widget.Toast.LENGTH_SHORT;
 
 public class DBFirebase {
     DatabaseReference databaseReference;
@@ -53,4 +59,36 @@ public class DBFirebase {
         return taiKhoans;
     }
 
+
+
+
+//    public int KiemTraTrungEmail(String email) {
+//        ArrayList<TaiKhoan> taiKhoans2 = new ArrayList<>();
+//        taiKhoans2 = LayDanhSachTaiKhoan();
+//        int ktra = 1;
+//        int i = 0;
+//                Log.e("qwe","qwe");
+//        while (i < taiKhoans2.size()) {
+//            if (email.equals(taiKhoans2.get(i).getEmail())) {
+//                ktra = 2;
+//            }
+//            i++;
+//        }
+//        return ktra;
+//    }
+//
+    public boolean KiemTraTrungSoDienThoai(String soDienThoai) {
+        ArrayList<TaiKhoan> taiKhoans2 = new ArrayList<>();
+        taiKhoans2 = LayDanhSachTaiKhoan();
+        boolean ktra = false;
+        int i = 0;
+        while (i < taiKhoans2.size()) {
+            if (soDienThoai.equalsIgnoreCase(taiKhoans2.get(i).getSoDienThoai())) {
+                ktra = true;
+                break;
+            }
+            i++;
+        }
+        return ktra;
+    }
 }

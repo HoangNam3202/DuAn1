@@ -29,7 +29,6 @@ public class DangKiActivity extends AppCompatActivity {
     ImageView ivHinhDaiDien;
     Button btnChonHinhDaiDien, btnDangKy;
     DBFirebase dbFirebase = new DBFirebase();
-//    DatabaseReference databaseReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,7 +83,7 @@ public class DangKiActivity extends AppCompatActivity {
                     tvTenTaiKhoan.setTextColor(getResources().getColor(R.color.colorSuccess));
                     kiemTra[0] = true;
                 } else {
-                    tvTenTaiKhoan.setText("NOT OK");
+                    tvTenTaiKhoan.setText(getResources().getString(R.string.err_ten_tai_khoan));
                     tvTenTaiKhoan.setTextColor(getResources().getColor(R.color.colorDanger));
                     kiemTra[0] = false;
                 }
@@ -108,7 +107,7 @@ public class DangKiActivity extends AppCompatActivity {
                     tvEmail.setTextColor(getResources().getColor(R.color.colorSuccess));
                     kiemTra[1] = true;
                 } else {
-                    tvEmail.setText("NOT OK");
+                    tvEmail.setText("Email chưa hợp lệ");
                     tvEmail.setTextColor(getResources().getColor(R.color.colorDanger));
                     kiemTra[1] = false;
                 }
@@ -132,7 +131,7 @@ public class DangKiActivity extends AppCompatActivity {
                     tvMatKhau.setTextColor(getResources().getColor(R.color.colorSuccess));
                     kiemTra[2] = true;
                 } else {
-                    tvMatKhau.setText("NOT OK");
+                    tvMatKhau.setText(getResources().getString(R.string.err_mat_khau));
                     tvMatKhau.setTextColor(getResources().getColor(R.color.colorDanger));
                     kiemTra[2] = false;
                 }
@@ -156,7 +155,7 @@ public class DangKiActivity extends AppCompatActivity {
                     tvNhapLaiMatKhau.setTextColor(getResources().getColor(R.color.colorSuccess));
                     kiemTra[3] = true;
                 } else {
-                    tvNhapLaiMatKhau.setText("NOT OK");
+                    tvNhapLaiMatKhau.setText("Mật khẩu chưa khớp");
                     tvNhapLaiMatKhau.setTextColor(getResources().getColor(R.color.colorDanger));
                     kiemTra[3] = false;
                 }
@@ -180,7 +179,7 @@ public class DangKiActivity extends AppCompatActivity {
                     tvSoDienThoai.setTextColor(getResources().getColor(R.color.colorSuccess));
                     kiemTra[4] = true;
                 } else {
-                    tvSoDienThoai.setText("NOT OK");
+                    tvSoDienThoai.setText("Số điện thoại chưa hợp lệ");
                     tvSoDienThoai.setTextColor(getResources().getColor(R.color.colorDanger));
                     kiemTra[4] = false;
                 }
@@ -204,7 +203,7 @@ public class DangKiActivity extends AppCompatActivity {
                     tvDiaChi.setTextColor(getResources().getColor(R.color.colorSuccess));
                     kiemTra[5] = true;
                 } else {
-                    tvDiaChi.setText("NOT OK");
+                    tvDiaChi.setText("Chưa hợp lệ");
                     tvDiaChi.setTextColor(getResources().getColor(R.color.colorDanger));
                     kiemTra[5] = false;
                 }
@@ -229,18 +228,46 @@ public class DangKiActivity extends AppCompatActivity {
                     soDienThoai = edtSoDienThoai.getText().toString().trim();
                     diaChi = edtDiaChi.getText().toString().trim();
                     boolean kiemTraMatKhau = matKhau.equals(nhapLaiMatKhau);
-                    if (kiemTraMatKhau) {
+                    boolean kiemTraTrungEmail = false;
+                    boolean kiemTraTrungSoDienThoai = false;
+                    //test email trung lap
+                    int i = 0;
+                    while (i < taiKhoanArrayList.size()) {
+                        if (email.equals(taiKhoanArrayList.get(i).getEmail())) {
+                            kiemTraTrungEmail = true;
+                            break;
+                        }
+                        i++;
+                    }
+                    // test sdt trung lap
+                    int j = 0;
+                    while (j < taiKhoanArrayList.size()) {
+                        if (soDienThoai.equals(taiKhoanArrayList.get(j).getSoDienThoai())) {
+                            kiemTraTrungSoDienThoai = true;
+                            break;
+                        }
+                        j++;
+                    }
+                    if (kiemTraMatKhau && !kiemTraTrungEmail && !kiemTraTrungSoDienThoai) {
                         TaiKhoan taiKhoan = new TaiKhoan(RandomString(9), tenTaiKhoan, email, matKhau, soDienThoai, diaChi, 0);
-//                        taiKhoanArrayList.add(taiKhoan);
                         // thêm tài khoản vào DB
                         dbFirebase.ThemTaiKhoan(taiKhoan);
-//                        databaseReference.child("TaiKhoan").push().setValue(taiKhoan);
                         //
                         Toast.makeText(DangKiActivity.this, "Đăng ký thành công", Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(DangKiActivity.this, LoginActivity.class));
                         finish();
                     } else {
-                        Toast.makeText(DangKiActivity.this, "Mật khẩu không khớp", Toast.LENGTH_SHORT).show();
+                        if (!kiemTraMatKhau) {
+                            Toast.makeText(DangKiActivity.this, "Mật khẩu không khớp", Toast.LENGTH_SHORT).show();
+                        }
+                        if (kiemTraTrungEmail) {
+                            tvEmail.setText("Email bị trùng");
+                            tvEmail.setTextColor(getResources().getColor(R.color.colorDanger));
+                        }
+                        if (kiemTraTrungSoDienThoai) {
+                            tvSoDienThoai.setText("Số điện thoại bị trùng");
+                            tvSoDienThoai.setTextColor(getResources().getColor(R.color.colorDanger));
+                        }
                     }
                 } else {
                     Toast.makeText(DangKiActivity.this, "Nhập chưa hợp lệ", Toast.LENGTH_SHORT).show();
@@ -260,7 +287,6 @@ public class DangKiActivity extends AppCompatActivity {
         }
         return Integer.parseInt(sb.toString());
     }
-
 }
 //    DatabaseHelper databasehelper;
 //
