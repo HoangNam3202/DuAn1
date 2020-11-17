@@ -1,12 +1,16 @@
 package com.example.tinnhn;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,11 +24,15 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.List;
 
+import static android.content.Context.MODE_PRIVATE;
+
 public class HoiThoaiAdapter extends BaseAdapter {
     private Context context;
     private int layout;
     private List<HoiThoai> hoiThoaiList;
     private DatabaseReference mDatabase;
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
 
     public HoiThoaiAdapter(Context context, int layout, List<HoiThoai> hoiThoaiList) {
         this.context = context;
@@ -62,13 +70,21 @@ public class HoiThoaiAdapter extends BaseAdapter {
         CardView card_view_User = view.findViewById(R.id.card_view1);
 
         HoiThoai hoiThoai = hoiThoaiList.get(i);
-        if(hoiThoai.email_User.equals("abc")){
+        Intent intent = ((Activity) context).getIntent();
+
+        sharedPreferences = context.getSharedPreferences("GhiNhoDangNhap", MODE_PRIVATE);
+        editor = sharedPreferences.edit();
+
+        String EmailNguoiGui = intent.getStringExtra("EmailNguoiGui");
+        final String EmailUser = sharedPreferences.getString("tenTaiKhoan","");
+
+        if(hoiThoai.email_User.equals(EmailUser)){
             tvUser_tin_nhan.setText(hoiThoai.message_User);
             tv_HoiThoaiBanCuaUser.setVisibility(View.GONE);
             imgAnh_Ban_Cua_User.setVisibility(View.GONE);
             card_view_Friend.setVisibility(View.GONE);
         }
-        if(hoiThoai.email_User.equals("HoangNam")){
+        if(hoiThoai.email_User.equals(EmailNguoiGui)){
             tv_HoiThoaiBanCuaUser.setText(hoiThoai.message_User);
             tvUser_tin_nhan.setVisibility(View.GONE);
             imgAnh_User_tin_nhan.setVisibility(View.GONE);

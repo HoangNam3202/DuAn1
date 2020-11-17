@@ -31,6 +31,7 @@
         android:hint="Email *"
         android:lines="1"
         android:maxLines="1"
+        android:textColor="#000"
         android:textColorHint="@color/colorOrange" />
 
     <TextView
@@ -64,6 +65,7 @@
             android:hint="Mật khẩu *"
             android:inputType="textPassword"
             android:lines="1"
+            android:textColor="#000"
             android:maxLines="1"
             android:textColorHint="@color/colorOrange" />
     </com.google.android.material.textfield.TextInputLayout>

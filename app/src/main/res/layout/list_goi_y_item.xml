@@ -5,11 +5,11 @@
     android:layout_height="wrap_content">
     <androidx.cardview.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
         android:id="@+id/card_view_Goi_Y"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
+        android:layout_width="54dp"
+        android:layout_height="54dp"
         android:layout_marginLeft="10dp"
-        android:layout_marginTop="0dp"
-        card_view:cardCornerRadius="24dp">
+        android:layout_marginTop="10dp"
+        card_view:cardCornerRadius="25dp">
 
         <ImageView
             android:id="@+id/imgAnh_Goi_Y"
@@ -26,15 +26,15 @@
         android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="20dp"
-        android:layout_marginLeft="20dp"
+        android:layout_marginStart="22dp"
+        android:layout_marginLeft="22dp"
         android:layout_marginTop="5dp"
         android:layout_toEndOf="@+id/card_view_Goi_Y"
         android:layout_toRightOf="@+id/card_view_Goi_Y" />
 
     <TextView
         android:id="@+id/btnAddFriend_Goi_Y"
-        android:layout_width="55dp"
+        android:layout_width="65dp"
         android:layout_height="35dp"
         android:gravity="center"
         android:layout_below="@+id/tvTenGoiY"
@@ -44,7 +44,7 @@
         android:layout_toEndOf="@+id/card_view_Goi_Y"
         android:layout_toRightOf="@+id/card_view_Goi_Y"
         android:text="Add"
-        android:background="@drawable/gradient_btn"
-        android:textColor="#000"
+        android:background="@drawable/gradient_btn_add"
+        android:textColor="#0BDE9B"
         android:textSize="14dp" />
 </RelativeLayout>

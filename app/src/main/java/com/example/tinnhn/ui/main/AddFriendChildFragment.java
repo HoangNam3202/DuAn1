@@ -50,8 +50,6 @@ public class AddFriendChildFragment extends Fragment {
                     if(goiYKetBanArrayList_check.get(i).diaChi.equals("daklak")){
                         goiYKetBanArrayList.add(new GoiYKetBan(goiYKetBanArrayList_check.get(i).idTaiKhoan,goiYKetBanArrayList_check.get(i).tenTaiKhoan,
                                 goiYKetBanArrayList_check.get(i).email,goiYKetBanArrayList_check.get(i).diaChi,goiYKetBanArrayList_check.get(i).hinhDaiDien));
-                        Toast.makeText(getContext(), ""+goiYKetBanArrayList.size(), Toast.LENGTH_SHORT).show();
-
                     }
                 }
                 goiYKetBanAdapter.notifyDataSetChanged();

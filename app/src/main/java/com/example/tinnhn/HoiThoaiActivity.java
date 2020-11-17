@@ -7,6 +7,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
@@ -30,17 +31,23 @@ import java.util.Objects;
 
 public class HoiThoaiActivity extends AppCompatActivity {
     private DatabaseReference mDatabase;
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add);
-        String abc = "Friend's name";
-        setTitle(abc);
+        Intent intent_Friends = getIntent();
+        String TenNguoiGui = intent_Friends.getStringExtra("TenNguoiGui");
+
+        setTitle(TenNguoiGui);
         Objects.requireNonNull(getSupportActionBar()).setDisplayShowHomeEnabled(true);
         getSupportActionBar().setIcon(R.drawable.user);
 
+        sharedPreferences = getSharedPreferences("GhiNhoDangNhap", MODE_PRIVATE);
+        editor = sharedPreferences.edit();
 //        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
@@ -52,11 +59,14 @@ public class HoiThoaiActivity extends AppCompatActivity {
         final HoiThoaiAdapter hoiThoaiAdapter = new HoiThoaiAdapter(HoiThoaiActivity.this,R.layout.list_tin_nhan_item,hoiThoaiArrayList);
         list_Hoithoai.setAdapter(hoiThoaiAdapter);
         mDatabase = FirebaseDatabase.getInstance().getReference();
-
+        final String EmailUser = sharedPreferences.getString("tenTaiKhoan","");
+        final String EmailNguoiGui = intent_Friends.getStringExtra("EmailNguoiGui");
+//        Toast.makeText(this, ""+EmailUser, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, ""+EmailNguoiGui, Toast.LENGTH_SHORT).show();
         btnGui.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final HoiThoai hoiThoai = new HoiThoai(edtNoiDung.getText().toString(), "abc","HoangNam");
+                final HoiThoai hoiThoai = new HoiThoai(edtNoiDung.getText().toString(), EmailNguoiGui,EmailUser);
                 mDatabase.child("HoiThoai").push().setValue(hoiThoai);
                 edtNoiDung.setText("");
             }
@@ -68,10 +78,10 @@ public class HoiThoaiActivity extends AppCompatActivity {
                 forArr.clear();
                 forArr.add(new HoiThoai(hThoai.message_User,hThoai.emailNguoiNhan,hThoai.email_User));
                 for(int i = 0; i < forArr.size(); i++){
-                    if(forArr.get(i).email_User.equals("abc") && forArr.get(i).emailNguoiNhan.equals("HoangNam")){
+                    if(forArr.get(i).email_User.equals(EmailUser) && forArr.get(i).emailNguoiNhan.equals(EmailNguoiGui)){
                         hoiThoaiArrayList.add(new HoiThoai(forArr.get(i).message_User,forArr.get(i).emailNguoiNhan,forArr.get(i).email_User));
                     }
-                    if(forArr.get(i).email_User.equals("HoangNam") && forArr.get(i).emailNguoiNhan.equals("abc")){
+                    if(forArr.get(i).email_User.equals(EmailNguoiGui) && forArr.get(i).emailNguoiNhan.equals(EmailUser)){
                         hoiThoaiArrayList.add(new HoiThoai(forArr.get(i).message_User,forArr.get(i).emailNguoiNhan,forArr.get(i).email_User));
                     }
                 }
