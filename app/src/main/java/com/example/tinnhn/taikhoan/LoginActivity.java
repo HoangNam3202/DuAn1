@@ -41,7 +41,6 @@ public class LoginActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_login);
 //        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
 //        taiKhoanArrayList.addo(new TaiKhoan(1, "qweqwe", "qwe@qwe.qwe", "qweqwe", "0234234234", "qwe", 0));
 
         sharedPreferences = getSharedPreferences("GhiNhoDangNhap", MODE_PRIVATE);
@@ -139,7 +138,7 @@ public class LoginActivity extends AppCompatActivity {
         });
 
         //
-        cbGhiNhoDangNhap = findViewById(R.id.cbGhiNhoDangNhap);
+//        cbGhiNhoDangNhap = findViewById(R.id.cbGhiNhoDangNhap);
         btnDangNhap = findViewById(R.id.btnDangNhap);
         txtQuenMatKhau = findViewById(R.id.txtQuenMatKhau);
         txtDangKy = findViewById(R.id.txtDangKy);
@@ -157,11 +156,7 @@ public class LoginActivity extends AppCompatActivity {
                         }
                     }
                     if (xacNhan) {
-                        if (cbGhiNhoDangNhap.isChecked()) {
-                            editor.putString("tenTaiKhoan", email);
-                        } else {
-                            editor.remove("tenTaiKhoan");
-                        }
+                        editor.putString("tenTaiKhoan", email);
                         editor.commit();
                         startActivity(new Intent(LoginActivity.this, MainActivity.class));
                         finish();
