@@ -25,12 +25,12 @@ import java.util.ArrayList;
 
 public class LoginActivity extends AppCompatActivity {
     public static ArrayList<TaiKhoan> taiKhoanArrayList = new ArrayList<>();
-    EditText edtTenTaiKhoan;
+    EditText edtEmail;
     TextInputLayout tilMatKhau;
     TextInputEditText edtMatKhau;
     CheckBox cbGhiNhoDangNhap;
     Button btnDangNhap;
-    TextView txtQuenMatKhau, txtDangKy, tvTenTaiKhoan, tvMatKhau;
+    TextView txtQuenMatKhau, txtDangKy, tvEmail, tvMatKhau;
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
     DBFirebase dbFirebase = new DBFirebase();
@@ -38,7 +38,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_login);
 //        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -78,18 +78,18 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void DangNhap() {
-        edtTenTaiKhoan = findViewById(R.id.edtTenTaiKhoan);
+        edtEmail = findViewById(R.id.edtEmail);
         tilMatKhau = findViewById(R.id.tilMatKhau);
         edtMatKhau = findViewById(R.id.edtMatKhau);
-        tvTenTaiKhoan = findViewById(R.id.tvTenTaiKhoan);
+        tvEmail = findViewById(R.id.tvEmail);
         tvMatKhau = findViewById(R.id.tvMatKhau);
         //Kiểm tra hợp lệ
-        final String checkTenTaiKhoan = "[a-zA-Z0-9+]{6,50}";
+        final String checkEmail = "[a-zA-Z0-9.]+@[a-z]+(\\.+[a-z]+){1,2}";
         final String checkMatKhau = "[a-zA-Z0-9+]{6,300}";
         final boolean[] kiemTra = new boolean[2];
         kiemTra[0] = false;
         kiemTra[1] = false;
-        edtTenTaiKhoan.addTextChangedListener(new TextWatcher() {
+        edtEmail.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -97,13 +97,13 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (s.toString().matches(checkTenTaiKhoan)) {
-                    tvTenTaiKhoan.setText("OK");
-                    tvTenTaiKhoan.setTextColor(getResources().getColor(R.color.colorSuccess));
+                if (s.toString().matches(checkEmail)) {
+                    tvEmail.setText("OK");
+                    tvEmail.setTextColor(getResources().getColor(R.color.colorSuccess));
                     kiemTra[0] = true;
                 } else {
-                    tvTenTaiKhoan.setText("NOT OK");
-                    tvTenTaiKhoan.setTextColor(getResources().getColor(R.color.colorDanger));
+                    tvEmail.setText("NOT OK");
+                    tvEmail.setTextColor(getResources().getColor(R.color.colorDanger));
                     kiemTra[0] = false;
                 }
             }
@@ -147,18 +147,18 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (kiemTra[0] && kiemTra[1]) {
-                    String tenTaiKhoan = edtTenTaiKhoan.getText().toString().trim();
+                    String email = edtEmail.getText().toString().trim();
                     String matKhau = edtMatKhau.getText().toString().trim();
                     boolean xacNhan = false;
                     for (int i = 0; i < taiKhoanArrayList.size(); i++) {
-                        if (tenTaiKhoan.equals(taiKhoanArrayList.get(i).getTenTaiKhoan()) && matKhau.equals(taiKhoanArrayList.get(i).getMatKhau())) {
+                        if (email.equals(taiKhoanArrayList.get(i).getEmail()) && matKhau.equals(taiKhoanArrayList.get(i).getMatKhau())) {
                             xacNhan = true;
                             break;
                         }
                     }
                     if (xacNhan) {
                         if (cbGhiNhoDangNhap.isChecked()) {
-                            editor.putString("tenTaiKhoan", tenTaiKhoan);
+                            editor.putString("tenTaiKhoan", email);
                         } else {
                             editor.remove("tenTaiKhoan");
                         }

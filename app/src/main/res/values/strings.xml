@@ -7,4 +7,7 @@
     <string name="ca_nhan">Cá Nhân</string>
     <string name="ban_be">Friends</string>
     <string name="them_ban_be">People You May Know</string>
+    <string name="err_mat_khau">Mật khẩu từ 6-300 kí tự gồm chữ thường, chữ hoa và số. Không được có kí tự đặc biệt và khoảng trắng</string>
+    <string name="err_ten_tai_khoan">Tên tài khoản ít nhất 6-50 ký tự, không được có dấu, khoảng trắng, kí tự đặc biệt</string>
+
 </resources>
