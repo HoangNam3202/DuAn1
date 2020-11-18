@@ -31,18 +31,21 @@
         <activity android:name=".Call.BaseActivity" />
         <activity android:name=".Call.CuocGoiToi_Screen" />
         <activity android:name=".Call.Dialer" />
-
         <service android:name=".Call.SinchServices" />
 
         <activity
             android:name=".taikhoan.DangKiActivity"
             android:label="Đăng Nhập"
-            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"></activity>
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
+
+        </activity>
         <activity
             android:name=".HoiThoaiActivity"
             android:label="Tên Người gửi"
             android:parentActivityName=".MainActivity"
-            android:theme="@style/TinNhanMoi"></activity>
+            android:theme="@style/TinNhanMoi">
+
+        </activity>
         <activity
             android:name=".taikhoan.LoginActivity"
             android:label=""
