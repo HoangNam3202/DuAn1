@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Call.CuocGoiToi_Screen">
+    <Button
+        android:id="@+id/nghedien"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="nghe"
+        />
+    <Button
+        android:id="@+id/tuchoi"
+        android:layout_below="@+id/nghedien"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="tu choi"
+        />
+</RelativeLayout>
