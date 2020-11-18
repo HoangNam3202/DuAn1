@@ -20,9 +20,9 @@ import com.sinch.android.rtc.SinchError;
 
 public class testcall extends BaseActivity implements SinchServices.StartFailedListener {
 
-    private Button mLoginButton;
-    private EditText mLoginName;
-    private ProgressDialog mSpinner;
+    private Button appNutLogin;
+    private EditText appTenUser;
+    private ProgressDialog appTienTrinh;
 
 
 
@@ -38,10 +38,10 @@ public class testcall extends BaseActivity implements SinchServices.StartFailedL
         }
 
         //initializing UI elements
-        mLoginName = (EditText) findViewById(R.id.loginName);
-        mLoginButton = (Button) findViewById(R.id.loginButton);
-        mLoginButton.setEnabled(false);
-        mLoginButton.setOnClickListener(new OnClickListener() {
+        appTenUser = (EditText) findViewById(R.id.loginName);
+        appNutLogin = (Button) findViewById(R.id.loginButton);
+        appNutLogin.setEnabled(false);
+        appNutLogin.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 loginClicked();
@@ -53,14 +53,14 @@ public class testcall extends BaseActivity implements SinchServices.StartFailedL
     @Override
     protected void onServiceConnected() {
         super.onServiceConnected();
-        mLoginButton.setEnabled(true);
+        appNutLogin.setEnabled(true);
         getGiaodiendichvu().setStartListener(this);
     }
 
     @Override
     protected void onPause() {
-        if (mSpinner != null) {
-            mSpinner.dismiss();
+        if (appTienTrinh != null) {
+            appTienTrinh.dismiss();
         }
         super.onPause();
     }
@@ -68,8 +68,8 @@ public class testcall extends BaseActivity implements SinchServices.StartFailedL
     @Override
     public void onStartFailed(SinchError error) {
         Toast.makeText(this, error.toString(), Toast.LENGTH_LONG).show();
-        if (mSpinner != null) {
-            mSpinner.dismiss();
+        if (appTienTrinh != null) {
+            appTienTrinh.dismiss();
         }
     }
 
@@ -81,7 +81,7 @@ public class testcall extends BaseActivity implements SinchServices.StartFailedL
 
     //Login is Clicked to manually to connect to the Sinch Service
     private void loginClicked() {
-        String userName = mLoginName.getText().toString();
+        String userName = appTenUser.getText().toString();
 
         if (userName.isEmpty()) {
             Toast.makeText(this, "Please enter a name", Toast.LENGTH_LONG).show();
@@ -104,9 +104,9 @@ public class testcall extends BaseActivity implements SinchServices.StartFailedL
     }
 
     private void showSpinner() {
-        mSpinner = new ProgressDialog(this);
-        mSpinner.setTitle("Logging in");
-        mSpinner.setMessage("Please wait...");
-        mSpinner.show();
+        appTienTrinh = new ProgressDialog(this);
+        appTienTrinh.setTitle("Logging in");
+        appTienTrinh.setMessage("Please wait...");
+        appTienTrinh.show();
     }
 }

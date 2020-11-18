@@ -60,7 +60,8 @@ public class CuocGoiToi_Screen extends BaseActivity {
             finish();
         }
     }
-private void nghe(){
+
+    private void nghe(){
     Call call=getGiaodiendichvu().getCall(appIDNguoiGoi);
     if(call!=null){
         call.answer();
@@ -71,7 +72,7 @@ private void nghe(){
         finish();
     }
 }
-private void tuchoi(){
+    private void tuchoi(){
             // mAudioPlayer.stopRingtone();
             Call call = getGiaodiendichvu().getCall(appIDNguoiGoi);
             if (call != null) {

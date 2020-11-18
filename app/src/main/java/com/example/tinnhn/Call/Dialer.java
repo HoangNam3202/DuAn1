@@ -18,8 +18,8 @@ import com.sinch.android.rtc.calling.Call;
 
 public class Dialer extends BaseActivity {
 
-    private Button mCallButton;
-    private EditText mCallName;
+    private Button appNutGoi;
+    private EditText appTentarget;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,10 +27,10 @@ public class Dialer extends BaseActivity {
         setContentView(R.layout.activity_dialer);
 
         //initializing UI elements
-        mCallName = (EditText) findViewById(R.id.callName);
-        mCallButton = (Button) findViewById(R.id.callButton);
-        mCallButton.setEnabled(false);
-        mCallButton.setOnClickListener(buttonClickListener);
+        appTentarget = (EditText) findViewById(R.id.callName);
+        appNutGoi = (Button) findViewById(R.id.callButton);
+        appNutGoi.setEnabled(false);
+        appNutGoi.setOnClickListener(buttonClickListener);
 
         Button stopButton = (Button) findViewById(R.id.stopButton);
         stopButton.setOnClickListener(buttonClickListener);
@@ -41,7 +41,7 @@ public class Dialer extends BaseActivity {
     protected void onServiceConnected() {
         TextView userName = (TextView) findViewById(R.id.loggedInName);
         userName.setText(getGiaodiendichvu().getUserName());
-        mCallButton.setEnabled(true);
+        appNutGoi.setEnabled(true);
     }
 
     @Override
@@ -62,7 +62,7 @@ public class Dialer extends BaseActivity {
 
     //to place the call to the entered name
     private void callButtonClicked() {
-        String userName = mCallName.getText().toString();
+        String userName = appTentarget.getText().toString();
         if (userName==null) {
             Toast.makeText(this, "Please enter a user to call", Toast.LENGTH_LONG).show();
             return;

@@ -31,11 +31,11 @@ public class CuocGoi_Screen extends BaseActivity {
 
         //private AudioPlayer mAudioPlayer;
 
-        private Timer mTimer;
+        private Timer appTimer;
 
         private UpdateCallDurationTask mDurationTask;
 
-        private String mCallId;
+        private String appCallId;
         private long mCallStart = 0;
         private boolean mAddedListener = false;
         private boolean mVideoViewsAdded = false;
@@ -88,7 +88,7 @@ public class CuocGoi_Screen extends BaseActivity {
                 }
             });
 
-            mCallId = getIntent().getStringExtra(SinchServices.CALL_ID);
+            appCallId= getIntent().getStringExtra(SinchServices.CALL_ID);
             if (savedInstanceState == null) {
                 mCallStart = System.currentTimeMillis();
             }
@@ -96,7 +96,7 @@ public class CuocGoi_Screen extends BaseActivity {
 
         @Override
         public void onServiceConnected() {
-            Call call = getGiaodiendichvu().getCall(mCallId);
+            Call call = getGiaodiendichvu().getCall(appCallId);
             if (call != null) {
                 if (!mAddedListener) {
                     call.addCallListener(new SinchCallListener());
@@ -116,7 +116,7 @@ public class CuocGoi_Screen extends BaseActivity {
                 return; // early
             }
 
-            Call call = getGiaodiendichvu().getCall(mCallId);
+            Call call = getGiaodiendichvu().getCall(appCallId);
             if (call != null) {
                 mCallerName.setText(call.getRemoteUserId());
                 mCallState.setText(call.getState().toString());
@@ -132,7 +132,7 @@ public class CuocGoi_Screen extends BaseActivity {
         public void onStop() {
             super.onStop();
             mDurationTask.cancel();
-            mTimer.cancel();
+            appTimer.cancel();
             removeVideoViews();
         }
 
@@ -140,9 +140,9 @@ public class CuocGoi_Screen extends BaseActivity {
         @Override
         public void onStart() {
             super.onStart();
-            mTimer = new Timer();
+            appTimer = new Timer();
             mDurationTask = new UpdateCallDurationTask();
-            mTimer.schedule(mDurationTask, 0, 500);
+            appTimer.schedule(mDurationTask, 0, 500);
             updateUI();
         }
 
@@ -154,7 +154,7 @@ public class CuocGoi_Screen extends BaseActivity {
         //method to end the call
         private void endCall() {
             //mAudioPlayer.stopProgressTone();
-            Call call = getGiaodiendichvu().getCall(mCallId);
+            Call call = getGiaodiendichvu().getCall(appCallId);
             if (call != null) {
                 call.hangup();
             }

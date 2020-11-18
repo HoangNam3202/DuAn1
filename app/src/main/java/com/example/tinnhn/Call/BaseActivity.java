@@ -19,6 +19,7 @@ public abstract class BaseActivity extends AppCompatActivity implements ServiceC
                 BIND_AUTO_CREATE);
     }
 
+    //hàm check service connection
     @Override
     public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
         if (SinchServices.class.getName().equals(componentName.getClassName())) {
@@ -28,6 +29,7 @@ public abstract class BaseActivity extends AppCompatActivity implements ServiceC
         Giaodiendichvu = (SinchServices.giaodiendichvu) iBinder;
     }
 
+
     @Override
     public void onServiceDisconnected(ComponentName componentName) {
         if (SinchServices.class.getName().equals(componentName.getClassName())) {
@@ -35,6 +37,7 @@ public abstract class BaseActivity extends AppCompatActivity implements ServiceC
             onServiceDisconnected();
         }
     }
+    //end hàm check service connection
 
     protected void onServiceConnected() {
         // for subclasses
