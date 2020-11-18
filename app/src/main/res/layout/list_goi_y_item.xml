@@ -1,8 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:android="http://schemas.android.com/apk/res/android" >
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:padding="10dp"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_item_list_goi_y"
+    android:layout_marginTop="10dp"
+    android:layout_marginLeft="5dp"
+    android:layout_marginRight="5dp"
+    >
     <androidx.cardview.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
         android:id="@+id/card_view_Goi_Y"
         android:layout_width="54dp"
@@ -43,8 +51,10 @@
         android:layout_marginTop="10dp"
         android:layout_toEndOf="@+id/card_view_Goi_Y"
         android:layout_toRightOf="@+id/card_view_Goi_Y"
-        android:text="Add"
+        android:text="ADD"
         android:background="@drawable/gradient_btn_add"
         android:textColor="#0BDE9B"
+        android:layout_marginBottom="5dp"
         android:textSize="14dp" />
 </RelativeLayout>
+</LinearLayout>
