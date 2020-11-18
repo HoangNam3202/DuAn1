@@ -26,6 +26,7 @@ public class CuocGoiToi_Screen extends BaseActivity {
         setContentView(R.layout.activity_cuoc_goi_toi__screen);
 
         Button Nghe = findViewById(R.id.nghedien);
+        Button Nghe2 = findViewById(R.id.nghedien2);
         Button Tuchoi = findViewById(R.id.tuchoi);
 
         // appAudioPlayer=new AudioPlayer(this);
@@ -40,7 +41,13 @@ public class CuocGoiToi_Screen extends BaseActivity {
                 nghe();
             }
         });
-
+        Nghe2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //audio
+                nghe2();
+            }
+        });
         Tuchoi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -72,6 +79,17 @@ public class CuocGoiToi_Screen extends BaseActivity {
         finish();
     }
 }
+    private void nghe2(){
+        Call call=getGiaodiendichvu().getCall(appIDNguoiGoi);
+        if(call!=null){
+            call.answer();
+            Intent intent=new Intent(this,AudioCall.class);
+            intent.putExtra(SinchServices.CALL_ID,appIDNguoiGoi);
+            startActivity(intent);
+        }else{
+            finish();
+        }
+    }
     private void tuchoi(){
             // mAudioPlayer.stopRingtone();
             Call call = getGiaodiendichvu().getCall(appIDNguoiGoi);

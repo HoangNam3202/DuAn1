@@ -12,8 +12,15 @@
         android:text="nghe"
         />
     <Button
-        android:id="@+id/tuchoi"
+        android:id="@+id/nghedien2"
         android:layout_below="@+id/nghedien"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="nghe2"
+        />
+    <Button
+        android:id="@+id/tuchoi"
+        android:layout_below="@+id/nghedien2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="tu choi"

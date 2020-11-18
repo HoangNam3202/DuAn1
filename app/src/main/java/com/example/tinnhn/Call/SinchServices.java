@@ -17,6 +17,8 @@ import com.sinch.android.rtc.calling.CallClient;
 import com.sinch.android.rtc.calling.CallClientListener;
 import com.sinch.android.rtc.video.VideoController;
 
+import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
+
 public class SinchServices extends Service {
     private static final String APP_KEY = "16732ff2-dd27-4c5a-8301-6b693da2fef1";
     private static final String APP_SECRET = "xsw87CnBMUCqVL+bpwXAKw==";
@@ -27,6 +29,7 @@ public class SinchServices extends Service {
     private giaodiendichvu appGiaodiendichvu = new giaodiendichvu();
     private SinchClient appSinchClient;
     private String appIDNguoiDung;
+    private CallClient callClient;
 
     private StartFailedListener mListener;
 
@@ -80,6 +83,10 @@ public class SinchServices extends Service {
 
         public Call callUserVideo(String userId) {
             return appSinchClient.getCallClient().callUserVideo(userId);
+        }
+
+        public Call calluser(String userId){
+            return appSinchClient.getCallClient().callUser(userId);
         }
 
         public String getUserName() {

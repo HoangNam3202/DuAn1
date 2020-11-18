@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.tinnhn">
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-
 
     <application
         android:allowBackup="true"
@@ -15,45 +15,41 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar">
+        <activity android:name=".Call.AudioCall"></activity>
         <activity
             android:name=".MainActivity"
             android:label="Tin Nhắn"
-            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
-
-        </activity>
-
-        <activity android:name=".Call.testcall"/>
-        <activity android:name=".Call.CuocGoi_Screen"/>
-        <activity android:name=".Call.BaseActivity"/>
-        <activity android:name=".Call.CuocGoiToi_Screen"/>
-        <activity android:name=".Call.Dialer"/>
-        <service android:name=".Call.SinchServices"/>
-
-        <activity
-            android:name=".taikhoan.DangKiActivity"
-            android:label="Đăng Nhập"
-            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
-
-        </activity>
-        <activity
-            android:name=".HoiThoaiActivity"
-            android:label="Tên Người gửi"
-            android:parentActivityName=".MainActivity"
-            android:theme="@style/TinNhanMoi">
-
-        </activity>
-        <activity
-            android:name=".taikhoan.LoginActivity"
-            android:label=""
-            android:theme="@style/Theme.AppCompat.NoActionBar">
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"></activity>
+        <activity android:name=".Call.testcall">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".Call.CuocGoi_Screen" />
+        <activity android:name=".Call.BaseActivity" />
+        <activity android:name=".Call.CuocGoiToi_Screen" />
+        <activity android:name=".Call.Dialer" />
 
-        <activity android:name=".taikhoan.QuenMatKhauActivity"/>
+        <service android:name=".Call.SinchServices" />
+
+        <activity
+            android:name=".taikhoan.DangKiActivity"
+            android:label="Đăng Nhập"
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"></activity>
+        <activity
+            android:name=".HoiThoaiActivity"
+            android:label="Tên Người gửi"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/TinNhanMoi"></activity>
+        <activity
+            android:name=".taikhoan.LoginActivity"
+            android:label=""
+            android:theme="@style/Theme.AppCompat.NoActionBar">
+
+        </activity>
+        <activity android:name=".taikhoan.QuenMatKhauActivity" />
     </application>
 
 </manifest>

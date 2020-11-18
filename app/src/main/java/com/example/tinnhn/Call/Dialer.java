@@ -15,10 +15,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sinch.android.rtc.calling.Call;
+import com.sinch.android.rtc.calling.CallClient;
 
 public class Dialer extends BaseActivity {
 
-    private Button appNutGoi;
+    private Button appNutGoi,appNutGoi2;
     private EditText appTentarget;
 
     @Override
@@ -29,8 +30,11 @@ public class Dialer extends BaseActivity {
         //initializing UI elements
         appTentarget = (EditText) findViewById(R.id.callName);
         appNutGoi = (Button) findViewById(R.id.callButton);
+        appNutGoi2 = (Button) findViewById(R.id.callButton2);
         appNutGoi.setEnabled(false);
+        appNutGoi2.setEnabled(false);
         appNutGoi.setOnClickListener(buttonClickListener);
+        appNutGoi2.setOnClickListener(buttonClickListener);
 
         Button stopButton = (Button) findViewById(R.id.stopButton);
         stopButton.setOnClickListener(buttonClickListener);
@@ -42,6 +46,7 @@ public class Dialer extends BaseActivity {
         TextView userName = (TextView) findViewById(R.id.loggedInName);
         userName.setText(getGiaodiendichvu().getUserName());
         appNutGoi.setEnabled(true);
+        appNutGoi2.setEnabled(true);
     }
 
     @Override
@@ -76,6 +81,20 @@ public class Dialer extends BaseActivity {
         startActivity(callScreen);
     }
 
+    private void callButtonClicked2() {
+        String userName = appTentarget.getText().toString();
+        if (userName==null) {
+            Toast.makeText(this, "Please enter a user to call", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        Call call = getGiaodiendichvu().calluser(userName);
+        String callId = call.getCallId();
+
+        Intent callScreen = new Intent(this, AudioCall.class);
+        callScreen.putExtra(SinchServices.CALL_ID, callId);
+        startActivity(callScreen);
+    }
 
     private OnClickListener buttonClickListener = new OnClickListener() {
         @Override
@@ -83,6 +102,9 @@ public class Dialer extends BaseActivity {
             switch (v.getId()) {
                 case R.id.callButton:
                     callButtonClicked();
+                    break;
+                case R.id.callButton2:
+                    callButtonClicked2();
                     break;
 
                 case R.id.stopButton:
