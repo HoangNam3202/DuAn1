@@ -1,5 +1,6 @@
 package com.example.tinnhn.ui.main;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +16,7 @@ import com.example.tinnhn.GoiYKetBan;
 import com.example.tinnhn.GoiYKetBanAdapter;
 import com.example.tinnhn.R;
 import com.example.tinnhn.taikhoan.TaiKhoan;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -23,22 +25,38 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
+import static android.content.Context.MODE_PRIVATE;
+
 public class AddFriendChildFragment extends Fragment {
 
     private View mRoot;
     private DatabaseReference mDatabase;
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
 
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mRoot = inflater.inflate(R.layout.fragment_add_friends_child,container,false);
-        mDatabase = FirebaseDatabase.getInstance().getReference();
-        final ArrayList<GoiYKetBan> goiYKetBanArrayList = new ArrayList<>();
+         final ArrayList<GoiYKetBan> goiYKetBanArrayList = new ArrayList<>();
         final ArrayList<TaiKhoan> goiYKetBanArrayList_check = new ArrayList<>();
         ListView list_GoiYKetBan = mRoot.findViewById(R.id.list_GoiYKetBan);
         final GoiYKetBanAdapter goiYKetBanAdapter = new GoiYKetBanAdapter(getActivity(),R.layout.list_goi_y_item,goiYKetBanArrayList);
         list_GoiYKetBan.setAdapter(goiYKetBanAdapter);
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        sharedPreferences = getContext().getSharedPreferences("GhiNhoDangNhap", MODE_PRIVATE);
+        editor = sharedPreferences.edit();
+
+        FloatingActionButton btnThemBanBangEmail = mRoot.findViewById(R.id.fab);
+
+        btnThemBanBangEmail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getContext(), "tét btn", Toast.LENGTH_SHORT).show();
+            }
+        });
+        String EmailUser = sharedPreferences.getString("tenTaiKhoan", "");
 
         mDatabase.child("TaiKhoan").addChildEventListener(new ChildEventListener() {
             @Override
@@ -47,7 +65,7 @@ public class AddFriendChildFragment extends Fragment {
                 goiYKetBanArrayList_check.clear();
                 goiYKetBanArrayList_check.add(goiYKetBan);
                 for(int i = 0;i < goiYKetBanArrayList_check.size(); i++){
-                    if(goiYKetBanArrayList_check.get(i).diaChi.contains("daklak")){
+                    if(goiYKetBanArrayList_check.get(i).diaChi.contains("daklak") && !goiYKetBanArrayList_check.get(i).email.equals(EmailUser)){
                         goiYKetBanArrayList.add(new GoiYKetBan(goiYKetBanArrayList_check.get(i).idTaiKhoan,goiYKetBanArrayList_check.get(i).tenTaiKhoan,
                                 goiYKetBanArrayList_check.get(i).email,goiYKetBanArrayList_check.get(i).diaChi,goiYKetBanArrayList_check.get(i).hinhDaiDien));
                     }

@@ -61,8 +61,6 @@ public class HoiThoaiActivity extends AppCompatActivity {
         mDatabase = FirebaseDatabase.getInstance().getReference();
         final String EmailUser = sharedPreferences.getString("tenTaiKhoan","");
         final String EmailNguoiGui = intent_Friends.getStringExtra("EmailNguoiGui");
-//        Toast.makeText(this, ""+EmailUser, Toast.LENGTH_SHORT).show();
-        Toast.makeText(this, ""+EmailNguoiGui, Toast.LENGTH_SHORT).show();
         btnGui.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
