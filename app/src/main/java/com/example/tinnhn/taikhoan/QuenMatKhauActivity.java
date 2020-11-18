@@ -192,7 +192,7 @@ public class QuenMatKhauActivity extends AppCompatActivity {
                         Toast.makeText(QuenMatKhauActivity.this, "Thông tin xác nhận OK", Toast.LENGTH_SHORT).show();
                         dbFirebase.DoiMatKhau(tenTaiKhoan, email, matKhau);
                         // tạm ngưng tại chỗ này, đổi pass
-                        asd;
+//                        asd;
                         //
 
                     } else
