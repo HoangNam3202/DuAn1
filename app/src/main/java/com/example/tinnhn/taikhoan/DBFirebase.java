@@ -77,18 +77,22 @@ public class DBFirebase {
 //        return ktra;
 //    }
 //
-    public boolean KiemTraTrungSoDienThoai(String soDienThoai) {
-        ArrayList<TaiKhoan> taiKhoans2 = new ArrayList<>();
-        taiKhoans2 = LayDanhSachTaiKhoan();
-        boolean ktra = false;
-        int i = 0;
-        while (i < taiKhoans2.size()) {
-            if (soDienThoai.equalsIgnoreCase(taiKhoans2.get(i).getSoDienThoai())) {
-                ktra = true;
-                break;
-            }
-            i++;
-        }
-        return ktra;
+//    public boolean KiemTraTrungSoDienThoai(String soDienThoai) {
+//        ArrayList<TaiKhoan> taiKhoans2 = new ArrayList<>();
+//        taiKhoans2 = LayDanhSachTaiKhoan();
+//        boolean ktra = false;
+//        int i = 0;
+//        while (i < taiKhoans2.size()) {
+//            if (soDienThoai.equalsIgnoreCase(taiKhoans2.get(i).getSoDienThoai())) {
+//                ktra = true;
+//                break;
+//            }
+//            i++;
+//        }
+//        return ktra;
+//    }
+
+    public void DoiMatKhau(String tenTaiKhoan, String email, String matKhau) {
+        //ok
     }
 }

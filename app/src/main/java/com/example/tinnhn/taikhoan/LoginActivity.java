@@ -42,14 +42,10 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 //        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 //        taiKhoanArrayList.addo(new TaiKhoan(1, "qweqwe", "qwe@qwe.qwe", "qweqwe", "0234234234", "qwe", 0));
-
         sharedPreferences = getSharedPreferences("GhiNhoDangNhap", MODE_PRIVATE);
         editor = sharedPreferences.edit();
-
         KiemTraGhiNhoDangNhap();
-
         taiKhoanArrayList = dbFirebase.LayDanhSachTaiKhoan();
-
         DangNhap();
         txtDangKy = findViewById(R.id.txtDangKy);
         txtDangKy.setOnClickListener(new View.OnClickListener() {
@@ -97,11 +93,11 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (s.toString().matches(checkEmail)) {
-                    tvEmail.setText("OK");
+                    tvEmail.setText("");
                     tvEmail.setTextColor(getResources().getColor(R.color.colorSuccess));
                     kiemTra[0] = true;
                 } else {
-                    tvEmail.setText("NOT OK");
+                    tvEmail.setText("Email chưa hợp lệ");
                     tvEmail.setTextColor(getResources().getColor(R.color.colorDanger));
                     kiemTra[0] = false;
                 }
@@ -125,7 +121,7 @@ public class LoginActivity extends AppCompatActivity {
                     tvMatKhau.setTextColor(getResources().getColor(R.color.colorSuccess));
                     kiemTra[1] = true;
                 } else {
-                    tvMatKhau.setText("NOT OK");
+                    tvMatKhau.setText("Mật khẩu chưa hợp lệ");
                     tvMatKhau.setTextColor(getResources().getColor(R.color.colorDanger));
                     kiemTra[1] = false;
                 }
