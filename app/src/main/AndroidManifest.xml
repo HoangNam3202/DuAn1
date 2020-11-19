@@ -19,7 +19,8 @@
         <activity
             android:name=".MainActivity"
             android:label="Tin Nhắn"
-            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"><intent-filter>
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
+            <intent-filter>
             <action android:name="android.intent.action.MAIN" />
 
             <category android:name="android.intent.category.LAUNCHER" />
