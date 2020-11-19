@@ -75,9 +75,14 @@ public class HoiThoaiActivity extends BaseActivity implements SinchServices.Star
         btnGui.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final HoiThoai hoiThoai = new HoiThoai(edtNoiDung.getText().toString(), EmailNguoiGui,EmailUser);
-                mDatabase.child("HoiThoai").push().setValue(hoiThoai);
-                edtNoiDung.setText("");
+                if(!edtNoiDung.getText().toString().equals("")){
+                    final HoiThoai hoiThoai = new HoiThoai(edtNoiDung.getText().toString(), EmailNguoiGui,EmailUser);
+                    mDatabase.child("HoiThoai").push().setValue(hoiThoai);
+                    edtNoiDung.setText("");
+                }
+                else {
+                    Toast.makeText(HoiThoaiActivity.this, "Message is empty", Toast.LENGTH_SHORT).show();
+                }
             }
         });
         mDatabase.child("HoiThoai").addChildEventListener(new ChildEventListener() {
