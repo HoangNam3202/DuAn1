@@ -11,6 +11,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.database.core.Context;
 
 import java.util.ArrayList;
@@ -20,14 +21,18 @@ import static android.widget.Toast.LENGTH_SHORT;
 public class DBFirebase {
     DatabaseReference databaseReference;
 
-    public void ThemTaiKhoan(TaiKhoan taiKhoan) {
+    public void KhoiTaoFirebase() {
         databaseReference = FirebaseDatabase.getInstance().getReference();
+    }
+
+    public void ThemTaiKhoan(TaiKhoan taiKhoan) {
+        KhoiTaoFirebase();
         databaseReference.child("TaiKhoan").push().setValue(taiKhoan);
     }
 
     public ArrayList<TaiKhoan> LayDanhSachTaiKhoan() {
+        KhoiTaoFirebase();
         final ArrayList<TaiKhoan> taiKhoans = new ArrayList<>();
-        databaseReference = FirebaseDatabase.getInstance().getReference();
         databaseReference.child("TaiKhoan").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
@@ -55,44 +60,50 @@ public class DBFirebase {
 
             }
         });
-        //
         return taiKhoans;
     }
 
+    public void ThemTinhThanh(TinhThanh tinhThanh) {
+        KhoiTaoFirebase();
+        databaseReference.child("TinhThanh").push().setValue(tinhThanh);
+    }
 
-
-
-//    public int KiemTraTrungEmail(String email) {
-//        ArrayList<TaiKhoan> taiKhoans2 = new ArrayList<>();
-//        taiKhoans2 = LayDanhSachTaiKhoan();
-//        int ktra = 1;
-//        int i = 0;
-//                Log.e("qwe","qwe");
-//        while (i < taiKhoans2.size()) {
-//            if (email.equals(taiKhoans2.get(i).getEmail())) {
-//                ktra = 2;
-//            }
-//            i++;
-//        }
-//        return ktra;
-//    }
-//
-//    public boolean KiemTraTrungSoDienThoai(String soDienThoai) {
-//        ArrayList<TaiKhoan> taiKhoans2 = new ArrayList<>();
-//        taiKhoans2 = LayDanhSachTaiKhoan();
-//        boolean ktra = false;
-//        int i = 0;
-//        while (i < taiKhoans2.size()) {
-//            if (soDienThoai.equalsIgnoreCase(taiKhoans2.get(i).getSoDienThoai())) {
-//                ktra = true;
-//                break;
-//            }
-//            i++;
-//        }
-//        return ktra;
-//    }
 
     public void DoiMatKhau(String tenTaiKhoan, String email, String matKhau) {
+        KhoiTaoFirebase();
         //ok
+    }
+
+    public ArrayList<TinhThanh> LayDanhSachTinhThanh() {
+        KhoiTaoFirebase();
+        final ArrayList<TinhThanh> tinhThanhs = new ArrayList<>();
+        databaseReference.child("TinhThanh").addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                TinhThanh tinhThanh = snapshot.getValue(TinhThanh.class);
+                tinhThanhs.add(tinhThanh);
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+        return tinhThanhs;
     }
 }

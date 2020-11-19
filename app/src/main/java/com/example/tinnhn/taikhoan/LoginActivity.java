@@ -63,11 +63,6 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(new Intent(LoginActivity.this, QuenMatKhauActivity.class));
             }
         });
-        DatabaseReference databaseReference;
-        databaseReference = FirebaseDatabase.getInstance().getReference();
-        String key = databaseReference.child("TaiKhoan").push().getKey();
-        Toast.makeText(this, ""+key, Toast.LENGTH_SHORT).show();
-
     }
 
     private void KiemTraGhiNhoDangNhap() {

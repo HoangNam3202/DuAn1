@@ -15,37 +15,36 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar">
-        <activity android:name=".Call.AudioCall"></activity>
+        <activity android:name=".taikhoan.ThemAnhActivity"></activity>
+        <activity
+            android:name=".taikhoan.LoginActivity"
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
+        <activity android:name=".Call.AudioCall" />
         <activity
             android:name=".MainActivity"
             android:label="Tin Nhắn"
-            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"></activity>
-        <activity android:name=".Call.testcall">
-
-        </activity>
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
+        <activity android:name=".Call.testcall" />
         <activity android:name=".Call.CuocGoi_Screen" />
         <activity android:name=".Call.BaseActivity" />
         <activity android:name=".Call.CuocGoiToi_Screen" />
         <activity android:name=".Call.Dialer" />
+
         <service android:name=".Call.SinchServices" />
 
         <activity
             android:name=".taikhoan.DangKiActivity"
             android:label="Đăng Nhập"
-            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
-
-        </activity>
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
         <activity
             android:name=".HoiThoaiActivity"
             android:label="Tên Người gửi"
             android:parentActivityName=".MainActivity"
-            android:theme="@style/TinNhanMoi">
-
-        </activity>
+            android:theme="@style/TinNhanMoi" />
         <activity
-            android:name=".taikhoan.LoginActivity"
+            android:name=".taikhoan.ThemTinhThanhActivity"
             android:label=""
-            android:theme="@style/Theme.AppCompat.NoActionBar">
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
