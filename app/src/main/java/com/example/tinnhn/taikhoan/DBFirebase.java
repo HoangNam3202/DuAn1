@@ -63,11 +63,32 @@ public class DBFirebase {
         return taiKhoans;
     }
 
-    public void ThemTinhThanh(TinhThanh tinhThanh) {
+    //    public void ThemTinhThanh(TinhThanh tinhThanh) {
+//        KhoiTaoFirebase();
+//        databaseReference.child("TinhThanh").push().setValue(tinhThanh);
+//    }
+    public void ThemTinhThanh(String tinhThanh) {
         KhoiTaoFirebase();
-        databaseReference.child("TinhThanh").push().setValue(tinhThanh);
+        databaseReference.child("TinhThanh2").push().setValue(tinhThanh);
     }
 
+    public ArrayList<String> LayDanhSachTinhThanh2() {
+        KhoiTaoFirebase();
+        ArrayList<String> abc = new ArrayList<>();
+        databaseReference.child("TinhThanh2").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String tinh = snapshot.getValue().toString();
+                abc.add(tinh);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+        return abc;
+    }
 
     public void DoiMatKhau(String tenTaiKhoan, String email, String matKhau) {
         KhoiTaoFirebase();
@@ -77,26 +98,11 @@ public class DBFirebase {
     public ArrayList<TinhThanh> LayDanhSachTinhThanh() {
         KhoiTaoFirebase();
         final ArrayList<TinhThanh> tinhThanhs = new ArrayList<>();
-        databaseReference.child("TinhThanh").addChildEventListener(new ChildEventListener() {
+        databaseReference.child("TinhThanh").addValueEventListener(new ValueEventListener() {
             @Override
-            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
                 TinhThanh tinhThanh = snapshot.getValue(TinhThanh.class);
                 tinhThanhs.add(tinhThanh);
-            }
-
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-            }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
             }
 
             @Override
