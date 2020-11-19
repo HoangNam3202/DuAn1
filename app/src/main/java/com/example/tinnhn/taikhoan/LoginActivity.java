@@ -41,16 +41,11 @@ public class LoginActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_login);
 //        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
 //        taiKhoanArrayList.addo(new TaiKhoan(1, "qweqwe", "qwe@qwe.qwe", "qweqwe", "0234234234", "qwe", 0));
-
         sharedPreferences = getSharedPreferences("GhiNhoDangNhap", MODE_PRIVATE);
         editor = sharedPreferences.edit();
-
         KiemTraGhiNhoDangNhap();
-
         taiKhoanArrayList = dbFirebase.LayDanhSachTaiKhoan();
-
         DangNhap();
         txtDangKy = findViewById(R.id.txtDangKy);
         txtDangKy.setOnClickListener(new View.OnClickListener() {
@@ -98,11 +93,11 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (s.toString().matches(checkEmail)) {
-                    tvEmail.setText("OK");
+                    tvEmail.setText("");
                     tvEmail.setTextColor(getResources().getColor(R.color.colorSuccess));
                     kiemTra[0] = true;
                 } else {
-                    tvEmail.setText("NOT OK");
+                    tvEmail.setText("Email chưa hợp lệ");
                     tvEmail.setTextColor(getResources().getColor(R.color.colorDanger));
                     kiemTra[0] = false;
                 }
@@ -126,7 +121,7 @@ public class LoginActivity extends AppCompatActivity {
                     tvMatKhau.setTextColor(getResources().getColor(R.color.colorSuccess));
                     kiemTra[1] = true;
                 } else {
-                    tvMatKhau.setText("NOT OK");
+                    tvMatKhau.setText("Mật khẩu chưa hợp lệ");
                     tvMatKhau.setTextColor(getResources().getColor(R.color.colorDanger));
                     kiemTra[1] = false;
                 }
@@ -139,7 +134,7 @@ public class LoginActivity extends AppCompatActivity {
         });
 
         //
-        cbGhiNhoDangNhap = findViewById(R.id.cbGhiNhoDangNhap);
+//        cbGhiNhoDangNhap = findViewById(R.id.cbGhiNhoDangNhap);
         btnDangNhap = findViewById(R.id.btnDangNhap);
         txtQuenMatKhau = findViewById(R.id.txtQuenMatKhau);
         txtDangKy = findViewById(R.id.txtDangKy);
@@ -157,11 +152,7 @@ public class LoginActivity extends AppCompatActivity {
                         }
                     }
                     if (xacNhan) {
-                        if (cbGhiNhoDangNhap.isChecked()) {
-                            editor.putString("tenTaiKhoan", email);
-                        } else {
-                            editor.remove("tenTaiKhoan");
-                        }
+                        editor.putString("tenTaiKhoan", email);
                         editor.commit();
                         startActivity(new Intent(LoginActivity.this, MainActivity.class));
                         finish();

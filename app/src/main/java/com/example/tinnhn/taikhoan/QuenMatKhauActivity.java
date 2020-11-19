@@ -22,12 +22,14 @@ public class QuenMatKhauActivity extends AppCompatActivity {
     TextInputEditText edtMatKhau, edtNhapLaiMatKhau;
     TextView tvTenTaiKhoan, tvEmail, tvSoDienThoai, tvMatKhau, tvNhapLaiMatKhau;
     Button btnQuenMatKhau;
+    DBFirebase dbFirebase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_quen_mat_khau);
+        dbFirebase = new DBFirebase();
         QuenMatKhau();
     }
 
@@ -188,6 +190,11 @@ public class QuenMatKhauActivity extends AppCompatActivity {
                     boolean xacNhan = KiemTraXacThucTaiKhoan(tenTaiKhoan, email, soDienThoai);
                     if (xacNhan) {
                         Toast.makeText(QuenMatKhauActivity.this, "Thông tin xác nhận OK", Toast.LENGTH_SHORT).show();
+                        dbFirebase.DoiMatKhau(tenTaiKhoan, email, matKhau);
+                        // tạm ngưng tại chỗ này, đổi pass
+//                        asd;
+                        //
+
                     } else
                         Toast.makeText(QuenMatKhauActivity.this, "Thông tin xác nhận chưa đúng", Toast.LENGTH_SHORT).show();
                 } else

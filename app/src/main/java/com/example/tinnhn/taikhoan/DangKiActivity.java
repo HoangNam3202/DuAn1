@@ -228,8 +228,20 @@ public class DangKiActivity extends AppCompatActivity {
                     soDienThoai = edtSoDienThoai.getText().toString().trim();
                     diaChi = edtDiaChi.getText().toString().trim();
                     boolean kiemTraMatKhau = matKhau.equals(nhapLaiMatKhau);
+                    boolean kiemTraTrungTenTaiKhoan = false;
                     boolean kiemTraTrungEmail = false;
                     boolean kiemTraTrungSoDienThoai = false;
+                    // test tentaikhoan trung lap
+                    int h = 0;
+                    while (h < taiKhoanArrayList.size()) {
+                        if (tenTaiKhoan.equals(taiKhoanArrayList.get(h).getTenTaiKhoan())) {
+                            kiemTraTrungTenTaiKhoan = true;
+                            break;
+                        }
+                        h++;
+                    }
+
+                    //
                     //test email trung lap
                     int i = 0;
                     while (i < taiKhoanArrayList.size()) {
@@ -248,7 +260,7 @@ public class DangKiActivity extends AppCompatActivity {
                         }
                         j++;
                     }
-                    if (kiemTraMatKhau && !kiemTraTrungEmail && !kiemTraTrungSoDienThoai) {
+                    if (kiemTraMatKhau && !kiemTraTrungEmail && !kiemTraTrungSoDienThoai && !kiemTraTrungTenTaiKhoan) {
                         TaiKhoan taiKhoan = new TaiKhoan(RandomString(9), tenTaiKhoan, email, matKhau, soDienThoai, diaChi, 0);
                         // thêm tài khoản vào DB
                         dbFirebase.ThemTaiKhoan(taiKhoan);
@@ -260,10 +272,15 @@ public class DangKiActivity extends AppCompatActivity {
                         if (!kiemTraMatKhau) {
                             Toast.makeText(DangKiActivity.this, "Mật khẩu không khớp", Toast.LENGTH_SHORT).show();
                         }
+                        if (kiemTraTrungTenTaiKhoan) {
+                            tvTenTaiKhoan.setText("Tên tài khoản bị trùng");
+                            tvTenTaiKhoan.setTextColor(getResources().getColor(R.color.colorDanger));
+                        }
                         if (kiemTraTrungEmail) {
                             tvEmail.setText("Email bị trùng");
                             tvEmail.setTextColor(getResources().getColor(R.color.colorDanger));
                         }
+
                         if (kiemTraTrungSoDienThoai) {
                             tvSoDienThoai.setText("Số điện thoại bị trùng");
                             tvSoDienThoai.setTextColor(getResources().getColor(R.color.colorDanger));
