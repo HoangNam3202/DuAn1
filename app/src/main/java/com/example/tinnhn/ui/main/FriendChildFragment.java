@@ -110,6 +110,10 @@ public class FriendChildFragment extends Fragment {
         final FriendsRequestAdapter friendsRequestAdapter = new FriendsRequestAdapter(getContext(),R.layout.list_loi_moi_item,arrFriendsRequests);
         list_friends_request_child.setAdapter(friendsRequestAdapter);
 
+        if(arrFriendsRequests.size() <= 0){
+            list_friends_request_child.setVisibility(View.GONE);
+        }
+
         mDatabase.child("LoiMoiKetBan").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {

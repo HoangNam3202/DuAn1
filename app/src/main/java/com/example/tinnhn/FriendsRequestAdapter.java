@@ -118,6 +118,12 @@ public class FriendsRequestAdapter extends BaseAdapter {
                 mDatabase.child("LoiMoiKetBan").child(friendsRequest.idKey).removeValue();
             }
         });
+        btndeleteFriend_Loi_Moi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mDatabase.child("LoiMoiKetBan").child(friendsRequest.idKey).removeValue();
+            }
+        });
 
         return view;
     }
