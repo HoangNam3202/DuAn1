@@ -12,6 +12,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -20,19 +22,28 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.tinnhn.Call.AudioCall;
+import com.example.tinnhn.Call.BaseActivity;
+import com.example.tinnhn.Call.CuocGoiToi_Screen;
+import com.example.tinnhn.Call.CuocGoi_Screen;
+import com.example.tinnhn.Call.Dialer;
+import com.example.tinnhn.Call.SinchServices;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.sinch.android.rtc.SinchError;
+import com.sinch.android.rtc.calling.Call;
 
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class HoiThoaiActivity extends AppCompatActivity {
+public class HoiThoaiActivity extends BaseActivity implements SinchServices.StartFailedListener {
     private DatabaseReference mDatabase;
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
+    String TenNguoiGui,EmailUser,EmailNguoiGui;
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
@@ -40,7 +51,7 @@ public class HoiThoaiActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add);
         Intent intent_Friends = getIntent();
-        String TenNguoiGui = intent_Friends.getStringExtra("TenNguoiGui");
+       TenNguoiGui = intent_Friends.getStringExtra("TenNguoiGui");
 
         setTitle(TenNguoiGui);
         Objects.requireNonNull(getSupportActionBar()).setDisplayShowHomeEnabled(true);
@@ -59,14 +70,19 @@ public class HoiThoaiActivity extends AppCompatActivity {
         final HoiThoaiAdapter hoiThoaiAdapter = new HoiThoaiAdapter(HoiThoaiActivity.this,R.layout.list_tin_nhan_item,hoiThoaiArrayList);
         list_Hoithoai.setAdapter(hoiThoaiAdapter);
         mDatabase = FirebaseDatabase.getInstance().getReference();
-        final String EmailUser = sharedPreferences.getString("tenTaiKhoan","");
-        final String EmailNguoiGui = intent_Friends.getStringExtra("EmailNguoiGui");
+        EmailUser = sharedPreferences.getString("tenTaiKhoan","");
+        EmailNguoiGui = intent_Friends.getStringExtra("EmailNguoiGui");
         btnGui.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final HoiThoai hoiThoai = new HoiThoai(edtNoiDung.getText().toString(), EmailNguoiGui,EmailUser);
-                mDatabase.child("HoiThoai").push().setValue(hoiThoai);
-                edtNoiDung.setText("");
+                if(!edtNoiDung.getText().toString().equals("")){
+                    final HoiThoai hoiThoai = new HoiThoai(edtNoiDung.getText().toString(), EmailNguoiGui,EmailUser);
+                    mDatabase.child("HoiThoai").push().setValue(hoiThoai);
+                    edtNoiDung.setText("");
+                }
+                else {
+                    Toast.makeText(HoiThoaiActivity.this, "Message is empty", Toast.LENGTH_SHORT).show();
+                }
             }
         });
         mDatabase.child("HoiThoai").addChildEventListener(new ChildEventListener() {
@@ -107,5 +123,76 @@ public class HoiThoaiActivity extends AppCompatActivity {
 
             }
         });
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // R.menu.mymenu is a reference to an xml file named mymenu.xml which should be inside your res/menu directory.
+        // If you don't have res/menu, just create a directory named "menu" inside res
+        getMenuInflater().inflate(R.menu.callbutton, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    // handle button activities
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.audio) {
+         //đang nhap sinchclient o day = UserEmail sau do goi cho EmailNguoiGui
+
+            if (getGiaodiendichvu().isStarted()) {
+
+                openPlaceCallActivity();
+
+            } else {
+                Toast.makeText(this, "chua chay dich vu", Toast.LENGTH_SHORT).show();
+            }
+        }else if(id==R.id.video){
+            if (getGiaodiendichvu().isStarted()) {
+
+                openPlaceCallVideoActivity();
+
+            } else {
+                Toast.makeText(this, "chua chay dich vu", Toast.LENGTH_SHORT).show();
+            }
+        }
+        return super.onOptionsItemSelected(item);
+    }
+    private void openPlaceCallActivity() {
+        String username=EmailNguoiGui;
+        Toast.makeText(this, username, Toast.LENGTH_SHORT).show();
+
+        Call call = getGiaodiendichvu().calluser(username);
+        String callId = call.getCallId();
+
+        Intent callScreen = new Intent(this, AudioCall.class);
+        callScreen.putExtra(SinchServices.CALL_ID, callId);
+        startActivity(callScreen);
+
+//        Intent mainActivity = new Intent(this, Dialer.class);
+//        startActivity(mainActivity);
+    }
+    private void openPlaceCallVideoActivity() {
+        String username=EmailNguoiGui;
+        Toast.makeText(this, username, Toast.LENGTH_SHORT).show();
+
+        Call call = getGiaodiendichvu().callUserVideo(username);
+        String callId = call.getCallId();
+
+        Intent callScreen = new Intent(this, CuocGoi_Screen.class);
+        callScreen.putExtra(SinchServices.CALL_ID, callId);
+        startActivity(callScreen);
+
+//        Intent mainActivity = new Intent(this, Dialer.class);
+//        startActivity(mainActivity);
+    }
+    @Override
+    public void onStartFailed(SinchError error) {
+
+    }
+
+    @Override
+    public void onStarted() {
+
     }
 }
