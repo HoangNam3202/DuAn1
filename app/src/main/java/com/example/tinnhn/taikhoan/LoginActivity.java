@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.tinnhn.Call.BaseActivity;
 import com.example.tinnhn.MainActivity;
 import com.example.tinnhn.R;
 import com.google.android.material.textfield.TextInputEditText;
@@ -23,7 +24,7 @@ import com.google.android.material.textfield.TextInputLayout;
 import java.util.ArrayList;
 
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends BaseActivity {
     public static ArrayList<TaiKhoan> taiKhoanArrayList = new ArrayList<>();
     EditText edtEmail;
     TextInputLayout tilMatKhau;
@@ -154,6 +155,9 @@ public class LoginActivity extends AppCompatActivity {
                     if (xacNhan) {
                         editor.putString("tenTaiKhoan", email);
                         editor.commit();
+
+
+
                         startActivity(new Intent(LoginActivity.this, MainActivity.class));
                         finish();
                         taiKhoanArrayList.clear();
