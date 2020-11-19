@@ -7,15 +7,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.ViewPager;
 
 import com.example.tinnhn.Friends;
 import com.example.tinnhn.FriendsAdapter;
+import com.example.tinnhn.FriendsRequest;
+import com.example.tinnhn.FriendsRequestAdapter;
 import com.example.tinnhn.HoiThoaiActivity;
 import com.example.tinnhn.R;
 import com.google.firebase.database.ChildEventListener;
@@ -98,6 +102,58 @@ public class FriendChildFragment extends Fragment {
                 startActivity(intent);
             }
         });
+
+
+        ListView list_friends_request_child = mRoot.findViewById(R.id.list_friends_request_child);
+        final ArrayList<FriendsRequest> arrFriendsRequests = new ArrayList<>();
+        final ArrayList<FriendsRequest> arrFriendsRequests_check = new ArrayList<>();
+        final FriendsRequestAdapter friendsRequestAdapter = new FriendsRequestAdapter(getContext(),R.layout.list_loi_moi_item,arrFriendsRequests);
+        list_friends_request_child.setAdapter(friendsRequestAdapter);
+
+        mDatabase.child("LoiMoiKetBan").addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                FriendsRequest friendsRequest = snapshot.getValue(FriendsRequest.class);
+
+                arrFriendsRequests_check.clear();
+                arrFriendsRequests_check.add(friendsRequest);
+                for(int i = 0 ; i < arrFriendsRequests_check.size(); i++){
+                    if(arrFriendsRequests_check.get(i).EmailUser.equals(EmailUser)){
+                        String key = snapshot.getKey();
+                        arrFriendsRequests.add(new FriendsRequest(key,arrFriendsRequests_check.get(i).idTaiKhoan,arrFriendsRequests_check.get(i).tenTaiKhoan,arrFriendsRequests_check.get(i).email,
+                                arrFriendsRequests_check.get(i).diaChi,arrFriendsRequests_check.get(i).hinhDaiDien,arrFriendsRequests_check.get(i).EmailUser));
+                    }
+                    if(arrFriendsRequests.size() <= 0){
+                        list_friends_request_child.setVisibility(View.GONE);
+                    }
+                    else {
+                        list_friends_request_child.setVisibility(View.VISIBLE);
+                    }
+                }
+                friendsRequestAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+                friendsRequestAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
         return mRoot;
     }
 }
