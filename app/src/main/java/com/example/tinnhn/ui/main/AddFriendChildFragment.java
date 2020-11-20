@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.tinnhn.Friends;
 import com.example.tinnhn.GoiYKetBan;
 import com.example.tinnhn.GoiYKetBanAdapter;
 import com.example.tinnhn.R;
@@ -34,6 +35,7 @@ public class AddFriendChildFragment extends Fragment {
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
     String DiaChiUser;
+    String EmailDaKetBan;
 
     @Nullable
     @Override
@@ -41,6 +43,8 @@ public class AddFriendChildFragment extends Fragment {
         mRoot = inflater.inflate(R.layout.fragment_add_friends_child,container,false);
          final ArrayList<GoiYKetBan> goiYKetBanArrayList = new ArrayList<>();
         final ArrayList<TaiKhoan> goiYKetBanArrayList_check = new ArrayList<>();
+        final ArrayList<Friends> arrFriended_check = new ArrayList<>();
+
         ListView list_GoiYKetBan = mRoot.findViewById(R.id.list_GoiYKetBan);
         final GoiYKetBanAdapter goiYKetBanAdapter = new GoiYKetBanAdapter(getActivity(),R.layout.list_goi_y_item,goiYKetBanArrayList);
         list_GoiYKetBan.setAdapter(goiYKetBanAdapter);
@@ -90,14 +94,51 @@ public class AddFriendChildFragment extends Fragment {
 
             }
         });
+
+        mDatabase.child("BanBe").addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                Friends friends1 = snapshot.getValue(Friends.class);
+                arrFriended_check.clear();
+                arrFriended_check.add(friends1);
+                for(int i = 0 ; i < arrFriended_check.size(); i++){
+                    if(arrFriended_check.get(i).EmailUser.equals(EmailUser)){
+                        EmailDaKetBan = arrFriended_check.get(i).email;
+                    }
+                }
+
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+                Friends friends = snapshot.getValue(Friends.class);
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
         mDatabase.child("TaiKhoan").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 TaiKhoan goiYKetBan = snapshot.getValue(TaiKhoan.class);
                 goiYKetBanArrayList_check.clear();
                 goiYKetBanArrayList_check.add(goiYKetBan);
+//                Toast.makeText(getContext(), ""+EmailDaKetBan, Toast.LENGTH_SHORT).show();
                 for(int i = 0;i < goiYKetBanArrayList_check.size(); i++){
-                    if(goiYKetBanArrayList_check.get(i).diaChi.contains(DiaChiUser) && !goiYKetBanArrayList_check.get(i).email.equals(EmailUser)){
+                    if(goiYKetBanArrayList_check.get(i).diaChi.contains(DiaChiUser) && !goiYKetBanArrayList_check.get(i).email.equals(EmailUser) && !goiYKetBanArrayList_check.get(i).email.equals(EmailDaKetBan) ){
                         goiYKetBanArrayList.add(new GoiYKetBan(goiYKetBanArrayList_check.get(i).idTaiKhoan,goiYKetBanArrayList_check.get(i).tenTaiKhoan,
                                 goiYKetBanArrayList_check.get(i).email,goiYKetBanArrayList_check.get(i).diaChi,goiYKetBanArrayList_check.get(i).hinhDaiDien));
                     }

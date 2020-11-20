@@ -36,7 +36,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.sinch.android.rtc.SinchError;
 import com.sinch.android.rtc.calling.Call;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Objects;
 
 public class HoiThoaiActivity extends BaseActivity implements SinchServices.StartFailedListener {
@@ -44,6 +46,7 @@ public class HoiThoaiActivity extends BaseActivity implements SinchServices.Star
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
     String TenNguoiGui,EmailUser,EmailNguoiGui;
+    public static HoiThoaiAdapter hoiThoaiAdapter;
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
@@ -67,11 +70,15 @@ public class HoiThoaiActivity extends BaseActivity implements SinchServices.Star
         ListView list_Hoithoai = findViewById(R.id.list_Hoithoai);
         final ArrayList<HoiThoai> hoiThoaiArrayList = new ArrayList<>();
         final ArrayList<HoiThoai> forArr = new ArrayList<>();
-        final HoiThoaiAdapter hoiThoaiAdapter = new HoiThoaiAdapter(HoiThoaiActivity.this,R.layout.list_tin_nhan_item,hoiThoaiArrayList);
+        hoiThoaiAdapter = new HoiThoaiAdapter(HoiThoaiActivity.this,R.layout.list_tin_nhan_item,hoiThoaiArrayList);
         list_Hoithoai.setAdapter(hoiThoaiAdapter);
         mDatabase = FirebaseDatabase.getInstance().getReference();
         EmailUser = sharedPreferences.getString("tenTaiKhoan","");
         EmailNguoiGui = intent_Friends.getStringExtra("EmailNguoiGui");
+        SimpleDateFormat df = new SimpleDateFormat("HH:mm");
+        Calendar c = Calendar.getInstance();
+        String formattedDate = df.format(c.getTime());
+//        Toast.makeText(this, ""+formattedDate, Toast.LENGTH_SHORT).show();
         btnGui.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
