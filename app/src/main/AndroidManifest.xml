@@ -19,7 +19,7 @@
         <service android:name=".Call.SinchServices" />
 
         <activity
-            android:name=".taikhoan.ThemTinhThanhActivity"
+            android:name=".taikhoan.LoginActivity"
             android:label="Tin Nhắn"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
             <intent-filter>
@@ -28,6 +28,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity android:name=".Call.testcall" />
         <activity android:name=".Call.AudioCall" />
         <activity android:name=".Call.CuocGoi_Screen" />
@@ -42,11 +43,11 @@
             android:parentActivityName=".MainActivity"
             android:theme="@style/TinNhanMoi" />
         <activity
-            android:name=".taikhoan.DangKiActivity"
+            android:name=".taikhoan.ThemTinhThanhActivity"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
         <activity
-            android:name=".taikhoan.LoginActivity"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
+            android:name=".taikhoan.DangKiActivity"
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
         <activity android:name=".taikhoan.QuenMatKhauActivity" />
     </application>
 

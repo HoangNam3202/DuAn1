@@ -67,7 +67,7 @@ public class DBFirebase {
 //        KhoiTaoFirebase();
 //        databaseReference.child("TinhThanh").push().setValue(tinhThanh);
 //    }
-    public void ThemTinhThanh(String tinhThanh) {
+    public void ThemTinhThanh2(String tinhThanh) {
         KhoiTaoFirebase();
         databaseReference.child("TinhThanh2").push().setValue(tinhThanh);
     }
