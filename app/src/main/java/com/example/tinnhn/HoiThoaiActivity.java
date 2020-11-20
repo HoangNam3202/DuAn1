@@ -174,7 +174,7 @@ public class HoiThoaiActivity extends BaseActivity implements SinchServices.Star
         Call call = getGiaodiendichvu().calluser(username);
         String callId = call.getCallId();
 
-        Intent callScreen = new Intent(this, AudioCall.class);
+        Intent callScreen = new Intent(this, CuocGoi_Screen.class);
         callScreen.putExtra(SinchServices.CALL_ID, callId);
         startActivity(callScreen);
 
