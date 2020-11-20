@@ -119,7 +119,7 @@ public class LoginActivity extends BaseActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (s.toString().matches(checkMatKhau)) {
-                    tvMatKhau.setText("OK");
+                    tvMatKhau.setText("");
                     tvMatKhau.setTextColor(getResources().getColor(R.color.colorSuccess));
                     kiemTra[1] = true;
                 } else {

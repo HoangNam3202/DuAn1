@@ -79,7 +79,7 @@ public class DangKiActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (s.toString().matches(checkTenTaiKhoan)) {
-                    tvTenTaiKhoan.setText("OK");
+                    tvTenTaiKhoan.setText("");
                     tvTenTaiKhoan.setTextColor(getResources().getColor(R.color.colorSuccess));
                     kiemTra[0] = true;
                 } else {
@@ -103,7 +103,7 @@ public class DangKiActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (s.toString().matches(checkEmail)) {
-                    tvEmail.setText("OK");
+                    tvEmail.setText("");
                     tvEmail.setTextColor(getResources().getColor(R.color.colorSuccess));
                     kiemTra[1] = true;
                 } else {
@@ -127,7 +127,7 @@ public class DangKiActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (s.toString().matches(checkMatKhau)) {
-                    tvMatKhau.setText("OK");
+                    tvMatKhau.setText("");
                     tvMatKhau.setTextColor(getResources().getColor(R.color.colorSuccess));
                     kiemTra[2] = true;
                 } else {
@@ -151,7 +151,7 @@ public class DangKiActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (s.toString().matches(checkMatKhau) && s.toString().equals(edtMatKhau.getText().toString())) {
-                    tvNhapLaiMatKhau.setText("OK");
+                    tvNhapLaiMatKhau.setText("");
                     tvNhapLaiMatKhau.setTextColor(getResources().getColor(R.color.colorSuccess));
                     kiemTra[3] = true;
                 } else {
@@ -175,7 +175,7 @@ public class DangKiActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (s.toString().matches(checkSoDienThoai)) {
-                    tvSoDienThoai.setText("OK");
+                    tvSoDienThoai.setText("");
                     tvSoDienThoai.setTextColor(getResources().getColor(R.color.colorSuccess));
                     kiemTra[4] = true;
                 } else {
@@ -199,7 +199,7 @@ public class DangKiActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (s.toString().length() != 0) {
-                    tvDiaChi.setText("OK");
+                    tvDiaChi.setText("");
                     tvDiaChi.setTextColor(getResources().getColor(R.color.colorSuccess));
                     kiemTra[5] = true;
                 } else {
