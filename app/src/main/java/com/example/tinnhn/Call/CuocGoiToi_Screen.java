@@ -26,7 +26,7 @@ public class CuocGoiToi_Screen extends BaseActivity {
         setContentView(R.layout.activity_cuoc_goi_toi__screen);
 
         Button Nghe = findViewById(R.id.nghedien);
-        Button Nghe2 = findViewById(R.id.nghedien2);
+
         Button Tuchoi = findViewById(R.id.tuchoi);
 
         // appAudioPlayer=new AudioPlayer(this);
@@ -41,13 +41,13 @@ public class CuocGoiToi_Screen extends BaseActivity {
                 nghe();
             }
         });
-        Nghe2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //audio
-                nghe2();
-            }
-        });
+//       Nghe2.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                //audio
+//                nghe2();
+//            }
+//        });
         Tuchoi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
