@@ -101,7 +101,7 @@ public class MainActivity extends BaseActivity  {
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
-                chaydichvu();
+                //chaydichvu();
                tabs.getTabAt(2).getIcon().setColorFilter(getResources().getColor(R.color.colorItem), PorterDuff.Mode.SRC_IN);
 
             }
@@ -152,10 +152,4 @@ public class MainActivity extends BaseActivity  {
         editor.commit();
     }
 
-
-    public void chaydichvu(){
-
-        getGiaodiendichvu().startClient(email);
-
-    }
 }

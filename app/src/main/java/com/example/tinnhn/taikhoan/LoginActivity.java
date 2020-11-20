@@ -13,8 +13,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import com.example.tinnhn.Call.BaseActivity;
 import com.example.tinnhn.MainActivity;
 import com.example.tinnhn.R;
@@ -35,6 +33,7 @@ public class LoginActivity extends BaseActivity {
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
     DBFirebase dbFirebase = new DBFirebase();
+    String emailsv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +47,7 @@ public class LoginActivity extends BaseActivity {
         KiemTraGhiNhoDangNhap();
         taiKhoanArrayList = dbFirebase.LayDanhSachTaiKhoan();
         DangNhap();
+        emailsv=sharedPreferences.getString("tenTaiKhoan", "");
         txtDangKy = findViewById(R.id.txtDangKy);
         txtDangKy.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -155,9 +155,6 @@ public class LoginActivity extends BaseActivity {
                     if (xacNhan) {
                         editor.putString("tenTaiKhoan", email);
                         editor.commit();
-
-
-
                         startActivity(new Intent(LoginActivity.this, MainActivity.class));
                         finish();
                         taiKhoanArrayList.clear();
@@ -169,6 +166,11 @@ public class LoginActivity extends BaseActivity {
                 }
             }
         });
+    }
+    @Override
+    public void onDestroy() {
+        getGiaodiendichvu().startClient(emailsv);
+        super.onDestroy();
     }
 
 }
