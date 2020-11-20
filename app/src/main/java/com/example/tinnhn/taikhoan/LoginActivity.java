@@ -1,7 +1,9 @@
 package com.example.tinnhn.taikhoan;
 
+import android.Manifest;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -12,8 +14,6 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.tinnhn.Call.BaseActivity;
 import com.example.tinnhn.MainActivity;
@@ -35,12 +35,17 @@ public class LoginActivity extends BaseActivity {
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
     DBFirebase dbFirebase = new DBFirebase();
+    String emailsv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_login);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            requestPermissions(new String[]{Manifest.permission.RECORD_AUDIO, Manifest.permission.CAMERA, Manifest.permission.ACCESS_NETWORK_STATE, Manifest.permission.READ_PHONE_STATE},100);
+        }
 //        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 //        taiKhoanArrayList.addo(new TaiKhoan(1, "qweqwe", "qwe@qwe.qwe", "qweqwe", "0234234234", "qwe", 0));
         sharedPreferences = getSharedPreferences("GhiNhoDangNhap", MODE_PRIVATE);
@@ -48,6 +53,7 @@ public class LoginActivity extends BaseActivity {
         KiemTraGhiNhoDangNhap();
         taiKhoanArrayList = dbFirebase.LayDanhSachTaiKhoan();
         DangNhap();
+        emailsv=sharedPreferences.getString("tenTaiKhoan", "");
         txtDangKy = findViewById(R.id.txtDangKy);
         txtDangKy.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -155,9 +161,6 @@ public class LoginActivity extends BaseActivity {
                     if (xacNhan) {
                         editor.putString("tenTaiKhoan", email);
                         editor.commit();
-
-
-
                         startActivity(new Intent(LoginActivity.this, MainActivity.class));
                         finish();
                         taiKhoanArrayList.clear();
@@ -169,6 +172,11 @@ public class LoginActivity extends BaseActivity {
                 }
             }
         });
+    }
+    @Override
+    public void onDestroy() {
+        getGiaodiendichvu().startClient(emailsv);
+        super.onDestroy();
     }
 
 }

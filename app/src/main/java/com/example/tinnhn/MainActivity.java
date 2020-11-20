@@ -1,5 +1,6 @@
 package com.example.tinnhn;
 
+import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -48,9 +49,13 @@ public class MainActivity extends BaseActivity  {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        sharedPreferences = getSharedPreferences("GhiNhoDangNhap", MODE_PRIVATE);
-        editor = sharedPreferences.edit();
-        email = sharedPreferences.getString("tenTaiKhoan", "");
+//        sharedPreferences = getSharedPreferences("GhiNhoDangNhap", MODE_PRIVATE);
+//        editor = sharedPreferences.edit();
+//        email = sharedPreferences.getString("tenTaiKhoan", "");
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            requestPermissions(new String[]{Manifest.permission.RECORD_AUDIO, Manifest.permission.CAMERA, Manifest.permission.ACCESS_NETWORK_STATE, Manifest.permission.READ_PHONE_STATE},100);
+        }
 
 
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -101,7 +106,7 @@ public class MainActivity extends BaseActivity  {
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
-                chaydichvu();
+                //chaydichvu();
                tabs.getTabAt(2).getIcon().setColorFilter(getResources().getColor(R.color.colorItem), PorterDuff.Mode.SRC_IN);
 
             }
@@ -152,10 +157,4 @@ public class MainActivity extends BaseActivity  {
         editor.commit();
     }
 
-
-    public void chaydichvu(){
-
-        getGiaodiendichvu().startClient(email);
-
-    }
 }
