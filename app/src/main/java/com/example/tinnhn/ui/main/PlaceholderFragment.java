@@ -86,10 +86,12 @@ public class PlaceholderFragment extends Fragment {
                 messageArrayList_Message.clear();
                 messageArrayList_Message.add(new HoiThoai(hThoai.message_User,hThoai.emailNguoiNhan,hThoai.email_User));
                 for(int i = 0; i < messageArrayList_Message.size(); i++){
-                    if(messageArrayList_Message.get(i).email_User.equals(EmailUser)){
+                    String last = messageArrayList_Message.get(messageArrayList_Message.size() - 1).message_User;
+                    if(messageArrayList_Message.get(i).email_User.equals(EmailUser) && messageArrayList_Message.get(i).message_User.equals(last)){
                         NoiDung = messageArrayList_Message.get(i).message_User;
                     }
                 }
+
 
             }
 
@@ -120,7 +122,6 @@ public class PlaceholderFragment extends Fragment {
                 messageArrayList_check.add(friends);
                 for(int i = 0 ; i < messageArrayList_check.size(); i++){
                     if(messageArrayList_check.get(i).EmailUser.equals(EmailUser)){
-                        Toast.makeText(getContext(), ""+NoiDung, Toast.LENGTH_SHORT).show();
                         messageArrayList.add(new Message(messageArrayList_check.get(i).idTaiKhoan,messageArrayList_check.get(i).tenTaiKhoan,messageArrayList_check.get(i).email,
                                 messageArrayList_check.get(i).diaChi,messageArrayList_check.get(i).hinhDaiDien,messageArrayList_check.get(i).EmailUser,NoiDung));
                     }

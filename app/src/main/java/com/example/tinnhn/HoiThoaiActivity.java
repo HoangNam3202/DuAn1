@@ -47,7 +47,7 @@ public class HoiThoaiActivity extends BaseActivity implements SinchServices.Star
     SharedPreferences.Editor editor;
     String TenNguoiGui,EmailUser,EmailNguoiGui;
     public static HoiThoaiAdapter hoiThoaiAdapter;
-
+    ListView list_Hoithoai;
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +67,7 @@ public class HoiThoaiActivity extends BaseActivity implements SinchServices.Star
 
         final EditText edtNoiDung = findViewById(R.id.edtNoiDung);
         Button btnGui = findViewById(R.id.btbGui);
-        ListView list_Hoithoai = findViewById(R.id.list_Hoithoai);
+        list_Hoithoai = findViewById(R.id.list_Hoithoai);
         final ArrayList<HoiThoai> hoiThoaiArrayList = new ArrayList<>();
         final ArrayList<HoiThoai> forArr = new ArrayList<>();
         hoiThoaiAdapter = new HoiThoaiAdapter(HoiThoaiActivity.this,R.layout.list_tin_nhan_item,hoiThoaiArrayList);
@@ -79,6 +79,7 @@ public class HoiThoaiActivity extends BaseActivity implements SinchServices.Star
         Calendar c = Calendar.getInstance();
         String formattedDate = df.format(c.getTime());
 //        Toast.makeText(this, ""+formattedDate, Toast.LENGTH_SHORT).show();
+        scrollMyListViewToBottom();
         btnGui.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -107,6 +108,7 @@ public class HoiThoaiActivity extends BaseActivity implements SinchServices.Star
                     }
                 }
                 hoiThoaiAdapter.notifyDataSetChanged();
+                scrollMyListViewToBottom();
 
             }
 
@@ -201,5 +203,14 @@ public class HoiThoaiActivity extends BaseActivity implements SinchServices.Star
     @Override
     public void onStarted() {
 
+    }
+    private void scrollMyListViewToBottom() {
+        list_Hoithoai.post(new Runnable() {
+            @Override
+            public void run() {
+                // Select the last row so it will scroll into view...
+                list_Hoithoai.setSelection(hoiThoaiAdapter.getCount() - 1);
+            }
+        });
     }
 }
