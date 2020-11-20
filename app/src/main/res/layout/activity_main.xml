@@ -60,5 +60,8 @@
         app:tabIndicatorGravity="top"
         app:tabMode="fixed"
         app:tabSelectedTextColor="#E8E535"
-        app:tabTextColor="#9C9C9C" />
+        app:tabTextColor="#9C9C9C"
+        app:tabGravity="fill"
+
+        />
 </RelativeLayout>

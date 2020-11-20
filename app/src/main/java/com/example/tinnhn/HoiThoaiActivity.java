@@ -36,7 +36,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.sinch.android.rtc.SinchError;
 import com.sinch.android.rtc.calling.Call;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Objects;
 
 public class HoiThoaiActivity extends BaseActivity implements SinchServices.StartFailedListener {
@@ -44,7 +46,8 @@ public class HoiThoaiActivity extends BaseActivity implements SinchServices.Star
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
     String TenNguoiGui,EmailUser,EmailNguoiGui;
-
+    public static HoiThoaiAdapter hoiThoaiAdapter;
+    ListView list_Hoithoai;
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,14 +67,19 @@ public class HoiThoaiActivity extends BaseActivity implements SinchServices.Star
 
         final EditText edtNoiDung = findViewById(R.id.edtNoiDung);
         Button btnGui = findViewById(R.id.btbGui);
-        ListView list_Hoithoai = findViewById(R.id.list_Hoithoai);
+        list_Hoithoai = findViewById(R.id.list_Hoithoai);
         final ArrayList<HoiThoai> hoiThoaiArrayList = new ArrayList<>();
         final ArrayList<HoiThoai> forArr = new ArrayList<>();
-        final HoiThoaiAdapter hoiThoaiAdapter = new HoiThoaiAdapter(HoiThoaiActivity.this,R.layout.list_tin_nhan_item,hoiThoaiArrayList);
+        hoiThoaiAdapter = new HoiThoaiAdapter(HoiThoaiActivity.this,R.layout.list_tin_nhan_item,hoiThoaiArrayList);
         list_Hoithoai.setAdapter(hoiThoaiAdapter);
         mDatabase = FirebaseDatabase.getInstance().getReference();
         EmailUser = sharedPreferences.getString("tenTaiKhoan","");
         EmailNguoiGui = intent_Friends.getStringExtra("EmailNguoiGui");
+        SimpleDateFormat df = new SimpleDateFormat("HH:mm");
+        Calendar c = Calendar.getInstance();
+        String formattedDate = df.format(c.getTime());
+//        Toast.makeText(this, ""+formattedDate, Toast.LENGTH_SHORT).show();
+        scrollMyListViewToBottom();
         btnGui.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -100,6 +108,7 @@ public class HoiThoaiActivity extends BaseActivity implements SinchServices.Star
                     }
                 }
                 hoiThoaiAdapter.notifyDataSetChanged();
+                scrollMyListViewToBottom();
 
             }
 
@@ -165,7 +174,7 @@ public class HoiThoaiActivity extends BaseActivity implements SinchServices.Star
         Call call = getGiaodiendichvu().calluser(username);
         String callId = call.getCallId();
 
-        Intent callScreen = new Intent(this, AudioCall.class);
+        Intent callScreen = new Intent(this, CuocGoi_Screen.class);
         callScreen.putExtra(SinchServices.CALL_ID, callId);
         startActivity(callScreen);
 
@@ -194,5 +203,14 @@ public class HoiThoaiActivity extends BaseActivity implements SinchServices.Star
     @Override
     public void onStarted() {
 
+    }
+    private void scrollMyListViewToBottom() {
+        list_Hoithoai.post(new Runnable() {
+            @Override
+            public void run() {
+                // Select the last row so it will scroll into view...
+                list_Hoithoai.setSelection(hoiThoaiAdapter.getCount() - 1);
+            }
+        });
     }
 }

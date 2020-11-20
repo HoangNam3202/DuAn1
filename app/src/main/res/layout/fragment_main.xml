@@ -23,12 +23,14 @@
         android:textStyle="normal"
         android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Title"
         android:textColor="#555454"
-        android:textColorHint="#D8D8D8" />
+        android:textColorHint="#D8D8D8"
+        android:textCursorDrawable="@null"/>
 
     <ListView
-        android:id="@+id/list_view"
+        android:id="@+id/list_view_Message"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="5dp" />
+        android:layout_marginTop="5dp"
+        android:divider="@null"/>
 
 </LinearLayout>

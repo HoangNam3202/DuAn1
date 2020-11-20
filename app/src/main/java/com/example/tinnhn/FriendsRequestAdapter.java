@@ -6,13 +6,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
+import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.cardview.widget.CardView;
 
 import com.example.tinnhn.taikhoan.TaiKhoan;
 import com.google.firebase.database.ChildEventListener;
@@ -26,24 +24,24 @@ import java.util.List;
 
 import static android.content.Context.MODE_PRIVATE;
 
-public class GoiYKetBanAdapter extends BaseAdapter {
+public class FriendsRequestAdapter extends BaseAdapter {
     private Context context;
     private int layout;
-    private List<GoiYKetBan> goiYKetBanList;
+    private List<FriendsRequest> friendsRequestsList;
     private DatabaseReference mDatabase;
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
     String TenUser,DiaChiUser;
     int idUser , hinhUser ;
-    public GoiYKetBanAdapter(Context context, int layout, List<GoiYKetBan> goiYKetBanList) {
+    public FriendsRequestAdapter(Context context, int layout, List<FriendsRequest> friendsRequestsList) {
         this.context = context;
         this.layout = layout;
-        this.goiYKetBanList = goiYKetBanList;
+        this.friendsRequestsList = friendsRequestsList;
     }
 
     @Override
     public int getCount() {
-        return goiYKetBanList.size();
+        return friendsRequestsList.size();
     }
 
     @Override
@@ -65,10 +63,12 @@ public class GoiYKetBanAdapter extends BaseAdapter {
         final String EmailUser = sharedPreferences.getString("tenTaiKhoan","");
         editor = sharedPreferences.edit();
 
-        TextView tvTenGoiY = view.findViewById(R.id.tvTenGoiY);
-        TextView btnAddFriend_Goi_Y = view.findViewById(R.id.btnAddFriend_Goi_Y);
-        final GoiYKetBan goiYKetBan = goiYKetBanList.get(i);
+        TextView tvTenLoi_Moi = view.findViewById(R.id.tvTenLoi_Moi);
+        TextView btnAddFriend_Loi_Moi = view.findViewById(R.id.btnAddFriend_Loi_Moi);
+        TextView btndeleteFriend_Loi_Moi = view.findViewById(R.id.btndeleteFriend_Loi_Moi);
 
+        FriendsRequest friendsRequest = friendsRequestsList.get(i);
+        tvTenLoi_Moi.setText(friendsRequest.tenTaiKhoan);
         final ArrayList<TaiKhoan> goiYKetBanArrayList_check = new ArrayList<>();
 
         mDatabase.child("TaiKhoan").addChildEventListener(new ChildEventListener() {
@@ -108,18 +108,23 @@ public class GoiYKetBanAdapter extends BaseAdapter {
 
             }
         });
-
-        tvTenGoiY.setText(goiYKetBan.tenTaiKhoan);
-        btnAddFriend_Goi_Y.setOnClickListener(new View.OnClickListener() {
+        btnAddFriend_Loi_Moi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Friends friends = new Friends(goiYKetBan.idTaiKhoan,goiYKetBan.tenTaiKhoan,goiYKetBan.email,goiYKetBan.diaChi,goiYKetBan.hinhDaiDien,EmailUser);
-//                mDatabase.child("LoiMoiKetBan").push().setValue(friends);
-                FriendsRequest friends1 = new FriendsRequest(null,idUser,TenUser,EmailUser,DiaChiUser,hinhUser,goiYKetBan.email);
-                mDatabase.child("LoiMoiKetBan").push().setValue(friends1);
-                Toast.makeText(context, "Send Successfully", Toast.LENGTH_SHORT).show();
+                Friends friends = new Friends(friendsRequest.idTaiKhoan,friendsRequest.tenTaiKhoan,friendsRequest.email,friendsRequest.diaChi,friendsRequest.hinhDaiDien,EmailUser);
+                mDatabase.child("BanBe").push().setValue(friends);
+                Friends friends1 = new Friends(idUser,TenUser,EmailUser,DiaChiUser,hinhUser,friendsRequest.email);
+                mDatabase.child("BanBe").push().setValue(friends1);
+                mDatabase.child("LoiMoiKetBan").child(friendsRequest.idKey).removeValue();
             }
         });
+        btndeleteFriend_Loi_Moi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mDatabase.child("LoiMoiKetBan").child(friendsRequest.idKey).removeValue();
+            }
+        });
+
         return view;
     }
 }
