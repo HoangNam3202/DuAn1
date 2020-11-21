@@ -20,6 +20,7 @@ import com.example.tinnhn.HoiThoaiActivity;
 import com.example.tinnhn.Message;
 import com.example.tinnhn.MessageAdapter;
 import com.example.tinnhn.R;
+import com.example.tinnhn.TinNhanHienThi;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -69,7 +70,8 @@ public class PlaceholderFragment extends Fragment {
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
         ListView list_view_Message = view.findViewById(R.id.list_view_Message);
-        ArrayList<Message> messageArrayList = new ArrayList<>();
+        ArrayList<TinNhanHienThi> messageArrayList = new ArrayList<>();
+        ArrayList<TinNhanHienThi> messageArrayList_Message1 = new ArrayList<>();
         ArrayList<Friends> messageArrayList_check = new ArrayList<>();
         ArrayList<HoiThoai> messageArrayList_Message = new ArrayList<>();
         MessageAdapter messageAdapter = new MessageAdapter(getActivity(),R.layout.list_message_item,messageArrayList);
@@ -78,56 +80,20 @@ public class PlaceholderFragment extends Fragment {
         editor = sharedPreferences.edit();
         String EmailUser = sharedPreferences.getString("tenTaiKhoan", "");
 
-
-        mDatabase.child("HoiThoai").addChildEventListener(new ChildEventListener() {
+        mDatabase.child("TinNhan").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                HoiThoai hThoai = snapshot.getValue(HoiThoai.class);
-                messageArrayList_Message.clear();
-                messageArrayList_Message.add(new HoiThoai(hThoai.message_User,hThoai.emailNguoiNhan,hThoai.email_User));
-                for(int i = 0; i < messageArrayList_Message.size(); i++){
-                    String last = messageArrayList_Message.get(messageArrayList_Message.size() - 1).message_User;
-                    if(messageArrayList_Message.get(i).email_User.equals(EmailUser) && messageArrayList_Message.get(i).message_User.equals(last)){
-                        NoiDung = messageArrayList_Message.get(i).message_User;
+                TinNhanHienThi message = snapshot.getValue(TinNhanHienThi.class);
+                messageArrayList_Message1.clear();
+                messageArrayList_Message1.add(message);
+                for(int i = 0; i < messageArrayList_Message1.size(); i++){
+                    if(messageArrayList_Message1.get(i).email_User.equals(EmailUser)){
+                        String keyTinNhan = snapshot.getKey();
+                        messageArrayList.add(new TinNhanHienThi(keyTinNhan,messageArrayList_Message1.get(i).message_User,messageArrayList_Message1.get(i).emailNguoiNhan,messageArrayList_Message1.get(i).email_User,messageArrayList_Message1.get(i).tenNguoiGui));
                     }
-                }
-
-
-            }
-
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-            }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-        mDatabase.child("BanBe").addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                Friends friends = snapshot.getValue(Friends.class);
-                messageArrayList_check.clear();
-                messageArrayList_check.add(friends);
-                for(int i = 0 ; i < messageArrayList_check.size(); i++){
-                    if(messageArrayList_check.get(i).EmailUser.equals(EmailUser)){
-                        messageArrayList.add(new Message(messageArrayList_check.get(i).idTaiKhoan,messageArrayList_check.get(i).tenTaiKhoan,messageArrayList_check.get(i).email,
-                                messageArrayList_check.get(i).diaChi,messageArrayList_check.get(i).hinhDaiDien,messageArrayList_check.get(i).EmailUser,NoiDung));
-                    }
-//                    else if(NoiDung.equals(null)){
-//                        messageArrayList.add(new Message(messageArrayList_check.get(i).idTaiKhoan,messageArrayList_check.get(i).tenTaiKhoan,messageArrayList_check.get(i).email,
-//                                messageArrayList_check.get(i).diaChi,messageArrayList_check.get(i).hinhDaiDien,messageArrayList_check.get(i).EmailUser,"Hãy gửi lời chào đến người ấy !"));
+//                    else if (messageArrayList_Message1.get(i).emailNguoiNhan.equals(EmailUser)) {
+//                        String keyTinNhan = snapshot.getKey();
+//                        messageArrayList.add(new TinNhanHienThi(keyTinNhan,messageArrayList_Message1.get(i).message_User,messageArrayList_Message1.get(i).emailNguoiNhan,messageArrayList_Message1.get(i).email_User,messageArrayList_Message1.get(i).tenNguoiGui));
 //                    }
                 }
                 messageAdapter.notifyDataSetChanged();
@@ -140,7 +106,6 @@ public class PlaceholderFragment extends Fragment {
 
             @Override
             public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-                Friends friends = snapshot.getValue(Friends.class);
 
             }
 
@@ -155,12 +120,89 @@ public class PlaceholderFragment extends Fragment {
             }
         });
 
+//        mDatabase.child("HoiThoai").addChildEventListener(new ChildEventListener() {
+//            @Override
+//            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+//                HoiThoai hThoai = snapshot.getValue(HoiThoai.class);
+//                messageArrayList_Message1.add(hThoai);
+//                for(int i = 0; i < messageArrayList_Message.size(); i++){
+//                    String last = messageArrayList_Message.get(messageArrayList_Message.size() - 1).message_User;
+//                    if(messageArrayList_Message.get(i).email_User.equals(EmailUser) && messageArrayList_Message.get(i).message_User.equals(last)){
+//                        NoiDung = messageArrayList_Message.get(i).message_User;
+//
+//                    }
+//                }
+//                messageAdapter.notifyDataSetChanged();
+//                Toast.makeText(getContext(), ""+(messageArrayList_Message1.size() - 1), Toast.LENGTH_SHORT).show();
+//
+//            }
+//
+//            @Override
+//            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+//
+//            }
+//
+//            @Override
+//            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+//            }
+//
+//            @Override
+//            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+//
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//
+//            }
+//        });
+//        mDatabase.child("BanBe").addChildEventListener(new ChildEventListener() {
+//            @Override
+//            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+//                Friends friends = snapshot.getValue(Friends.class);
+//                messageArrayList_check.clear();
+//                messageArrayList_check.add(friends);
+//                for(int i = 0 ; i < messageArrayList_check.size(); i++){
+//                    if(messageArrayList_check.get(i).EmailUser.equals(EmailUser)){
+//                        messageArrayList.add(new Message(messageArrayList_check.get(i).idTaiKhoan,messageArrayList_check.get(i).tenTaiKhoan,messageArrayList_check.get(i).email,
+//                                messageArrayList_check.get(i).diaChi,messageArrayList_check.get(i).hinhDaiDien,messageArrayList_check.get(i).EmailUser,NoiDung));
+//                    }
+////                    else if(NoiDung.equals(null)){
+////                        messageArrayList.add(new Message(messageArrayList_check.get(i).idTaiKhoan,messageArrayList_check.get(i).tenTaiKhoan,messageArrayList_check.get(i).email,
+////                                messageArrayList_check.get(i).diaChi,messageArrayList_check.get(i).hinhDaiDien,messageArrayList_check.get(i).EmailUser,"Hãy gửi lời chào đến người ấy !"));
+////                    }
+//                }
+//                messageAdapter.notifyDataSetChanged();
+//            }
+//
+//            @Override
+//            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+//
+//            }
+//
+//            @Override
+//            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+//                Friends friends = snapshot.getValue(Friends.class);
+//
+//            }
+//
+//            @Override
+//            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+//
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//
+//            }
+//        });
+
         list_view_Message.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent(getActivity(), HoiThoaiActivity.class);
-                intent.putExtra("EmailNguoiGui", messageArrayList.get(i).email);
-                intent.putExtra("TenNguoiGui", messageArrayList.get(i).tenTaiKhoan);
+                intent.putExtra("EmailNguoiGui", messageArrayList.get(i).emailNguoiNhan);
+                intent.putExtra("TenNguoiGui", messageArrayList.get(i).tenNguoiGui);
                 startActivity(intent);
             }
         });

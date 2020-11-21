@@ -36,6 +36,7 @@ public class LoginActivity extends BaseActivity {
     SharedPreferences.Editor editor;
     DBFirebase dbFirebase = new DBFirebase();
     String emailsv;
+    String TenUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -155,11 +156,13 @@ public class LoginActivity extends BaseActivity {
                     for (int i = 0; i < taiKhoanArrayList.size(); i++) {
                         if (email.equals(taiKhoanArrayList.get(i).getEmail()) && matKhau.equals(taiKhoanArrayList.get(i).getMatKhau())) {
                             xacNhan = true;
+                            TenUser = taiKhoanArrayList.get(i).tenTaiKhoan;
                             break;
                         }
                     }
                     if (xacNhan) {
                         editor.putString("tenTaiKhoan", email);
+                        editor.putString("tenUser", TenUser);
                         editor.commit();
                         startActivity(new Intent(LoginActivity.this, MainActivity.class));
                         finish();

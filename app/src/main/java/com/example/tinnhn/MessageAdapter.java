@@ -17,10 +17,10 @@ import java.util.List;
 public class MessageAdapter extends BaseAdapter {
     private Context context;
     private int layout;
-    private List<Message> messageList;
+    private List<TinNhanHienThi> messageList;
     private DatabaseReference mDatabase;
 
-    public MessageAdapter(Context context, int layout, List<Message> messageList) {
+    public MessageAdapter(Context context, int layout, List<TinNhanHienThi> messageList) {
         this.context = context;
         this.layout = layout;
         this.messageList = messageList;
@@ -54,8 +54,8 @@ public class MessageAdapter extends BaseAdapter {
         TextView tvtinnhanFriends = view.findViewById(R.id.tvtinnhanFriends);
         TextView tvthoiGian = view.findViewById(R.id.tvthoiGian);
 
-        Message message = messageList.get(i);
-        tvTenFriends.setText(message.tenTaiKhoan);
+        TinNhanHienThi message = messageList.get(i);
+        tvTenFriends.setText(message.tenNguoiGui);
         tvtinnhanFriends.setText(message.message_User);
         tvthoiGian.setText("• "+formattedDate);
         return view;

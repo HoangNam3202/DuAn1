@@ -46,8 +46,11 @@ public class HoiThoaiActivity extends BaseActivity implements SinchServices.Star
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
     String TenNguoiGui,EmailUser,EmailNguoiGui;
+    String TenUser;
     public static HoiThoaiAdapter hoiThoaiAdapter;
     ListView list_Hoithoai;
+    String key;
+    boolean check_TinNhanTonTai;
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,22 +73,76 @@ public class HoiThoaiActivity extends BaseActivity implements SinchServices.Star
         list_Hoithoai = findViewById(R.id.list_Hoithoai);
         final ArrayList<HoiThoai> hoiThoaiArrayList = new ArrayList<>();
         final ArrayList<HoiThoai> forArr = new ArrayList<>();
+
+        ArrayList<TinNhanHienThi> messageArrayList_Message1 = new ArrayList<>();
+        ArrayList<String> StringKey = new ArrayList<>();
         hoiThoaiAdapter = new HoiThoaiAdapter(HoiThoaiActivity.this,R.layout.list_tin_nhan_item,hoiThoaiArrayList);
         list_Hoithoai.setAdapter(hoiThoaiAdapter);
         mDatabase = FirebaseDatabase.getInstance().getReference();
         EmailUser = sharedPreferences.getString("tenTaiKhoan","");
         EmailNguoiGui = intent_Friends.getStringExtra("EmailNguoiGui");
+        TenUser = sharedPreferences.getString("tenUser", "");
         SimpleDateFormat df = new SimpleDateFormat("HH:mm");
         Calendar c = Calendar.getInstance();
         String formattedDate = df.format(c.getTime());
 //        Toast.makeText(this, ""+formattedDate, Toast.LENGTH_SHORT).show();
         scrollMyListViewToBottom();
+
+        mDatabase.child("TinNhan").addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                TinNhanHienThi message = snapshot.getValue(TinNhanHienThi.class);
+                messageArrayList_Message1.clear();
+                messageArrayList_Message1.add(message);
+                for(int i = 0; i < messageArrayList_Message1.size(); i++){
+                    if(messageArrayList_Message1.get(i).email_User.equals(EmailUser) && messageArrayList_Message1.get(i).emailNguoiNhan.equals(EmailNguoiGui)
+                         || messageArrayList_Message1.get(i).email_User.equals(EmailNguoiGui) && messageArrayList_Message1.get(i).emailNguoiNhan.equals(EmailUser)){
+                        check_TinNhanTonTai = true;
+                        key = snapshot.getKey();
+                        StringKey.clear();
+                        StringKey.add(key);
+                    }
+                    else  {
+                        check_TinNhanTonTai = false;
+                    }
+                }
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
         btnGui.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(!edtNoiDung.getText().toString().equals("")){
                     final HoiThoai hoiThoai = new HoiThoai(edtNoiDung.getText().toString(), EmailNguoiGui,EmailUser);
                     mDatabase.child("HoiThoai").push().setValue(hoiThoai);
+                    if(check_TinNhanTonTai == false){
+                        TinNhanHienThi tinNhanHienThi = new TinNhanHienThi(null,edtNoiDung.getText().toString(), EmailNguoiGui,EmailUser,TenNguoiGui);
+                        mDatabase.child("TinNhan").push().setValue(tinNhanHienThi);
+                        TinNhanHienThi tinNhanHienThi1 = new TinNhanHienThi(null,edtNoiDung.getText().toString(), EmailUser,EmailNguoiGui,TenUser);
+                        mDatabase.child("TinNhan").push().setValue(tinNhanHienThi1);
+                    }
+                    else {
+                        mDatabase.child("TinNhan").child(key).child("message_User").setValue(edtNoiDung.getText().toString());
+                    }
                     edtNoiDung.setText("");
                 }
                 else {
