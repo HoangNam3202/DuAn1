@@ -202,8 +202,13 @@ public class PlaceholderFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent(getActivity(), HoiThoaiActivity.class);
+                if (messageArrayList.get(i).email_User.equals(EmailUser)) {
+                    intent.putExtra("TenNguoiGui", messageArrayList.get(i).tenUser);
+                }
+                else if (messageArrayList.get(i).emailNguoiNhan.equals(EmailUser)) {
+                    intent.putExtra("TenNguoiGui", messageArrayList.get(i).tenNguoiGui);
+                }
                 intent.putExtra("EmailNguoiGui", messageArrayList.get(i).emailNguoiNhan);
-                intent.putExtra("TenNguoiGui", messageArrayList.get(i).tenNguoiGui);
                 startActivity(intent);
             }
         });
