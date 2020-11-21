@@ -5,30 +5,42 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.tinnhn.R;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static com.example.tinnhn.taikhoan.LoginActivity.taiKhoanArrayList;
 
 public class DangKiActivity extends AppCompatActivity {
-    TextInputLayout tilTenTaiKhoan, tilEmail, tilMatKhau, tilNhapLaiMatKhau, tilSoDienThoai, tilDiaChi;
-    TextInputEditText edtTenTaiKhoan, edtEmail, edtMatKhau, edtNhapLaiMatKhau, edtSoDienThoai, edtDiaChi;
-    TextView tvTenTaiKhoan, tvEmail, tvMatKhau, tvNhapLaiMatKhau, tvSoDienThoai, tvDiaChi;
+    TextInputLayout tilTenTaiKhoan, tilEmail, tilMatKhau, tilNhapLaiMatKhau, tilSoDienThoai;
+    TextInputEditText edtTenTaiKhoan, edtEmail, edtMatKhau, edtNhapLaiMatKhau, edtSoDienThoai;
+    TextView tvTenTaiKhoan, tvEmail, tvMatKhau, tvNhapLaiMatKhau, tvSoDienThoai;
     ImageView ivHinhDaiDien;
+    Spinner spnTinhThanh;
     Button btnChonHinhDaiDien, btnDangKy;
     DBFirebase dbFirebase = new DBFirebase();
+    DatabaseReference databaseReference;
+    String tinhThanhDaChon = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +48,7 @@ public class DangKiActivity extends AppCompatActivity {
         setContentView(R.layout.activity_dang_ki);
 //        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 //        databaseReference = FirebaseDatabase.getInstance().getReference();
+        ChonTinhThanh();
         DangKy();
     }
 
@@ -45,28 +58,26 @@ public class DangKiActivity extends AppCompatActivity {
         tilMatKhau = findViewById(R.id.tilMatKhau);
         tilNhapLaiMatKhau = findViewById(R.id.tilNhapLaiMatKhau);
         tilSoDienThoai = findViewById(R.id.tilSoDienThoai);
-        tilDiaChi = findViewById(R.id.tilDiaChi);
+        spnTinhThanh = findViewById(R.id.spnTinhThanh);
         edtTenTaiKhoan = findViewById(R.id.edtTenTaiKhoan);
         edtEmail = findViewById(R.id.edtEmail);
         edtMatKhau = findViewById(R.id.edtMatKhau);
         edtNhapLaiMatKhau = findViewById(R.id.edtNhapLaiMatKhau);
         edtSoDienThoai = findViewById(R.id.edtSoDienThoai);
-        edtDiaChi = findViewById(R.id.edtDiaChi);
         tvTenTaiKhoan = findViewById(R.id.tvTenTaiKhoan);
         tvEmail = findViewById(R.id.tvEmail);
         tvMatKhau = findViewById(R.id.tvMatKhau);
         tvNhapLaiMatKhau = findViewById(R.id.tvNhapLaiMatKhau);
         tvSoDienThoai = findViewById(R.id.tvSoDienThoai);
-        tvDiaChi = findViewById(R.id.tvDiaChi);
         btnDangKy = findViewById(R.id.btnDangKy);
         //Kiểm tra nhập hợp lệ
         final String checkTenTaiKhoan = "[a-zA-Z0-9+]{6,50}";
         final String checkSoDienThoai = "0[2-9]\\d{8}";
         final String checkEmail = "[a-zA-Z0-9.]+@[a-z]+(\\.+[a-z]+){1,2}";
         final String checkMatKhau = "[a-zA-Z0-9+]{6,300}";
-        final boolean[] kiemTra = new boolean[6];
+        final boolean[] kiemTra = new boolean[5];
         int i = 0;
-        while (i < 6) {
+        while (i < 5) {
             kiemTra[i] = false;
             i++;
         }
@@ -79,7 +90,7 @@ public class DangKiActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (s.toString().matches(checkTenTaiKhoan)) {
-                    tvTenTaiKhoan.setText("OK");
+                    tvTenTaiKhoan.setText("");
                     tvTenTaiKhoan.setTextColor(getResources().getColor(R.color.colorSuccess));
                     kiemTra[0] = true;
                 } else {
@@ -103,7 +114,7 @@ public class DangKiActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (s.toString().matches(checkEmail)) {
-                    tvEmail.setText("OK");
+                    tvEmail.setText("");
                     tvEmail.setTextColor(getResources().getColor(R.color.colorSuccess));
                     kiemTra[1] = true;
                 } else {
@@ -127,7 +138,7 @@ public class DangKiActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (s.toString().matches(checkMatKhau)) {
-                    tvMatKhau.setText("OK");
+                    tvMatKhau.setText("");
                     tvMatKhau.setTextColor(getResources().getColor(R.color.colorSuccess));
                     kiemTra[2] = true;
                 } else {
@@ -151,7 +162,7 @@ public class DangKiActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (s.toString().matches(checkMatKhau) && s.toString().equals(edtMatKhau.getText().toString())) {
-                    tvNhapLaiMatKhau.setText("OK");
+                    tvNhapLaiMatKhau.setText("");
                     tvNhapLaiMatKhau.setTextColor(getResources().getColor(R.color.colorSuccess));
                     kiemTra[3] = true;
                 } else {
@@ -175,7 +186,7 @@ public class DangKiActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (s.toString().matches(checkSoDienThoai)) {
-                    tvSoDienThoai.setText("OK");
+                    tvSoDienThoai.setText("");
                     tvSoDienThoai.setTextColor(getResources().getColor(R.color.colorSuccess));
                     kiemTra[4] = true;
                 } else {
@@ -190,43 +201,17 @@ public class DangKiActivity extends AppCompatActivity {
 
             }
         });
-        edtDiaChi.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (s.toString().length() != 0) {
-                    tvDiaChi.setText("OK");
-                    tvDiaChi.setTextColor(getResources().getColor(R.color.colorSuccess));
-                    kiemTra[5] = true;
-                } else {
-                    tvDiaChi.setText("Chưa hợp lệ");
-                    tvDiaChi.setTextColor(getResources().getColor(R.color.colorDanger));
-                    kiemTra[5] = false;
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-
         //
         btnDangKy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (kiemTra[0] && kiemTra[1] && kiemTra[2] && kiemTra[3] && kiemTra[4] && kiemTra[5]) {
+                if (kiemTra[0] && kiemTra[1] && kiemTra[2] && kiemTra[3] && kiemTra[4]) {
                     String tenTaiKhoan, email, matKhau, nhapLaiMatKhau, soDienThoai, diaChi;
                     tenTaiKhoan = edtTenTaiKhoan.getText().toString().trim();
                     email = edtEmail.getText().toString().trim();
                     matKhau = edtMatKhau.getText().toString().trim();
                     nhapLaiMatKhau = edtNhapLaiMatKhau.getText().toString().trim();
                     soDienThoai = edtSoDienThoai.getText().toString().trim();
-                    diaChi = edtDiaChi.getText().toString().trim();
                     boolean kiemTraMatKhau = matKhau.equals(nhapLaiMatKhau);
                     boolean kiemTraTrungTenTaiKhoan = false;
                     boolean kiemTraTrungEmail = false;
@@ -240,7 +225,6 @@ public class DangKiActivity extends AppCompatActivity {
                         }
                         h++;
                     }
-
                     //
                     //test email trung lap
                     int i = 0;
@@ -261,12 +245,11 @@ public class DangKiActivity extends AppCompatActivity {
                         j++;
                     }
                     if (kiemTraMatKhau && !kiemTraTrungEmail && !kiemTraTrungSoDienThoai && !kiemTraTrungTenTaiKhoan) {
-                        TaiKhoan taiKhoan = new TaiKhoan(RandomString(9), tenTaiKhoan, email, matKhau, soDienThoai, diaChi, 0);
+                        TaiKhoan taiKhoan = new TaiKhoan(RandomString(9), tenTaiKhoan, email, matKhau, soDienThoai, tinhThanhDaChon, 0);
                         // thêm tài khoản vào DB
                         dbFirebase.ThemTaiKhoan(taiKhoan);
                         //
                         Toast.makeText(DangKiActivity.this, "Đăng ký thành công", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(DangKiActivity.this, LoginActivity.class));
                         finish();
                     } else {
                         if (!kiemTraMatKhau) {
@@ -294,6 +277,59 @@ public class DangKiActivity extends AppCompatActivity {
         });
     }
 
+
+
+    private void ChonTinhThanh() {
+        List<String> tinhThanhs = new ArrayList<>();
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.spinner_item, tinhThanhs);
+        databaseReference = FirebaseDatabase.getInstance().getReference();
+        databaseReference.child("TinhThanh2").addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                String tinh = snapshot.getValue().toString();
+                tinhThanhs.add(tinh);
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+//        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
+        spnTinhThanh = findViewById(R.id.spnTinhThanh);
+        spnTinhThanh.setAdapter(adapter);
+        spnTinhThanh.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                tinhThanhDaChon = tinhThanhs.get(position);
+                Toast.makeText(DangKiActivity.this, ""+tinhThanhDaChon, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+    }
+
+
     public int RandomString(int n) {
 //        String AlphaNumericString = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvxyz0123456789";
         String AlphaNumericString = "0123456789";
@@ -305,44 +341,3 @@ public class DangKiActivity extends AppCompatActivity {
         return Integer.parseInt(sb.toString());
     }
 }
-//    DatabaseHelper databasehelper;
-//
-//        databasehelper = new DatabaseHelper(this,"sqlDangNhap",null,2);
-//        final EditText edtTen = findViewById(R.id.edtTen);
-//        final EditText edtMatKhau = findViewById(R.id.edtMatKhau);
-//        final EditText edtNhapLai = findViewById(R.id.edtMatKhauNhapLai);
-//        Button btnDangKi = findViewById(R.id.btnGo);
-//        databasehelper.UpData("CREATE TABLE IF NOT EXISTS TaiKhoan(idTaiKhoan Integer primary key autoincrement, " +
-//                "TenTaiKhoan varchar(20) , MatKhau varchar(100))");
-//        btnDangKi.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                boolean ktratontai = false;
-//                if(!edtTen.getText().toString().equals("")){
-//                    if(!edtMatKhau.getText().toString().equals("")){
-//                        if(edtMatKhau.getText().toString().equals(edtNhapLai.getText().toString())){
-//                            Cursor cursor = databasehelper.GetData("Select * from TaiKhoan where TenTaiKhoan = '"+edtTen.getText().toString()+"'");
-//                            if(cursor.getCount() > 0){
-//                                Toast.makeText(DangKiActivity.this, "Tên tài khoản đã tồn tại", Toast.LENGTH_SHORT).show();
-//                            }
-//                            else {
-//                                Toast.makeText(DangKiActivity.this, "Đăng kí thành công", Toast.LENGTH_SHORT).show();
-//                                databasehelper.UpData("Insert into TaiKhoan Values(null, '"+edtTen.getText().toString().trim()+"','"+edtMatKhau.getText().toString().trim()+"')");
-//                                Intent intent = new Intent(DangKiActivity.this, LoginActivity.class);
-//                                startActivity(intent);
-//                            }
-//                        }
-//                        else {
-//                            edtNhapLai.setError("Mật khẩu không khớp !");
-//                        }
-//                    }
-//                    else {
-//                        edtMatKhau.setError("Chưa điền luôn nè !");
-//                    }
-//                }
-//                else {
-//                    edtTen.setError("Chưa điền nè !");
-//                }
-//
-//            }
-//        });

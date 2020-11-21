@@ -53,8 +53,8 @@
         android:layout_marginRight="10dp"
         android:gravity="center"
         android:text=""
-        android:textStyle="bold"
-        android:textColor="@color/colorWhite" />
+        android:textColor="@color/colorWhite"
+        android:textStyle="bold" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tilEmail"
@@ -79,6 +79,7 @@
             android:maxLines="1" />
 
     </com.google.android.material.textfield.TextInputLayout>
+
     <TextView
         android:id="@+id/tvEmail"
         android:layout_width="match_parent"
@@ -114,6 +115,7 @@
             android:lines="1"
             android:maxLines="1" />
     </com.google.android.material.textfield.TextInputLayout>
+
     <TextView
         android:id="@+id/tvMatKhau"
         android:layout_width="match_parent"
@@ -124,6 +126,7 @@
         android:gravity="center"
         android:text=""
         android:textColor="@color/colorWhite" />
+
     <com.google.android.material.textfield.TextInputLayout
 
         android:id="@+id/tilNhapLaiMatKhau"
@@ -148,6 +151,7 @@
             android:lines="1"
             android:maxLines="1" />
     </com.google.android.material.textfield.TextInputLayout>
+
     <TextView
         android:id="@+id/tvNhapLaiMatKhau"
         android:layout_width="match_parent"
@@ -158,6 +162,7 @@
         android:gravity="center"
         android:text=""
         android:textColor="@color/colorWhite" />
+
     <com.google.android.material.textfield.TextInputLayout
 
         android:id="@+id/tilSoDienThoai"
@@ -181,6 +186,7 @@
             android:lines="1"
             android:maxLines="1" />
     </com.google.android.material.textfield.TextInputLayout>
+
     <TextView
         android:id="@+id/tvSoDienThoai"
         android:layout_width="match_parent"
@@ -191,44 +197,32 @@
         android:gravity="center"
         android:text=""
         android:textColor="@color/colorWhite" />
-    <com.google.android.material.textfield.TextInputLayout
 
-        android:id="@+id/tilDiaChi"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tvSoDienThoai"
-        app:errorEnabled="false"
-        app:hintEnabled="false">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/edtDiaChi"
-            android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:background="@drawable/edt_bg"
-            android:drawableTint="#2196F3"
-            android:gravity="center"
-            android:hint="Nhập địa chỉ *"
-            android:inputType="text"
-            android:lines="1"
-            android:maxLines="1" />
-    </com.google.android.material.textfield.TextInputLayout>
     <TextView
-        android:id="@+id/tvDiaChi"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tilDiaChi"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_below="@+id/tvSoDienThoai"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:gravity="center"
-        android:text=""
-        android:textColor="@color/colorWhite" />
+        android:text="Tỉnh thành: "
+        android:textColor="@color/colorWhite"
+        android:textSize="20sp" />
+
+    <Spinner
+        android:id="@+id/spnTinhThanh"
+        android:layout_width="220dp"
+        android:layout_height="40dp"
+        android:layout_below="@+id/tvSoDienThoai"
+        android:layout_marginStart="115dp"
+        android:layout_marginLeft="115dp"
+        />
+
     <ImageView
         android:id="@+id/ivHinhDaiDien"
         android:layout_width="140dp"
         android:layout_height="140dp"
-        android:layout_below="@+id/tvDiaChi"
+        android:layout_below="@+id/spnTinhThanh"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_marginTop="1dp"
@@ -240,7 +234,7 @@
         android:id="@+id/btnChonHinhDaiDien"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/tilDiaChi"
+        android:layout_below="@id/spnTinhThanh"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentEnd="true"

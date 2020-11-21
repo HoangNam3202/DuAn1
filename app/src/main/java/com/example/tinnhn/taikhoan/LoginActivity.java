@@ -20,6 +20,8 @@ import com.example.tinnhn.MainActivity;
 import com.example.tinnhn.R;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
@@ -69,7 +71,6 @@ public class LoginActivity extends BaseActivity {
                 startActivity(new Intent(LoginActivity.this, QuenMatKhauActivity.class));
             }
         });
-
     }
 
     private void KiemTraGhiNhoDangNhap() {
@@ -125,7 +126,7 @@ public class LoginActivity extends BaseActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (s.toString().matches(checkMatKhau)) {
-                    tvMatKhau.setText("OK");
+                    tvMatKhau.setText("");
                     tvMatKhau.setTextColor(getResources().getColor(R.color.colorSuccess));
                     kiemTra[1] = true;
                 } else {

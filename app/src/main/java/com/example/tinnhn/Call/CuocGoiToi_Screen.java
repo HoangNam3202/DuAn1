@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.example.tinnhn.R;
 import com.sinch.android.rtc.PushPair;
 import com.sinch.android.rtc.calling.Call;
@@ -25,9 +26,9 @@ public class CuocGoiToi_Screen extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cuoc_goi_toi__screen);
 
-        Button Nghe = findViewById(R.id.nghedien);
+        LottieAnimationView Nghe = findViewById(R.id.nghedien);
 
-        Button Tuchoi = findViewById(R.id.tuchoi);
+        LottieAnimationView Tuchoi = findViewById(R.id.tuchoi);
 
         // appAudioPlayer=new AudioPlayer(this);
 
