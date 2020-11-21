@@ -1,11 +1,13 @@
 package com.example.tinnhn;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -14,11 +16,16 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 
+import static android.content.Context.MODE_PRIVATE;
+
 public class MessageAdapter extends BaseAdapter {
     private Context context;
     private int layout;
     private List<TinNhanHienThi> messageList;
     private DatabaseReference mDatabase;
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
+    String EmailUser,EmailNguoiGui;
 
     public MessageAdapter(Context context, int layout, List<TinNhanHienThi> messageList) {
         this.context = context;
@@ -49,15 +56,26 @@ public class MessageAdapter extends BaseAdapter {
         SimpleDateFormat df = new SimpleDateFormat("HH:mm");
         Calendar c = Calendar.getInstance();
         String formattedDate = df.format(c.getTime());
+        sharedPreferences = context.getSharedPreferences("GhiNhoDangNhap", MODE_PRIVATE);
+        editor = sharedPreferences.edit();
+        EmailUser = sharedPreferences.getString("tenTaiKhoan","");
 
         TextView tvTenFriends = view.findViewById(R.id.tvTenFriends);
         TextView tvtinnhanFriends = view.findViewById(R.id.tvtinnhanFriends);
         TextView tvthoiGian = view.findViewById(R.id.tvthoiGian);
 
         TinNhanHienThi message = messageList.get(i);
-        tvTenFriends.setText(message.tenNguoiGui);
         tvtinnhanFriends.setText(message.message_User);
         tvthoiGian.setText("• "+formattedDate);
+//        Toast.makeText(context, ""+message.email_User, Toast.LENGTH_SHORT).show();
+//        Toast.makeText(context, ""+message.tenUser, Toast.LENGTH_SHORT).show();
+
+        if (message.email_User.equals(EmailUser)) {
+            tvTenFriends.setText(message.tenUser);
+        }
+        else if (message.emailNguoiNhan.equals(EmailUser)) {
+            tvTenFriends.setText(message.tenNguoiGui);
+        }
         return view;
     }
 }

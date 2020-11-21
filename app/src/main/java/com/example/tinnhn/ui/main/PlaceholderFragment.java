@@ -43,7 +43,7 @@ public class PlaceholderFragment extends Fragment {
     int vitri;
     boolean clickcheck = false;
     private DatabaseReference mDatabase;
-    public String NoiDung;
+    public String NoiDung,TenUser;
 
     public static PlaceholderFragment newInstance(int index) {
         PlaceholderFragment fragment = new PlaceholderFragment();
@@ -79,6 +79,7 @@ public class PlaceholderFragment extends Fragment {
         sharedPreferences = getContext().getSharedPreferences("GhiNhoDangNhap", MODE_PRIVATE);
         editor = sharedPreferences.edit();
         String EmailUser = sharedPreferences.getString("tenTaiKhoan", "");
+        TenUser = sharedPreferences.getString("tenUser", "");
 
         mDatabase.child("TinNhan").addChildEventListener(new ChildEventListener() {
             @Override
@@ -89,12 +90,12 @@ public class PlaceholderFragment extends Fragment {
                 for(int i = 0; i < messageArrayList_Message1.size(); i++){
                     if(messageArrayList_Message1.get(i).email_User.equals(EmailUser)){
                         String keyTinNhan = snapshot.getKey();
-                        messageArrayList.add(new TinNhanHienThi(keyTinNhan,messageArrayList_Message1.get(i).message_User,messageArrayList_Message1.get(i).emailNguoiNhan,messageArrayList_Message1.get(i).email_User,messageArrayList_Message1.get(i).tenNguoiGui));
+                        messageArrayList.add(new TinNhanHienThi(keyTinNhan,messageArrayList_Message1.get(i).message_User,messageArrayList_Message1.get(i).emailNguoiNhan,messageArrayList_Message1.get(i).email_User,messageArrayList_Message1.get(i).tenUser,messageArrayList_Message1.get(i).tenNguoiGui));
                     }
-//                    else if (messageArrayList_Message1.get(i).emailNguoiNhan.equals(EmailUser)) {
-//                        String keyTinNhan = snapshot.getKey();
-//                        messageArrayList.add(new TinNhanHienThi(keyTinNhan,messageArrayList_Message1.get(i).message_User,messageArrayList_Message1.get(i).emailNguoiNhan,messageArrayList_Message1.get(i).email_User,messageArrayList_Message1.get(i).tenNguoiGui));
-//                    }
+                    if(messageArrayList_Message1.get(i).emailNguoiNhan.equals(EmailUser)) {
+                        String keyTinNhan = snapshot.getKey();
+                        messageArrayList.add(new TinNhanHienThi(keyTinNhan,messageArrayList_Message1.get(i).message_User,messageArrayList_Message1.get(i).email_User,messageArrayList_Message1.get(i).emailNguoiNhan,messageArrayList_Message1.get(i).tenNguoiGui,messageArrayList_Message1.get(i).tenUser));
+                    }
                 }
                 messageAdapter.notifyDataSetChanged();
             }

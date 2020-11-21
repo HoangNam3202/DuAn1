@@ -14,7 +14,7 @@
         android:label="Tin Nhắn"
         android:roundIcon="@drawable/message"
         android:supportsRtl="true"
-        android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar">
+        android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
 
         <service android:name=".Call.SinchServices" />
 

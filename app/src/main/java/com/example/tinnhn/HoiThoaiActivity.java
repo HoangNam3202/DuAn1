@@ -135,10 +135,10 @@ public class HoiThoaiActivity extends BaseActivity implements SinchServices.Star
                     final HoiThoai hoiThoai = new HoiThoai(edtNoiDung.getText().toString(), EmailNguoiGui,EmailUser);
                     mDatabase.child("HoiThoai").push().setValue(hoiThoai);
                     if(check_TinNhanTonTai == false){
-                        TinNhanHienThi tinNhanHienThi = new TinNhanHienThi(null,edtNoiDung.getText().toString(), EmailNguoiGui,EmailUser,TenNguoiGui);
+                        TinNhanHienThi tinNhanHienThi = new TinNhanHienThi(null,edtNoiDung.getText().toString(), EmailNguoiGui,EmailUser,TenNguoiGui,TenUser);
                         mDatabase.child("TinNhan").push().setValue(tinNhanHienThi);
-                        TinNhanHienThi tinNhanHienThi1 = new TinNhanHienThi(null,edtNoiDung.getText().toString(), EmailUser,EmailNguoiGui,TenUser);
-                        mDatabase.child("TinNhan").push().setValue(tinNhanHienThi1);
+//                        TinNhanHienThi tinNhanHienThi1 = new TinNhanHienThi(null,edtNoiDung.getText().toString(), EmailUser,EmailNguoiGui,TenUser);
+//                        mDatabase.child("TinNhan").push().setValue(tinNhanHienThi1);
                     }
                     else {
                         mDatabase.child("TinNhan").child(key).child("message_User").setValue(edtNoiDung.getText().toString());
