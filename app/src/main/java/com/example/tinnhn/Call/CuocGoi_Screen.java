@@ -36,6 +36,8 @@ public class CuocGoi_Screen extends BaseActivity {
 
         private Timer appTimer;
 
+        int check=1;
+
         private UpdateCallDurationTask mDurationTask;
 
         private String appCallId;
@@ -226,9 +228,21 @@ public class CuocGoi_Screen extends BaseActivity {
             vc.toggleCaptureDevicePosition();
         }
     private void camoff(){
+
         final VideoController vc = getGiaodiendichvu().getVideoController();
         RelativeLayout view = (RelativeLayout) findViewById(R.id.localVideo);
-        view.removeView(view);
+        Call call = getGiaodiendichvu().getCall(appCallId);
+        if(check==1){
+            view.removeView(vc.getLocalView());
+            call.pauseVideo();
+            check=2;
+        }else if(check==2){
+            view.addView(vc.getLocalView());
+            call.resumeVideo();
+            check=1;
+        }
+
+
         ;
     }
 
