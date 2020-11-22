@@ -22,6 +22,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.tinnhn.ui.main.FriendChildFragment.arrFriends_check;
+import static com.example.tinnhn.ui.main.FriendChildFragment.arrFriends_check1;
+
 public class FriendsAdapter extends BaseAdapter {
     private Context context;
     private int layout;
@@ -70,44 +73,13 @@ public class FriendsAdapter extends BaseAdapter {
                 builder.setNegativeButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        mDatabase.child("BanBe").addChildEventListener(new ChildEventListener() {
-                            @Override
-                            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                                ArrayList<Friends> friendsArrayList = new ArrayList<>();
-                                Friends friends1 = snapshot.getValue(Friends.class);
-                                friendsArrayList.clear();
-                                friendsArrayList.add(friends1);
-                                for(int x= 0; x < friendsArrayList.size(); x++){
-                                    if(friendsArrayList.get(x).EmailUser.equals(friends.email) && friendsArrayList.get(x).email.equals(friends.EmailUser))
-                                    {
-                                        idKeyXoa = snapshot.getKey();
-                                        mDatabase.child("BanBe").child(idKeyXoa).removeValue();
-                                    }
-                                }
+                        for(int x= 0; x < arrFriends_check1.size(); x++){
+                            if(arrFriends_check1.get(x).EmailUser.equals(friends.email) && arrFriends_check1.get(x).email.equals(friends.EmailUser))
+                            {
+                                idKeyXoa = arrFriends_check1.get(x).idKeyFriend;
+                                mDatabase.child("BanBe").child(idKeyXoa).removeValue();
                             }
-
-                            @Override
-                            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-                            }
-
-                            @Override
-                            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-
-                            }
-
-                            @Override
-                            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-                            }
-
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
-
-                            }
-                        });
-//                        Toast.makeText(context, ""+idKeyXoa, Toast.LENGTH_SHORT).show();
-
+                        }
                         mDatabase.child("BanBe").child(friends.idKeyFriend).removeValue();
                     }
                 });

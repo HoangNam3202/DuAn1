@@ -41,6 +41,8 @@ public class FriendChildFragment extends Fragment {
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
     public static  ArrayList<Friends> arrFriends;
+    public static ArrayList<Friends> arrFriends_check;
+    public static ArrayList<Friends> arrFriends_check1;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -51,12 +53,12 @@ public class FriendChildFragment extends Fragment {
 
         ListView list_friends_child = mRoot.findViewById(R.id.list_friends_child);
         arrFriends = new ArrayList<>();
-        final ArrayList<Friends> arrFriends_check = new ArrayList<>();
+        arrFriends_check = new ArrayList<>();
+        arrFriends_check1 = new ArrayList<>();
         final FriendsAdapter friendsAdapter = new FriendsAdapter(getContext(),R.layout.list_friends_item,arrFriends);
         list_friends_child.setAdapter(friendsAdapter);
         String EmailUser = sharedPreferences.getString("tenTaiKhoan", "");
         mDatabase = FirebaseDatabase.getInstance().getReference();
-        arrFriends.clear();
 
 
         mDatabase.child("BanBe").addChildEventListener(new ChildEventListener() {
@@ -71,6 +73,9 @@ public class FriendChildFragment extends Fragment {
                         arrFriends.add(new Friends(key_Friend,arrFriends_check.get(i).idTaiKhoan,arrFriends_check.get(i).tenTaiKhoan,arrFriends_check.get(i).email,
                                 arrFriends_check.get(i).diaChi,arrFriends_check.get(i).hinhDaiDien,arrFriends_check.get(i).EmailUser));
                     }
+                    String key_Friend_1 = snapshot.getKey();
+                    arrFriends_check1.add(new Friends(key_Friend_1,arrFriends_check.get(i).idTaiKhoan,arrFriends_check.get(i).tenTaiKhoan,arrFriends_check.get(i).email,
+                            arrFriends_check.get(i).diaChi,arrFriends_check.get(i).hinhDaiDien,arrFriends_check.get(i).EmailUser));
                 }
                 friendsAdapter.notifyDataSetChanged();
             }
