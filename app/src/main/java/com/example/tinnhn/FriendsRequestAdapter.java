@@ -111,9 +111,9 @@ public class FriendsRequestAdapter extends BaseAdapter {
         btnAddFriend_Loi_Moi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Friends friends = new Friends(null,friendsRequest.idTaiKhoan,friendsRequest.tenTaiKhoan,friendsRequest.email,friendsRequest.diaChi,friendsRequest.hinhDaiDien,EmailUser);
+                FriendsRequest friends = new FriendsRequest(null,friendsRequest.idTaiKhoan,friendsRequest.tenTaiKhoan,friendsRequest.email,friendsRequest.diaChi,friendsRequest.hinhDaiDien,EmailUser);
                 mDatabase.child("BanBe").push().setValue(friends);
-                Friends friends1 = new Friends(null,idUser,TenUser,EmailUser,DiaChiUser,hinhUser,friendsRequest.email);
+                FriendsRequest friends1 = new FriendsRequest(null,idUser,TenUser,EmailUser,DiaChiUser,hinhUser,friendsRequest.email);
                 mDatabase.child("BanBe").push().setValue(friends1);
                 mDatabase.child("LoiMoiKetBan").child(friendsRequest.idKey).removeValue();
             }

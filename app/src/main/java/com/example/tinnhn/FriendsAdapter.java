@@ -81,6 +81,7 @@ public class FriendsAdapter extends BaseAdapter {
                                     if(friendsArrayList.get(x).EmailUser.equals(friends.email) && friendsArrayList.get(x).email.equals(friends.EmailUser))
                                     {
                                         idKeyXoa = snapshot.getKey();
+                                        mDatabase.child("BanBe").child(idKeyXoa).removeValue();
                                     }
                                 }
                             }
@@ -107,8 +108,7 @@ public class FriendsAdapter extends BaseAdapter {
                         });
 //                        Toast.makeText(context, ""+idKeyXoa, Toast.LENGTH_SHORT).show();
 
-//                        mDatabase.child("BanBe").child(friends.idKeyFriend).removeValue();
-//                        mDatabase.child("BanBe").child(idKeyXoa).removeValue();
+                        mDatabase.child("BanBe").child(friends.idKeyFriend).removeValue();
                     }
                 });
                 builder.setPositiveButton("No", new DialogInterface.OnClickListener() {
