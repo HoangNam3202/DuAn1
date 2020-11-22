@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -79,7 +80,7 @@ public class CuocGoi_Screen extends BaseActivity {
             mCallDuration = (TextView) findViewById(R.id.callDuration);
             mCallerName = (TextView) findViewById(R.id.remoteUser);
             mCallState = (TextView) findViewById(R.id.callState);
-            Button endCallButton = (Button) findViewById(R.id.hangupButton);
+            ImageView endCallButton = (ImageView) findViewById(R.id.hangupButton);
 
             endCallButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -194,8 +195,10 @@ public class CuocGoi_Screen extends BaseActivity {
                     }
                 });
 
-                LinearLayout view = (LinearLayout) findViewById(R.id.remoteVideo);
+                RelativeLayout view = (RelativeLayout) findViewById(R.id.remoteVideo);
+//
                 view.addView(vc.getRemoteView());
+
                 mVideoViewsAdded = true;
             }
         }
@@ -208,7 +211,7 @@ public class CuocGoi_Screen extends BaseActivity {
 
             VideoController vc = getGiaodiendichvu().getVideoController();
             if (vc != null) {
-                LinearLayout view = (LinearLayout) findViewById(R.id.remoteVideo);
+                RelativeLayout view = (RelativeLayout) findViewById(R.id.remoteVideo);
                 view.removeView(vc.getRemoteView());
 
                 RelativeLayout localView = (RelativeLayout) findViewById(R.id.localVideo);

@@ -1,64 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ffffffff"
-    android:orientation="vertical"
-    android:weightSum="5">
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:background="#fffafafa"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/remoteUser"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_margin="10dp"
-            android:text=""
-            android:textSize="28sp" />
-
-        <TextView
-            android:id="@+id/callState"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="Ringing"
-            android:textAllCaps="true"
-            android:textSize="16sp" />
-
-        <TextView
-            android:id="@+id/callDuration"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="8dp"
-            android:layout_marginTop="4dp"
-            android:text="00:00"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textSize="16sp" />
-
-    </LinearLayout>
-
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_weight="3"
-        android:background="@android:color/darker_gray"
-        android:orientation="vertical"
-        android:padding="0dip">
-
-        <LinearLayout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+   android:background="@drawable/hinhnen">
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/nghedien"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:lottie_rawRes="@raw/callxanh"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"/>
+        <RelativeLayout
             android:id="@+id/remoteVideo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:orientation="horizontal" />
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
         <RelativeLayout
             android:id="@+id/localVideo"
@@ -66,26 +22,98 @@
             android:layout_height="200dp"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true" />
-
-    </RelativeLayout>
-
     <RelativeLayout
         android:id="@+id/bottomPanel"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:background="@color/colorPrimaryDark">
+        android:layout_height="100dp"
+        android:background="#00ffffff"
+        android:layout_alignParentBottom="true"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:background="#7F000000"
+            android:weightSum="5">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:background="#00ffffff"
+                android:orientation="horizontal"
+                android:weightSum="5">
 
-        <Button
-            android:id="@+id/hangupButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:paddingBottom="20dp"
-            android:paddingTop="20dp"
-            android:text="END call"
-            android:textSize="20sp" />
+                <TextView
+                    android:id="@+id/remoteUser"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0"
+                    android:text=""
+                    android:textSize="28sp" />
+
+                <TextView
+                    android:id="@+id/callState"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:text="Ringing"
+                    android:textAllCaps="true"
+                    android:textColor="@android:color/white"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/callDuration"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:textColor="@android:color/white"
+                    android:text="00:00"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="3"
+                android:background="#00ffffff"
+                android:orientation="horizontal">
+                <ImageButton
+                    android:id="@+id/offcam"
+                    android:layout_width="60dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginLeft="30dp"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_videocall"
+                    android:background="@drawable/roundcorner"
+                     />
+                <ImageButton
+                    android:id="@+id/flipcamera"
+                    android:layout_width="60dp"
+                   android:layout_centerInParent="true"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_flipcamera"
+                    android:background="@drawable/roundcorner"
+                    />
+                <ImageButton
+                    android:id="@+id/hangupButton"
+                    android:layout_width="60dp"
+                    android:layout_marginRight="30dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_call_end"
+                    android:background="@drawable/roundcorner"
+                  />
+            </RelativeLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"/>
+
+
+        </LinearLayout>
+
 
     </RelativeLayout>
 
-</LinearLayout>
+</RelativeLayout>
