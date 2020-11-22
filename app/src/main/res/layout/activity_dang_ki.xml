@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/hinhnen"
+    android:background="@drawable/hinhnen_register"
     android:orientation="vertical">
 
     <TextView
@@ -12,7 +12,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:gravity="center"
-        android:text="Đăng ký tài khoản"
+        android:text="Register"
+        android:fontFamily="@font/neoneon"
         android:textColor="#fff"
         android:textSize="36dp"
         android:textStyle="bold|italic" />
@@ -37,7 +38,7 @@
             android:background="@drawable/edt_bg"
             android:drawableTint="#2196F3"
             android:gravity="center"
-            android:hint="Tên tài khoản *"
+            android:hint="Username *"
             android:inputType="text"
             android:lines="1"
             android:maxLines="1" />
@@ -110,7 +111,7 @@
             android:background="@drawable/edt_bg"
             android:drawableTint="#2196F3"
             android:gravity="center"
-            android:hint="Mật khẩu *"
+            android:hint="Password *"
             android:inputType="textPassword"
             android:lines="1"
             android:maxLines="1" />
@@ -146,7 +147,7 @@
             android:background="@drawable/edt_bg"
             android:drawableTint="#2196F3"
             android:gravity="center"
-            android:hint="Nhập lại mật khẩu *"
+            android:hint="Confirm password *"
             android:inputType="textPassword"
             android:lines="1"
             android:maxLines="1" />
@@ -181,7 +182,7 @@
             android:background="@drawable/edt_bg"
             android:drawableTint="#2196F3"
             android:gravity="center"
-            android:hint="Nhập số điện thoại *"
+            android:hint="Phone number *"
             android:inputType="text"
             android:lines="1"
             android:maxLines="1" />
@@ -205,7 +206,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:gravity="center"
-        android:text="Tỉnh thành: "
+        android:text="Provider: "
         android:textColor="@color/colorWhite"
         android:textSize="20sp" />
 

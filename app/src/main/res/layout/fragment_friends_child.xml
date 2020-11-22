@@ -31,6 +31,8 @@
         android:layout_height="match_parent"
         android:id="@+id/list_friends_child"
         android:layout_weight="1"
+        android:background="#E8E5E5"
+        android:divider="@null"
         >
 
     </ListView>

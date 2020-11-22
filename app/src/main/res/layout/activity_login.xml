@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/hinhnen"
+    android:background="@drawable/hinhnen_register"
     android:orientation="vertical"
     tools:context=".taikhoan.LoginActivity">
 
@@ -14,9 +14,10 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="80dp"
         android:gravity="center"
-        android:text="Đăng nhập tài khoản"
+        android:text="LOGIN"
+        android:fontFamily="@font/neoneon"
         android:textColor="#fff"
-        android:textSize="36dp"
+        android:textSize="40dp"
         android:textStyle="bold|italic" />
 
     <EditText
@@ -32,7 +33,7 @@
         android:lines="1"
         android:maxLines="1"
         android:textColor="#000"
-        android:textColorHint="@color/colorOrange" />
+        android:textColorHint="@color/colorDefault" />
 
     <TextView
         android:id="@+id/tvEmail"
@@ -62,12 +63,12 @@
             android:background="@drawable/edt_bg"
             android:drawableTint="#2196F3"
             android:gravity="center"
-            android:hint="Mật khẩu *"
+            android:hint="Password *"
             android:inputType="textPassword"
             android:lines="1"
             android:textColor="#000"
             android:maxLines="1"
-            android:textColorHint="@color/colorOrange" />
+            android:textColorHint="@color/colorDefault" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
@@ -89,7 +90,7 @@
         android:layout_marginTop="10dp"
         android:layout_marginRight="40dp"
         android:background="@drawable/gradient_btn"
-        android:text="đăng nhập"
+        android:text="Login"
         android:textColor="#fff" />
 
     <LinearLayout
@@ -105,7 +106,7 @@
             android:layout_marginLeft="50dp"
             android:layout_marginTop="30dp"
             android:layout_weight="1"
-            android:text="Quên mật khẩu ?"
+            android:text="Forgot password ?"
             android:textColor="@color/colorWhite"
             android:textSize="20dp"
             android:textStyle="italic" />
@@ -117,7 +118,7 @@
             android:layout_marginLeft="40dp"
             android:layout_marginTop="30dp"
             android:layout_weight="2"
-            android:text="@string/dang_ky"
+            android:text="Register"
             android:textColor="@color/colorWhite"
             android:textSize="20dp"
             android:textStyle="italic" />
