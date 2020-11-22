@@ -106,7 +106,6 @@ public class AddFriendChildFragment extends Fragment {
                         EmailDaKetBan = arrFriended_check.get(i).email;
                     }
                 }
-
             }
 
             @Override
@@ -136,7 +135,6 @@ public class AddFriendChildFragment extends Fragment {
                 TaiKhoan goiYKetBan = snapshot.getValue(TaiKhoan.class);
                 goiYKetBanArrayList_check.clear();
                 goiYKetBanArrayList_check.add(goiYKetBan);
-//                Toast.makeText(getContext(), ""+EmailDaKetBan, Toast.LENGTH_SHORT).show();
                 for(int i = 0;i < goiYKetBanArrayList_check.size(); i++){
                     if(goiYKetBanArrayList_check.get(i).diaChi.contains(DiaChiUser) && !goiYKetBanArrayList_check.get(i).email.equals(EmailUser) && !goiYKetBanArrayList_check.get(i).email.equals(EmailDaKetBan) ){
                         goiYKetBanArrayList.add(new GoiYKetBan(goiYKetBanArrayList_check.get(i).idTaiKhoan,goiYKetBanArrayList_check.get(i).tenTaiKhoan,

@@ -1,5 +1,6 @@
 package com.example.tinnhn.ui.main;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -38,7 +40,7 @@ public class FriendChildFragment extends Fragment {
     private DatabaseReference mDatabase;
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
-
+    public static  ArrayList<Friends> arrFriends;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -48,12 +50,13 @@ public class FriendChildFragment extends Fragment {
         editor = sharedPreferences.edit();
 
         ListView list_friends_child = mRoot.findViewById(R.id.list_friends_child);
-        final ArrayList<Friends> arrFriends = new ArrayList<>();
+        arrFriends = new ArrayList<>();
         final ArrayList<Friends> arrFriends_check = new ArrayList<>();
         final FriendsAdapter friendsAdapter = new FriendsAdapter(getContext(),R.layout.list_friends_item,arrFriends);
         list_friends_child.setAdapter(friendsAdapter);
         String EmailUser = sharedPreferences.getString("tenTaiKhoan", "");
         mDatabase = FirebaseDatabase.getInstance().getReference();
+        arrFriends.clear();
 
 
         mDatabase.child("BanBe").addChildEventListener(new ChildEventListener() {
@@ -64,7 +67,8 @@ public class FriendChildFragment extends Fragment {
                 arrFriends_check.add(friends);
                 for(int i = 0 ; i < arrFriends_check.size(); i++){
                     if(arrFriends_check.get(i).EmailUser.equals(EmailUser)){
-                        arrFriends.add(new Friends(arrFriends_check.get(i).idTaiKhoan,arrFriends_check.get(i).tenTaiKhoan,arrFriends_check.get(i).email,
+                        String key_Friend = snapshot.getKey();
+                        arrFriends.add(new Friends(key_Friend,arrFriends_check.get(i).idTaiKhoan,arrFriends_check.get(i).tenTaiKhoan,arrFriends_check.get(i).email,
                                 arrFriends_check.get(i).diaChi,arrFriends_check.get(i).hinhDaiDien,arrFriends_check.get(i).EmailUser));
                     }
                 }

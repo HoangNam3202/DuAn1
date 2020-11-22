@@ -1,6 +1,7 @@
 package com.example.tinnhn;
 
 public class Friends {
+    public String idKeyFriend;
     public int idTaiKhoan;
     public String tenTaiKhoan;
     public String email;
@@ -8,7 +9,8 @@ public class Friends {
     public int hinhDaiDien;
     public String EmailUser;
 
-    public Friends(int idTaiKhoan, String tenTaiKhoan, String email, String diaChi, int hinhDaiDien, String emailUser) {
+    public Friends(String idKeyFriend, int idTaiKhoan, String tenTaiKhoan, String email, String diaChi, int hinhDaiDien, String emailUser) {
+        this.idKeyFriend = idKeyFriend;
         this.idTaiKhoan = idTaiKhoan;
         this.tenTaiKhoan = tenTaiKhoan;
         this.email = email;
