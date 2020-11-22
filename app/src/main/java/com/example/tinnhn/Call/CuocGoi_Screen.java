@@ -5,8 +5,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.QuickContactBadge;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -80,7 +82,24 @@ public class CuocGoi_Screen extends BaseActivity {
             mCallDuration = (TextView) findViewById(R.id.callDuration);
             mCallerName = (TextView) findViewById(R.id.remoteUser);
             mCallState = (TextView) findViewById(R.id.callState);
-            ImageView endCallButton = (ImageView) findViewById(R.id.hangupButton);
+            ImageButton endCallButton = (ImageButton) findViewById(R.id.hangupButton);
+            ImageButton flipButton = (ImageButton) findViewById(R.id.flipcamera);
+            ImageButton camoffButton = (ImageButton) findViewById(R.id.offcam);
+
+
+            flipButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    flipcam();
+                }
+            });
+            camoffButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    camoff();
+                }
+            });
+
 
             endCallButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -202,6 +221,16 @@ public class CuocGoi_Screen extends BaseActivity {
                 mVideoViewsAdded = true;
             }
         }
+        private void flipcam(){
+            final VideoController vc = getGiaodiendichvu().getVideoController();
+            vc.toggleCaptureDevicePosition();
+        }
+    private void camoff(){
+        final VideoController vc = getGiaodiendichvu().getVideoController();
+        RelativeLayout view = (RelativeLayout) findViewById(R.id.localVideo);
+        view.removeView(view);
+        ;
+    }
 
         //removes video feeds from the app once the call is terminated
         private void removeVideoViews() {
