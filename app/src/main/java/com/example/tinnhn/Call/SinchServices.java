@@ -16,6 +16,7 @@ import com.sinch.android.rtc.calling.Call;
 import com.sinch.android.rtc.calling.CallClient;
 import com.sinch.android.rtc.calling.CallClientListener;
 import com.sinch.android.rtc.video.VideoController;
+import com.sinch.android.rtc.video.VideoScalingType;
 
 import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 
@@ -59,6 +60,7 @@ public class SinchServices extends Service {
 
             appSinchClient.addSinchClientListener(new MySinchClientListener());
             appSinchClient.getCallClient().addCallClientListener(new SinchCallClientListener());
+            appSinchClient.getVideoController().setResizeBehaviour(VideoScalingType.ASPECT_FILL);
             appSinchClient.start();
         }
     }

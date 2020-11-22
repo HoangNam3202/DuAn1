@@ -5,7 +5,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.QuickContactBadge;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,6 +35,8 @@ public class CuocGoi_Screen extends BaseActivity {
         //private AudioPlayer mAudioPlayer;
 
         private Timer appTimer;
+
+        int check=1;
 
         private UpdateCallDurationTask mDurationTask;
 
@@ -79,7 +84,24 @@ public class CuocGoi_Screen extends BaseActivity {
             mCallDuration = (TextView) findViewById(R.id.callDuration);
             mCallerName = (TextView) findViewById(R.id.remoteUser);
             mCallState = (TextView) findViewById(R.id.callState);
-            Button endCallButton = (Button) findViewById(R.id.hangupButton);
+            ImageButton endCallButton = (ImageButton) findViewById(R.id.hangupButton);
+            ImageButton flipButton = (ImageButton) findViewById(R.id.flipcamera);
+            ImageButton camoffButton = (ImageButton) findViewById(R.id.offcam);
+
+
+            flipButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    flipcam();
+                }
+            });
+            camoffButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    camoff();
+                }
+            });
+
 
             endCallButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -194,11 +216,35 @@ public class CuocGoi_Screen extends BaseActivity {
                     }
                 });
 
-                LinearLayout view = (LinearLayout) findViewById(R.id.remoteVideo);
+                RelativeLayout view = (RelativeLayout) findViewById(R.id.remoteVideo);
+//
                 view.addView(vc.getRemoteView());
+
                 mVideoViewsAdded = true;
             }
         }
+        private void flipcam(){
+            final VideoController vc = getGiaodiendichvu().getVideoController();
+            vc.toggleCaptureDevicePosition();
+        }
+    private void camoff(){
+
+        final VideoController vc = getGiaodiendichvu().getVideoController();
+        RelativeLayout view = (RelativeLayout) findViewById(R.id.localVideo);
+        Call call = getGiaodiendichvu().getCall(appCallId);
+        if(check==1){
+            view.removeView(vc.getLocalView());
+            call.pauseVideo();
+            check=2;
+        }else if(check==2){
+            view.addView(vc.getLocalView());
+            call.resumeVideo();
+            check=1;
+        }
+
+
+        ;
+    }
 
         //removes video feeds from the app once the call is terminated
         private void removeVideoViews() {
@@ -208,7 +254,7 @@ public class CuocGoi_Screen extends BaseActivity {
 
             VideoController vc = getGiaodiendichvu().getVideoController();
             if (vc != null) {
-                LinearLayout view = (LinearLayout) findViewById(R.id.remoteVideo);
+                RelativeLayout view = (RelativeLayout) findViewById(R.id.remoteVideo);
                 view.removeView(vc.getRemoteView());
 
                 RelativeLayout localView = (RelativeLayout) findViewById(R.id.localVideo);
