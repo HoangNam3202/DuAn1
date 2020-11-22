@@ -165,6 +165,7 @@ public class LoginActivity extends BaseActivity {
                         editor.putString("tenTaiKhoan", email);
                         editor.putString("tenUser", TenUser);
                         editor.commit();
+                        getGiaodiendichvu().startClient(email);
                         startActivity(new Intent(LoginActivity.this, MainActivity.class));
                         finish();
                         taiKhoanArrayList.clear();
