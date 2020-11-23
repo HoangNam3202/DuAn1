@@ -11,6 +11,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.database.core.Context;
 
@@ -19,6 +20,7 @@ import java.util.ArrayList;
 import static android.widget.Toast.LENGTH_SHORT;
 
 public class DBFirebase {
+    public String TAG = "DBFirebase";
     DatabaseReference databaseReference;
 
     public void KhoiTaoFirebase() {
@@ -95,14 +97,43 @@ public class DBFirebase {
         //ok
     }
 
-    public ArrayList<TinhThanh> LayDanhSachTinhThanh() {
+//    public ArrayList<TinhThanh> LayDanhSachTinhThanh() {
+//        KhoiTaoFirebase();
+//        final ArrayList<TinhThanh> tinhThanhs = new ArrayList<>();
+//        databaseReference.child("TinhThanh").addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                TinhThanh tinhThanh = snapshot.getValue(TinhThanh.class);
+//                tinhThanhs.add(tinhThanh);
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//
+//            }
+//        });
+//        return tinhThanhs;
+//    }
+
+    public String LayKeyTaiKhoan(String email) {
         KhoiTaoFirebase();
-        final ArrayList<TinhThanh> tinhThanhs = new ArrayList<>();
-        databaseReference.child("TinhThanh").addValueEventListener(new ValueEventListener() {
+        final String[] key = {""};
+        databaseReference = FirebaseDatabase.getInstance().getReference("TaiKhoan");
+        Query query = databaseReference.orderByChild("tenTaiKhoan");
+        query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                TinhThanh tinhThanh = snapshot.getValue(TinhThanh.class);
-                tinhThanhs.add(tinhThanh);
+//                Log.d(TAG,""+snapshot.toString());
+                TaiKhoan taiKhoan;
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    taiKhoan = dataSnapshot.getValue(TaiKhoan.class);
+                    if (taiKhoan.getTenTaiKhoan().equals(email)) {
+                        key[0] = snapshot.getKey();
+                        Log.d(TAG, "" + taiKhoan.getTenTaiKhoan());
+                        break;
+                    }
+                }
+
             }
 
             @Override
@@ -110,6 +141,7 @@ public class DBFirebase {
 
             }
         });
-        return tinhThanhs;
+        return key[0];
+
     }
 }
