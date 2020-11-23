@@ -312,14 +312,14 @@ public class DangKiActivity extends AppCompatActivity {
             }
         });
 //        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(R.layout.spinner_item_2);
         spnTinhThanh = findViewById(R.id.spnTinhThanh);
         spnTinhThanh.setAdapter(adapter);
         spnTinhThanh.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 tinhThanhDaChon = tinhThanhs.get(position);
-                Toast.makeText(DangKiActivity.this, ""+tinhThanhDaChon, Toast.LENGTH_SHORT).show();
+//                Toast.makeText(DangKiActivity.this, ""+tinhThanhDaChon, Toast.LENGTH_SHORT).show();
             }
 
             @Override

@@ -188,15 +188,17 @@ public class QuenMatKhauActivity extends AppCompatActivity {
                     matKhau = edtMatKhau.getText().toString().trim();
                     nhapLaiMatKhau = edtNhapLaiMatKhau.getText().toString().trim();
                     boolean xacNhan = KiemTraXacThucTaiKhoan(tenTaiKhoan, email, soDienThoai);
-                    if (xacNhan) {
-                        Toast.makeText(QuenMatKhauActivity.this, "Thông tin xác nhận OK", Toast.LENGTH_SHORT).show();
-                        dbFirebase.DoiMatKhau(tenTaiKhoan, email, matKhau);
-                        // tạm ngưng tại chỗ này, đổi pass
-//                        asd;
-                        //
-
-                    } else
-                        Toast.makeText(QuenMatKhauActivity.this, "Thông tin xác nhận chưa đúng", Toast.LENGTH_SHORT).show();
+                    String keyTaiKhoan = dbFirebase.LayKeyTaiKhoan(email);
+                    Toast.makeText(QuenMatKhauActivity.this, ""+keyTaiKhoan, Toast.LENGTH_SHORT).show();
+//                    if (xacNhan) {
+//                        Toast.makeText(QuenMatKhauActivity.this, "Thông tin xác nhận OK", Toast.LENGTH_SHORT).show();
+//                        dbFirebase.DoiMatKhau(tenTaiKhoan, email, matKhau);
+//                        // tạm ngưng tại chỗ này, đổi pass
+////                        asd;
+//                        //
+//
+//                    } else
+//                        Toast.makeText(QuenMatKhauActivity.this, "Thông tin xác nhận chưa đúng", Toast.LENGTH_SHORT).show();
                 } else
                     Toast.makeText(QuenMatKhauActivity.this, "Nhập thông tin chưa hợp lệ", Toast.LENGTH_SHORT).show();
             }
