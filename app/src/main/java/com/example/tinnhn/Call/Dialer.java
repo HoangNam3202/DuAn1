@@ -73,7 +73,7 @@ public class Dialer extends BaseActivity {
             return;
         }
 
-        Call call = getGiaodiendichvu().callUserVideo(userName);
+        Call call = getGiaodiendichvu().callGroup(userName);
         String callId = call.getCallId();
 
         Intent callScreen = new Intent(this, CuocGoi_Screen.class);

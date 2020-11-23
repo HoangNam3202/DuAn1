@@ -90,6 +90,10 @@ public class SinchServices extends Service {
         public Call calluser(String userId){
             return appSinchClient.getCallClient().callUser(userId);
         }
+        public Call callGroup(String userId){
+            return appSinchClient.getCallClient().callConference(userId);
+        }
+
 
         public String getUserName() {
             return appIDNguoiDung;
