@@ -44,6 +44,10 @@ public class PlaceholderFragment extends Fragment {
     boolean clickcheck = false;
     private DatabaseReference mDatabase;
     public String NoiDung,TenUser;
+    ArrayList<TinNhanHienThi> messageArrayList;
+    MessageAdapter messageAdapter;
+    String EmailUser;
+    ArrayList<TinNhanHienThi> messageArrayList_Message1;
 
     public static PlaceholderFragment newInstance(int index) {
         PlaceholderFragment fragment = new PlaceholderFragment();
@@ -70,15 +74,15 @@ public class PlaceholderFragment extends Fragment {
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
         ListView list_view_Message = view.findViewById(R.id.list_view_Message);
-        ArrayList<TinNhanHienThi> messageArrayList = new ArrayList<>();
-        ArrayList<TinNhanHienThi> messageArrayList_Message1 = new ArrayList<>();
+        messageArrayList = new ArrayList<>();
+        messageArrayList_Message1 = new ArrayList<>();
         ArrayList<Friends> messageArrayList_check = new ArrayList<>();
         ArrayList<HoiThoai> messageArrayList_Message = new ArrayList<>();
-        MessageAdapter messageAdapter = new MessageAdapter(getActivity(),R.layout.list_message_item,messageArrayList);
+        messageAdapter = new MessageAdapter(getActivity(),R.layout.list_message_item,messageArrayList);
         list_view_Message.setAdapter(messageAdapter);
         sharedPreferences = getContext().getSharedPreferences("GhiNhoDangNhap", MODE_PRIVATE);
         editor = sharedPreferences.edit();
-        String EmailUser = sharedPreferences.getString("tenTaiKhoan", "");
+        EmailUser = sharedPreferences.getString("tenTaiKhoan", "");
         TenUser = sharedPreferences.getString("tenUser", "");
 
         mDatabase.child("TinNhan").addChildEventListener(new ChildEventListener() {
@@ -133,9 +137,52 @@ public class PlaceholderFragment extends Fragment {
                 }
                 intent.putExtra("EmailNguoiGui", messageArrayList.get(i).emailNguoiNhan);
                 startActivity(intent);
+//                container.removeView(view);
             }
         });
         return view;
     }
+    public void GoiDanhSachTinNhan(){
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        messageArrayList.clear();
+        mDatabase.child("TinNhan").addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                TinNhanHienThi message = snapshot.getValue(TinNhanHienThi.class);
+                messageArrayList_Message1.clear();
+                messageArrayList_Message1.add(message);
+                for(int i = 0; i < messageArrayList_Message1.size(); i++){
+                    if(messageArrayList_Message1.get(i).email_User.equals(EmailUser)){
+                        String keyTinNhan = snapshot.getKey();
+                        messageArrayList.add(new TinNhanHienThi(keyTinNhan,messageArrayList_Message1.get(i).message_User,messageArrayList_Message1.get(i).emailNguoiNhan,messageArrayList_Message1.get(i).email_User,messageArrayList_Message1.get(i).tenUser,messageArrayList_Message1.get(i).tenNguoiGui));
+                    }
+                    if(messageArrayList_Message1.get(i).emailNguoiNhan.equals(EmailUser)) {
+                        String keyTinNhan = snapshot.getKey();
+                        messageArrayList.add(new TinNhanHienThi(keyTinNhan,messageArrayList_Message1.get(i).message_User,messageArrayList_Message1.get(i).email_User,messageArrayList_Message1.get(i).emailNguoiNhan,messageArrayList_Message1.get(i).tenNguoiGui,messageArrayList_Message1.get(i).tenUser));
+                    }
+                }
+                messageAdapter.notifyDataSetChanged();
+            }
 
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
 }

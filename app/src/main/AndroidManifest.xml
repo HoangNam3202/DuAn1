@@ -10,8 +10,8 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@drawable/message"
-        android:label="Tin Nhắn"
+        android:icon="@drawable/logo_app"
+        android:label="Chat Room"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
 
@@ -19,7 +19,7 @@
 
         <activity
             android:name=".taikhoan.LoginActivity"
-            android:label="Tin Nhắn"
+            android:label="Chat Room"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -28,12 +28,16 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".Call.testcall" />
+        <activity android:name=".Call.testcall">
+
+        </activity>
         <activity android:name=".Call.AudioCall" />
         <activity android:name=".Call.CuocGoi_Screen" />
         <activity android:name=".Call.BaseActivity" />
         <activity android:name=".Call.CuocGoiToi_Screen" />
-        <activity android:name=".Call.Dialer" />
+        <activity android:name=".Call.Dialer" >
+
+        </activity>
 
         <activity android:name=".MainActivity"/>
         <activity

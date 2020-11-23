@@ -1,5 +1,6 @@
 package com.example.tinnhn;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.view.LayoutInflater;
@@ -24,6 +25,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static android.content.Context.MODE_PRIVATE;
+import static com.example.tinnhn.ui.main.FriendChildFragment.GoiDanhSachBanBe;
+import static com.example.tinnhn.ui.main.FriendChildFragment.GoiLoiMoiKetBan;
 import static com.example.tinnhn.ui.main.FriendChildFragment.arrFriends;
 
 public class FriendsRequestAdapter extends BaseAdapter {
@@ -116,6 +119,9 @@ public class FriendsRequestAdapter extends BaseAdapter {
             public void onClick(View view) {
                 for(int i = 0 ; i < arrFriends.size(); i++){
                     if(friendsRequest.email.equals(arrFriends.get(i).email)){
+                        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                        builder.setMessage("Friended");
+                        builder.create().show();
                         Toast.makeText(context, "Friended", Toast.LENGTH_SHORT).show();
                         check_friended = true;
                     }
@@ -126,6 +132,7 @@ public class FriendsRequestAdapter extends BaseAdapter {
                         Friends friends1 = new Friends(null,idUser,TenUser,EmailUser,DiaChiUser,hinhUser,friendsRequest.email);
                         mDatabase.child("BanBe").push().setValue(friends1);
                         mDatabase.child("LoiMoiKetBan").child(friendsRequest.idKey).removeValue();
+                    GoiLoiMoiKetBan();
                 }
             }
         });
@@ -133,6 +140,7 @@ public class FriendsRequestAdapter extends BaseAdapter {
             @Override
             public void onClick(View view) {
                 mDatabase.child("LoiMoiKetBan").child(friendsRequest.idKey).removeValue();
+                GoiLoiMoiKetBan();
             }
         });
 
