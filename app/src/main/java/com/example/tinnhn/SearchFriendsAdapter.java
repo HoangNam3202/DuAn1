@@ -1,13 +1,11 @@
 package com.example.tinnhn;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,8 +13,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.tinnhn.taikhoan.TaiKhoan;
-import com.example.tinnhn.ui.main.FriendChildFragment;
-import com.example.tinnhn.ui.main.PlaceholderFragment;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -27,32 +23,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static android.content.Context.MODE_PRIVATE;
-import static com.example.tinnhn.ui.main.FriendChildFragment.GoiDanhSachBanBe;
-import static com.example.tinnhn.ui.main.FriendChildFragment.GoiLoiMoiKetBan;
-import static com.example.tinnhn.ui.main.FriendChildFragment.arrFriends;
 
-public class FriendsRequestAdapter extends BaseAdapter {
+public class SearchFriendsAdapter extends BaseAdapter {
     private Context context;
     private int layout;
-    private List<FriendsRequest> friendsRequestsList;
+    private List<TaiKhoan> searchList;
     private DatabaseReference mDatabase;
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
     String TenUser, DiaChiUser;
     String idUser;
     int hinhUser;
-    boolean check_friended = false;
-//    FriendChildFragment friendChildFragment = new FriendChildFragment();
 
-    public FriendsRequestAdapter(Context context, int layout, List<FriendsRequest> friendsRequestsList) {
+    public SearchFriendsAdapter(Context context, int layout, List<TaiKhoan> searchList) {
         this.context = context;
         this.layout = layout;
-        this.friendsRequestsList = friendsRequestsList;
+        this.searchList = searchList;
     }
 
     @Override
     public int getCount() {
-        return friendsRequestsList.size();
+        return searchList.size();
     }
 
     @Override
@@ -74,12 +65,10 @@ public class FriendsRequestAdapter extends BaseAdapter {
         final String EmailUser = sharedPreferences.getString("tenTaiKhoan", "");
         editor = sharedPreferences.edit();
 
-        TextView tvTenLoi_Moi = view.findViewById(R.id.tvTenLoi_Moi);
-        TextView btnAddFriend_Loi_Moi = view.findViewById(R.id.btnAddFriend_Loi_Moi);
-        TextView btndeleteFriend_Loi_Moi = view.findViewById(R.id.btndeleteFriend_Loi_Moi);
+        TextView tvTenTimKiem = view.findViewById(R.id.tvTenTimKiem);
+        TextView btnAddFriend_Tim_Kiem = view.findViewById(R.id.btnAddFriend_Tim_Kiem);
+        TaiKhoan searchLisKhoan = searchList.get(i);
 
-        FriendsRequest friendsRequest = friendsRequestsList.get(i);
-        tvTenLoi_Moi.setText(friendsRequest.tenTaiKhoan);
         final ArrayList<TaiKhoan> goiYKetBanArrayList_check = new ArrayList<>();
 
         mDatabase.child("TaiKhoan").addChildEventListener(new ChildEventListener() {
@@ -119,36 +108,16 @@ public class FriendsRequestAdapter extends BaseAdapter {
 
             }
         });
-        btnAddFriend_Loi_Moi.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                for (int i = 0; i < arrFriends.size(); i++) {
-                    if (friendsRequest.email.equals(arrFriends.get(i).email)) {
-                        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                        builder.setMessage("Friended");
-                        builder.create().show();
-                        Toast.makeText(context, "Friended", Toast.LENGTH_SHORT).show();
-                        check_friended = true;
-                    }
-                }
-                if (!check_friended) {
-                    Friends friends = new Friends(null, friendsRequest.idTaiKhoan, friendsRequest.tenTaiKhoan, friendsRequest.email, friendsRequest.diaChi, friendsRequest.hinhDaiDien, EmailUser);
-                    mDatabase.child("BanBe").push().setValue(friends);
-                    Friends friends1 = new Friends(null, idUser, TenUser, EmailUser, DiaChiUser, hinhUser, friendsRequest.email);
-                    mDatabase.child("BanBe").push().setValue(friends1);
-                    mDatabase.child("LoiMoiKetBan").child(friendsRequest.idKey).removeValue();
-                    GoiLoiMoiKetBan();
-                }
-            }
-        });
-        btndeleteFriend_Loi_Moi.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mDatabase.child("LoiMoiKetBan").child(friendsRequest.idKey).removeValue();
-                GoiLoiMoiKetBan();
-            }
-        });
 
+        tvTenTimKiem.setText(searchLisKhoan.tenTaiKhoan);
+        btnAddFriend_Tim_Kiem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FriendsRequest friends1 = new FriendsRequest(null, idUser, TenUser, EmailUser, DiaChiUser, hinhUser, searchLisKhoan.email);
+                mDatabase.child("LoiMoiKetBan").push().setValue(friends1);
+                Toast.makeText(context, "Send Successfully", Toast.LENGTH_SHORT).show();
+            }
+        });
         return view;
     }
 }

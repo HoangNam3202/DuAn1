@@ -145,6 +145,7 @@ public class PlaceholderFragment extends Fragment {
     public void GoiDanhSachTinNhan(){
         mDatabase = FirebaseDatabase.getInstance().getReference();
         messageArrayList.clear();
+        messageAdapter.notifyDataSetChanged();
         mDatabase.child("TinNhan").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {

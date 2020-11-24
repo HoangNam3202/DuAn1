@@ -1,5 +1,6 @@
 package com.example.tinnhn.ui.main;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -16,6 +17,7 @@ import com.example.tinnhn.Friends;
 import com.example.tinnhn.GoiYKetBan;
 import com.example.tinnhn.GoiYKetBanAdapter;
 import com.example.tinnhn.R;
+import com.example.tinnhn.SearchFriendsActivity;
 import com.example.tinnhn.taikhoan.TaiKhoan;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.ChildEventListener;
@@ -57,7 +59,8 @@ public class AddFriendChildFragment extends Fragment {
         btnThemBanBangEmail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getContext(), "tét btn", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getActivity(), SearchFriendsActivity.class);
+                startActivity(intent);
             }
         });
         String EmailUser = sharedPreferences.getString("tenTaiKhoan", "");
