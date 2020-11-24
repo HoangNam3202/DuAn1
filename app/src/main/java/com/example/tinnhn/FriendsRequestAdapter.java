@@ -36,9 +36,11 @@ public class FriendsRequestAdapter extends BaseAdapter {
     private DatabaseReference mDatabase;
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
-    String TenUser,DiaChiUser;
-    int idUser , hinhUser ;
+    String TenUser, DiaChiUser;
+    String idUser;
+    int hinhUser;
     boolean check_friended = false;
+
     public FriendsRequestAdapter(Context context, int layout, List<FriendsRequest> friendsRequestsList) {
         this.context = context;
         this.layout = layout;
@@ -63,10 +65,10 @@ public class FriendsRequestAdapter extends BaseAdapter {
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        view = inflater.inflate(layout,null);
+        view = inflater.inflate(layout, null);
         mDatabase = FirebaseDatabase.getInstance().getReference();
         sharedPreferences = context.getSharedPreferences("GhiNhoDangNhap", MODE_PRIVATE);
-        final String EmailUser = sharedPreferences.getString("tenTaiKhoan","");
+        final String EmailUser = sharedPreferences.getString("tenTaiKhoan", "");
         editor = sharedPreferences.edit();
 
         TextView tvTenLoi_Moi = view.findViewById(R.id.tvTenLoi_Moi);
@@ -84,9 +86,9 @@ public class FriendsRequestAdapter extends BaseAdapter {
                 goiYKetBanArrayList_check.clear();
                 goiYKetBanArrayList_check.add(taiKhoan);
 
-                for(int i = 0;i < goiYKetBanArrayList_check.size(); i++){
-                    if(goiYKetBanArrayList_check.get(i).email.equals(EmailUser)){
-                        TenUser  = goiYKetBanArrayList_check.get(i).tenTaiKhoan;
+                for (int i = 0; i < goiYKetBanArrayList_check.size(); i++) {
+                    if (goiYKetBanArrayList_check.get(i).email.equals(EmailUser)) {
+                        TenUser = goiYKetBanArrayList_check.get(i).tenTaiKhoan;
                         DiaChiUser = goiYKetBanArrayList_check.get(i).diaChi;
                         idUser = goiYKetBanArrayList_check.get(i).idTaiKhoan;
                         hinhUser = goiYKetBanArrayList_check.get(i).hinhDaiDien;
@@ -117,8 +119,8 @@ public class FriendsRequestAdapter extends BaseAdapter {
         btnAddFriend_Loi_Moi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                for(int i = 0 ; i < arrFriends.size(); i++){
-                    if(friendsRequest.email.equals(arrFriends.get(i).email)){
+                for (int i = 0; i < arrFriends.size(); i++) {
+                    if (friendsRequest.email.equals(arrFriends.get(i).email)) {
                         AlertDialog.Builder builder = new AlertDialog.Builder(context);
                         builder.setMessage("Friended");
                         builder.create().show();
@@ -126,12 +128,12 @@ public class FriendsRequestAdapter extends BaseAdapter {
                         check_friended = true;
                     }
                 }
-                if(!check_friended){
-                        Friends friends = new Friends(null,friendsRequest.idTaiKhoan,friendsRequest.tenTaiKhoan,friendsRequest.email,friendsRequest.diaChi,friendsRequest.hinhDaiDien,EmailUser);
-                        mDatabase.child("BanBe").push().setValue(friends);
-                        Friends friends1 = new Friends(null,idUser,TenUser,EmailUser,DiaChiUser,hinhUser,friendsRequest.email);
-                        mDatabase.child("BanBe").push().setValue(friends1);
-                        mDatabase.child("LoiMoiKetBan").child(friendsRequest.idKey).removeValue();
+                if (!check_friended) {
+                    Friends friends = new Friends(null, friendsRequest.idTaiKhoan, friendsRequest.tenTaiKhoan, friendsRequest.email, friendsRequest.diaChi, friendsRequest.hinhDaiDien, EmailUser);
+                    mDatabase.child("BanBe").push().setValue(friends);
+                    Friends friends1 = new Friends(null, idUser, TenUser, EmailUser, DiaChiUser, hinhUser, friendsRequest.email);
+                    mDatabase.child("BanBe").push().setValue(friends1);
+                    mDatabase.child("LoiMoiKetBan").child(friendsRequest.idKey).removeValue();
                     GoiLoiMoiKetBan();
                 }
             }
