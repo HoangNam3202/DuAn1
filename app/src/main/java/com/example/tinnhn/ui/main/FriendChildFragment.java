@@ -183,7 +183,9 @@ public class FriendChildFragment extends Fragment {
     }
     public static void GoiDanhSachBanBe(){
         mDatabase = FirebaseDatabase.getInstance().getReference();
+        arrFriends_check.clear();
         arrFriends.clear();
+        friendsAdapter.notifyDataSetChanged();
         mDatabase.child("BanBe").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
