@@ -1,7 +1,6 @@
 package com.example.tinnhn.taikhoan;
 
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -11,13 +10,13 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.database.core.Context;
 
-import java.util.ArrayList;
-
-import static android.widget.Toast.LENGTH_SHORT;
+import static com.example.tinnhn.taikhoan.DangKiActivity.kiemTraTrungEmail;
+import static com.example.tinnhn.taikhoan.DangKiActivity.kiemTraTrungSoDienThoai;
+import static com.example.tinnhn.taikhoan.DangKiActivity.kiemTraTrungTenTaiKhoan;
+import static com.example.tinnhn.taikhoan.LoginActivity.kiemTraDangNhap;
+import static com.example.tinnhn.taikhoan.QuenMatKhauActivity.idTaiKhoanQMK;
+import static com.example.tinnhn.taikhoan.QuenMatKhauActivity.xacNhanTaiKhoan;
 
 public class DBFirebase {
     public String TAG = "DBFirebase";
@@ -30,16 +29,18 @@ public class DBFirebase {
     public void ThemTaiKhoan(TaiKhoan taiKhoan) {
         KhoiTaoFirebase();
         databaseReference.child("TaiKhoan").push().setValue(taiKhoan);
+        SetKeyIdTaiKhoan(taiKhoan.getTenTaiKhoan(), taiKhoan.getEmail(), taiKhoan.getSoDienThoai());
     }
 
-    public ArrayList<TaiKhoan> LayDanhSachTaiKhoan() {
+    private void SetKeyIdTaiKhoan(String tenTaiKhoan, String email, String soDienThoai) {
         KhoiTaoFirebase();
-        final ArrayList<TaiKhoan> taiKhoans = new ArrayList<>();
         databaseReference.child("TaiKhoan").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 TaiKhoan taiKhoan = snapshot.getValue(TaiKhoan.class);
-                taiKhoans.add(taiKhoan);
+                if (taiKhoan.getTenTaiKhoan().equals(tenTaiKhoan) && taiKhoan.getEmail().equals(email) && taiKhoan.getSoDienThoai().equals(soDienThoai)) {
+                    databaseReference.child("TaiKhoan").child(snapshot.getKey()).child("idTaiKhoan").setValue(snapshot.getKey());
+                }
             }
 
             @Override
@@ -62,26 +63,39 @@ public class DBFirebase {
 
             }
         });
-        return taiKhoans;
     }
 
-    //    public void ThemTinhThanh(TinhThanh tinhThanh) {
-//        KhoiTaoFirebase();
-//        databaseReference.child("TinhThanh").push().setValue(tinhThanh);
-//    }
-    public void ThemTinhThanh2(String tinhThanh) {
-        KhoiTaoFirebase();
-        databaseReference.child("TinhThanh2").push().setValue(tinhThanh);
-    }
 
-    public ArrayList<String> LayDanhSachTinhThanh2() {
+    public void KiemTraTrung(String tenTaiKhoan, String email, String soDienThoai) {
         KhoiTaoFirebase();
-        ArrayList<String> abc = new ArrayList<>();
-        databaseReference.child("TinhThanh2").addValueEventListener(new ValueEventListener() {
+        kiemTraTrungTenTaiKhoan = false;
+        kiemTraTrungEmail = false;
+        kiemTraTrungSoDienThoai = false;
+        databaseReference.child("TaiKhoan").addChildEventListener(new ChildEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                String tinh = snapshot.getValue().toString();
-                abc.add(tinh);
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                TaiKhoan taiKhoan = snapshot.getValue(TaiKhoan.class);
+                if (taiKhoan.getTenTaiKhoan().equals(tenTaiKhoan))
+                    kiemTraTrungTenTaiKhoan = true;
+                if (taiKhoan.getEmail().equals(email))
+                    kiemTraTrungEmail = true;
+                if (taiKhoan.getSoDienThoai().equals(soDienThoai))
+                    kiemTraTrungSoDienThoai = true;
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
             }
 
             @Override
@@ -89,13 +103,243 @@ public class DBFirebase {
 
             }
         });
-        return abc;
     }
 
-    public void DoiMatKhau(String tenTaiKhoan, String email, String matKhau) {
+
+    public void KiemTraDangNhap(String email, String matKhau) {
         KhoiTaoFirebase();
-        //ok
+        kiemTraDangNhap = -1;
+        databaseReference.child("TaiKhoan").addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                TaiKhoan taiKhoan = snapshot.getValue(TaiKhoan.class);
+                if (taiKhoan.getMatKhau().equals(matKhau) && taiKhoan.getEmail().equals(email))
+                    kiemTraDangNhap = 0;
+                if (taiKhoan.getMatKhau().equals(matKhau) && !taiKhoan.getEmail().equals(email))
+                    kiemTraDangNhap = 1;
+                if (!taiKhoan.getMatKhau().equals(matKhau) && taiKhoan.getEmail().equals(email))
+                    kiemTraDangNhap = 2;
+
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
+
+    public void KiemTraTaiKhoan(String tenTaiKhoan, String email, String soDienThoai) {
+        KhoiTaoFirebase();
+        xacNhanTaiKhoan = -1;
+        idTaiKhoanQMK = "";
+        databaseReference.child("TaiKhoan").addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                TaiKhoan taiKhoan = snapshot.getValue(TaiKhoan.class);
+                if (taiKhoan.getTenTaiKhoan().equals(tenTaiKhoan) && taiKhoan.getEmail().equals(email) && taiKhoan.getSoDienThoai().equals(soDienThoai)) {
+                    xacNhanTaiKhoan = 0;
+                    idTaiKhoanQMK = taiKhoan.getIdTaiKhoan();
+                }
+                if (!taiKhoan.getTenTaiKhoan().equals(tenTaiKhoan) && taiKhoan.getEmail().equals(email) && taiKhoan.getSoDienThoai().equals(soDienThoai)) {
+                    xacNhanTaiKhoan = 1;
+                }
+                if (taiKhoan.getTenTaiKhoan().equals(tenTaiKhoan) && !taiKhoan.getEmail().equals(email) && taiKhoan.getSoDienThoai().equals(soDienThoai)) {
+                    xacNhanTaiKhoan = 2;
+                }
+                if (taiKhoan.getTenTaiKhoan().equals(tenTaiKhoan) && taiKhoan.getEmail().equals(email) && !taiKhoan.getSoDienThoai().equals(soDienThoai)) {
+                    xacNhanTaiKhoan = 3;
+                }
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+
+    public void DoiMatKhau(String idTaiKhoanQMK, String matKhau) {
+        KhoiTaoFirebase();
+        databaseReference.child("TaiKhoan").child(idTaiKhoanQMK).child("matKhau").setValue(matKhau);
+    }
+}
+
+//    public String LayKeyTaiKhoan(String email) {
+//        KhoiTaoFirebase();
+//        final String[] key = {""};
+//        databaseReference.child("TaiKhoan").addChildEventListener(new ChildEventListener() {
+//            @Override
+//            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+//                TaiKhoan taiKhoan;
+//                taiKhoan = snapshot.getValue(TaiKhoan.class);
+//                if (taiKhoan.getEmail().equals(email)) {
+//                    key[0] = snapshot.getKey();
+//                    Log.d(TAG, key[0]);
+//                    databaseReference.child("TaiKhoan").child(key[0]).child("idTaiKhoan").setValue(key[0]);
+//                }
+//            }
+//
+//            @Override
+//            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+//
+//            }
+//
+//            @Override
+//            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+//
+//            }
+//
+//            @Override
+//            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+//
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//
+//            }
+//        });
+//        return key[0];
+//    }
+
+
+//    public boolean KiemTraTrungTTK(String tenTaiKhoan) {
+//        KhoiTaoFirebase();
+//        kiemTraTrungTenTaiKhoan = false;
+//        databaseReference.child("TaiKhoan").addChildEventListener(new ChildEventListener() {
+//            @Override
+//            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+//                TaiKhoan taiKhoan = snapshot.getValue(TaiKhoan.class);
+//                if (taiKhoan.getTenTaiKhoan().equals(tenTaiKhoan))
+//                    kiemTraTrungTenTaiKhoan = true;
+//            }
+//
+//            @Override
+//            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+//
+//            }
+//
+//            @Override
+//            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+//
+//            }
+//
+//            @Override
+//            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+//
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//
+//            }
+//        });
+//        return false;
+//    }
+
+
+//    public ArrayList<TaiKhoan> LayDanhSachTaiKhoan() {
+//        KhoiTaoFirebase();
+//        final ArrayList<TaiKhoan> taiKhoans = new ArrayList<>();
+//        databaseReference.child("TaiKhoan").addChildEventListener(new ChildEventListener() {
+//            @Override
+//            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+//                TaiKhoan taiKhoan = snapshot.getValue(TaiKhoan.class);
+//                taiKhoans.add(taiKhoan);
+//            }
+//
+//            @Override
+//            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+//
+//            }
+//
+//            @Override
+//            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+//
+//            }
+//
+//            @Override
+//            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+//
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//
+//            }
+//        });
+//        return taiKhoans;
+//    }
+
+
+//                Log.d(TAG, "onChildAdded: "+taiKhoan.getEmail());
+//                if (taiKhoan.getMatKhau().equals(matKhau) && !taiKhoan.getEmail().equals(email))
+//                    kiemTraTaiKhoan = 1;
+//                if (!taiKhoan.getMatKhau().equals(matKhau) && taiKhoan.getEmail().equals(email))
+//                    kiemTraTaiKhoan = 2;
+
+//                if (!taiKhoan.getEmail().equals(email)) kiemTraTaiKhoan = 1;
+//                if (!taiKhoan.getMatKhau().equals(matKhau)) kiemTraTaiKhoan = 2;
+
+
+//    public void ThemTinhThanh(TinhThanh tinhThanh) {
+//        KhoiTaoFirebase();
+//        databaseReference.child("TinhThanh").push().setValue(tinhThanh);
+//    }
+//    public void ThemTinhThanh2(String tinhThanh) {
+//        KhoiTaoFirebase();
+//        databaseReference.child("TinhThanh2").push().setValue(tinhThanh);
+//    }
+
+//    public ArrayList<String> LayDanhSachTinhThanh2() {
+//        KhoiTaoFirebase();
+//        ArrayList<String> abc = new ArrayList<>();
+//        databaseReference.child("TinhThanh2").addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                String tinh = snapshot.getValue().toString();
+//                abc.add(tinh);
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//
+//            }
+//        });
+//        return abc;
+//    }
 
 //    public ArrayList<TinhThanh> LayDanhSachTinhThanh() {
 //        KhoiTaoFirebase();
@@ -115,42 +359,7 @@ public class DBFirebase {
 //        return tinhThanhs;
 //    }
 
-    public String LayKeyTaiKhoan(String email) {
-        KhoiTaoFirebase();
-        final String[] key = {""};
-        databaseReference.child("TaiKhoan").addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                TaiKhoan taiKhoan;
-                    taiKhoan = snapshot.getValue(TaiKhoan.class);
-                    if (taiKhoan.getEmail().equals(email)) {
-                        key[0] = snapshot.getKey();
-                        Log.d(TAG, key[0]);
-                        databaseReference.child("TaiKhoan").child(key[0]).child("idTaiKhoan").setValue(key[0]);
-                    }
-            }
 
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-            }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-        return key[0];
 //        databaseReference = FirebaseDatabase.getInstance().getReference("TaiKhoan");
 //        Query query = databaseReference.orderByChild("tenTaiKhoan");
 //        query.addValueEventListener(new ValueEventListener() {
@@ -174,6 +383,3 @@ public class DBFirebase {
 //                Log.d(TAG,""+error.toString());
 //            }
 //        });
-
-    }
-}
