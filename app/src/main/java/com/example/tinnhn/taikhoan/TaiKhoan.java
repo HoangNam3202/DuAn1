@@ -3,7 +3,7 @@ package com.example.tinnhn.taikhoan;
 import java.io.File;
 
 public class TaiKhoan {
-    public int idTaiKhoan;
+    public String idTaiKhoan;
     public String tenTaiKhoan;
     public String email;
     public String matKhau;
@@ -15,7 +15,7 @@ public class TaiKhoan {
         // Firebase cần rỗng để lấy data về
     }
 
-    public TaiKhoan(int idTaiKhoan, String tenTaiKhoan, String email, String matKhau, String soDienThoai, String diaChi, int hinhDaiDien) {
+    public TaiKhoan(String idTaiKhoan, String tenTaiKhoan, String email, String matKhau, String soDienThoai, String diaChi, int hinhDaiDien) {
         this.idTaiKhoan = idTaiKhoan;
         this.tenTaiKhoan = tenTaiKhoan;
         this.email = email;
@@ -25,11 +25,11 @@ public class TaiKhoan {
         this.hinhDaiDien = hinhDaiDien;
     }
 
-    public int getIdTaiKhoan() {
+    public String getIdTaiKhoan() {
         return idTaiKhoan;
     }
 
-    public void setIdTaiKhoan(int idTaiKhoan) {
+    public void setIdTaiKhoan(String idTaiKhoan) {
         this.idTaiKhoan = idTaiKhoan;
     }
 

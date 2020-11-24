@@ -16,20 +16,20 @@ import com.example.tinnhn.R;
 import com.google.android.material.textfield.TextInputEditText;
 
 import static com.example.tinnhn.taikhoan.LoginActivity.taiKhoanArrayList;
+import static com.example.tinnhn.taikhoan.LoginActivity.dbFirebase;
 
 public class QuenMatKhauActivity extends AppCompatActivity {
     EditText edtTenTaiKhoan, edtEmail, edtSoDienThoai;
     TextInputEditText edtMatKhau, edtNhapLaiMatKhau;
     TextView tvTenTaiKhoan, tvEmail, tvSoDienThoai, tvMatKhau, tvNhapLaiMatKhau;
     Button btnQuenMatKhau;
-    DBFirebase dbFirebase;
+//    DBFirebase dbFirebase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_quen_mat_khau);
-        dbFirebase = new DBFirebase();
         QuenMatKhau();
     }
 
@@ -189,16 +189,25 @@ public class QuenMatKhauActivity extends AppCompatActivity {
                     nhapLaiMatKhau = edtNhapLaiMatKhau.getText().toString().trim();
                     boolean xacNhan = KiemTraXacThucTaiKhoan(tenTaiKhoan, email, soDienThoai);
                     String keyTaiKhoan = dbFirebase.LayKeyTaiKhoan(email);
-                    Toast.makeText(QuenMatKhauActivity.this, ""+keyTaiKhoan, Toast.LENGTH_SHORT).show();
-//                    if (xacNhan) {
-//                        Toast.makeText(QuenMatKhauActivity.this, "Thông tin xác nhận OK", Toast.LENGTH_SHORT).show();
-//                        dbFirebase.DoiMatKhau(tenTaiKhoan, email, matKhau);
-//                        // tạm ngưng tại chỗ này, đổi pass
-////                        asd;
-//                        //
-//
-//                    } else
-//                        Toast.makeText(QuenMatKhauActivity.this, "Thông tin xác nhận chưa đúng", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(QuenMatKhauActivity.this, "" + keyTaiKhoan, Toast.LENGTH_SHORT).show();
+                    if (xacNhan) {
+                        if (matKhau.equals(nhapLaiMatKhau)) {
+                            Toast.makeText(QuenMatKhauActivity.this, "Thông tin xác nhận OK", Toast.LENGTH_SHORT).show();
+                            dbFirebase.DoiMatKhau(tenTaiKhoan, email, matKhau);
+                            // tạm ngưng tại chỗ này, đổi pass
+//                        asd;
+                            //
+                        } else {
+                            tvMatKhau.setText("NOT OK");
+                            tvMatKhau.setTextColor(getResources().getColor(R.color.colorDanger));
+                            tvNhapLaiMatKhau.setText("NOT OK");
+                            tvNhapLaiMatKhau.setTextColor(getResources().getColor(R.color.colorDanger));
+                            kiemTra[3] = false;
+                            kiemTra[4] = false;
+                        }
+
+                    } else
+                        Toast.makeText(QuenMatKhauActivity.this, "Thông tin xác nhận chưa đúng", Toast.LENGTH_SHORT).show();
                 } else
                     Toast.makeText(QuenMatKhauActivity.this, "Nhập thông tin chưa hợp lệ", Toast.LENGTH_SHORT).show();
             }

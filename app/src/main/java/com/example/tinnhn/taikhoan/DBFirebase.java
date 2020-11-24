@@ -118,21 +118,30 @@ public class DBFirebase {
     public String LayKeyTaiKhoan(String email) {
         KhoiTaoFirebase();
         final String[] key = {""};
-        databaseReference = FirebaseDatabase.getInstance().getReference("TaiKhoan");
-        Query query = databaseReference.orderByChild("tenTaiKhoan");
-        query.addValueEventListener(new ValueEventListener() {
+        databaseReference.child("TaiKhoan").addChildEventListener(new ChildEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                Log.d(TAG,""+snapshot.toString());
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 TaiKhoan taiKhoan;
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    taiKhoan = dataSnapshot.getValue(TaiKhoan.class);
-                    if (taiKhoan.getTenTaiKhoan().equals(email)) {
+                    taiKhoan = snapshot.getValue(TaiKhoan.class);
+                    if (taiKhoan.getEmail().equals(email)) {
                         key[0] = snapshot.getKey();
-                        Log.d(TAG, "" + taiKhoan.getTenTaiKhoan());
-                        break;
+                        Log.d(TAG, key[0]);
+                        databaseReference.child("TaiKhoan").child(key[0]).child("idTaiKhoan").setValue(key[0]);
                     }
-                }
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
 
             }
 
@@ -142,6 +151,29 @@ public class DBFirebase {
             }
         });
         return key[0];
+//        databaseReference = FirebaseDatabase.getInstance().getReference("TaiKhoan");
+//        Query query = databaseReference.orderByChild("tenTaiKhoan");
+//        query.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+////                Log.d(TAG,""+snapshot.toString());
+//                TaiKhoan taiKhoan =new TaiKhoan();
+//                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+//                    taiKhoan = dataSnapshot.getValue(TaiKhoan.class);
+//                    if (taiKhoan.getEmail().equals(email)) {
+//                        key[0] = snapshot.getKey();
+//                        Log.d(TAG, taiKhoan.getTenTaiKhoan());
+//                        break;
+//                    }
+//                }
+//
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//                Log.d(TAG,""+error.toString());
+//            }
+//        });
 
     }
 }

@@ -36,7 +36,7 @@ public class LoginActivity extends BaseActivity {
     TextView txtQuenMatKhau, txtDangKy, tvEmail, tvMatKhau;
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
-    DBFirebase dbFirebase = new DBFirebase();
+    public static DBFirebase dbFirebase;
     String emailsv;
     String TenUser;
 
@@ -51,6 +51,7 @@ public class LoginActivity extends BaseActivity {
         }
 //        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 //        taiKhoanArrayList.addo(new TaiKhoan(1, "qweqwe", "qwe@qwe.qwe", "qweqwe", "0234234234", "qwe", 0));
+        dbFirebase = new DBFirebase();
         sharedPreferences = getSharedPreferences("GhiNhoDangNhap", MODE_PRIVATE);
         editor = sharedPreferences.edit();
         KiemTraGhiNhoDangNhap();

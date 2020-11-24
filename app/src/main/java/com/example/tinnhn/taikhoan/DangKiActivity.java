@@ -330,7 +330,7 @@ public class DangKiActivity extends AppCompatActivity {
     }
 
 
-    public int RandomString(int n) {
+    public String RandomString(int n) {
 //        String AlphaNumericString = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvxyz0123456789";
         String AlphaNumericString = "0123456789";
         StringBuilder sb = new StringBuilder(n);
@@ -338,6 +338,6 @@ public class DangKiActivity extends AppCompatActivity {
             int index = (int) (AlphaNumericString.length() * Math.random());
             sb.append(AlphaNumericString.charAt(index));
         }
-        return Integer.parseInt(sb.toString());
+        return sb.toString();
     }
 }

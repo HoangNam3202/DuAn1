@@ -33,8 +33,10 @@ public class GoiYKetBanAdapter extends BaseAdapter {
     private DatabaseReference mDatabase;
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
-    String TenUser,DiaChiUser;
-    int idUser , hinhUser ;
+    String TenUser, DiaChiUser;
+    String idUser;
+    int hinhUser;
+
     public GoiYKetBanAdapter(Context context, int layout, List<GoiYKetBan> goiYKetBanList) {
         this.context = context;
         this.layout = layout;
@@ -59,10 +61,10 @@ public class GoiYKetBanAdapter extends BaseAdapter {
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        view = inflater.inflate(layout,null);
+        view = inflater.inflate(layout, null);
         mDatabase = FirebaseDatabase.getInstance().getReference();
         sharedPreferences = context.getSharedPreferences("GhiNhoDangNhap", MODE_PRIVATE);
-        final String EmailUser = sharedPreferences.getString("tenTaiKhoan","");
+        final String EmailUser = sharedPreferences.getString("tenTaiKhoan", "");
         editor = sharedPreferences.edit();
 
         TextView tvTenGoiY = view.findViewById(R.id.tvTenGoiY);
@@ -78,9 +80,9 @@ public class GoiYKetBanAdapter extends BaseAdapter {
                 goiYKetBanArrayList_check.clear();
                 goiYKetBanArrayList_check.add(taiKhoan);
 
-                for(int i = 0;i < goiYKetBanArrayList_check.size(); i++){
-                    if(goiYKetBanArrayList_check.get(i).email.equals(EmailUser)){
-                        TenUser  = goiYKetBanArrayList_check.get(i).tenTaiKhoan;
+                for (int i = 0; i < goiYKetBanArrayList_check.size(); i++) {
+                    if (goiYKetBanArrayList_check.get(i).email.equals(EmailUser)) {
+                        TenUser = goiYKetBanArrayList_check.get(i).tenTaiKhoan;
                         DiaChiUser = goiYKetBanArrayList_check.get(i).diaChi;
                         idUser = goiYKetBanArrayList_check.get(i).idTaiKhoan;
                         hinhUser = goiYKetBanArrayList_check.get(i).hinhDaiDien;
@@ -115,7 +117,7 @@ public class GoiYKetBanAdapter extends BaseAdapter {
             public void onClick(View view) {
 //                Friends friends = new Friends(goiYKetBan.idTaiKhoan,goiYKetBan.tenTaiKhoan,goiYKetBan.email,goiYKetBan.diaChi,goiYKetBan.hinhDaiDien,EmailUser);
 //                mDatabase.child("LoiMoiKetBan").push().setValue(friends);
-                FriendsRequest friends1 = new FriendsRequest(null,idUser,TenUser,EmailUser,DiaChiUser,hinhUser,goiYKetBan.email);
+                FriendsRequest friends1 = new FriendsRequest(null, idUser, TenUser, EmailUser, DiaChiUser, hinhUser, goiYKetBan.email);
                 mDatabase.child("LoiMoiKetBan").push().setValue(friends1);
                 Toast.makeText(context, "Send Successfully", Toast.LENGTH_SHORT).show();
             }
