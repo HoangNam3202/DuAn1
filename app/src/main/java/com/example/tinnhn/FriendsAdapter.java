@@ -22,6 +22,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.tinnhn.ui.main.FriendChildFragment.GoiDanhSachBanBe;
 import static com.example.tinnhn.ui.main.FriendChildFragment.arrFriends_check;
 import static com.example.tinnhn.ui.main.FriendChildFragment.arrFriends_check1;
 
@@ -81,6 +82,7 @@ public class FriendsAdapter extends BaseAdapter {
                             }
                         }
                         mDatabase.child("BanBe").child(friends.idKeyFriend).removeValue();
+                        GoiDanhSachBanBe();
                     }
                 });
                 builder.setPositiveButton("No", new DialogInterface.OnClickListener() {
@@ -94,4 +96,5 @@ public class FriendsAdapter extends BaseAdapter {
         });
         return view;
     }
+
 }
