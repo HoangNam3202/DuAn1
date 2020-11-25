@@ -25,6 +25,7 @@ import com.google.android.material.textfield.TextInputLayout;
 
 public class LoginActivity extends BaseActivity {
     public static int kiemTraDangNhap = -1;
+
     public static DBFirebase dbFirebase;
     public static String tenUser = "";
     EditText edtEmail;
@@ -168,7 +169,6 @@ public class LoginActivity extends BaseActivity {
                         @Override
                         public void run() {
                             if (kiemTraDangNhap == 0) {
-//                                Toast.makeText(LoginActivity.this, "OK!", Toast.LENGTH_SHORT).show();
                                 editor.putString("tenTaiKhoan", email);
                                 editor.putString("tenUser", tenUser);
                                 editor.commit();

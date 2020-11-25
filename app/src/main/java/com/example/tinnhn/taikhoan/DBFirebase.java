@@ -107,14 +107,18 @@ public class DBFirebase {
     }
 
 
+    boolean checkEmail;
+
     public void KiemTraDangNhap(String email, String matKhau) {
         KhoiTaoFirebase();
         kiemTraDangNhap = -1;
+        checkEmail = false;
         databaseReference.child("TaiKhoan").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 TaiKhoan taiKhoan = snapshot.getValue(TaiKhoan.class);
                 if (taiKhoan.getEmail().equals(email)) {
+                    checkEmail = true;
                     if (taiKhoan.getMatKhau().equals(matKhau)) {
                         kiemTraDangNhap = 0;
                         tenUser = taiKhoan.getTenTaiKhoan();
@@ -122,15 +126,6 @@ public class DBFirebase {
                         kiemTraDangNhap = 2;
                     }
                 }
-//                else {
-//                    kiemTraDangNhap = 1;
-//                }
-
-//                if (taiKhoan.getMatKhau().equals(matKhau) && !taiKhoan.getEmail().equals(email))
-//                    kiemTraDangNhap = 1;
-//                if (!taiKhoan.getMatKhau().equals(matKhau) && taiKhoan.getEmail().equals(email))
-//                    kiemTraDangNhap = 2;
-
             }
 
             @Override
@@ -153,6 +148,7 @@ public class DBFirebase {
 
             }
         });
+        if (!checkEmail) kiemTraDangNhap = 1;
     }
 
     public void KiemTraTaiKhoan(String tenTaiKhoan, String email, String soDienThoai) {

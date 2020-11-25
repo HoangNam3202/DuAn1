@@ -73,8 +73,8 @@ public class ThemAnhActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // camera
-//                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-//                startActivityForResult(intent, REQUEST_CODE_IMAGE);
+                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                startActivityForResult(intent, REQUEST_CODE_IMAGE);
                 // chọn hình từ bộ sưu tập
 //                asdf;
                 //
