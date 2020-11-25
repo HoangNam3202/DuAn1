@@ -40,7 +40,7 @@ public class FriendsRequestAdapter extends BaseAdapter {
     SharedPreferences.Editor editor;
     String TenUser, DiaChiUser;
     String idUser;
-    int hinhUser;
+    String hinhUser;
     boolean check_friended = false;
 //    FriendChildFragment friendChildFragment = new FriendChildFragment();
 

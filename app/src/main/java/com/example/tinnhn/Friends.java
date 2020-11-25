@@ -6,10 +6,10 @@ public class Friends {
     public String tenTaiKhoan;
     public String email;
     public String diaChi;
-    public int hinhDaiDien;
+    public String hinhDaiDien;
     public String EmailUser;
 
-    public Friends(String idKeyFriend, String idTaiKhoan, String tenTaiKhoan, String email, String diaChi, int hinhDaiDien, String emailUser) {
+    public Friends(String idKeyFriend, String idTaiKhoan, String tenTaiKhoan, String email, String diaChi, String hinhDaiDien, String emailUser) {
         this.idKeyFriend = idKeyFriend;
         this.idTaiKhoan = idTaiKhoan;
         this.tenTaiKhoan = tenTaiKhoan;

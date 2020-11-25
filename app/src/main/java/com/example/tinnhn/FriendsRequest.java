@@ -6,10 +6,10 @@ public class FriendsRequest {
     public String tenTaiKhoan;
     public String email;
     public String diaChi;
-    public int hinhDaiDien;
+    public String hinhDaiDien;
     public String EmailUser;
 
-    public FriendsRequest(String idKey, String idTaiKhoan, String tenTaiKhoan, String email, String diaChi, int hinhDaiDien, String emailUser) {
+    public FriendsRequest(String idKey, String idTaiKhoan, String tenTaiKhoan, String email, String diaChi, String hinhDaiDien, String emailUser) {
         this.idKey = idKey;
         this.idTaiKhoan = idTaiKhoan;
         this.tenTaiKhoan = tenTaiKhoan;

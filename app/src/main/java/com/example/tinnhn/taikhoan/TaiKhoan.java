@@ -9,13 +9,13 @@ public class TaiKhoan {
     public String matKhau;
     public String soDienThoai;
     public String diaChi;
-    public int hinhDaiDien;
+    public String hinhDaiDien;
 
     public TaiKhoan() {
         // Firebase cần rỗng để lấy data về
     }
 
-    public TaiKhoan(String idTaiKhoan, String tenTaiKhoan, String email, String matKhau, String soDienThoai, String diaChi, int hinhDaiDien) {
+    public TaiKhoan(String idTaiKhoan, String tenTaiKhoan, String email, String matKhau, String soDienThoai, String diaChi, String hinhDaiDien) {
         this.idTaiKhoan = idTaiKhoan;
         this.tenTaiKhoan = tenTaiKhoan;
         this.email = email;
@@ -73,11 +73,11 @@ public class TaiKhoan {
         this.diaChi = diaChi;
     }
 
-    public int getHinhDaiDien() {
+    public String getHinhDaiDien() {
         return hinhDaiDien;
     }
 
-    public void setHinhDaiDien(int hinhDaiDien) {
+    public void setHinhDaiDien(String hinhDaiDien) {
         this.hinhDaiDien = hinhDaiDien;
     }
 }

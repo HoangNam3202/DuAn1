@@ -25,7 +25,6 @@ import com.google.android.material.textfield.TextInputLayout;
 
 public class LoginActivity extends BaseActivity {
     public static int kiemTraDangNhap = -1;
-
     public static DBFirebase dbFirebase;
     public static String tenUser = "";
     EditText edtEmail;
@@ -163,7 +162,6 @@ public class LoginActivity extends BaseActivity {
                             dialog.dismiss();
                         }
                     }.start();
-
                     //
                     new Handler().postDelayed(new Runnable() {
                         @Override
