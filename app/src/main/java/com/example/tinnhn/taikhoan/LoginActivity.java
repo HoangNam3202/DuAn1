@@ -1,9 +1,7 @@
 package com.example.tinnhn.taikhoan;
 
 import android.Manifest;
-import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
@@ -15,7 +13,6 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,6 +26,7 @@ import com.google.android.material.textfield.TextInputLayout;
 public class LoginActivity extends BaseActivity {
     public static int kiemTraDangNhap = -1;
     public static DBFirebase dbFirebase;
+    public static String tenUser = "";
     EditText edtEmail;
     TextInputLayout tilMatKhau;
     TextInputEditText edtMatKhau;
@@ -37,7 +35,7 @@ public class LoginActivity extends BaseActivity {
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
     String emailsv;
-    String TenUser;
+//    String TenUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -172,7 +170,7 @@ public class LoginActivity extends BaseActivity {
                             if (kiemTraDangNhap == 0) {
 //                                Toast.makeText(LoginActivity.this, "OK!", Toast.LENGTH_SHORT).show();
                                 editor.putString("tenTaiKhoan", email);
-                                editor.putString("tenUser", TenUser);
+                                editor.putString("tenUser", tenUser);
                                 editor.commit();
                                 getGiaodiendichvu().startClient(email);
                                 startActivity(new Intent(LoginActivity.this, MainActivity.class));
