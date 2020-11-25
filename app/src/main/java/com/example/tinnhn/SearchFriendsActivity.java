@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.WindowManager;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,7 +33,7 @@ public class SearchFriendsActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-        TextView tv_Search = findViewById(R.id.tv_Search);
+        EditText tv_Search = findViewById(R.id.tv_Search);
         ListView List_TimKiem = findViewById(R.id.List_TimKiem);
         ArrayList<TaiKhoan> TimKiemarrayList = new ArrayList<>();
         SearchFriendsAdapter searchFriendsAdapter = new SearchFriendsAdapter(SearchFriendsActivity.this,R.layout.list_tim_kiem_item,TimKiemarrayList);

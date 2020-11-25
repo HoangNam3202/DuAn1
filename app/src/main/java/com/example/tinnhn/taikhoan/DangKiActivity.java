@@ -69,6 +69,7 @@ public class DangKiActivity extends AppCompatActivity {
     Spinner spnTinhThanh;
     Button btnChonHinhDaiDien, btnDangKy;
     DatabaseReference databaseReference;
+    String tinhThanhDaChon = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -251,7 +252,6 @@ public class DangKiActivity extends AppCompatActivity {
                     soDienThoai = edtSoDienThoai.getText().toString().trim();
                     boolean kiemTraMatKhau = matKhau.equals(nhapLaiMatKhau);
                     // test tentaikhoan trung lap
-                    dbFirebase = new DBFirebase();
                     dbFirebase.KiemTraTrung(tenTaiKhoan, email, soDienThoai);
                     //
                     final Dialog dialog = new Dialog(DangKiActivity.this);
@@ -297,7 +297,7 @@ public class DangKiActivity extends AppCompatActivity {
                                 }
                             }
                         }
-                    }, 1300);
+                    }, 1200);
                 } else {
                     Toast.makeText(DangKiActivity.this, "Nhập chưa hợp lệ", Toast.LENGTH_SHORT).show();
                 }
@@ -422,7 +422,7 @@ public class DangKiActivity extends AppCompatActivity {
             int index = (int) (AlphaNumericString.length() * Math.random());
             sb.append(AlphaNumericString.charAt(index));
         }
-        return "-MM" + sb.toString();
+        return "-MM"+sb.toString();
     }
 }
 

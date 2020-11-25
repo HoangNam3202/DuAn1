@@ -16,6 +16,7 @@ import static com.example.tinnhn.taikhoan.DangKiActivity.kiemTraTrungSoDienThoai
 import static com.example.tinnhn.taikhoan.DangKiActivity.kiemTraTrungTenTaiKhoan;
 import static com.example.tinnhn.taikhoan.LoginActivity.kiemTraDangNhap;
 import static com.example.tinnhn.taikhoan.LoginActivity.tenUser;
+import static com.example.tinnhn.taikhoan.LoginActivity.DiaChiUser;
 import static com.example.tinnhn.taikhoan.QuenMatKhauActivity.idTaiKhoanQMK;
 import static com.example.tinnhn.taikhoan.QuenMatKhauActivity.xacNhanTaiKhoan;
 
@@ -122,6 +123,7 @@ public class DBFirebase {
                     if (taiKhoan.getMatKhau().equals(matKhau)) {
                         kiemTraDangNhap = 0;
                         tenUser = taiKhoan.getTenTaiKhoan();
+                        DiaChiUser = taiKhoan.getDiaChi();
                     } else {
                         kiemTraDangNhap = 2;
                     }
