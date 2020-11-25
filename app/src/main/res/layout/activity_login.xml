@@ -80,6 +80,7 @@
         android:layout_marginRight="40dp"
         android:gravity="center"
         android:text=""
+        android:textStyle="bold"
         android:textColor="@color/colorWhite" />
 
     <Button

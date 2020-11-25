@@ -24,7 +24,7 @@
         <service android:name=".Call.SinchServices" />
 
         <activity
-            android:name=".taikhoan.ThemAnhActivity"
+            android:name=".taikhoan.LoginActivity"
             android:label="Chat Room"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
             <intent-filter>
@@ -52,7 +52,7 @@
             android:name=".taikhoan.DangKiActivity"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
         <activity android:name=".taikhoan.QuenMatKhauActivity" />
-        <activity android:name=".taikhoan.LoginActivity" />
+        <activity android:name=".taikhoan.ThemAnhActivity" />
         <activity android:name=".taikhoan.StorageActivity"/>
     </application>
 

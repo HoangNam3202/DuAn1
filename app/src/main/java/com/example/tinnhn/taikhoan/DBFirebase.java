@@ -113,12 +113,20 @@ public class DBFirebase {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 TaiKhoan taiKhoan = snapshot.getValue(TaiKhoan.class);
-                if (taiKhoan.getMatKhau().equals(matKhau) && taiKhoan.getEmail().equals(email))
-                    kiemTraDangNhap = 0;
-                if (taiKhoan.getMatKhau().equals(matKhau) && !taiKhoan.getEmail().equals(email))
+                if (taiKhoan.getEmail().equals(email)) {
+                    if (taiKhoan.getMatKhau().equals(matKhau)) {
+                        kiemTraDangNhap = 0;
+                    } else {
+                        kiemTraDangNhap = 2;
+                    }
+                } else {
                     kiemTraDangNhap = 1;
-                if (!taiKhoan.getMatKhau().equals(matKhau) && taiKhoan.getEmail().equals(email))
-                    kiemTraDangNhap = 2;
+                }
+
+//                if (taiKhoan.getMatKhau().equals(matKhau) && !taiKhoan.getEmail().equals(email))
+//                    kiemTraDangNhap = 1;
+//                if (!taiKhoan.getMatKhau().equals(matKhau) && taiKhoan.getEmail().equals(email))
+//                    kiemTraDangNhap = 2;
 
             }
 

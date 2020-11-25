@@ -72,8 +72,12 @@ public class ThemAnhActivity extends AppCompatActivity {
         ivHinh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                startActivityForResult(intent, REQUEST_CODE_IMAGE);
+                // camera
+//                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//                startActivityForResult(intent, REQUEST_CODE_IMAGE);
+                // chọn hình từ bộ sưu tập
+//                asdf;
+                //
             }
         });
         btnThem = findViewById(R.id.btnThem);
