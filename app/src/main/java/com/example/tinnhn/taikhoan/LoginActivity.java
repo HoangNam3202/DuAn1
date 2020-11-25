@@ -28,6 +28,7 @@ public class LoginActivity extends BaseActivity {
 
     public static DBFirebase dbFirebase;
     public static String tenUser = "";
+    public static String DiaChiUser = "";
     EditText edtEmail;
     TextInputLayout tilMatKhau;
     TextInputEditText edtMatKhau;
@@ -171,6 +172,7 @@ public class LoginActivity extends BaseActivity {
                             if (kiemTraDangNhap == 0) {
                                 editor.putString("tenTaiKhoan", email);
                                 editor.putString("tenUser", tenUser);
+                                editor.putString("DiaChiUser",DiaChiUser);
                                 editor.commit();
                                 getGiaodiendichvu().startClient(email);
                                 startActivity(new Intent(LoginActivity.this, MainActivity.class));

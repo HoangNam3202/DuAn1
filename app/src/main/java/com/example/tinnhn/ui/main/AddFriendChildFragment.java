@@ -36,7 +36,6 @@ public class AddFriendChildFragment extends Fragment {
     private DatabaseReference mDatabase;
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
-    String DiaChiUser;
     String EmailDaKetBan;
 
     @Nullable
@@ -64,39 +63,7 @@ public class AddFriendChildFragment extends Fragment {
             }
         });
         String EmailUser = sharedPreferences.getString("tenTaiKhoan", "");
-        mDatabase.child("TaiKhoan").addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                TaiKhoan goiYKetBan = snapshot.getValue(TaiKhoan.class);
-                goiYKetBanArrayList_check.clear();
-                goiYKetBanArrayList_check.add(goiYKetBan);
-                for(int i = 0;i < goiYKetBanArrayList_check.size(); i++){
-                    if(goiYKetBanArrayList_check.get(i).email.equals(EmailUser)){
-                        DiaChiUser = goiYKetBanArrayList_check.get(i).diaChi;
-                    }
-                }
-            }
-
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-            }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
+        String DiaChiUser = sharedPreferences.getString("DiaChiUser", "");
 
         mDatabase.child("BanBe").addChildEventListener(new ChildEventListener() {
             @Override
@@ -139,7 +106,7 @@ public class AddFriendChildFragment extends Fragment {
                 goiYKetBanArrayList_check.clear();
                 goiYKetBanArrayList_check.add(goiYKetBan);
                 for(int i = 0;i < goiYKetBanArrayList_check.size(); i++){
-                    if(goiYKetBanArrayList_check.get(i).diaChi.contains(DiaChiUser) && !goiYKetBanArrayList_check.get(i).email.equals(EmailUser) && !goiYKetBanArrayList_check.get(i).email.equals(EmailDaKetBan) ){
+                    if(goiYKetBanArrayList_check.get(i).diaChi.contains(DiaChiUser) &&!goiYKetBanArrayList_check.get(i).email.equals(EmailUser) && !goiYKetBanArrayList_check.get(i).email.equals(EmailDaKetBan) ){
                         goiYKetBanArrayList.add(new GoiYKetBan(goiYKetBanArrayList_check.get(i).idTaiKhoan,goiYKetBanArrayList_check.get(i).tenTaiKhoan,
                                 goiYKetBanArrayList_check.get(i).email,goiYKetBanArrayList_check.get(i).diaChi,goiYKetBanArrayList_check.get(i).hinhDaiDien));
                     }
