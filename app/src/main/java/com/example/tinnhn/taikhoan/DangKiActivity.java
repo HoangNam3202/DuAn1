@@ -69,7 +69,6 @@ public class DangKiActivity extends AppCompatActivity {
     Spinner spnTinhThanh;
     Button btnChonHinhDaiDien, btnDangKy;
     DatabaseReference databaseReference;
-    String tinhThanhDaChon = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

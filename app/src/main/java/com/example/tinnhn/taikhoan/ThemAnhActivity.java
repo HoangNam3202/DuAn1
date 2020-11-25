@@ -64,7 +64,6 @@ public class ThemAnhActivity extends AppCompatActivity {
                 }
             }
         });
-
     }
 
     private void ThemHinh() {
