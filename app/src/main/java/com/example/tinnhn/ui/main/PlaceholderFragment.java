@@ -3,11 +3,15 @@ package com.example.tinnhn.ui.main;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -73,6 +77,7 @@ public class PlaceholderFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_main, container, false);
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
+        EditText tv_Search_TinNhan = view.findViewById(R.id.title);
         ListView list_view_Message = view.findViewById(R.id.list_view_Message);
         messageArrayList = new ArrayList<>();
         messageArrayList_Message1 = new ArrayList<>();
@@ -138,6 +143,61 @@ public class PlaceholderFragment extends Fragment {
                 intent.putExtra("EmailNguoiGui", messageArrayList.get(i).emailNguoiNhan);
                 startActivity(intent);
 //                container.removeView(view);
+            }
+        });
+        tv_Search_TinNhan.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                messageArrayList.clear();
+                messageAdapter.notifyDataSetChanged();
+                mDatabase.child("TinNhan").addChildEventListener(new ChildEventListener() {
+                    @Override
+                    public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                        TinNhanHienThi message = snapshot.getValue(TinNhanHienThi.class);
+                        messageArrayList_Message1.clear();
+                        messageArrayList_Message1.add(message);
+                        for(int i = 0; i < messageArrayList_Message1.size(); i++){
+                            if(tv_Search_TinNhan.getText().toString().contains(messageArrayList_Message1.get(i).tenUser)) {
+                                String keyTinNhan = snapshot.getKey();
+                                messageArrayList.add(new TinNhanHienThi(keyTinNhan,messageArrayList_Message1.get(i).message_User,messageArrayList_Message1.get(i).emailNguoiNhan,messageArrayList_Message1.get(i).email_User,messageArrayList_Message1.get(i).tenUser,messageArrayList_Message1.get(i).tenNguoiGui));
+                            }
+                        }
+                        if(tv_Search_TinNhan.getText().toString().equals("")){
+//                            GoiDanhSachTinNhan();
+                        }
+                        messageAdapter.notifyDataSetChanged();
+                    }
+
+                    @Override
+                    public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+                    }
+
+                    @Override
+                    public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+                    }
+
+                    @Override
+                    public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
             }
         });
         return view;
