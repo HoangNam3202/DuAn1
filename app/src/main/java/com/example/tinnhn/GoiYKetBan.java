@@ -5,9 +5,9 @@ public class GoiYKetBan {
     public String tenTaiKhoan;
     public String email;
     public String diaChi;
-    public int hinhDaiDien;
+    public String hinhDaiDien;
 
-    public GoiYKetBan(String idTaiKhoan, String tenTaiKhoan, String email, String diaChi,  int hinhDaiDien) {
+    public GoiYKetBan(String idTaiKhoan, String tenTaiKhoan, String email, String diaChi,  String hinhDaiDien) {
         this.idTaiKhoan = idTaiKhoan;
         this.tenTaiKhoan = tenTaiKhoan;
         this.email = email;

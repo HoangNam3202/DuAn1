@@ -33,7 +33,7 @@ public class SearchFriendsAdapter extends BaseAdapter {
     SharedPreferences.Editor editor;
     String TenUser, DiaChiUser;
     String idUser;
-    int hinhUser;
+    String hinhUser;
 
     public SearchFriendsAdapter(Context context, int layout, List<TaiKhoan> searchList) {
         this.context = context;

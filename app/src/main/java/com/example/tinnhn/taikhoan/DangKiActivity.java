@@ -224,7 +224,7 @@ public class DangKiActivity extends AppCompatActivity {
 //                        Toast.makeText(DangKiActivity.this, "kiemTraTrungEmail: " + kiemTraTrungEmail, Toast.LENGTH_SHORT).show();
 //                        Toast.makeText(DangKiActivity.this, "kiemTraTrungSoDienThoai: " + kiemTraTrungSoDienThoai, Toast.LENGTH_SHORT).show();
                             if (kiemTraMatKhau && !kiemTraTrungEmail && !kiemTraTrungSoDienThoai && !kiemTraTrungTenTaiKhoan) {
-                                TaiKhoan taiKhoan = new TaiKhoan(RandomString(17), tenTaiKhoan, email, matKhau, soDienThoai, tinhThanhDaChon, 0);
+                                TaiKhoan taiKhoan = new TaiKhoan(RandomString(17), tenTaiKhoan, email, matKhau, soDienThoai, tinhThanhDaChon, "noImage");
                                 // thêm tài khoản vào DB
                                 dbFirebase.ThemTaiKhoan(taiKhoan);
                                 //

@@ -35,7 +35,7 @@ public class GoiYKetBanAdapter extends BaseAdapter {
     SharedPreferences.Editor editor;
     String TenUser, DiaChiUser;
     String idUser;
-    int hinhUser;
+    String hinhUser;
 
     public GoiYKetBanAdapter(Context context, int layout, List<GoiYKetBan> goiYKetBanList) {
         this.context = context;
