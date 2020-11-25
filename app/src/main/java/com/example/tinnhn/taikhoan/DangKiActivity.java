@@ -2,6 +2,7 @@ package com.example.tinnhn.taikhoan;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -29,16 +30,19 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.tinnhn.taikhoan.LoginActivity.taiKhoanArrayList;
+import static com.example.tinnhn.taikhoan.LoginActivity.dbFirebase;
+
 
 public class DangKiActivity extends AppCompatActivity {
+    public static boolean kiemTraTrungTenTaiKhoan = false;
+    public static boolean kiemTraTrungEmail = false;
+    public static boolean kiemTraTrungSoDienThoai = false;
     TextInputLayout tilTenTaiKhoan, tilEmail, tilMatKhau, tilNhapLaiMatKhau, tilSoDienThoai;
     TextInputEditText edtTenTaiKhoan, edtEmail, edtMatKhau, edtNhapLaiMatKhau, edtSoDienThoai;
     TextView tvTenTaiKhoan, tvEmail, tvMatKhau, tvNhapLaiMatKhau, tvSoDienThoai;
     ImageView ivHinhDaiDien;
     Spinner spnTinhThanh;
     Button btnChonHinhDaiDien, btnDangKy;
-    DBFirebase dbFirebase = new DBFirebase();
     DatabaseReference databaseReference;
     String tinhThanhDaChon = "";
 
@@ -46,8 +50,6 @@ public class DangKiActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dang_ki);
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-//        databaseReference = FirebaseDatabase.getInstance().getReference();
         ChonTinhThanh();
         DangKy();
     }
@@ -213,71 +215,46 @@ public class DangKiActivity extends AppCompatActivity {
                     nhapLaiMatKhau = edtNhapLaiMatKhau.getText().toString().trim();
                     soDienThoai = edtSoDienThoai.getText().toString().trim();
                     boolean kiemTraMatKhau = matKhau.equals(nhapLaiMatKhau);
-                    boolean kiemTraTrungTenTaiKhoan = false;
-                    boolean kiemTraTrungEmail = false;
-                    boolean kiemTraTrungSoDienThoai = false;
                     // test tentaikhoan trung lap
-                    int h = 0;
-                    while (h < taiKhoanArrayList.size()) {
-                        if (tenTaiKhoan.equals(taiKhoanArrayList.get(h).getTenTaiKhoan())) {
-                            kiemTraTrungTenTaiKhoan = true;
-                            break;
+                    dbFirebase.KiemTraTrung(tenTaiKhoan, email, soDienThoai);
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+//                        Toast.makeText(DangKiActivity.this, "kiemTraTrungTenTaiKhoan: " + kiemTraTrungTenTaiKhoan, Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(DangKiActivity.this, "kiemTraTrungEmail: " + kiemTraTrungEmail, Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(DangKiActivity.this, "kiemTraTrungSoDienThoai: " + kiemTraTrungSoDienThoai, Toast.LENGTH_SHORT).show();
+                            if (kiemTraMatKhau && !kiemTraTrungEmail && !kiemTraTrungSoDienThoai && !kiemTraTrungTenTaiKhoan) {
+                                TaiKhoan taiKhoan = new TaiKhoan(RandomString(17), tenTaiKhoan, email, matKhau, soDienThoai, tinhThanhDaChon, 0);
+                                // thêm tài khoản vào DB
+                                dbFirebase.ThemTaiKhoan(taiKhoan);
+                                //
+                                Toast.makeText(DangKiActivity.this, "Đăng ký thành công", Toast.LENGTH_SHORT).show();
+                                finish();
+                            } else {
+                                if (!kiemTraMatKhau) {
+                                    Toast.makeText(DangKiActivity.this, "Mật khẩu không khớp", Toast.LENGTH_SHORT).show();
+                                }
+                                if (kiemTraTrungTenTaiKhoan) {
+                                    tvTenTaiKhoan.setText("Tên tài khoản bị trùng");
+                                    tvTenTaiKhoan.setTextColor(getResources().getColor(R.color.colorDanger));
+                                }
+                                if (kiemTraTrungEmail) {
+                                    tvEmail.setText("Email bị trùng");
+                                    tvEmail.setTextColor(getResources().getColor(R.color.colorDanger));
+                                }
+                                if (kiemTraTrungSoDienThoai) {
+                                    tvSoDienThoai.setText("Số điện thoại bị trùng");
+                                    tvSoDienThoai.setTextColor(getResources().getColor(R.color.colorDanger));
+                                }
+                            }
                         }
-                        h++;
-                    }
-                    //
-                    //test email trung lap
-                    int i = 0;
-                    while (i < taiKhoanArrayList.size()) {
-                        if (email.equals(taiKhoanArrayList.get(i).getEmail())) {
-                            kiemTraTrungEmail = true;
-                            break;
-                        }
-                        i++;
-                    }
-                    // test sdt trung lap
-                    int j = 0;
-                    while (j < taiKhoanArrayList.size()) {
-                        if (soDienThoai.equals(taiKhoanArrayList.get(j).getSoDienThoai())) {
-                            kiemTraTrungSoDienThoai = true;
-                            break;
-                        }
-                        j++;
-                    }
-                    if (kiemTraMatKhau && !kiemTraTrungEmail && !kiemTraTrungSoDienThoai && !kiemTraTrungTenTaiKhoan) {
-                        TaiKhoan taiKhoan = new TaiKhoan(RandomString(9), tenTaiKhoan, email, matKhau, soDienThoai, tinhThanhDaChon, 0);
-                        // thêm tài khoản vào DB
-                        dbFirebase.ThemTaiKhoan(taiKhoan);
-                        //
-                        Toast.makeText(DangKiActivity.this, "Đăng ký thành công", Toast.LENGTH_SHORT).show();
-                        finish();
-                    } else {
-                        if (!kiemTraMatKhau) {
-                            Toast.makeText(DangKiActivity.this, "Mật khẩu không khớp", Toast.LENGTH_SHORT).show();
-                        }
-                        if (kiemTraTrungTenTaiKhoan) {
-                            tvTenTaiKhoan.setText("Tên tài khoản bị trùng");
-                            tvTenTaiKhoan.setTextColor(getResources().getColor(R.color.colorDanger));
-                        }
-                        if (kiemTraTrungEmail) {
-                            tvEmail.setText("Email bị trùng");
-                            tvEmail.setTextColor(getResources().getColor(R.color.colorDanger));
-                        }
-
-                        if (kiemTraTrungSoDienThoai) {
-                            tvSoDienThoai.setText("Số điện thoại bị trùng");
-                            tvSoDienThoai.setTextColor(getResources().getColor(R.color.colorDanger));
-                        }
-                    }
+                    }, 1200);
                 } else {
                     Toast.makeText(DangKiActivity.this, "Nhập chưa hợp lệ", Toast.LENGTH_SHORT).show();
                 }
-
             }
         });
     }
-
-
 
     private void ChonTinhThanh() {
         List<String> tinhThanhs = new ArrayList<>();
@@ -311,7 +288,6 @@ public class DangKiActivity extends AppCompatActivity {
 
             }
         });
-//        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         adapter.setDropDownViewResource(R.layout.spinner_item_2);
         spnTinhThanh = findViewById(R.id.spnTinhThanh);
         spnTinhThanh.setAdapter(adapter);
@@ -319,7 +295,6 @@ public class DangKiActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 tinhThanhDaChon = tinhThanhs.get(position);
-//                Toast.makeText(DangKiActivity.this, ""+tinhThanhDaChon, Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -329,15 +304,74 @@ public class DangKiActivity extends AppCompatActivity {
         });
     }
 
-
-    public String RandomString(int n) {
-//        String AlphaNumericString = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvxyz0123456789";
-        String AlphaNumericString = "0123456789";
+    public String RandomString(int n) { // n là độ dài số/chữ cần random
+        String AlphaNumericString = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvxyz0123456789";
+//        String AlphaNumericString = "0123456789";
         StringBuilder sb = new StringBuilder(n);
         for (int i = 0; i < n; i++) {
             int index = (int) (AlphaNumericString.length() * Math.random());
             sb.append(AlphaNumericString.charAt(index));
         }
-        return sb.toString();
+        return "-MM"+sb.toString();
     }
 }
+
+//                    if (kiemTraMatKhau && !kiemTraTrungEmail && !kiemTraTrungSoDienThoai && !kiemTraTrungTenTaiKhoan) {
+//                        TaiKhoan taiKhoan = new TaiKhoan(RandomString(9), tenTaiKhoan, email, matKhau, soDienThoai, tinhThanhDaChon, 0);
+//                        // thêm tài khoản vào DB
+//                        dbFirebase.ThemTaiKhoan(taiKhoan);
+//                        //
+//                        Toast.makeText(DangKiActivity.this, "Đăng ký thành công", Toast.LENGTH_SHORT).show();
+//                        finish();
+//                    } else {
+//                        if (!kiemTraMatKhau) {
+//                            Toast.makeText(DangKiActivity.this, "Mật khẩu không khớp", Toast.LENGTH_SHORT).show();
+//                        }
+//                        if (kiemTraTrungTenTaiKhoan) {
+//                            tvTenTaiKhoan.setText("Tên tài khoản bị trùng");
+//                            tvTenTaiKhoan.setTextColor(getResources().getColor(R.color.colorDanger));
+//                        }
+//                        if (kiemTraTrungEmail) {
+//                            tvEmail.setText("Email bị trùng");
+//                            tvEmail.setTextColor(getResources().getColor(R.color.colorDanger));
+//                        }
+//
+//                        if (kiemTraTrungSoDienThoai) {
+//                            tvSoDienThoai.setText("Số điện thoại bị trùng");
+//                            tvSoDienThoai.setTextColor(getResources().getColor(R.color.colorDanger));
+
+
+//                    int h = 0;
+//                    while (h < taiKhoanArrayList.size()) {
+//                        if (tenTaiKhoan.equals(taiKhoanArrayList.get(h).getTenTaiKhoan())) {
+//                            kiemTraTrungTenTaiKhoan = true;
+//                            break;
+//                        }
+//                        h++;
+//                    }
+//
+//test email trung lap
+//                    int i = 0;
+//                    while (i < taiKhoanArrayList.size()) {
+//                        if (email.equals(taiKhoanArrayList.get(i).getEmail())) {
+//                            kiemTraTrungEmail = true;
+//                            break;
+//                        }
+//                        i++;
+//                    }
+// test sdt trung lap
+//                    int j = 0;
+//                    while (j < taiKhoanArrayList.size()) {
+//                        if (soDienThoai.equals(taiKhoanArrayList.get(j).getSoDienThoai())) {
+//                            kiemTraTrungSoDienThoai = true;
+//                            break;
+//                        }
+//                        j++;
+//                    }
+
+
+//        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//        databaseReference = FirebaseDatabase.getInstance().getReference();
+

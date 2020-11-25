@@ -12,13 +12,14 @@
         android:allowBackup="true"
         android:icon="@drawable/logo_app"
         android:label="Chat Room"
+        android:roundIcon="@drawable/logo_app"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
-        <activity android:name=".SearchFriendsActivity"
-            android:theme="@style/TinNhanMoi"
+
+        <activity
+            android:name=".SearchFriendsActivity"
             android:parentActivityName=".MainActivity"
-            >
-        </activity>
+            android:theme="@style/TinNhanMoi"/>
 
         <service android:name=".Call.SinchServices" />
 
@@ -32,12 +33,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Call.testcall"></activity>
+        <activity android:name=".Call.testcall" />
         <activity android:name=".Call.AudioCall" />
         <activity android:name=".Call.CuocGoi_Screen" />
         <activity android:name=".Call.BaseActivity" />
         <activity android:name=".Call.CuocGoiToi_Screen" />
-        <activity android:name=".Call.Dialer"></activity>
+        <activity android:name=".Call.Dialer" />
         <activity android:name=".MainActivity" />
         <activity
             android:name=".HoiThoaiActivity"
@@ -51,6 +52,8 @@
             android:name=".taikhoan.DangKiActivity"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
         <activity android:name=".taikhoan.QuenMatKhauActivity" />
+        <activity android:name=".taikhoan.ThemAnhActivity" />
+        <activity android:name=".taikhoan.StorageActivity"/>
     </application>
 
 </manifest>

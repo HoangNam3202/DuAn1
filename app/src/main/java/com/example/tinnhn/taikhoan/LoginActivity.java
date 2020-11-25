@@ -1,16 +1,18 @@
 package com.example.tinnhn.taikhoan;
 
 import android.Manifest;
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,25 +22,21 @@ import com.example.tinnhn.MainActivity;
 import com.example.tinnhn.R;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-
-import java.util.ArrayList;
-
 
 public class LoginActivity extends BaseActivity {
-    public static ArrayList<TaiKhoan> taiKhoanArrayList = new ArrayList<>();
+    public static int kiemTraDangNhap = -1;
+
+    public static DBFirebase dbFirebase;
+    public static String tenUser = "";
     EditText edtEmail;
     TextInputLayout tilMatKhau;
     TextInputEditText edtMatKhau;
-    CheckBox cbGhiNhoDangNhap;
     Button btnDangNhap;
     TextView txtQuenMatKhau, txtDangKy, tvEmail, tvMatKhau;
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
-    public static DBFirebase dbFirebase;
     String emailsv;
-    String TenUser;
+//    String TenUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,17 +45,15 @@ public class LoginActivity extends BaseActivity {
         setContentView(R.layout.activity_login);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            requestPermissions(new String[]{Manifest.permission.RECORD_AUDIO, Manifest.permission.CAMERA, Manifest.permission.ACCESS_NETWORK_STATE, Manifest.permission.READ_PHONE_STATE},100);
+            requestPermissions(new String[]{Manifest.permission.RECORD_AUDIO, Manifest.permission.CAMERA, Manifest.permission.ACCESS_NETWORK_STATE, Manifest.permission.READ_PHONE_STATE}, 100);
         }
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-//        taiKhoanArrayList.addo(new TaiKhoan(1, "qweqwe", "qwe@qwe.qwe", "qweqwe", "0234234234", "qwe", 0));
+
         dbFirebase = new DBFirebase();
         sharedPreferences = getSharedPreferences("GhiNhoDangNhap", MODE_PRIVATE);
         editor = sharedPreferences.edit();
         KiemTraGhiNhoDangNhap();
-        taiKhoanArrayList = dbFirebase.LayDanhSachTaiKhoan();
         DangNhap();
-        emailsv=sharedPreferences.getString("tenTaiKhoan", "");
+        emailsv = sharedPreferences.getString("tenTaiKhoan", "");
         txtDangKy = findViewById(R.id.txtDangKy);
         txtDangKy.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -142,9 +138,7 @@ public class LoginActivity extends BaseActivity {
 
             }
         });
-
         //
-//        cbGhiNhoDangNhap = findViewById(R.id.cbGhiNhoDangNhap);
         btnDangNhap = findViewById(R.id.btnDangNhap);
         txtQuenMatKhau = findViewById(R.id.txtQuenMatKhau);
         txtDangKy = findViewById(R.id.txtDangKy);
@@ -154,31 +148,62 @@ public class LoginActivity extends BaseActivity {
                 if (kiemTra[0] && kiemTra[1]) {
                     String email = edtEmail.getText().toString().trim();
                     String matKhau = edtMatKhau.getText().toString().trim();
-                    boolean xacNhan = false;
-                    for (int i = 0; i < taiKhoanArrayList.size(); i++) {
-                        if (email.equals(taiKhoanArrayList.get(i).getEmail()) && matKhau.equals(taiKhoanArrayList.get(i).getMatKhau())) {
-                            xacNhan = true;
-                            TenUser = taiKhoanArrayList.get(i).tenTaiKhoan;
-                            break;
+                    dbFirebase.KiemTraDangNhap(email, matKhau);
+                    //
+                    final Dialog dialog = new Dialog(LoginActivity.this);
+                    dialog.setContentView(R.layout.dialog_loading);
+                    dialog.show();
+                    new CountDownTimer(1300, 100) {
+                        @Override
+                        public void onTick(long millisUntilFinished) {
                         }
-                    }
-                    if (xacNhan) {
-                        editor.putString("tenTaiKhoan", email);
-                        editor.putString("tenUser", TenUser);
-                        editor.commit();
-                        getGiaodiendichvu().startClient(email);
-                        startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                        finish();
-                        taiKhoanArrayList.clear();
-                    } else {
-                        Toast.makeText(LoginActivity.this, "Sai tên đăng nhập hoặc mật khẩu", Toast.LENGTH_SHORT).show();
-                    }
+
+                        @Override
+                        public void onFinish() {
+                            dialog.dismiss();
+                        }
+                    }.start();
+
+                    //
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (kiemTraDangNhap == 0) {
+                                editor.putString("tenTaiKhoan", email);
+                                editor.putString("tenUser", tenUser);
+                                editor.commit();
+                                getGiaodiendichvu().startClient(email);
+                                startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                                finish();
+                            }
+                            if (kiemTraDangNhap == 1) {
+                                tvEmail.setText("Email sai, kiểm tra lại");
+                                tvEmail.setTextColor(getResources().getColor(R.color.colorDanger));
+                            }
+                            if (kiemTraDangNhap == 2) {
+                                tvMatKhau.setText("Mật khẩu sai, kiểm tra lại");
+                                tvMatKhau.setTextColor(getResources().getColor(R.color.colorDanger));
+                            }
+                            if (kiemTraDangNhap == -1) {
+                                Toast.makeText(LoginActivity.this, "Sai tên đăng nhập hoặc mật khẩu", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    }, 1300);
                 } else {
-                    Toast.makeText(LoginActivity.this, "Nhập chưa hợp lệ", Toast.LENGTH_SHORT).show();
+                    if (!kiemTra[0]) {
+                        tvEmail.setText("Email chưa hợp lệ");
+                        tvEmail.setTextColor(getResources().getColor(R.color.colorDanger));
+                    }
+                    if (!kiemTra[1]) {
+                        tvMatKhau.setText("Mật khẩu chưa hợp lệ");
+                        tvMatKhau.setTextColor(getResources().getColor(R.color.colorDanger));
+                    }
+
                 }
             }
         });
     }
+
     @Override
     public void onDestroy() {
         getGiaodiendichvu().startClient(emailsv);
@@ -186,6 +211,46 @@ public class LoginActivity extends BaseActivity {
     }
 
 }
+
+//                    AlertDialog dialog = new AlertDialog.Builder(LoginActivity.this)
+//                            .setMessage("Đang đăng nhập...")
+//                            .create();
+//                    dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+//                        private static final int AUTO_DISMISS_MILLIS = 1200;
+//                        @Override
+//                        public void onShow(final DialogInterface dialog) {
+//                            new CountDownTimer(AUTO_DISMISS_MILLIS, 100) {
+//                                @Override
+//                                public void onTick(long millisUntilFinished) {
+////                                    dbFirebase.KiemTraTaiKhoan(email, matKhau);
+//                                }
+//
+//                                @Override
+//                                public void onFinish() {
+//                                    if (kiemTraTaiKhoan == 1) {
+//                                        tvEmail.setText("01 Email chưa đúng, kiểm tra lại");
+//                                        tvEmail.setTextColor(getResources().getColor(R.color.colorDanger));
+//                                        kiemTra[0] = false;
+//                                    } else if (kiemTraTaiKhoan == 2) {
+//                                        tvMatKhau.setText("01 Mật khẩu chưa đúng, kiểm tra lại");
+//                                        tvMatKhau.setTextColor(getResources().getColor(R.color.colorDanger));
+//                                        kiemTra[1] = false;
+//                                    } else if (kiemTraTaiKhoan == 0) {
+//                                        Toast.makeText(LoginActivity.this, "OK!", Toast.LENGTH_SHORT).show();
+//                                        editor.putString("tenTaiKhoan", email);
+//                                        editor.putString("tenUser", TenUser);
+//                                        editor.commit();
+//                                        getGiaodiendichvu().startClient(email);
+//                                        startActivity(new Intent(LoginActivity.this, MainActivity.class));
+//                                        finish();
+//                                    }
+//                                }
+//                            }.start();
+//                        }
+//                    });
+//                    dialog.show();
+
+
 //    SharedPreferences sharedPreferences;
 //    SharedPreferences.Editor editor;
 //    boolean check = false;

@@ -54,11 +54,11 @@ public class ThemTinhThanhActivity extends AppCompatActivity {
 //        stringArrayList.add("abc");
 //        stringArrayList.add("ert");
 //        stringArrayList.add("dfg");
-        ArrayList<String> strings = dbFirebase.LayDanhSachTinhThanh2();
-        Toast.makeText(this, "" + strings.size(), Toast.LENGTH_SHORT).show();
-        ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, strings);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spnTinhThanh.setAdapter(adapter);
+//        ArrayList<String> strings = dbFirebase.LayDanhSachTinhThanh2();
+//        Toast.makeText(this, "" + strings.size(), Toast.LENGTH_SHORT).show();
+//        ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, strings);
+//        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        spnTinhThanh.setAdapter(adapter);
         spnTinhThanh.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
