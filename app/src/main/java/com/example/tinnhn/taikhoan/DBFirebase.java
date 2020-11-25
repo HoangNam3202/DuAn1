@@ -121,9 +121,10 @@ public class DBFirebase {
                     } else {
                         kiemTraDangNhap = 2;
                     }
-                } else {
-                    kiemTraDangNhap = 1;
                 }
+//                else {
+//                    kiemTraDangNhap = 1;
+//                }
 
 //                if (taiKhoan.getMatKhau().equals(matKhau) && !taiKhoan.getEmail().equals(email))
 //                    kiemTraDangNhap = 1;
