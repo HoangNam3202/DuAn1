@@ -9,10 +9,10 @@
     >
 
     <ListView
-        android:id="@+id/list_Hoithoai"
+        android:id="@+id/list_HoithoaiGroup"
         android:layout_width="match_parent"
         android:layout_height="538dp"
-        android:layout_above="@+id/edtNoiDung"
+        android:layout_above="@+id/edtNoiDungGroup"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
@@ -22,7 +22,7 @@
         android:layout_marginTop="0dp"
         android:divider="@null" />
     <EditText
-        android:id="@+id/edtNoiDung"
+        android:id="@+id/edtNoiDungGroup"
         android:layout_width="333dp"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
@@ -39,7 +39,7 @@
         android:padding="20dp" />
 
     <Button
-        android:id="@+id/btbGui"
+        android:id="@+id/btbGuiGroup"
         android:layout_width="75dp"
         android:layout_height="45dp"
         android:layout_alignParentEnd="true"
