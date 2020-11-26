@@ -38,15 +38,17 @@ public class GroupListActivity extends AppCompatActivity {
         final EditText tengrp=findViewById(R.id.tengroup);
         Button them=findViewById(R.id.themgrp);
         ListView grplist=findViewById(R.id.grplv);
-
         mDatabase = FirebaseDatabase.getInstance().getReference();
         ArrayList<String> dsgrp = new ArrayList<>();
 
+        ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, dsgrp);
+        grplist.setAdapter(adapter);
         mDatabase.child("Group").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 String nhom=snapshot.getValue().toString();
                 dsgrp.add(nhom);
+                adapter.notifyDataSetChanged();
             }
 
             @Override
@@ -70,16 +72,16 @@ public class GroupListActivity extends AppCompatActivity {
             }
         });
 
-        ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, dsgrp);
-        grplist.setAdapter(adapter);
-
-
 
         them.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Group group =new Group(tengrp.getText().toString(),RandomString(9));
-                mDatabase.child("Group").push().setValue(group);
+//                Group group =new Group(tengrp.getText().toString(),RandomString(9));
+//                mDatabase.child("Group").push().setValue(group);
+
+
+
+
             }
         });
 
