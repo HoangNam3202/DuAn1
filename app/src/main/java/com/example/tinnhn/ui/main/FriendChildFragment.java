@@ -190,18 +190,18 @@ public class FriendChildFragment extends Fragment {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 Friends friends = snapshot.getValue(Friends.class);
-                arrFriends_check.clear();
-                arrFriends_check.add(friends);
-                for(int i = 0 ; i < arrFriends_check.size(); i++){
-                    if(arrFriends_check.get(i).EmailUser.equals(EmailUser)){
+//                arrFriends_check.clear();
+//                arrFriends_check.add(friends);
+//                for(int i = 0 ; i < arrFriends_check.size(); i++){
+                    if(friends.EmailUser.equals(EmailUser)){
                         String key_Friend = snapshot.getKey();
-                        arrFriends.add(new Friends(key_Friend,arrFriends_check.get(i).idTaiKhoan,arrFriends_check.get(i).tenTaiKhoan,arrFriends_check.get(i).email,
-                                arrFriends_check.get(i).diaChi,arrFriends_check.get(i).hinhDaiDien,arrFriends_check.get(i).EmailUser));
+                        arrFriends.add(new Friends(key_Friend,friends.idTaiKhoan,friends.tenTaiKhoan,friends.email,
+                                friends.diaChi,friends.hinhDaiDien,friends.EmailUser));
                     }
                     String key_Friend_1 = snapshot.getKey();
-                    arrFriends_check1.add(new Friends(key_Friend_1,arrFriends_check.get(i).idTaiKhoan,arrFriends_check.get(i).tenTaiKhoan,arrFriends_check.get(i).email,
-                            arrFriends_check.get(i).diaChi,arrFriends_check.get(i).hinhDaiDien,arrFriends_check.get(i).EmailUser));
-                }
+                    arrFriends_check1.add(new Friends(key_Friend_1,friends.idTaiKhoan,friends.tenTaiKhoan,friends.email,
+                            friends.diaChi,friends.hinhDaiDien,friends.EmailUser));
+//                }
                 friendsAdapter.notifyDataSetChanged();
             }
 

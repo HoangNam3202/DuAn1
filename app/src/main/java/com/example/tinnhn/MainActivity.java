@@ -67,7 +67,7 @@ public class MainActivity extends BaseActivity  {
         tabs.getTabAt(0).setIcon(R.drawable.envelope);
         tabs.getTabAt(1).setIcon(R.drawable.group);
         tabs.getTabAt(2).setIcon(R.drawable.friend);
-        tabs.getTabAt(3).setIcon(R.drawable.gear);
+        tabs.getTabAt(3).setIcon(R.drawable.ic_baseline_dashboard_24);
         tabs.getTabAt(0).getIcon().setColorFilter(getResources().getColor(R.color.colorItemSelected), PorterDuff.Mode.SRC_IN);
         tabs.getTabAt(1).getIcon().setColorFilter(getResources().getColor(R.color.colorItem), PorterDuff.Mode.SRC_IN);
         tabs.getTabAt(2).getIcon().setColorFilter(getResources().getColor(R.color.colorItem), PorterDuff.Mode.SRC_IN);
