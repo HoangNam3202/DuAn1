@@ -5,19 +5,27 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Adapter;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Toolbar;
 
@@ -125,6 +133,8 @@ public class GroupHoiThoaiActivity extends BaseActivity {
             }
         });
 
+
+
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -168,11 +178,21 @@ public class GroupHoiThoaiActivity extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
     private void Hamchuyenidgroupquagroupcall() {
-        String username="idgroup";
+        FrameLayout frameLayout = findViewById(R.id.sidecall);
+        ImageView test = (ImageView) View.inflate(this, R.layout.sideview, null);
+        frameLayout.addView(test);
 
-        Intent callScreen = new Intent(this, CuocGoi_Screen.class);
-        callScreen.putExtra(SinchServices.CALL_ID,username);
-        startActivity(callScreen);
+        test.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(GroupHoiThoaiActivity.this, "dwqdwqdwqd", Toast.LENGTH_SHORT).show();
+            }
+        });
+//        String username="idgroup";
+//
+//        Intent callScreen = new Intent(this, CuocGoi_Screen.class);
+//        callScreen.putExtra(SinchServices.CALL_ID,username);
+//        startActivity(callScreen);
 
 //        Intent mainActivity = new Intent(this, Dialer.class);
 //        startActivity(mainActivity);

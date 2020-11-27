@@ -7,6 +7,11 @@
     tools:context=".HoiThoaiActivity"
     android:background="#fff"
     >
+    <FrameLayout
+        android:id="@+id/sidecall"
+        android:layout_width="50dp"
+        android:layout_height="200dp"
+        />
 
     <ListView
         android:id="@+id/list_HoithoaiGroup"
@@ -21,6 +26,7 @@
         android:layout_marginLeft="0dp"
         android:layout_marginTop="0dp"
         android:divider="@null" />
+
     <EditText
         android:id="@+id/edtNoiDungGroup"
         android:layout_width="333dp"
