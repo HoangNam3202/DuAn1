@@ -1,10 +1,14 @@
 package com.example.tinnhn.ui.main;
 
+import android.animation.TimeAnimator;
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +29,8 @@ import com.example.tinnhn.Message;
 import com.example.tinnhn.MessageAdapter;
 import com.example.tinnhn.R;
 import com.example.tinnhn.TinNhanHienThi;
+import com.example.tinnhn.taikhoan.HihNgNhanTrogMessArrLst;
+import com.example.tinnhn.taikhoan.TaiKhoan;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -96,6 +102,7 @@ public class PlaceholderFragment extends Fragment {
         TenUser = sharedPreferences.getString("tenUser", "");
 
         if (!check_search) {
+            hihNgNhanTrogMessArrLsts.clear();
             mDatabase.child("TinNhan").addChildEventListener(new ChildEventListener() {
                 @Override
                 public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
@@ -103,10 +110,16 @@ public class PlaceholderFragment extends Fragment {
                     if (message.email_User.equals(EmailUser)) {
                         String keyTinNhan = snapshot.getKey();
                         messageArrayList.add(new TinNhanHienThi(keyTinNhan, message.message_User, message.emailNguoiNhan, message.email_User, message.tenUser, message.tenNguoiGui));
+                        // lấy url hình từ mail người dùng
+                        LayUrlTuEmail(message.emailNguoiNhan);
+                        //
                     }
                     if (message.emailNguoiNhan.equals(EmailUser)) {
                         String keyTinNhan = snapshot.getKey();
                         messageArrayList.add(new TinNhanHienThi(keyTinNhan, message.message_User, message.email_User, message.emailNguoiNhan, message.tenNguoiGui, message.tenUser));
+                        // lấy url hình từ mail người dùng
+                        LayUrlTuEmail(message.email_User);
+                        //
                     }
                     messageAdapter.notifyDataSetChanged();
                 }
@@ -213,20 +226,59 @@ public class PlaceholderFragment extends Fragment {
 //        final Dialog dialog = new Dialog(getContext());
 //        dialog.setContentView(R.layout.dialog_loading);
 //        dialog.show();
-//        new CountDownTimer(1300, 100) {
-//            @Override
-//            public void onTick(long millisUntilFinished) {
-//            }
-//
-//            @Override
-//            public void onFinish() {
+        new CountDownTimer(1300, 100) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+            }
+
+            @Override
+            public void onFinish() {
 //                dialog.dismiss();
-////                LayDanhSachUrlTuEmailNguoiNhan(messageArrayList);
-//            }
-//        }.start();
+                if (hihNgNhanTrogMessArrLsts.size() != 0) {
+                    for (int i = 0; i < hihNgNhanTrogMessArrLsts.size(); i++) {
+                        Log.d(TAG, "235: " + hihNgNhanTrogMessArrLsts.get(i).getUrlHinhNguoiNhan());
+                    }
+                } else Log.d(TAG, "238: " + hihNgNhanTrogMessArrLsts.size());
+//                LayDanhSachUrlTuEmailNguoiNhan(messageArrayList);
+            }
+        }.start();
         //
         return view;
     }
+
+    // lấy url hình từ mail người dùng
+    private void LayUrlTuEmail(String emailNguoiNhan) {
+        mDatabase.child("TaiKhoan").addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                TaiKhoan taiKhoan = snapshot.getValue(TaiKhoan.class);
+                if (taiKhoan.getEmail().equals(emailNguoiNhan)) {
+                    hihNgNhanTrogMessArrLsts.add(new HihNgNhanTrogMessArrLst(emailNguoiNhan, taiKhoan.getHinhDaiDien()));
+                }
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+    //
 
 //    1sec messageArrayList
 //            1sec hihNgNhanTrogMessArrLsts

@@ -52,6 +52,7 @@ import static com.example.tinnhn.taikhoan.LoginActivity.urlHinhDaiDien;
 
 public class MainActivity extends BaseActivity {
     String TAG = "MainActivity";
+    // lấy url hình từ mail người dùng
     public static ArrayList<HihNgNhanTrogMessArrLst> hihNgNhanTrogMessArrLsts = new ArrayList<>();
 
     @Override
