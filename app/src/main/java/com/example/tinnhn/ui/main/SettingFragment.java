@@ -27,7 +27,7 @@ public class SettingFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mRoot = inflater.inflate(R.layout.fragment_setting,container,false);
+        mRoot = inflater.inflate(R.layout.fragment_setting, container, false);
         Button btnDangXuat = mRoot.findViewById(R.id.btnDangXuat);
         sharedPreferences = getContext().getSharedPreferences("GhiNhoDangNhap", MODE_PRIVATE);
         editor = sharedPreferences.edit();

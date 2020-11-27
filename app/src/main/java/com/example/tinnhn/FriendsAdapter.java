@@ -57,7 +57,7 @@ public class FriendsAdapter extends BaseAdapter {
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        view = inflater.inflate(layout,null);
+        view = inflater.inflate(layout, null);
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
         TextView tvTenFriends = view.findViewById(R.id.tvTenFriends);
@@ -70,13 +70,12 @@ public class FriendsAdapter extends BaseAdapter {
             @Override
             public void onClick(View view) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                builder.setMessage("Do you wanna unfriend "+friends.tenTaiKhoan+" ?");
+                builder.setMessage("Do you wanna unfriend " + friends.tenTaiKhoan + " ?");
                 builder.setNegativeButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        for(int x= 0; x < arrFriends_check1.size(); x++){
-                            if(arrFriends_check1.get(x).EmailUser.equals(friends.email) && arrFriends_check1.get(x).email.equals(friends.EmailUser))
-                            {
+                        for (int x = 0; x < arrFriends_check1.size(); x++) {
+                            if (arrFriends_check1.get(x).EmailUser.equals(friends.email) && arrFriends_check1.get(x).email.equals(friends.EmailUser)) {
                                 idKeyXoa = arrFriends_check1.get(x).idKeyFriend;
                                 mDatabase.child("BanBe").child(idKeyXoa).removeValue();
                             }

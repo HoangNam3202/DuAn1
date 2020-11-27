@@ -39,17 +39,16 @@ public class GroupFragment extends Fragment {
     int IdGroup;
 
 
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mRoot = inflater.inflate(R.layout.group_list,container,false);
+        mRoot = inflater.inflate(R.layout.group_list, container, false);
 
-       final EditText tengrp=mRoot.findViewById(R.id.tengroup);
-       Button them=mRoot.findViewById(R.id.themgrp);
+        final EditText tengrp = mRoot.findViewById(R.id.tengroup);
+        Button them = mRoot.findViewById(R.id.themgrp);
 
 
-        ListView grplist=mRoot.findViewById(R.id.grplv);
+        ListView grplist = mRoot.findViewById(R.id.grplv);
         mDatabase = FirebaseDatabase.getInstance().getReference();
         ArrayList<String> dsgrp = new ArrayList<>();
 
@@ -58,7 +57,7 @@ public class GroupFragment extends Fragment {
         mDatabase.child("Group").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                String nhom=snapshot.getValue().toString();
+                String nhom = snapshot.getValue().toString();
                 dsgrp.add(nhom);
                 adapter.notifyDataSetChanged();
             }
@@ -86,10 +85,10 @@ public class GroupFragment extends Fragment {
         grplist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-              String tenkey= dsgrp.get(position);
+                String tenkey = dsgrp.get(position);
                 Intent i = new Intent(getActivity(), GroupHoiThoaiActivity.class);
-                        i.putExtra("idgroup", tenkey);
-                        startActivity(i);
+                i.putExtra("idgroup", tenkey);
+                startActivity(i);
 //                Toast.makeText(getActivity(), tenkey, Toast.LENGTH_SHORT).show();
 //                mDatabase.child("Group").addChildEventListener(new ChildEventListener() {
 //                    @Override

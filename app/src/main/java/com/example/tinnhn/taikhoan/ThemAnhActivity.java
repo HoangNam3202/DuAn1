@@ -39,7 +39,7 @@ public class ThemAnhActivity extends AppCompatActivity {
     FirebaseStorage storage = FirebaseStorage.getInstance("gs://duan1-f124f.appspot.com");
     StorageReference storageRef = storage.getReference();
     ImageView ivHinh, ivHinhTaiVe;
-    Button btnThem,btnTaiHinh;
+    Button btnThem, btnTaiHinh;
     int REQUEST_CODE_IMAGE = 1;
     String linkURLImage = "";
     String TAG = "ThemAnhActivity";
@@ -59,7 +59,7 @@ public class ThemAnhActivity extends AppCompatActivity {
         btnTaiHinh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (linkURLImage!=null){
+                if (linkURLImage != null) {
                     new DownloadImageTask(ivHinhTaiVe).execute(linkURLImage);
                 }
             }
@@ -101,7 +101,7 @@ public class ThemAnhActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                         StorageMetadata metadata = taskSnapshot.getMetadata();
-                        Log.d(TAG, "onSuccess: "+metadata);
+                        Log.d(TAG, "onSuccess: " + metadata);
 //                        Toast.makeText(ThemAnhActivity.this, "OK: " + metadata, Toast.LENGTH_SHORT).show();
                     }
                 }).continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {

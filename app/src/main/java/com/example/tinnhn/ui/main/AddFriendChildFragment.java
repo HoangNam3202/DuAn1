@@ -41,13 +41,13 @@ public class AddFriendChildFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mRoot = inflater.inflate(R.layout.fragment_add_friends_child,container,false);
-         final ArrayList<GoiYKetBan> goiYKetBanArrayList = new ArrayList<>();
+        mRoot = inflater.inflate(R.layout.fragment_add_friends_child, container, false);
+        final ArrayList<GoiYKetBan> goiYKetBanArrayList = new ArrayList<>();
         final ArrayList<TaiKhoan> goiYKetBanArrayList_check = new ArrayList<>();
         final ArrayList<Friends> arrFriended_check = new ArrayList<>();
 
         ListView list_GoiYKetBan = mRoot.findViewById(R.id.list_GoiYKetBan);
-        final GoiYKetBanAdapter goiYKetBanAdapter = new GoiYKetBanAdapter(getActivity(),R.layout.list_goi_y_item,goiYKetBanArrayList);
+        final GoiYKetBanAdapter goiYKetBanAdapter = new GoiYKetBanAdapter(getActivity(), R.layout.list_goi_y_item, goiYKetBanArrayList);
         list_GoiYKetBan.setAdapter(goiYKetBanAdapter);
         mDatabase = FirebaseDatabase.getInstance().getReference();
         sharedPreferences = getContext().getSharedPreferences("GhiNhoDangNhap", MODE_PRIVATE);
@@ -71,8 +71,8 @@ public class AddFriendChildFragment extends Fragment {
                 Friends friends1 = snapshot.getValue(Friends.class);
                 arrFriended_check.clear();
                 arrFriended_check.add(friends1);
-                for(int i = 0 ; i < arrFriended_check.size(); i++){
-                    if(arrFriended_check.get(i).EmailUser.equals(EmailUser)){
+                for (int i = 0; i < arrFriended_check.size(); i++) {
+                    if (arrFriended_check.get(i).EmailUser.equals(EmailUser)) {
                         EmailDaKetBan = arrFriended_check.get(i).email;
                     }
                 }
@@ -105,10 +105,10 @@ public class AddFriendChildFragment extends Fragment {
                 TaiKhoan goiYKetBan = snapshot.getValue(TaiKhoan.class);
                 goiYKetBanArrayList_check.clear();
                 goiYKetBanArrayList_check.add(goiYKetBan);
-                for(int i = 0;i < goiYKetBanArrayList_check.size(); i++){
-                    if(goiYKetBanArrayList_check.get(i).diaChi.contains(DiaChiUser) &&!goiYKetBanArrayList_check.get(i).email.equals(EmailUser) && !goiYKetBanArrayList_check.get(i).email.equals(EmailDaKetBan) ){
-                        goiYKetBanArrayList.add(new GoiYKetBan(goiYKetBanArrayList_check.get(i).idTaiKhoan,goiYKetBanArrayList_check.get(i).tenTaiKhoan,
-                                goiYKetBanArrayList_check.get(i).email,goiYKetBanArrayList_check.get(i).diaChi,goiYKetBanArrayList_check.get(i).hinhDaiDien));
+                for (int i = 0; i < goiYKetBanArrayList_check.size(); i++) {
+                    if (goiYKetBanArrayList_check.get(i).diaChi.contains(DiaChiUser) && !goiYKetBanArrayList_check.get(i).email.equals(EmailUser) && !goiYKetBanArrayList_check.get(i).email.equals(EmailDaKetBan)) {
+                        goiYKetBanArrayList.add(new GoiYKetBan(goiYKetBanArrayList_check.get(i).idTaiKhoan, goiYKetBanArrayList_check.get(i).tenTaiKhoan,
+                                goiYKetBanArrayList_check.get(i).email, goiYKetBanArrayList_check.get(i).diaChi, goiYKetBanArrayList_check.get(i).hinhDaiDien));
                     }
                 }
                 goiYKetBanAdapter.notifyDataSetChanged();

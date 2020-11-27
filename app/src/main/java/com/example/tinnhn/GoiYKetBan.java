@@ -7,7 +7,7 @@ public class GoiYKetBan {
     public String diaChi;
     public String hinhDaiDien;
 
-    public GoiYKetBan(String idTaiKhoan, String tenTaiKhoan, String email, String diaChi,  String hinhDaiDien) {
+    public GoiYKetBan(String idTaiKhoan, String tenTaiKhoan, String email, String diaChi, String hinhDaiDien) {
         this.idTaiKhoan = idTaiKhoan;
         this.tenTaiKhoan = tenTaiKhoan;
         this.email = email;

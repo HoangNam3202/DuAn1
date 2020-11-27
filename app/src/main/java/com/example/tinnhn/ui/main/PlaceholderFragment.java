@@ -86,29 +86,28 @@ public class PlaceholderFragment extends Fragment {
         ListView list_view_Message = view.findViewById(R.id.list_view_Message);
         messageArrayList = new ArrayList<>();
         messageArrayList_Message1 = new ArrayList<>();
-        ArrayList<Friends> messageArrayList_check = new ArrayList<>();
-        ArrayList<HoiThoai> messageArrayList_Message = new ArrayList<>();
-        messageAdapter = new MessageAdapter(getActivity(),R.layout.list_message_item,messageArrayList);
+//        ArrayList<Friends> messageArrayList_check = new ArrayList<>();
+//        ArrayList<HoiThoai> messageArrayList_Message = new ArrayList<>();
+        messageAdapter = new MessageAdapter(getActivity(), R.layout.list_message_item, messageArrayList);
         list_view_Message.setAdapter(messageAdapter);
         sharedPreferences = getContext().getSharedPreferences("GhiNhoDangNhap", MODE_PRIVATE);
         editor = sharedPreferences.edit();
         EmailUser = sharedPreferences.getString("tenTaiKhoan", "");
         TenUser = sharedPreferences.getString("tenUser", "");
 
-        if(!check_search){
+        if (!check_search) {
             mDatabase.child("TinNhan").addChildEventListener(new ChildEventListener() {
                 @Override
                 public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                     TinNhanHienThi message = snapshot.getValue(TinNhanHienThi.class);
-                    if(message.email_User.equals(EmailUser)){
+                    if (message.email_User.equals(EmailUser)) {
                         String keyTinNhan = snapshot.getKey();
-                        messageArrayList.add(new TinNhanHienThi(keyTinNhan,message.message_User,message.emailNguoiNhan,message.email_User,message.tenUser,message.tenNguoiGui));
+                        messageArrayList.add(new TinNhanHienThi(keyTinNhan, message.message_User, message.emailNguoiNhan, message.email_User, message.tenUser, message.tenNguoiGui));
                     }
-                    if(message.emailNguoiNhan.equals(EmailUser)) {
+                    if (message.emailNguoiNhan.equals(EmailUser)) {
                         String keyTinNhan = snapshot.getKey();
-                        messageArrayList.add(new TinNhanHienThi(keyTinNhan,message.message_User,message.email_User,message.emailNguoiNhan,message.tenNguoiGui,message.tenUser));
+                        messageArrayList.add(new TinNhanHienThi(keyTinNhan, message.message_User, message.email_User, message.emailNguoiNhan, message.tenNguoiGui, message.tenUser));
                     }
-
                     messageAdapter.notifyDataSetChanged();
                 }
 
@@ -141,8 +140,7 @@ public class PlaceholderFragment extends Fragment {
                 Intent intent = new Intent(getActivity(), HoiThoaiActivity.class);
                 if (messageArrayList.get(i).email_User.equals(EmailUser)) {
                     intent.putExtra("TenNguoiGui", messageArrayList.get(i).tenUser);
-                }
-                else if (messageArrayList.get(i).emailNguoiNhan.equals(EmailUser)) {
+                } else if (messageArrayList.get(i).emailNguoiNhan.equals(EmailUser)) {
                     intent.putExtra("TenNguoiGui", messageArrayList.get(i).tenNguoiGui);
                 }
                 intent.putExtra("EmailNguoiGui", messageArrayList.get(i).emailNguoiNhan);
@@ -164,20 +162,20 @@ public class PlaceholderFragment extends Fragment {
                     @Override
                     public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                         TinNhanHienThi message = snapshot.getValue(TinNhanHienThi.class);
-                            if(tv_Search_TinNhan.getText().toString().contains(message.tenUser) && message.tenUser.equals(TenUser)
-                                    || tv_Search_TinNhan.getText().toString().contains(message.tenUser) && message.tenNguoiGui.equals(TenUser)
-                                    || tv_Search_TinNhan.getText().toString().contains(message.tenNguoiGui) && message.email_User.equals(EmailUser)) {
+                        if (tv_Search_TinNhan.getText().toString().contains(message.tenUser) && message.tenUser.equals(TenUser)
+                                || tv_Search_TinNhan.getText().toString().contains(message.tenUser) && message.tenNguoiGui.equals(TenUser)
+                                || tv_Search_TinNhan.getText().toString().contains(message.tenNguoiGui) && message.email_User.equals(EmailUser)) {
+                            String keyTinNhan = snapshot.getKey();
+                            messageArrayList.add(new TinNhanHienThi(keyTinNhan, message.message_User, message.emailNguoiNhan, message.email_User, message.tenUser, message.tenNguoiGui));
+                        }
+                        if (tv_Search_TinNhan.getText().toString().equals("")) {
+                            if (message.email_User.equals(EmailUser)) {
                                 String keyTinNhan = snapshot.getKey();
-                                messageArrayList.add(new TinNhanHienThi(keyTinNhan,message.message_User,message.emailNguoiNhan,message.email_User,message.tenUser,message.tenNguoiGui));
+                                messageArrayList.add(new TinNhanHienThi(keyTinNhan, message.message_User, message.emailNguoiNhan, message.email_User, message.tenUser, message.tenNguoiGui));
                             }
-                        if(tv_Search_TinNhan.getText().toString().equals("") ){
-                            if(message.email_User.equals(EmailUser)){
+                            if (message.emailNguoiNhan.equals(EmailUser)) {
                                 String keyTinNhan = snapshot.getKey();
-                                messageArrayList.add(new TinNhanHienThi(keyTinNhan,message.message_User,message.emailNguoiNhan,message.email_User,message.tenUser,message.tenNguoiGui));
-                            }
-                            if(message.emailNguoiNhan.equals(EmailUser)) {
-                                String keyTinNhan = snapshot.getKey();
-                                messageArrayList.add(new TinNhanHienThi(keyTinNhan,message.message_User,message.email_User,message.emailNguoiNhan,message.tenNguoiGui,message.tenUser));
+                                messageArrayList.add(new TinNhanHienThi(keyTinNhan, message.message_User, message.email_User, message.emailNguoiNhan, message.tenNguoiGui, message.tenUser));
                             }
                             check_search = true;
                         }

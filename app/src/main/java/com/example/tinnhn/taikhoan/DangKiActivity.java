@@ -331,14 +331,14 @@ public class DangKiActivity extends AppCompatActivity {
 //                }
 //            })
                     .continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
-                @Override
-                public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
-                    if (!task.isSuccessful()) {
-                        throw task.getException();
-                    }
-                    return mountainsRef.getDownloadUrl();
-                }
-            }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+                        @Override
+                        public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                            if (!task.isSuccessful()) {
+                                throw task.getException();
+                            }
+                            return mountainsRef.getDownloadUrl();
+                        }
+                    }).addOnCompleteListener(new OnCompleteListener<Uri>() {
                 @Override
                 public void onComplete(@NonNull Task<Uri> task) {
                     if (task.isSuccessful()) {
@@ -421,7 +421,7 @@ public class DangKiActivity extends AppCompatActivity {
             int index = (int) (AlphaNumericString.length() * Math.random());
             sb.append(AlphaNumericString.charAt(index));
         }
-        return "-MM"+sb.toString();
+        return "-MM" + sb.toString();
     }
 }
 

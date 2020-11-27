@@ -47,19 +47,20 @@ public class HoiThoaiActivity extends BaseActivity implements SinchServices.Star
     private DatabaseReference mDatabase;
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
-    String TenNguoiGui,EmailUser,EmailNguoiGui;
+    String TenNguoiGui, EmailUser, EmailNguoiGui;
     String TenUser;
     public static HoiThoaiAdapter hoiThoaiAdapter;
     ListView list_Hoithoai;
     String key;
     boolean check_TinNhanTonTai;
+
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add);
         Intent intent_Friends = getIntent();
-       TenNguoiGui = intent_Friends.getStringExtra("TenNguoiGui");
+        TenNguoiGui = intent_Friends.getStringExtra("TenNguoiGui");
 
         setTitle(TenNguoiGui);
         Objects.requireNonNull(getSupportActionBar()).setDisplayShowHomeEnabled(true);
@@ -78,10 +79,10 @@ public class HoiThoaiActivity extends BaseActivity implements SinchServices.Star
 
         ArrayList<TinNhanHienThi> messageArrayList_Message1 = new ArrayList<>();
         ArrayList<String> StringKey = new ArrayList<>();
-        hoiThoaiAdapter = new HoiThoaiAdapter(HoiThoaiActivity.this,R.layout.list_tin_nhan_item,hoiThoaiArrayList);
+        hoiThoaiAdapter = new HoiThoaiAdapter(HoiThoaiActivity.this, R.layout.list_tin_nhan_item, hoiThoaiArrayList);
         list_Hoithoai.setAdapter(hoiThoaiAdapter);
         mDatabase = FirebaseDatabase.getInstance().getReference();
-        EmailUser = sharedPreferences.getString("tenTaiKhoan","");
+        EmailUser = sharedPreferences.getString("tenTaiKhoan", "");
         EmailNguoiGui = intent_Friends.getStringExtra("EmailNguoiGui");
         TenUser = sharedPreferences.getString("tenUser", "");
         SimpleDateFormat df = new SimpleDateFormat("HH:mm");
@@ -96,9 +97,9 @@ public class HoiThoaiActivity extends BaseActivity implements SinchServices.Star
                 TinNhanHienThi message = snapshot.getValue(TinNhanHienThi.class);
                 messageArrayList_Message1.clear();
                 messageArrayList_Message1.add(message);
-                for(int i = 0; i < messageArrayList_Message1.size(); i++){
-                    if(messageArrayList_Message1.get(i).email_User.equals(EmailUser) && messageArrayList_Message1.get(i).emailNguoiNhan.equals(EmailNguoiGui)
-                         || messageArrayList_Message1.get(i).email_User.equals(EmailNguoiGui) && messageArrayList_Message1.get(i).emailNguoiNhan.equals(EmailUser)){
+                for (int i = 0; i < messageArrayList_Message1.size(); i++) {
+                    if (messageArrayList_Message1.get(i).email_User.equals(EmailUser) && messageArrayList_Message1.get(i).emailNguoiNhan.equals(EmailNguoiGui)
+                            || messageArrayList_Message1.get(i).email_User.equals(EmailNguoiGui) && messageArrayList_Message1.get(i).emailNguoiNhan.equals(EmailUser)) {
                         check_TinNhanTonTai = true;
                         key = snapshot.getKey();
                         break;
@@ -129,19 +130,17 @@ public class HoiThoaiActivity extends BaseActivity implements SinchServices.Star
         btnGui.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(!edtNoiDung.getText().toString().equals("")){
-                    final HoiThoai hoiThoai = new HoiThoai(edtNoiDung.getText().toString(), EmailNguoiGui,EmailUser);
+                if (!edtNoiDung.getText().toString().equals("")) {
+                    final HoiThoai hoiThoai = new HoiThoai(edtNoiDung.getText().toString(), EmailNguoiGui, EmailUser);
                     mDatabase.child("HoiThoai").push().setValue(hoiThoai);
-                    if(check_TinNhanTonTai == true){
-                      mDatabase.child("TinNhan").child(key).child("message_User").setValue(edtNoiDung.getText().toString());
-                    }
-                    else {
-                        TinNhanHienThi tinNhanHienThi = new TinNhanHienThi(null,edtNoiDung.getText().toString(), EmailNguoiGui,EmailUser,TenNguoiGui,TenUser);
+                    if (check_TinNhanTonTai == true) {
+                        mDatabase.child("TinNhan").child(key).child("message_User").setValue(edtNoiDung.getText().toString());
+                    } else {
+                        TinNhanHienThi tinNhanHienThi = new TinNhanHienThi(null, edtNoiDung.getText().toString(), EmailNguoiGui, EmailUser, TenNguoiGui, TenUser);
                         mDatabase.child("TinNhan").push().setValue(tinNhanHienThi);
                     }
                     edtNoiDung.setText("");
-                }
-                else {
+                } else {
                     Toast.makeText(HoiThoaiActivity.this, "Message is empty", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -177,13 +176,13 @@ public class HoiThoaiActivity extends BaseActivity implements SinchServices.Star
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 HoiThoai hThoai = snapshot.getValue(HoiThoai.class);
                 forArr.clear();
-                forArr.add(new HoiThoai(hThoai.message_User,hThoai.emailNguoiNhan,hThoai.email_User));
-                for(int i = 0; i < forArr.size(); i++){
-                    if(forArr.get(i).email_User.equals(EmailUser) && forArr.get(i).emailNguoiNhan.equals(EmailNguoiGui)){
-                        hoiThoaiArrayList.add(new HoiThoai(forArr.get(i).message_User,forArr.get(i).emailNguoiNhan,forArr.get(i).email_User));
+                forArr.add(new HoiThoai(hThoai.message_User, hThoai.emailNguoiNhan, hThoai.email_User));
+                for (int i = 0; i < forArr.size(); i++) {
+                    if (forArr.get(i).email_User.equals(EmailUser) && forArr.get(i).emailNguoiNhan.equals(EmailNguoiGui)) {
+                        hoiThoaiArrayList.add(new HoiThoai(forArr.get(i).message_User, forArr.get(i).emailNguoiNhan, forArr.get(i).email_User));
                     }
-                    if(forArr.get(i).email_User.equals(EmailNguoiGui) && forArr.get(i).emailNguoiNhan.equals(EmailUser)){
-                        hoiThoaiArrayList.add(new HoiThoai(forArr.get(i).message_User,forArr.get(i).emailNguoiNhan,forArr.get(i).email_User));
+                    if (forArr.get(i).email_User.equals(EmailNguoiGui) && forArr.get(i).emailNguoiNhan.equals(EmailUser)) {
+                        hoiThoaiArrayList.add(new HoiThoai(forArr.get(i).message_User, forArr.get(i).emailNguoiNhan, forArr.get(i).email_User));
                     }
                 }
                 hoiThoaiAdapter.notifyDataSetChanged();
@@ -212,6 +211,7 @@ public class HoiThoaiActivity extends BaseActivity implements SinchServices.Star
             }
         });
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // R.menu.mymenu is a reference to an xml file named mymenu.xml which should be inside your res/menu directory.
@@ -226,7 +226,7 @@ public class HoiThoaiActivity extends BaseActivity implements SinchServices.Star
         int id = item.getItemId();
 
         if (id == R.id.audio) {
-         //đang nhap sinchclient o day = UserEmail sau do goi cho EmailNguoiGui
+            //đang nhap sinchclient o day = UserEmail sau do goi cho EmailNguoiGui
 
             if (getGiaodiendichvu().isStarted()) {
 
@@ -235,7 +235,7 @@ public class HoiThoaiActivity extends BaseActivity implements SinchServices.Star
             } else {
                 Toast.makeText(this, "chua chay dich vu", Toast.LENGTH_SHORT).show();
             }
-        }else if(id==R.id.video){
+        } else if (id == R.id.video) {
             if (getGiaodiendichvu().isStarted()) {
 
                 openPlaceCallVideoActivity();
@@ -246,8 +246,9 @@ public class HoiThoaiActivity extends BaseActivity implements SinchServices.Star
         }
         return super.onOptionsItemSelected(item);
     }
+
     private void openPlaceCallActivity() {
-        String username=EmailNguoiGui;
+        String username = EmailNguoiGui;
         Toast.makeText(this, username, Toast.LENGTH_SHORT).show();
 
         Call call = getGiaodiendichvu().calluser(username);
@@ -260,8 +261,9 @@ public class HoiThoaiActivity extends BaseActivity implements SinchServices.Star
 //        Intent mainActivity = new Intent(this, Dialer.class);
 //        startActivity(mainActivity);
     }
+
     private void openPlaceCallVideoActivity() {
-        String username=EmailNguoiGui;
+        String username = EmailNguoiGui;
         Toast.makeText(this, username, Toast.LENGTH_SHORT).show();
 
         Call call = getGiaodiendichvu().callUserVideo(username);
@@ -274,6 +276,7 @@ public class HoiThoaiActivity extends BaseActivity implements SinchServices.Star
 //        Intent mainActivity = new Intent(this, Dialer.class);
 //        startActivity(mainActivity);
     }
+
     @Override
     public void onStartFailed(SinchError error) {
 
@@ -283,6 +286,7 @@ public class HoiThoaiActivity extends BaseActivity implements SinchServices.Star
     public void onStarted() {
 
     }
+
     private void scrollMyListViewToBottom() {
         list_Hoithoai.post(new Runnable() {
             @Override
@@ -292,9 +296,10 @@ public class HoiThoaiActivity extends BaseActivity implements SinchServices.Star
             }
         });
     }
+
     @Override
-    public void onBackPressed(){
-        Intent intent = new Intent(HoiThoaiActivity.this,MainActivity.class);
+    public void onBackPressed() {
+        Intent intent = new Intent(HoiThoaiActivity.this, MainActivity.class);
         startActivity(intent);
         finish();
     }
