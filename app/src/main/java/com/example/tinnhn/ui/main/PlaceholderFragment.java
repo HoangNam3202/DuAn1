@@ -24,6 +24,7 @@ import com.example.tinnhn.HoiThoaiActivity;
 import com.example.tinnhn.Message;
 import com.example.tinnhn.MessageAdapter;
 import com.example.tinnhn.R;
+import com.example.tinnhn.SearchMessageActivity;
 import com.example.tinnhn.TinNhanHienThi;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -52,7 +53,7 @@ public class PlaceholderFragment extends Fragment {
     MessageAdapter messageAdapter;
     String EmailUser;
     ArrayList<TinNhanHienThi> messageArrayList_Message1;
-    boolean check_search = false;
+    boolean check_search;
 
     public static PlaceholderFragment newInstance(int index) {
         PlaceholderFragment fragment = new PlaceholderFragment();
@@ -77,8 +78,7 @@ public class PlaceholderFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_main, container, false);
         mDatabase = FirebaseDatabase.getInstance().getReference();
-
-        EditText tv_Search_TinNhan = view.findViewById(R.id.title);
+        TextView tv_Search_TinNhan = view.findViewById(R.id.title);
         ListView list_view_Message = view.findViewById(R.id.list_view_Message);
         messageArrayList = new ArrayList<>();
         messageArrayList_Message1 = new ArrayList<>();
@@ -90,9 +90,6 @@ public class PlaceholderFragment extends Fragment {
         editor = sharedPreferences.edit();
         EmailUser = sharedPreferences.getString("tenTaiKhoan", "");
         TenUser = sharedPreferences.getString("tenUser", "");
-
-
-
 
         list_view_Message.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -109,61 +106,10 @@ public class PlaceholderFragment extends Fragment {
 //                container.removeView(view);
             }
         });
-        tv_Search_TinNhan.addTextChangedListener(new TextWatcher() {
+        tv_Search_TinNhan.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                    messageArrayList.clear();
-                    messageAdapter.notifyDataSetChanged();
-                    mDatabase.child("TinNhan").addChildEventListener(new ChildEventListener() {
-                        @Override
-                        public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                            TinNhanHienThi message = snapshot.getValue(TinNhanHienThi.class);
-                            if(message.tenUser.contains(tv_Search_TinNhan.getText().toString()) && message.tenUser.equals(TenUser)
-                                    || message.tenUser.contains(tv_Search_TinNhan.getText().toString()) && message.tenNguoiGui.equals(TenUser)
-                                    || message.tenNguoiGui.contains(tv_Search_TinNhan.getText().toString()) && message.email_User.equals(EmailUser)) {
-                                if(message.email_User.equals(EmailUser)){
-                                    String keyTinNhan = snapshot.getKey();
-                                    messageArrayList.add(new TinNhanHienThi(keyTinNhan,message.message_User,message.emailNguoiNhan,message.email_User,message.tenUser,message.tenNguoiGui));
-                                }
-                                if(message.emailNguoiNhan.equals(EmailUser)) {
-                                    String keyTinNhan = snapshot.getKey();
-                                    messageArrayList.add(new TinNhanHienThi(keyTinNhan,message.message_User,message.email_User,message.emailNguoiNhan,message.tenNguoiGui,message.tenUser));
-                                }
-                            }
-                            check_search = true;
-                            messageAdapter.notifyDataSetChanged();
-                        }
-
-                        @Override
-                        public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-                        }
-
-                        @Override
-                        public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-
-                        }
-
-                        @Override
-                        public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-
-                        }
-                    });
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-
+            public void onClick(View view) {
+                startActivity(new Intent(getActivity(), SearchMessageActivity.class));
             }
         });
         if(!check_search){
