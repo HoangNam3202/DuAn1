@@ -276,7 +276,7 @@ public class DangKiActivity extends AppCompatActivity {
                                 }
                                 TaiKhoan taiKhoan = new TaiKhoan(RandomString(17), tenTaiKhoan, email, matKhau, soDienThoai, tinhThanhDaChon, urlHinhDaiDien);
                                 dbFirebase.ThemTaiKhoan(taiKhoan);
-                                Toast.makeText(DangKiActivity.this, "Đăng ký thành công: " + urlHinhDaiDien, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(DangKiActivity.this, "Đăng ký thành công: ", Toast.LENGTH_SHORT).show();
                                 finish();
                             } else {
                                 if (!kiemTraMatKhau) {
@@ -318,7 +318,7 @@ public class DangKiActivity extends AppCompatActivity {
             uploadTask.addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception exception) {
-                    Toast.makeText(DangKiActivity.this, "NOT OK ", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(DangKiActivity.this, "err ChonHinh 321 ", Toast.LENGTH_SHORT).show();
                 }
             })
 //                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -344,7 +344,7 @@ public class DangKiActivity extends AppCompatActivity {
                     if (task.isSuccessful()) {
                         Uri downloadUri = task.getResult();
                         urlHinhDaiDien = downloadUri.toString();
-                        Log.d(TAG, "onComplete: " + urlHinhDaiDien);
+//                        Log.d(TAG, "onComplete: " + urlHinhDaiDien);
 //                        Toast.makeText(DangKiActivity.this, "downloadUri: " + urlHinhDaiDien, Toast.LENGTH_SHORT).show();
                     } else {
                         // ...

@@ -60,7 +60,7 @@ public class ThemAnhActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (linkURLImage!=null){
-                    new DownloadImageTask(findViewById(R.id.ivHinhTaiVe)).execute(linkURLImage);
+                    new DownloadImageTask(ivHinhTaiVe).execute(linkURLImage);
                 }
             }
         });

@@ -1,10 +1,13 @@
 package com.example.tinnhn.ui.main;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +28,9 @@ import com.example.tinnhn.Message;
 import com.example.tinnhn.MessageAdapter;
 import com.example.tinnhn.R;
 import com.example.tinnhn.TinNhanHienThi;
+import com.example.tinnhn.taikhoan.HihNgNhanTrogMessArrLst;
+import com.example.tinnhn.taikhoan.LoginActivity;
+import com.example.tinnhn.taikhoan.TaiKhoan;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -34,7 +40,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.ArrayList;
 
 import static android.content.Context.MODE_PRIVATE;
-import static com.example.tinnhn.HoiThoaiActivity.hoiThoaiAdapter;
+import static com.example.tinnhn.MainActivity.hihNgNhanTrogMessArrLsts;
+import static com.example.tinnhn.taikhoan.LoginActivity.dbFirebase;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -47,11 +54,12 @@ public class PlaceholderFragment extends Fragment {
     int vitri;
     boolean clickcheck = false;
     private DatabaseReference mDatabase;
-    public String NoiDung,TenUser;
+    public String NoiDung, TenUser;
     ArrayList<TinNhanHienThi> messageArrayList;
+    ArrayList<TinNhanHienThi> messageArrayList_Message1;
     MessageAdapter messageAdapter;
     String EmailUser;
-    ArrayList<TinNhanHienThi> messageArrayList_Message1;
+    String TAG = "PlaceholderFragment";
 
     public static PlaceholderFragment newInstance(int index) {
         PlaceholderFragment fragment = new PlaceholderFragment();
@@ -73,7 +81,7 @@ public class PlaceholderFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_main, container, false);
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
@@ -81,9 +89,9 @@ public class PlaceholderFragment extends Fragment {
         ListView list_view_Message = view.findViewById(R.id.list_view_Message);
         messageArrayList = new ArrayList<>();
         messageArrayList_Message1 = new ArrayList<>();
-        ArrayList<Friends> messageArrayList_check = new ArrayList<>();
-        ArrayList<HoiThoai> messageArrayList_Message = new ArrayList<>();
-        messageAdapter = new MessageAdapter(getActivity(),R.layout.list_message_item,messageArrayList);
+//        ArrayList<Friends> messageArrayList_check = new ArrayList<>();
+//        ArrayList<HoiThoai> messageArrayList_Message = new ArrayList<>();
+        messageAdapter = new MessageAdapter(getActivity(), R.layout.list_message_item, messageArrayList);
         list_view_Message.setAdapter(messageAdapter);
         sharedPreferences = getContext().getSharedPreferences("GhiNhoDangNhap", MODE_PRIVATE);
         editor = sharedPreferences.edit();
@@ -94,18 +102,19 @@ public class PlaceholderFragment extends Fragment {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 TinNhanHienThi message = snapshot.getValue(TinNhanHienThi.class);
-                messageArrayList_Message1.clear();
-                messageArrayList_Message1.add(message);
-                for(int i = 0; i < messageArrayList_Message1.size(); i++){
-                    if(messageArrayList_Message1.get(i).email_User.equals(EmailUser)){
-                        String keyTinNhan = snapshot.getKey();
-                        messageArrayList.add(new TinNhanHienThi(keyTinNhan,messageArrayList_Message1.get(i).message_User,messageArrayList_Message1.get(i).emailNguoiNhan,messageArrayList_Message1.get(i).email_User,messageArrayList_Message1.get(i).tenUser,messageArrayList_Message1.get(i).tenNguoiGui));
-                    }
-                    if(messageArrayList_Message1.get(i).emailNguoiNhan.equals(EmailUser)) {
-                        String keyTinNhan = snapshot.getKey();
-                        messageArrayList.add(new TinNhanHienThi(keyTinNhan,messageArrayList_Message1.get(i).message_User,messageArrayList_Message1.get(i).email_User,messageArrayList_Message1.get(i).emailNguoiNhan,messageArrayList_Message1.get(i).tenNguoiGui,messageArrayList_Message1.get(i).tenUser));
-                    }
+                if (message.email_User.equals(EmailUser)) {
+                    String keyTinNhan = snapshot.getKey();
+                    messageArrayList.add(new TinNhanHienThi(keyTinNhan, message.message_User, message.emailNguoiNhan, message.email_User, message.tenUser, message.tenNguoiGui));
+                    // code lấy url hình từ email
+//                        LayUrlHinhTuEmail(message.);
                 }
+                if (message.emailNguoiNhan.equals(EmailUser)) {
+                    String keyTinNhan = snapshot.getKey();
+                    messageArrayList.add(new TinNhanHienThi(keyTinNhan, message.message_User, message.email_User, message.emailNguoiNhan, message.tenNguoiGui, message.tenUser));
+                    // code lấy url hình từ email
+
+                }
+
                 messageAdapter.notifyDataSetChanged();
             }
 
@@ -136,8 +145,7 @@ public class PlaceholderFragment extends Fragment {
                 Intent intent = new Intent(getActivity(), HoiThoaiActivity.class);
                 if (messageArrayList.get(i).email_User.equals(EmailUser)) {
                     intent.putExtra("TenNguoiGui", messageArrayList.get(i).tenUser);
-                }
-                else if (messageArrayList.get(i).emailNguoiNhan.equals(EmailUser)) {
+                } else if (messageArrayList.get(i).emailNguoiNhan.equals(EmailUser)) {
                     intent.putExtra("TenNguoiGui", messageArrayList.get(i).tenNguoiGui);
                 }
                 intent.putExtra("EmailNguoiGui", messageArrayList.get(i).emailNguoiNhan);
@@ -161,15 +169,15 @@ public class PlaceholderFragment extends Fragment {
                         TinNhanHienThi message = snapshot.getValue(TinNhanHienThi.class);
                         messageArrayList_Message1.clear();
                         messageArrayList_Message1.add(message);
-                        for(int i = 0; i < messageArrayList_Message1.size(); i++){
-                            if(tv_Search_TinNhan.getText().toString().contains(messageArrayList_Message1.get(i).tenUser)) {
+                        for (int i = 0; i < messageArrayList_Message1.size(); i++) {
+                            if (tv_Search_TinNhan.getText().toString().contains(messageArrayList_Message1.get(i).tenUser)) {
                                 String keyTinNhan = snapshot.getKey();
-                                messageArrayList.add(new TinNhanHienThi(keyTinNhan,messageArrayList_Message1.get(i).message_User,messageArrayList_Message1.get(i).emailNguoiNhan,messageArrayList_Message1.get(i).email_User,messageArrayList_Message1.get(i).tenUser,messageArrayList_Message1.get(i).tenNguoiGui));
+                                messageArrayList.add(new TinNhanHienThi(keyTinNhan, messageArrayList_Message1.get(i).message_User, messageArrayList_Message1.get(i).emailNguoiNhan, messageArrayList_Message1.get(i).email_User, messageArrayList_Message1.get(i).tenUser, messageArrayList_Message1.get(i).tenNguoiGui));
                             }
                         }
-                        if(tv_Search_TinNhan.getText().toString().equals("")){
+//                        if (tv_Search_TinNhan.getText().toString().equals("")) {
 //                            GoiDanhSachTinNhan();
-                        }
+//                        }
                         messageAdapter.notifyDataSetChanged();
                     }
 
@@ -200,50 +208,116 @@ public class PlaceholderFragment extends Fragment {
 
             }
         });
+        // code của trường, hàm lấy url hình từ email người nhận
+//        final Dialog dialog = new Dialog(getContext());
+//        dialog.setContentView(R.layout.dialog_loading);
+//        dialog.show();
+//        new CountDownTimer(1300, 100) {
+//            @Override
+//            public void onTick(long millisUntilFinished) {
+//            }
+//
+//            @Override
+//            public void onFinish() {
+//                dialog.dismiss();
+////                LayDanhSachUrlTuEmailNguoiNhan(messageArrayList);
+//            }
+//        }.start();
+        //
         return view;
     }
-    public void GoiDanhSachTinNhan(){
-        mDatabase = FirebaseDatabase.getInstance().getReference();
-        messageArrayList.clear();
-        messageAdapter.notifyDataSetChanged();
-        mDatabase.child("TinNhan").addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                TinNhanHienThi message = snapshot.getValue(TinNhanHienThi.class);
-                messageArrayList_Message1.clear();
-                messageArrayList_Message1.add(message);
-                for(int i = 0; i < messageArrayList_Message1.size(); i++){
-                    if(messageArrayList_Message1.get(i).email_User.equals(EmailUser)){
-                        String keyTinNhan = snapshot.getKey();
-                        messageArrayList.add(new TinNhanHienThi(keyTinNhan,messageArrayList_Message1.get(i).message_User,messageArrayList_Message1.get(i).emailNguoiNhan,messageArrayList_Message1.get(i).email_User,messageArrayList_Message1.get(i).tenUser,messageArrayList_Message1.get(i).tenNguoiGui));
-                    }
-                    if(messageArrayList_Message1.get(i).emailNguoiNhan.equals(EmailUser)) {
-                        String keyTinNhan = snapshot.getKey();
-                        messageArrayList.add(new TinNhanHienThi(keyTinNhan,messageArrayList_Message1.get(i).message_User,messageArrayList_Message1.get(i).email_User,messageArrayList_Message1.get(i).emailNguoiNhan,messageArrayList_Message1.get(i).tenNguoiGui,messageArrayList_Message1.get(i).tenUser));
-                    }
-                }
-                messageAdapter.notifyDataSetChanged();
-            }
 
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+//    1sec messageArrayList
+//            1sec hihNgNhanTrogMessArrLsts
+//                1sec messageArrayList
 
-            }
+//    private void LayDanhSachUrlTuEmailNguoiNhan(ArrayList<TinNhanHienThi> messageArrayList) {
+//        if (messageArrayList.size() != 0) {
+////            hihNgNhanTrogMessArrLsts.clear();
+//            for (int i = 0; i < messageArrayList.size(); i++) {
+////                dbFirebase.LayUrlHinhNguoiNhanTuEmail(messageArrayList.get(i).emailNguoiNhan);
+//                int finalI = i;
+//                mDatabase.child("TaiKhoan").addChildEventListener(new ChildEventListener() {
+//                    @Override
+//                    public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+//                        TaiKhoan taiKhoan = snapshot.getValue(TaiKhoan.class);
+//                        if (taiKhoan.getEmail().equals(messageArrayList.get(finalI).emailNguoiNhan)) {
+//                            hihNgNhanTrogMessArrLsts.add(new HihNgNhanTrogMessArrLst(messageArrayList.get(finalI).emailNguoiNhan, taiKhoan.getHinhDaiDien()));
+//                            Log.d(TAG, "hihNgNhanTrogMessArrLsts: " + hihNgNhanTrogMessArrLsts.size());
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onCancelled(@NonNull DatabaseError error) {
+//
+//                    }
+//                });
+//
+//
+//            }
+//
+//        } else Log.e(TAG, "LayDanhSachUrlTuEmailNguoiNhan: Danh sách tin nhắn trống");
+////        Log.d(TAG, "hihNgNhanTrogMessArrLsts: " + hihNgNhanTrogMessArrLsts.size());
+//
+//    }
 
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-    }
+//    public void GoiDanhSachTinNhan() {
+//        mDatabase = FirebaseDatabase.getInstance().getReference();
+//        messageArrayList.clear();
+//        messageAdapter.notifyDataSetChanged();
+//        mDatabase.child("TinNhan").addChildEventListener(new ChildEventListener() {
+//            @Override
+//            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+//                TinNhanHienThi message = snapshot.getValue(TinNhanHienThi.class);
+//                messageArrayList_Message1.clear();
+//                messageArrayList_Message1.add(message);
+//                for (int i = 0; i < messageArrayList_Message1.size(); i++) {
+//                    if (messageArrayList_Message1.get(i).email_User.equals(EmailUser)) {
+//                        String keyTinNhan = snapshot.getKey();
+//                        messageArrayList.add(new TinNhanHienThi(keyTinNhan, messageArrayList_Message1.get(i).message_User, messageArrayList_Message1.get(i).emailNguoiNhan, messageArrayList_Message1.get(i).email_User, messageArrayList_Message1.get(i).tenUser, messageArrayList_Message1.get(i).tenNguoiGui));
+//                    }
+//                    if (messageArrayList_Message1.get(i).emailNguoiNhan.equals(EmailUser)) {
+//                        String keyTinNhan = snapshot.getKey();
+//                        messageArrayList.add(new TinNhanHienThi(keyTinNhan, messageArrayList_Message1.get(i).message_User, messageArrayList_Message1.get(i).email_User, messageArrayList_Message1.get(i).emailNguoiNhan, messageArrayList_Message1.get(i).tenNguoiGui, messageArrayList_Message1.get(i).tenUser));
+//                    }
+//                }
+//                messageAdapter.notifyDataSetChanged();
+//            }
+//
+//            @Override
+//            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+//
+//            }
+//
+//            @Override
+//            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+//
+//            }
+//
+//            @Override
+//            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+//
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//
+//            }
+//        });
+//    }
 }
