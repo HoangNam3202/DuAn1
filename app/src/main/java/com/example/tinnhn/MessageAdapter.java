@@ -13,8 +13,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import com.example.tinnhn.taikhoan.DownloadImageTask;
+import com.example.tinnhn.taikhoan.HihNgNhanTrogMessArrLst;
 import com.example.tinnhn.taikhoan.LoginActivity;
+import com.example.tinnhn.taikhoan.TaiKhoan;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -23,6 +31,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import static android.content.Context.MODE_PRIVATE;
+import static com.example.tinnhn.MainActivity.hihNgNhanTrogMessArrLsts;
 import static com.example.tinnhn.taikhoan.LoginActivity.dbFirebase;
 
 public class MessageAdapter extends BaseAdapter {
@@ -35,6 +44,8 @@ public class MessageAdapter extends BaseAdapter {
     String EmailUser, EmailNguoiGui;
     public static String urlHinhNguoiNhan = "";
     String TAG = "MessageAdapter";
+    String urlHinh = "";
+
 
     public MessageAdapter(Context context, int layout, List<TinNhanHienThi> messageList) {
         this.context = context;
@@ -72,10 +83,44 @@ public class MessageAdapter extends BaseAdapter {
         TextView tvTenFriends = view.findViewById(R.id.tvTenFriends);
         TextView tvtinnhanFriends = view.findViewById(R.id.tvtinnhanFriends);
         TextView tvthoiGian = view.findViewById(R.id.tvthoiGian);
-
         ImageView imgAnh_Message = view.findViewById(R.id.imgAnh_Message);
 
         TinNhanHienThi message = messageList.get(i);
+        //
+        mDatabase.child("TaiKhoan").addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                TaiKhoan taiKhoan = snapshot.getValue(TaiKhoan.class);
+                if (taiKhoan.getEmail().equals(message.emailNguoiNhan)) {
+                    urlHinh = taiKhoan.getHinhDaiDien();
+                    new DownloadImageTask(imgAnh_Message).execute(urlHinh);
+                }
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+//        Glide.with(context).load(urlHinh).into(imgAnh_Message);
+        //
+
+
         tvtinnhanFriends.setText(message.message_User);
         tvthoiGian.setText("• " + formattedDate);
 

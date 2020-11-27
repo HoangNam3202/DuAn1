@@ -7,12 +7,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.example.tinnhn.taikhoan.DownloadImageTask;
+import com.example.tinnhn.taikhoan.TaiKhoan;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -32,6 +35,7 @@ public class FriendsAdapter extends BaseAdapter {
     private List<Friends> friendsList;
     private DatabaseReference mDatabase;
     String idKeyXoa;
+    String urlHinh;
 
     public FriendsAdapter(Context context, int layout, List<Friends> friendsList) {
         this.context = context;
@@ -61,7 +65,7 @@ public class FriendsAdapter extends BaseAdapter {
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
         TextView tvTenFriends = view.findViewById(R.id.tvTenFriends);
-
+        ImageView imgAnh_Friends = view.findViewById(R.id.imgAnh_Friends);
         Friends friends = friendsList.get(i);
 
         tvTenFriends.setText(friends.tenTaiKhoan);
@@ -93,6 +97,39 @@ public class FriendsAdapter extends BaseAdapter {
                 builder.create().show();
             }
         });
+        //
+        mDatabase.child("TaiKhoan").addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                TaiKhoan taiKhoan = snapshot.getValue(TaiKhoan.class);
+                if (taiKhoan.getEmail().equals(friends.email)) {
+                    urlHinh = taiKhoan.getHinhDaiDien();
+                    new DownloadImageTask(imgAnh_Friends).execute(urlHinh);
+                }
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+        //
+
         return view;
     }
 

@@ -248,35 +248,35 @@ public class PlaceholderFragment extends Fragment {
 
     // lấy url hình từ mail người dùng
     private void LayUrlTuEmail(String emailNguoiNhan) {
-        mDatabase.child("TaiKhoan").addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                TaiKhoan taiKhoan = snapshot.getValue(TaiKhoan.class);
-                if (taiKhoan.getEmail().equals(emailNguoiNhan)) {
-                    hihNgNhanTrogMessArrLsts.add(new HihNgNhanTrogMessArrLst(emailNguoiNhan, taiKhoan.getHinhDaiDien()));
-                }
-            }
-
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-            }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
+//        mDatabase.child("TaiKhoan").addChildEventListener(new ChildEventListener() {
+//            @Override
+//            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+//                TaiKhoan taiKhoan = snapshot.getValue(TaiKhoan.class);
+//                if (taiKhoan.getEmail().equals(emailNguoiNhan)) {
+//                    hihNgNhanTrogMessArrLsts.add(new HihNgNhanTrogMessArrLst(emailNguoiNhan, taiKhoan.getHinhDaiDien()));
+//                }
+//            }
+//
+//            @Override
+//            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+//
+//            }
+//
+//            @Override
+//            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+//
+//            }
+//
+//            @Override
+//            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+//
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//
+//            }
+//        });
     }
     //
 
