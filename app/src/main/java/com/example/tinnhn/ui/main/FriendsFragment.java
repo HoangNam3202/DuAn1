@@ -25,7 +25,7 @@ public class FriendsFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mRoot = inflater.inflate(R.layout.fragment_friends,container,false);
+        mRoot = inflater.inflate(R.layout.fragment_friends, container, false);
         BanBePagerAdapter sectionsPagerAdapter = new BanBePagerAdapter(getContext(), getChildFragmentManager());
         ViewPager viewPager = mRoot.findViewById(R.id.view_pager);
         viewPager.setAdapter(sectionsPagerAdapter);

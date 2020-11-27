@@ -3,6 +3,7 @@ package com.example.tinnhn.Call;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
 import com.example.tinnhn.R;
 
 import android.content.Intent;
@@ -19,7 +20,7 @@ import com.sinch.android.rtc.calling.CallClient;
 
 public class Dialer extends BaseActivity {
 
-    private Button appNutGoi,appNutGoi2;
+    private Button appNutGoi, appNutGoi2;
     private EditText appTentarget;
 
     @Override
@@ -51,7 +52,7 @@ public class Dialer extends BaseActivity {
 
     @Override
     public void onDestroy() {
-        if (getGiaodiendichvu()!= null) {
+        if (getGiaodiendichvu() != null) {
             getGiaodiendichvu().stopClient();
         }
         super.onDestroy();
@@ -68,7 +69,7 @@ public class Dialer extends BaseActivity {
     //to place the call to the entered name
     private void callButtonClicked() {
         String userName = appTentarget.getText().toString();
-        if (userName==null) {
+        if (userName == null) {
             Toast.makeText(this, "Please enter a user to call", Toast.LENGTH_LONG).show();
             return;
         }
@@ -83,7 +84,7 @@ public class Dialer extends BaseActivity {
 
     private void callButtonClicked2() {
         String userName = appTentarget.getText().toString();
-        if (userName==null) {
+        if (userName == null) {
             Toast.makeText(this, "Please enter a user to call", Toast.LENGTH_LONG).show();
             return;
         }

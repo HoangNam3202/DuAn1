@@ -2,7 +2,9 @@ package com.example.tinnhn.taikhoan;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Dialog;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -190,6 +192,21 @@ public class QuenMatKhauActivity extends AppCompatActivity {
                     nhapLaiMatKhau = edtNhapLaiMatKhau.getText().toString().trim();
                     if (matKhau.equals(nhapLaiMatKhau)) {
                         dbFirebase.KiemTraTaiKhoan(tenTaiKhoan, email, soDienThoai);
+                        //
+                        final Dialog dialog = new Dialog(QuenMatKhauActivity.this);
+                        dialog.setContentView(R.layout.dialog_loading);
+                        dialog.show();
+                        new CountDownTimer(1300, 100) {
+                            @Override
+                            public void onTick(long millisUntilFinished) {
+                            }
+
+                            @Override
+                            public void onFinish() {
+                                dialog.dismiss();
+                            }
+                        }.start();
+                        //
                         new Handler().postDelayed(new Runnable() {
                             @Override
                             public void run() {
@@ -224,7 +241,8 @@ public class QuenMatKhauActivity extends AppCompatActivity {
                                     }
                                 }
                             }
-                        }, 1200);
+                        }, 1300);
+                        //
                     } else {
                         Toast.makeText(QuenMatKhauActivity.this, "Mật khẩu không khớp", Toast.LENGTH_SHORT).show();
                     }

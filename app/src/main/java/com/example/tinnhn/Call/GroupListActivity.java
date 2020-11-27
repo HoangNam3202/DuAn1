@@ -35,9 +35,9 @@ public class GroupListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.group_list);
 
-        final EditText tengrp=findViewById(R.id.tengroup);
-        Button them=findViewById(R.id.themgrp);
-        ListView grplist=findViewById(R.id.grplv);
+        final EditText tengrp = findViewById(R.id.tengroup);
+        Button them = findViewById(R.id.themgrp);
+        ListView grplist = findViewById(R.id.grplv);
         mDatabase = FirebaseDatabase.getInstance().getReference();
         ArrayList<String> dsgrp = new ArrayList<>();
 
@@ -46,7 +46,7 @@ public class GroupListActivity extends AppCompatActivity {
         mDatabase.child("Group").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                String nhom=snapshot.getValue().toString();
+                String nhom = snapshot.getValue().toString();
                 dsgrp.add(nhom);
                 adapter.notifyDataSetChanged();
             }
@@ -80,14 +80,12 @@ public class GroupListActivity extends AppCompatActivity {
 //                mDatabase.child("Group").push().setValue(group);
 
 
-
-
             }
         });
 
 
-
     }
+
     public int RandomString(int n) {
 //        String AlphaNumericString = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvxyz0123456789";
         String AlphaNumericString = "0123456789";

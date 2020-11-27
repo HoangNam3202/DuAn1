@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.example.tinnhn.R;
+
 import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -25,8 +26,6 @@ public class testcall extends BaseActivity implements SinchServices.StartFailedL
     private ProgressDialog appTienTrinh;
 
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,7 +33,7 @@ public class testcall extends BaseActivity implements SinchServices.StartFailedL
 
         //asking for permissions here
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            requestPermissions(new String[]{Manifest.permission.RECORD_AUDIO, Manifest.permission.CAMERA, Manifest.permission.ACCESS_NETWORK_STATE, Manifest.permission.READ_PHONE_STATE},100);
+            requestPermissions(new String[]{Manifest.permission.RECORD_AUDIO, Manifest.permission.CAMERA, Manifest.permission.ACCESS_NETWORK_STATE, Manifest.permission.READ_PHONE_STATE}, 100);
         }
 
         //initializing UI elements

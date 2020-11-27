@@ -58,8 +58,7 @@ public class HoiThoaiAdapter extends BaseAdapter {
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        view = inflater.inflate(layout,null);
-
+        view = inflater.inflate(layout, null);
 
 
         TextView tvUser_tin_nhan = view.findViewById(R.id.tvHoiThoai_User_tin_nhan);
@@ -76,15 +75,15 @@ public class HoiThoaiAdapter extends BaseAdapter {
         editor = sharedPreferences.edit();
 
         String EmailNguoiGui = intent.getStringExtra("EmailNguoiGui");
-        final String EmailUser = sharedPreferences.getString("tenTaiKhoan","");
+        final String EmailUser = sharedPreferences.getString("tenTaiKhoan", "");
 
-        if(hoiThoai.email_User.equals(EmailUser)){
+        if (hoiThoai.email_User.equals(EmailUser)) {
             tvUser_tin_nhan.setText(hoiThoai.message_User);
             tv_HoiThoaiBanCuaUser.setVisibility(View.GONE);
             imgAnh_Ban_Cua_User.setVisibility(View.GONE);
             card_view_Friend.setVisibility(View.GONE);
         }
-        if(hoiThoai.email_User.equals(EmailNguoiGui)){
+        if (hoiThoai.email_User.equals(EmailNguoiGui)) {
             tv_HoiThoaiBanCuaUser.setText(hoiThoai.message_User);
             tvUser_tin_nhan.setVisibility(View.GONE);
             imgAnh_User_tin_nhan.setVisibility(View.GONE);

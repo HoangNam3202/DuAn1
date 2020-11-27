@@ -5,12 +5,15 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.PorterDuff;
 import android.os.Build;
 import android.os.Bundle;
 
 import com.example.tinnhn.Call.BaseActivity;
 import com.example.tinnhn.Call.SinchServices;
+import com.example.tinnhn.taikhoan.HihNgNhanTrogMessArrLst;
 import com.example.tinnhn.taikhoan.LoginActivity;
 import com.example.tinnhn.ui.main.PlaceholderFragment;
 import com.google.android.gms.common.api.internal.SignInConnectionListener;
@@ -26,6 +29,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.IBinder;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -40,23 +44,25 @@ import com.example.tinnhn.ui.main.SectionsPagerAdapter;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-public class MainActivity extends BaseActivity  {
-    SharedPreferences sharedPreferences;
-    SharedPreferences.Editor editor;
-    String email;
+import java.io.InputStream;
+import java.util.ArrayList;
+
+import static com.example.tinnhn.taikhoan.LoginActivity.dbFirebase;
+import static com.example.tinnhn.taikhoan.LoginActivity.urlHinhDaiDien;
+
+public class MainActivity extends BaseActivity {
+    String TAG = "MainActivity";
+    // lấy url hình từ mail người dùng
+    public static ArrayList<HihNgNhanTrogMessArrLst> hihNgNhanTrogMessArrLsts = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-//        sharedPreferences = getSharedPreferences("GhiNhoDangNhap", MODE_PRIVATE);
-//        editor = sharedPreferences.edit();
-//        email = sharedPreferences.getString("tenTaiKhoan", "");
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            requestPermissions(new String[]{Manifest.permission.RECORD_AUDIO, Manifest.permission.CAMERA, Manifest.permission.ACCESS_NETWORK_STATE, Manifest.permission.READ_PHONE_STATE},100);
+            requestPermissions(new String[]{Manifest.permission.RECORD_AUDIO, Manifest.permission.CAMERA, Manifest.permission.ACCESS_NETWORK_STATE, Manifest.permission.READ_PHONE_STATE}, 100);
         }
-
 
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(this, getSupportFragmentManager());
@@ -67,12 +73,11 @@ public class MainActivity extends BaseActivity  {
         tabs.getTabAt(0).setIcon(R.drawable.envelope);
         tabs.getTabAt(1).setIcon(R.drawable.group);
         tabs.getTabAt(2).setIcon(R.drawable.friend);
-        tabs.getTabAt(3).setIcon(R.drawable.gear);
+        tabs.getTabAt(3).setIcon(R.drawable.ic_baseline_dashboard_24);
         tabs.getTabAt(0).getIcon().setColorFilter(getResources().getColor(R.color.colorItemSelected), PorterDuff.Mode.SRC_IN);
         tabs.getTabAt(1).getIcon().setColorFilter(getResources().getColor(R.color.colorItem), PorterDuff.Mode.SRC_IN);
         tabs.getTabAt(2).getIcon().setColorFilter(getResources().getColor(R.color.colorItem), PorterDuff.Mode.SRC_IN);
         tabs.getTabAt(3).getIcon().setColorFilter(getResources().getColor(R.color.colorItem), PorterDuff.Mode.SRC_IN);
-        
 
         tabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -107,8 +112,8 @@ public class MainActivity extends BaseActivity  {
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
-                //chaydichvu();
-               tabs.getTabAt(2).getIcon().setColorFilter(getResources().getColor(R.color.colorItem), PorterDuff.Mode.SRC_IN);
+//                chaydichvu();
+                tabs.getTabAt(2).getIcon().setColorFilter(getResources().getColor(R.color.colorItem), PorterDuff.Mode.SRC_IN);
 
             }
 
@@ -118,6 +123,7 @@ public class MainActivity extends BaseActivity  {
         });
 
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
