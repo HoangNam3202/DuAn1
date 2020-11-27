@@ -58,7 +58,7 @@ public class SearchFriendsActivity extends AppCompatActivity {
                         goiYKetBanArrayList_check.clear();
                         goiYKetBanArrayList_check.add(taiKhoan);
                         for (int x = 0; x < goiYKetBanArrayList_check.size(); x++) {
-                            if(tv_Search.getText().toString().contains(goiYKetBanArrayList_check.get(x).email)){
+                            if(goiYKetBanArrayList_check.get(x).email.contains(tv_Search.getText().toString())){
                                 TimKiemarrayList.add(new TaiKhoan(goiYKetBanArrayList_check.get(x).idTaiKhoan,goiYKetBanArrayList_check.get(x).tenTaiKhoan,goiYKetBanArrayList_check.get(x).email,
                                         goiYKetBanArrayList_check.get(x).matKhau,goiYKetBanArrayList_check.get(x).soDienThoai,goiYKetBanArrayList_check.get(x).diaChi,
                                         goiYKetBanArrayList_check.get(x).hinhDaiDien));
