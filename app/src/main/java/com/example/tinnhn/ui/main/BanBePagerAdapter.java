@@ -36,8 +36,7 @@ public class BanBePagerAdapter extends FragmentPagerAdapter {
         // Return a PlaceholderFragment (defined as a static inner class below).
         if (position == 0) {
             return friendChildFragment;
-        }
-        else if (position == 1) {
+        } else if (position == 1) {
             return addFriendChildFragment;
         }
         return null;

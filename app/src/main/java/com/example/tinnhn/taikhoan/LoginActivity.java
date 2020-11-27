@@ -24,11 +24,11 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
 public class LoginActivity extends BaseActivity {
-    public static int kiemTraDangNhap = -1;
-
+    public static int kiemTraDangNhap;
     public static DBFirebase dbFirebase;
     public static String tenUser = "";
     public static String DiaChiUser = "";
+    public static String urlHinhDaiDien = "";
     EditText edtEmail;
     TextInputLayout tilMatKhau;
     TextInputEditText edtMatKhau;
@@ -52,9 +52,9 @@ public class LoginActivity extends BaseActivity {
         dbFirebase = new DBFirebase();
         sharedPreferences = getSharedPreferences("GhiNhoDangNhap", MODE_PRIVATE);
         editor = sharedPreferences.edit();
+        emailsv = sharedPreferences.getString("tenTaiKhoan", "");
         KiemTraGhiNhoDangNhap();
         DangNhap();
-        emailsv = sharedPreferences.getString("tenTaiKhoan", "");
         txtDangKy = findViewById(R.id.txtDangKy);
         txtDangKy.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,6 +74,7 @@ public class LoginActivity extends BaseActivity {
     private void KiemTraGhiNhoDangNhap() {
         String tenTaiKhoan = sharedPreferences.getString("tenTaiKhoan", "");
         if (tenTaiKhoan.length() != 0) {
+            urlHinhDaiDien = sharedPreferences.getString("urlHinhDaiDien", "");
             startActivity(new Intent(LoginActivity.this, MainActivity.class));
             finish();
         }
@@ -164,7 +165,6 @@ public class LoginActivity extends BaseActivity {
                             dialog.dismiss();
                         }
                     }.start();
-
                     //
                     new Handler().postDelayed(new Runnable() {
                         @Override
@@ -172,7 +172,8 @@ public class LoginActivity extends BaseActivity {
                             if (kiemTraDangNhap == 0) {
                                 editor.putString("tenTaiKhoan", email);
                                 editor.putString("tenUser", tenUser);
-                                editor.putString("DiaChiUser",DiaChiUser);
+                                editor.putString("DiaChiUser", DiaChiUser);
+                                editor.putString("urlHinhDaiDien", urlHinhDaiDien);
                                 editor.commit();
                                 getGiaodiendichvu().startClient(email);
                                 startActivity(new Intent(LoginActivity.this, MainActivity.class));

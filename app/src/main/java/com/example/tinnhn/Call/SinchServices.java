@@ -87,10 +87,11 @@ public class SinchServices extends Service {
             return appSinchClient.getCallClient().callUserVideo(userId);
         }
 
-        public Call calluser(String userId){
+        public Call calluser(String userId) {
             return appSinchClient.getCallClient().callUser(userId);
         }
-        public Call callGroup(String userId){
+
+        public Call callGroup(String userId) {
             return appSinchClient.getCallClient().callConference(userId);
         }
 

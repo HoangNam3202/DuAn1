@@ -7,6 +7,8 @@ public class TinNhanHienThi {
     public String email_User;
     public String tenNguoiGui;
     public String tenUser;
+    public String urlHinhNguoiNhan;
+
 
     public TinNhanHienThi() {
 

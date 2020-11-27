@@ -32,6 +32,7 @@ public class GroupAdapter extends BaseAdapter {
     private DatabaseReference mDatabase;
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
+
     public GroupAdapter(Context context, int layout, List<Group> hoiThoaiList) {
         this.context = context;
         this.layout = layout;

@@ -1,5 +1,6 @@
 package com.example.tinnhn.taikhoan;
 
+
 import android.util.Log;
 import android.widget.Toast;
 
@@ -12,17 +13,22 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.ArrayList;
+
+import static com.example.tinnhn.MainActivity.hihNgNhanTrogMessArrLsts;
+import static com.example.tinnhn.MessageAdapter.urlHinhNguoiNhan;
 import static com.example.tinnhn.taikhoan.DangKiActivity.kiemTraTrungEmail;
 import static com.example.tinnhn.taikhoan.DangKiActivity.kiemTraTrungSoDienThoai;
 import static com.example.tinnhn.taikhoan.DangKiActivity.kiemTraTrungTenTaiKhoan;
 import static com.example.tinnhn.taikhoan.LoginActivity.kiemTraDangNhap;
 import static com.example.tinnhn.taikhoan.LoginActivity.tenUser;
 import static com.example.tinnhn.taikhoan.LoginActivity.DiaChiUser;
+import static com.example.tinnhn.taikhoan.LoginActivity.urlHinhDaiDien;
 import static com.example.tinnhn.taikhoan.QuenMatKhauActivity.idTaiKhoanQMK;
 import static com.example.tinnhn.taikhoan.QuenMatKhauActivity.xacNhanTaiKhoan;
 
 public class DBFirebase {
-    public String TAG = "DBFirebase";
+    String TAG = "DBFirebase";
     DatabaseReference databaseReference;
 
     public void KhoiTaoFirebase() {
@@ -125,6 +131,7 @@ public class DBFirebase {
                         kiemTraDangNhap = 0;
                         tenUser = taiKhoan.getTenTaiKhoan();
                         DiaChiUser = taiKhoan.getDiaChi();
+                        urlHinhDaiDien = taiKhoan.getHinhDaiDien();
                     } else {
                         kiemTraDangNhap = 2;
                     }
@@ -199,11 +206,82 @@ public class DBFirebase {
         });
     }
 
-
     public void DoiMatKhau(String idTaiKhoanQMK, String matKhau) {
         KhoiTaoFirebase();
         databaseReference.child("TaiKhoan").child(idTaiKhoanQMK).child("matKhau").setValue(matKhau);
     }
+
+    //    public void LayLinkHinhNguoiNhan(String emailNguoiNhan) {
+//        KhoiTaoFirebase();
+//        databaseReference.child("TaiKhoan").addChildEventListener(new ChildEventListener() {
+//            @Override
+//            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+//                TaiKhoan taiKhoan = snapshot.getValue(TaiKhoan.class);
+//                if (taiKhoan.getEmail().equals(emailNguoiNhan)) {
+//                    urlHinhNguoiNhan = taiKhoan.getHinhDaiDien();
+//                    Log.d(TAG, "LayLinkHinhNguoiNhan: " + urlHinhNguoiNhan);
+//                }
+//            }
+//
+//            @Override
+//            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+//
+//            }
+//
+//            @Override
+//            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+//
+//            }
+//
+//            @Override
+//            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+//
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//
+//            }
+//        });
+//
+//    }
+
+
+
+
+//    public void LayUrlHinhNguoiNhanTuEmail(String emailNguoiNhan) {
+//        KhoiTaoFirebase();
+//        databaseReference.child("TaiKhoan").addChildEventListener(new ChildEventListener() {
+//            @Override
+//            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+//                TaiKhoan taiKhoan = snapshot.getValue(TaiKhoan.class);
+//                if (taiKhoan.getEmail().equals(emailNguoiNhan)) {
+//                    hihNgNhanTrogMessArrLsts.add(new HihNgNhanTrogMessArrLst(emailNguoiNhan, taiKhoan.getHinhDaiDien()));
+//                    Log.d(TAG, "LayUrlHinhNguoiNhanTuEmail: " + taiKhoan.getHinhDaiDien());
+//                }
+//            }
+//
+//            @Override
+//            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+//
+//            }
+//
+//            @Override
+//            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+//
+//            }
+//
+//            @Override
+//            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+//
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//
+//            }
+//        });
+//    }
 }
 
 //    public String LayKeyTaiKhoan(String email) {

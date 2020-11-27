@@ -38,6 +38,7 @@ import java.util.List;
 
 public class StorageActivity extends AppCompatActivity {
     private final String TAG = "StorageActivity";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +46,7 @@ public class StorageActivity extends AppCompatActivity {
 
         includesForCreateReference();
     }
+
     public void includesForCreateReference() {
         FirebaseStorage storage = FirebaseStorage.getInstance();
 
@@ -146,7 +148,7 @@ public class StorageActivity extends AppCompatActivity {
         // [END upload_create_reference]
 
 
-        ImageView imageView = (ImageView)findViewById(android.R.id.text1);
+        ImageView imageView = (ImageView) findViewById(android.R.id.text1);
 
         // [START upload_memory]
         // Get the data from an ImageView as bytes
@@ -192,7 +194,7 @@ public class StorageActivity extends AppCompatActivity {
 
         // [START upload_file]
         Uri file = Uri.fromFile(new File("path/to/images/rivers.jpg"));
-        StorageReference riversRef = storageRef.child("images/"+file.getLastPathSegment());
+        StorageReference riversRef = storageRef.child("images/" + file.getLastPathSegment());
         uploadTask = riversRef.putFile(file);
 
         // Register observers to listen for when the download is done or if it fails
@@ -259,7 +261,7 @@ public class StorageActivity extends AppCompatActivity {
                 .build();
 
         // Upload file and metadata to the path 'images/mountains.jpg'
-        uploadTask = storageRef.child("images/"+file.getLastPathSegment()).putFile(file, metadata);
+        uploadTask = storageRef.child("images/" + file.getLastPathSegment()).putFile(file, metadata);
 
         // Listen for state changes, errors, and completion of the upload.
         uploadTask.addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {

@@ -37,7 +37,7 @@ public class TinNhanAdapter extends BaseAdapter {
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        view = inflater.inflate(layout,null);
+        view = inflater.inflate(layout, null);
 
 //        TextView txtTen = view.findViewById(R.id.txtTen);
 //        TextView txtHoiThoai = view.findViewById(R.id.txtNgay);

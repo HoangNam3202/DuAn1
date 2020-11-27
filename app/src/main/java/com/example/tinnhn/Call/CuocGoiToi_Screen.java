@@ -59,47 +59,49 @@ public class CuocGoiToi_Screen extends BaseActivity {
 
 
     @Override
-    protected void onServiceConnected(){
-        Call call=getGiaodiendichvu().getCall(appIDNguoiGoi);
-        if(call!=null){
+    protected void onServiceConnected() {
+        Call call = getGiaodiendichvu().getCall(appIDNguoiGoi);
+        if (call != null) {
             call.addCallListener(new SinchCallListener());
             Toast.makeText(this, call.getRemoteUserId(), Toast.LENGTH_SHORT).show();
-        }else{
+        } else {
             finish();
         }
     }
 
-    private void nghe(){
-    Call call=getGiaodiendichvu().getCall(appIDNguoiGoi);
-    if(call!=null){
-        call.answer();
-        Intent intent=new Intent(this,CuocGoi_Screen.class);
-        intent.putExtra(SinchServices.CALL_ID,appIDNguoiGoi);
-        startActivity(intent);
-    }else{
-        finish();
-    }
-}
-    private void nghe2(){
-        Call call=getGiaodiendichvu().getCall(appIDNguoiGoi);
-        if(call!=null){
+    private void nghe() {
+        Call call = getGiaodiendichvu().getCall(appIDNguoiGoi);
+        if (call != null) {
             call.answer();
-            Intent intent=new Intent(this,AudioCall.class);
-            intent.putExtra(SinchServices.CALL_ID,appIDNguoiGoi);
+            Intent intent = new Intent(this, CuocGoi_Screen.class);
+            intent.putExtra(SinchServices.CALL_ID, appIDNguoiGoi);
             startActivity(intent);
-        }else{
+        } else {
             finish();
         }
     }
-    private void tuchoi(){
-            // mAudioPlayer.stopRingtone();
-            Call call = getGiaodiendichvu().getCall(appIDNguoiGoi);
-            if (call != null) {
-                call.hangup();
-            }
-            finish();
 
-}
+    private void nghe2() {
+        Call call = getGiaodiendichvu().getCall(appIDNguoiGoi);
+        if (call != null) {
+            call.answer();
+            Intent intent = new Intent(this, AudioCall.class);
+            intent.putExtra(SinchServices.CALL_ID, appIDNguoiGoi);
+            startActivity(intent);
+        } else {
+            finish();
+        }
+    }
+
+    private void tuchoi() {
+        // mAudioPlayer.stopRingtone();
+        Call call = getGiaodiendichvu().getCall(appIDNguoiGoi);
+        if (call != null) {
+            call.hangup();
+        }
+        finish();
+
+    }
 
 
     private class SinchCallListener implements VideoCallListener {
@@ -114,12 +116,12 @@ public class CuocGoiToi_Screen extends BaseActivity {
 
         @Override
         public void onCallEstablished(Call call) {
-          //  Log.d(TAG, "Call established");
+            //  Log.d(TAG, "Call established");
         }
 
         @Override
         public void onCallProgressing(Call call) {
-           // Log.d(TAG, "Call progressing");
+            // Log.d(TAG, "Call progressing");
         }
 
         @Override

@@ -33,9 +33,11 @@ public class Splash_Screen extends AppCompatActivity {
     private void abc() {
         //safasf/safdasdf/sfas/f
     }
+
     private void ab1c() {
         //safasf/safdasdf/sfas/f
     }
+
     private void a2bc() {
         //safasf/safdasdf/sfas/f
     }
