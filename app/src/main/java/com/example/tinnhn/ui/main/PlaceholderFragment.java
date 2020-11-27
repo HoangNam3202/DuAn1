@@ -1,13 +1,10 @@
 package com.example.tinnhn.ui.main;
 
-import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,9 +25,6 @@ import com.example.tinnhn.Message;
 import com.example.tinnhn.MessageAdapter;
 import com.example.tinnhn.R;
 import com.example.tinnhn.TinNhanHienThi;
-import com.example.tinnhn.taikhoan.HihNgNhanTrogMessArrLst;
-import com.example.tinnhn.taikhoan.LoginActivity;
-import com.example.tinnhn.taikhoan.TaiKhoan;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -40,6 +34,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.ArrayList;
 
 import static android.content.Context.MODE_PRIVATE;
+import static com.example.tinnhn.HoiThoaiActivity.hoiThoaiAdapter;
 import static com.example.tinnhn.MainActivity.hihNgNhanTrogMessArrLsts;
 import static com.example.tinnhn.taikhoan.LoginActivity.dbFirebase;
 
@@ -56,9 +51,11 @@ public class PlaceholderFragment extends Fragment {
     private DatabaseReference mDatabase;
     public String NoiDung, TenUser;
     ArrayList<TinNhanHienThi> messageArrayList;
-    ArrayList<TinNhanHienThi> messageArrayList_Message1;
     MessageAdapter messageAdapter;
     String EmailUser;
+    ArrayList<TinNhanHienThi> messageArrayList_Message1;
+    boolean check_search = false;
+
     String TAG = "PlaceholderFragment";
 
     public static PlaceholderFragment newInstance(int index) {
@@ -89,55 +86,54 @@ public class PlaceholderFragment extends Fragment {
         ListView list_view_Message = view.findViewById(R.id.list_view_Message);
         messageArrayList = new ArrayList<>();
         messageArrayList_Message1 = new ArrayList<>();
-//        ArrayList<Friends> messageArrayList_check = new ArrayList<>();
-//        ArrayList<HoiThoai> messageArrayList_Message = new ArrayList<>();
-        messageAdapter = new MessageAdapter(getActivity(), R.layout.list_message_item, messageArrayList);
+        ArrayList<Friends> messageArrayList_check = new ArrayList<>();
+        ArrayList<HoiThoai> messageArrayList_Message = new ArrayList<>();
+        messageAdapter = new MessageAdapter(getActivity(),R.layout.list_message_item,messageArrayList);
         list_view_Message.setAdapter(messageAdapter);
         sharedPreferences = getContext().getSharedPreferences("GhiNhoDangNhap", MODE_PRIVATE);
         editor = sharedPreferences.edit();
         EmailUser = sharedPreferences.getString("tenTaiKhoan", "");
         TenUser = sharedPreferences.getString("tenUser", "");
 
-        mDatabase.child("TinNhan").addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                TinNhanHienThi message = snapshot.getValue(TinNhanHienThi.class);
-                if (message.email_User.equals(EmailUser)) {
-                    String keyTinNhan = snapshot.getKey();
-                    messageArrayList.add(new TinNhanHienThi(keyTinNhan, message.message_User, message.emailNguoiNhan, message.email_User, message.tenUser, message.tenNguoiGui));
-                    // code lấy url hình từ email
-//                        LayUrlHinhTuEmail(message.);
+        if(!check_search){
+            mDatabase.child("TinNhan").addChildEventListener(new ChildEventListener() {
+                @Override
+                public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                    TinNhanHienThi message = snapshot.getValue(TinNhanHienThi.class);
+                    if(message.email_User.equals(EmailUser)){
+                        String keyTinNhan = snapshot.getKey();
+                        messageArrayList.add(new TinNhanHienThi(keyTinNhan,message.message_User,message.emailNguoiNhan,message.email_User,message.tenUser,message.tenNguoiGui));
+                    }
+                    if(message.emailNguoiNhan.equals(EmailUser)) {
+                        String keyTinNhan = snapshot.getKey();
+                        messageArrayList.add(new TinNhanHienThi(keyTinNhan,message.message_User,message.email_User,message.emailNguoiNhan,message.tenNguoiGui,message.tenUser));
+                    }
+
+                    messageAdapter.notifyDataSetChanged();
                 }
-                if (message.emailNguoiNhan.equals(EmailUser)) {
-                    String keyTinNhan = snapshot.getKey();
-                    messageArrayList.add(new TinNhanHienThi(keyTinNhan, message.message_User, message.email_User, message.emailNguoiNhan, message.tenNguoiGui, message.tenUser));
-                    // code lấy url hình từ email
+
+                @Override
+                public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
 
                 }
 
-                messageAdapter.notifyDataSetChanged();
-            }
+                @Override
+                public void onChildRemoved(@NonNull DataSnapshot snapshot) {
 
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                }
 
-            }
+                @Override
+                public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
 
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+                }
 
-            }
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
 
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                }
+            });
+        }
 
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
 
         list_view_Message.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -145,7 +141,8 @@ public class PlaceholderFragment extends Fragment {
                 Intent intent = new Intent(getActivity(), HoiThoaiActivity.class);
                 if (messageArrayList.get(i).email_User.equals(EmailUser)) {
                     intent.putExtra("TenNguoiGui", messageArrayList.get(i).tenUser);
-                } else if (messageArrayList.get(i).emailNguoiNhan.equals(EmailUser)) {
+                }
+                else if (messageArrayList.get(i).emailNguoiNhan.equals(EmailUser)) {
                     intent.putExtra("TenNguoiGui", messageArrayList.get(i).tenNguoiGui);
                 }
                 intent.putExtra("EmailNguoiGui", messageArrayList.get(i).emailNguoiNhan);
@@ -167,17 +164,23 @@ public class PlaceholderFragment extends Fragment {
                     @Override
                     public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                         TinNhanHienThi message = snapshot.getValue(TinNhanHienThi.class);
-                        messageArrayList_Message1.clear();
-                        messageArrayList_Message1.add(message);
-                        for (int i = 0; i < messageArrayList_Message1.size(); i++) {
-                            if (tv_Search_TinNhan.getText().toString().contains(messageArrayList_Message1.get(i).tenUser)) {
+                            if(tv_Search_TinNhan.getText().toString().contains(message.tenUser) && message.tenUser.equals(TenUser)
+                                    || tv_Search_TinNhan.getText().toString().contains(message.tenUser) && message.tenNguoiGui.equals(TenUser)
+                                    || tv_Search_TinNhan.getText().toString().contains(message.tenNguoiGui) && message.email_User.equals(EmailUser)) {
                                 String keyTinNhan = snapshot.getKey();
-                                messageArrayList.add(new TinNhanHienThi(keyTinNhan, messageArrayList_Message1.get(i).message_User, messageArrayList_Message1.get(i).emailNguoiNhan, messageArrayList_Message1.get(i).email_User, messageArrayList_Message1.get(i).tenUser, messageArrayList_Message1.get(i).tenNguoiGui));
+                                messageArrayList.add(new TinNhanHienThi(keyTinNhan,message.message_User,message.emailNguoiNhan,message.email_User,message.tenUser,message.tenNguoiGui));
                             }
+                        if(tv_Search_TinNhan.getText().toString().equals("") ){
+                            if(message.email_User.equals(EmailUser)){
+                                String keyTinNhan = snapshot.getKey();
+                                messageArrayList.add(new TinNhanHienThi(keyTinNhan,message.message_User,message.emailNguoiNhan,message.email_User,message.tenUser,message.tenNguoiGui));
+                            }
+                            if(message.emailNguoiNhan.equals(EmailUser)) {
+                                String keyTinNhan = snapshot.getKey();
+                                messageArrayList.add(new TinNhanHienThi(keyTinNhan,message.message_User,message.email_User,message.emailNguoiNhan,message.tenNguoiGui,message.tenUser));
+                            }
+                            check_search = true;
                         }
-//                        if (tv_Search_TinNhan.getText().toString().equals("")) {
-//                            GoiDanhSachTinNhan();
-//                        }
                         messageAdapter.notifyDataSetChanged();
                     }
 

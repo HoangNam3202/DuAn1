@@ -33,6 +33,8 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.sinch.android.rtc.SinchError;
 import com.sinch.android.rtc.calling.Call;
 
@@ -144,6 +146,32 @@ public class HoiThoaiActivity extends BaseActivity implements SinchServices.Star
                 }
             }
         });
+//        Query query = mDatabase.child("HoiThoai").orderByKey().limitToLast(10);
+//        query.addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                final ArrayList<HoiThoai> hoiThoaiArrayList = new ArrayList<>();
+//                for(DataSnapshot ds : snapshot.getChildren()){
+//                    HoiThoai hThoai = ds.getValue(HoiThoai.class);
+//                    if(hThoai.email_User.equals(EmailUser) && hThoai.emailNguoiNhan.equals(EmailNguoiGui)){
+//                        hoiThoaiArrayList.add(new HoiThoai(hThoai.message_User,hThoai.emailNguoiNhan,hThoai.email_User));
+////                        Toast.makeText(HoiThoaiActivity.this, ""+hThoai.message_User, Toast.LENGTH_SHORT).show();
+//                    }
+//                    if(hThoai.email_User.equals(EmailNguoiGui) && hThoai.emailNguoiNhan.equals(EmailUser)){
+//                        hoiThoaiArrayList.add(new HoiThoai(hThoai.message_User,hThoai.emailNguoiNhan,hThoai.email_User));
+////                        Toast.makeText(HoiThoaiActivity.this, ""+hThoai.message_User, Toast.LENGTH_SHORT).show();
+//                    }
+//                    hoiThoaiAdapter.notifyDataSetChanged();
+//                }
+//                scrollMyListViewToBottom();
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//
+//            }
+//        });
+
         mDatabase.child("HoiThoai").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
