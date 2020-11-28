@@ -11,11 +11,11 @@
         android:id="@+id/title_template"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/neoneon"
         android:gravity="center"
-        android:text="Resetting Password"
+        android:text="Change Password"
         android:textColor="#fff"
         android:textSize="36dp"
-        android:fontFamily="@font/neoneon"
         android:textStyle="bold|italic"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -32,10 +32,11 @@
         android:layout_marginRight="40dp"
         android:background="@drawable/edt_bg"
         android:gravity="center"
-        android:hint="Tên tài khoản *"
+        android:hint="Username *"
         android:lines="1"
         android:maxLines="1"
         android:textColorHint="@color/colorOrange"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -50,6 +51,7 @@
         android:layout_marginRight="40dp"
         android:gravity="center"
         android:text=""
+        android:visibility="gone"
         android:textColor="@color/colorWhite"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -71,6 +73,7 @@
         android:lines="1"
         android:maxLines="1"
         android:textColorHint="@color/colorOrange"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -85,6 +88,7 @@
         android:layout_marginRight="40dp"
         android:gravity="center"
         android:text=""
+        android:visibility="gone"
         android:textColor="@color/colorWhite"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -101,10 +105,11 @@
         android:layout_marginRight="40dp"
         android:background="@drawable/edt_bg"
         android:gravity="center"
-        android:hint="Nhập số điện thoại *"
+        android:hint="Phone *"
         android:lines="1"
         android:maxLines="1"
         android:textColorHint="@color/colorOrange"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -117,6 +122,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="40dp"
         android:layout_marginRight="40dp"
+        android:visibility="gone"
         android:gravity="center"
         android:text=""
         android:textColor="@color/colorWhite"
@@ -128,7 +134,7 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/tilMatKhau"
+        android:id="@+id/tilMatKhauHienTai"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvEmail"
@@ -144,18 +150,65 @@
         app:passwordToggleEnabled="true">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edtMatKhauHienTai"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@drawable/edt_bg"
+            android:drawableTint="#2196F3"
+            android:gravity="center"
+            android:hint="Password *"
+            android:inputType="textPassword"
+            android:lines="1"
+            android:maxLines="1"
+            android:textColorHint="@color/colorOrange" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:id="@+id/tvMatKhauHienTai"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tilMatKhau"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:gravity="center"
+        android:text=""
+        android:textColor="@color/colorWhite"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tilMatKhauHienTai"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tilMatKhau"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvEmail"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        app:errorEnabled="false"
+        app:hintEnabled="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvMatKhauHienTai"
+        app:layout_constraintVertical_bias="0.0"
+        app:passwordToggleEnabled="true">
+
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/edtMatKhau"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:background="@drawable/edt_bg"
             android:drawableTint="#2196F3"
             android:gravity="center"
-            android:hint="Mật khẩu mới *"
+            android:hint="New password *"
             android:inputType="textPassword"
             android:lines="1"
             android:maxLines="1"
             android:textColorHint="@color/colorOrange" />
     </com.google.android.material.textfield.TextInputLayout>
+
 
     <TextView
         android:id="@+id/tvMatKhau"
@@ -172,6 +225,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tilMatKhau"
         app:layout_constraintVertical_bias="0.0" />
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tilNhapLaiMatKhau"
         android:layout_width="match_parent"
@@ -195,7 +249,7 @@
             android:background="@drawable/edt_bg"
             android:drawableTint="#2196F3"
             android:gravity="center"
-            android:hint="Nhập lại mật khẩu mới *"
+            android:hint="Re-type new password *"
             android:inputType="textPassword"
             android:lines="1"
             android:maxLines="1"
@@ -217,18 +271,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tilNhapLaiMatKhau"
         app:layout_constraintVertical_bias="0.0" />
+
     <Button
         android:id="@+id/btnQuenMatKhau"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:text="Xác nhận"
         android:background="@drawable/gradient_btn"
+        android:text="Confirm"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvNhapLaiMatKhau"
-        app:layout_constraintVertical_bias="0.0"
-        />
+        app:layout_constraintVertical_bias="0.0" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

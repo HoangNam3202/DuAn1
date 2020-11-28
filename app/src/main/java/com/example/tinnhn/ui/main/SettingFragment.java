@@ -32,7 +32,7 @@ public class SettingFragment extends Fragment {
     private View mRoot;
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
-    String EmailUser,TenUser,urlHinh;
+    String EmailUser, TenUser, urlHinh;
     private DatabaseReference mDatabase;
 
 
@@ -101,7 +101,9 @@ public class SettingFragment extends Fragment {
         Change_Pass_setting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getActivity(), QuenMatKhauActivity.class));
+                Intent intent = new Intent(getContext(), QuenMatKhauActivity.class);
+                intent.putExtra("QMK", false);
+                startActivity(intent);
             }
         });
         return mRoot;

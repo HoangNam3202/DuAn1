@@ -3,6 +3,7 @@ package com.example.tinnhn.taikhoan;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -33,7 +34,10 @@ public class QuenMatKhauActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_quen_mat_khau);
-        QuenMatKhau();
+        Intent intent = getIntent();
+        boolean qMK = intent.getExtras().getBoolean("QMK");
+        Toast.makeText(this, "" + qMK, Toast.LENGTH_SHORT).show();
+//        QuenMatKhau();
     }
 
     private void QuenMatKhau() {

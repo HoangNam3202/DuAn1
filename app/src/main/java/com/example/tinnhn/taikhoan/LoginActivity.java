@@ -66,7 +66,10 @@ public class LoginActivity extends BaseActivity {
         txtQuenMatKhau.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(LoginActivity.this, QuenMatKhauActivity.class));
+                Intent intent = new Intent(LoginActivity.this, QuenMatKhauActivity.class);
+                intent.putExtra("QMK",true);
+                startActivity(intent);
+
             }
         });
     }
