@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/hinhnen"
+    android:background="@drawable/hinhnen_register"
     tools:context=".taikhoan.QuenMatKhauActivity">
 
     <TextView
@@ -12,9 +12,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="Quên mật khẩu"
+        android:text="Resetting Password"
         android:textColor="#fff"
         android:textSize="36dp"
+        android:fontFamily="@font/neoneon"
         android:textStyle="bold|italic"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -218,7 +219,7 @@
         app:layout_constraintVertical_bias="0.0" />
     <Button
         android:id="@+id/btnQuenMatKhau"
-        android:layout_width="wrap_content"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:text="Xác nhận"
         android:background="@drawable/gradient_btn"
