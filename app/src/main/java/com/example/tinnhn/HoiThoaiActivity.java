@@ -64,7 +64,7 @@ public class HoiThoaiActivity extends BaseActivity implements SinchServices.Star
 
         setTitle(TenNguoiGui);
         Objects.requireNonNull(getSupportActionBar()).setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setIcon(R.drawable.user);
+//        getSupportActionBar().setIcon(R.drawable.user);
 
         sharedPreferences = getSharedPreferences("GhiNhoDangNhap", MODE_PRIVATE);
         editor = sharedPreferences.edit();

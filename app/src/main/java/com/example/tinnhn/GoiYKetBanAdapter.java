@@ -1,5 +1,6 @@
 package com.example.tinnhn;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.view.LayoutInflater;
@@ -14,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 
+import com.example.tinnhn.taikhoan.DownloadImageTask;
 import com.example.tinnhn.taikhoan.TaiKhoan;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -25,6 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static android.content.Context.MODE_PRIVATE;
+import static com.example.tinnhn.ui.main.FriendChildFragment.arrFriends;
 
 public class GoiYKetBanAdapter extends BaseAdapter {
     private Context context;
@@ -36,6 +39,8 @@ public class GoiYKetBanAdapter extends BaseAdapter {
     String TenUser, DiaChiUser;
     String idUser;
     String hinhUser;
+    boolean check_friended = false;
+    String urlHinh;
 
     public GoiYKetBanAdapter(Context context, int layout, List<GoiYKetBan> goiYKetBanList) {
         this.context = context;
@@ -69,6 +74,7 @@ public class GoiYKetBanAdapter extends BaseAdapter {
 
         TextView tvTenGoiY = view.findViewById(R.id.tvTenGoiY);
         TextView btnAddFriend_Goi_Y = view.findViewById(R.id.btnAddFriend_Goi_Y);
+        ImageView imgAnh_Goi_Y =view.findViewById(R.id.imgAnh_Goi_Y);
         final GoiYKetBan goiYKetBan = goiYKetBanList.get(i);
 
         final ArrayList<TaiKhoan> goiYKetBanArrayList_check = new ArrayList<>();
@@ -117,9 +123,50 @@ public class GoiYKetBanAdapter extends BaseAdapter {
             public void onClick(View view) {
 //                Friends friends = new Friends(goiYKetBan.idTaiKhoan,goiYKetBan.tenTaiKhoan,goiYKetBan.email,goiYKetBan.diaChi,goiYKetBan.hinhDaiDien,EmailUser);
 //                mDatabase.child("LoiMoiKetBan").push().setValue(friends);
-                FriendsRequest friends1 = new FriendsRequest(null, idUser, TenUser, EmailUser, DiaChiUser, hinhUser, goiYKetBan.email);
-                mDatabase.child("LoiMoiKetBan").push().setValue(friends1);
-                Toast.makeText(context, "Send Successfully", Toast.LENGTH_SHORT).show();
+                for (int i = 0; i < arrFriends.size(); i++) {
+                    if (goiYKetBan.email.equals(arrFriends.get(i).email)) {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                        builder.setMessage("Friended");
+                        builder.create().show();
+                        check_friended = true;
+                    }
+                }
+                if (!check_friended) {
+                    FriendsRequest friends1 = new FriendsRequest(null, idUser, TenUser, EmailUser, DiaChiUser, hinhUser, goiYKetBan.email);
+                    mDatabase.child("LoiMoiKetBan").push().setValue(friends1);
+                    Toast.makeText(context, "Send Successfully", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        mDatabase.child("TaiKhoan").addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                TaiKhoan taiKhoan = snapshot.getValue(TaiKhoan.class);
+                if (taiKhoan.getEmail().equals(goiYKetBan.email)) {
+                    urlHinh = taiKhoan.getHinhDaiDien();
+                    new DownloadImageTask(imgAnh_Goi_Y).execute(urlHinh);
+                }
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
             }
         });
         return view;
