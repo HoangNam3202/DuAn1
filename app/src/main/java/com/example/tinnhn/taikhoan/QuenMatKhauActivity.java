@@ -152,7 +152,6 @@ public class QuenMatKhauActivity extends AppCompatActivity {
                     nhapLaiMatKhau = edtNhapLaiMatKhau.getText().toString().trim();
                     email = sharedPreferences.getString("tenTaiKhoan", "");
                     dbFirebase.KiemTraDangNhap(email, matKhauHienTai);
-
                     //
                     Dialog dialog = new Dialog(QuenMatKhauActivity.this);
                     dialog.setContentView(R.layout.dialog_loading);
@@ -184,7 +183,7 @@ public class QuenMatKhauActivity extends AppCompatActivity {
                     }.start();
 
                 } else
-                    Toast.makeText(QuenMatKhauActivity.this, "Nhập thông tin chưa hợp lệ", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(QuenMatKhauActivity.this, "Enter invalid information", Toast.LENGTH_SHORT).show();
             }
         });
     }
