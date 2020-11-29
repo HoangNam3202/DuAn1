@@ -41,7 +41,8 @@ public class QuenMatKhauActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_quen_mat_khau);
         Intent intent = getIntent();
-        boolean qMK = intent.getExtras().getBoolean("QMK");
+        boolean qMK = false;
+        qMK = intent.getExtras().getBoolean("QMK");
 //        Toast.makeText(this, "" + qMK, Toast.LENGTH_SHORT).show();
         if (qMK) {
             QuenMatKhau();
