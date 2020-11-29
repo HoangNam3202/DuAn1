@@ -132,6 +132,7 @@ public class DBFirebase {
                         tenUser = taiKhoan.getTenTaiKhoan();
                         DiaChiUser = taiKhoan.getDiaChi();
                         urlHinhDaiDien = taiKhoan.getHinhDaiDien();
+                        idTaiKhoanQMK = taiKhoan.getIdTaiKhoan();
                     } else {
                         kiemTraDangNhap = 2;
                     }
@@ -211,7 +212,9 @@ public class DBFirebase {
         databaseReference.child("TaiKhoan").child(idTaiKhoanQMK).child("matKhau").setValue(matKhau);
     }
 
-    //    public void LayLinkHinhNguoiNhan(String emailNguoiNhan) {
+}
+
+//    public void LayLinkHinhNguoiNhan(String emailNguoiNhan) {
 //        KhoiTaoFirebase();
 //        databaseReference.child("TaiKhoan").addChildEventListener(new ChildEventListener() {
 //            @Override
@@ -247,8 +250,6 @@ public class DBFirebase {
 //    }
 
 
-
-
 //    public void LayUrlHinhNguoiNhanTuEmail(String emailNguoiNhan) {
 //        KhoiTaoFirebase();
 //        databaseReference.child("TaiKhoan").addChildEventListener(new ChildEventListener() {
@@ -282,7 +283,6 @@ public class DBFirebase {
 //            }
 //        });
 //    }
-}
 
 //    public String LayKeyTaiKhoan(String email) {
 //        KhoiTaoFirebase();
