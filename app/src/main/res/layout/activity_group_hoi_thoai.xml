@@ -7,17 +7,11 @@
     tools:context=".HoiThoaiActivity"
     android:background="#fff"
     >
-    <FrameLayout
-        android:id="@+id/sidecall"
-        android:layout_width="50dp"
-        android:layout_height="200dp"
-        />
-
     <ListView
         android:id="@+id/list_HoithoaiGroup"
         android:layout_width="match_parent"
         android:layout_height="538dp"
-        android:layout_above="@+id/edtNoiDungGroup"
+        android:layout_above="@+id/calllistview"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
@@ -27,6 +21,14 @@
         android:layout_marginTop="0dp"
         android:divider="@null" />
 
+   <org.lucasr.twowayview.widget.TwoWayView
+       android:id="@+id/calllistview"
+       android:layout_width="match_parent"
+       android:layout_height="100dp"
+       android:scrollbarThumbHorizontal="@color/colorBlack"
+       android:layout_alignParentLeft="true"
+       android:layout_alignParentRight="true"
+       />
     <EditText
         android:id="@+id/edtNoiDungGroup"
         android:layout_width="333dp"
