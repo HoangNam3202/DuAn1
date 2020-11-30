@@ -55,6 +55,7 @@ public class GroupHoiThoaiActivity extends BaseActivity {
     public static GroupAdapter groupAdapter;
     ListView grplist;
     String j;
+
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,19 +63,18 @@ public class GroupHoiThoaiActivity extends BaseActivity {
         setContentView(R.layout.activity_group_hoi_thoai);
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
-        grplist=findViewById(R.id.list_HoithoaiGroup);
-        Button send=findViewById(R.id.btbGuiGroup);
-        EditText noidungtn=findViewById(R.id.edtNoiDungGroup);
+        grplist = findViewById(R.id.list_HoithoaiGroup);
+        Button send = findViewById(R.id.btbGuiGroup);
+        EditText noidungtn = findViewById(R.id.edtNoiDungGroup);
         sharedPreferences = getSharedPreferences("GhiNhoDangNhap", MODE_PRIVATE);
         editor = sharedPreferences.edit();
         String email = sharedPreferences.getString("tenTaiKhoan", "");
         scrollMyListViewToBottom();
         //intent
-        Intent i=getIntent();
-        Bundle b=i.getExtras();
-        if(b!=null)
-        {
-            j =(String) b.get("idgroup");
+        Intent i = getIntent();
+        Bundle b = i.getExtras();
+        if (b != null) {
+            j = (String) b.get("idgroup");
             Toast.makeText(this, j, Toast.LENGTH_SHORT).show();
 
         }
@@ -83,27 +83,22 @@ public class GroupHoiThoaiActivity extends BaseActivity {
         getSupportActionBar().setIcon(R.drawable.user);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-
         final ArrayList<Group> hoiThoaiArrayList = new ArrayList<>();
         final ArrayList<Group> forArr = new ArrayList<>();
-        groupAdapter = new GroupAdapter(GroupHoiThoaiActivity.this,R.layout.list_tin_nhan_item,hoiThoaiArrayList);
+        groupAdapter = new GroupAdapter(GroupHoiThoaiActivity.this, R.layout.list_tin_nhan_item, hoiThoaiArrayList);
         grplist.setAdapter(groupAdapter);
 
-
-
 //end intent
-
-
         mDatabase.child("HoiThoaiGroup").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 Group group = snapshot.getValue(Group.class);
                 forArr.clear();
-                forArr.add(new Group(group.Email,group.message,group.IdGroup));
+                forArr.add(new Group(group.Email, group.message, group.IdGroup));
 
-                for(int i = 0; i < forArr.size(); i++){
-                    if(forArr.get(i).IdGroup.equals(j)){
-                        hoiThoaiArrayList.add(new Group(forArr.get(i).Email,forArr.get(i).message,forArr.get(i).IdGroup));
+                for (int i = 0; i < forArr.size(); i++) {
+                    if (forArr.get(i).IdGroup.equals(j)) {
+                        hoiThoaiArrayList.add(new Group(forArr.get(i).Email, forArr.get(i).message, forArr.get(i).IdGroup));
                     }
 
                 }
@@ -134,25 +129,23 @@ public class GroupHoiThoaiActivity extends BaseActivity {
         });
 
 
-
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Group group =new Group(email,noidungtn.getText().toString(),j);
+                Group group = new Group(email, noidungtn.getText().toString(), j);
                 mDatabase.child("HoiThoaiGroup").push().setValue(group);
                 noidungtn.setText("");
             }
         });
 
 
+    }
 
+    public void hamthemlistview() {
 
 
     }
-    public void hamthemlistview(){
 
-
-    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.callgroup, menu);
@@ -177,17 +170,9 @@ public class GroupHoiThoaiActivity extends BaseActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-    private void Hamchuyenidgroupquagroupcall() {
-        FrameLayout frameLayout = findViewById(R.id.sidecall);
-        ImageView test = (ImageView) View.inflate(this, R.layout.sideview, null);
-        frameLayout.addView(test);
 
-        test.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(GroupHoiThoaiActivity.this, "dwqdwqdwqd", Toast.LENGTH_SHORT).show();
-            }
-        });
+    private void Hamchuyenidgroupquagroupcall() {
+
 //        String username="idgroup";
 //
 //        Intent callScreen = new Intent(this, CuocGoi_Screen.class);
@@ -197,6 +182,7 @@ public class GroupHoiThoaiActivity extends BaseActivity {
 //        Intent mainActivity = new Intent(this, Dialer.class);
 //        startActivity(mainActivity);
     }
+
     private void scrollMyListViewToBottom() {
         grplist.post(new Runnable() {
             @Override
@@ -206,8 +192,9 @@ public class GroupHoiThoaiActivity extends BaseActivity {
             }
         });
     }
+
     @Override
-    public void onBackPressed(){
+    public void onBackPressed() {
         Intent intent = new Intent(GroupHoiThoaiActivity.this, MainActivity.class);
         startActivity(intent);
         finish();

@@ -1,0 +1,201 @@
+Index: app/src/main/java/com/example/tinnhn/Call/GroupHoiThoaiActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.tinnhn.Call;\r\n\r\nimport androidx.annotation.NonNull;\r\nimport androidx.annotation.Nullable;\r\nimport androidx.annotation.RequiresApi;\r\nimport androidx.appcompat.app.AppCompatActivity;\r\n\r\nimport android.annotation.SuppressLint;\r\nimport android.content.Intent;\r\nimport android.content.SharedPreferences;\r\nimport android.os.Build;\r\nimport android.os.Bundle;\r\nimport android.text.Editable;\r\nimport android.text.TextWatcher;\r\nimport android.view.Menu;\r\nimport android.view.MenuItem;\r\nimport android.view.View;\r\nimport android.view.ViewGroup;\r\nimport android.view.WindowManager;\r\nimport android.widget.Adapter;\r\nimport android.widget.ArrayAdapter;\r\nimport android.widget.Button;\r\nimport android.widget.EditText;\r\nimport android.widget.FrameLayout;\r\nimport android.widget.ImageView;\r\nimport android.widget.ListView;\r\nimport android.widget.RelativeLayout;\r\nimport android.widget.TextView;\r\nimport android.widget.Toast;\r\nimport android.widget.Toolbar;\r\n\r\nimport com.example.tinnhn.Friends;\r\nimport com.example.tinnhn.HoiThoai;\r\nimport com.example.tinnhn.HoiThoaiActivity;\r\nimport com.example.tinnhn.HoiThoaiAdapter;\r\nimport com.example.tinnhn.MainActivity;\r\nimport com.example.tinnhn.MessageAdapter;\r\nimport com.example.tinnhn.R;\r\nimport com.example.tinnhn.TinNhanHienThi;\r\nimport com.google.firebase.database.ChildEventListener;\r\nimport com.google.firebase.database.DataSnapshot;\r\nimport com.google.firebase.database.DatabaseError;\r\nimport com.google.firebase.database.DatabaseReference;\r\nimport com.google.firebase.database.FirebaseDatabase;\r\nimport com.sinch.android.rtc.calling.Call;\r\n\r\nimport java.security.PublicKey;\r\nimport java.util.ArrayList;\r\nimport java.util.Objects;\r\n\r\npublic class GroupHoiThoaiActivity extends BaseActivity {\r\n    private DatabaseReference mDatabase;\r\n    SharedPreferences sharedPreferences;\r\n    SharedPreferences.Editor editor;\r\n    public static GroupAdapter groupAdapter;\r\n    ListView grplist;\r\n    String j;\r\n    @RequiresApi(api = Build.VERSION_CODES.KITKAT)\r\n    @Override\r\n    protected void onCreate(Bundle savedInstanceState) {\r\n        super.onCreate(savedInstanceState);\r\n        setContentView(R.layout.activity_group_hoi_thoai);\r\n\r\n        mDatabase = FirebaseDatabase.getInstance().getReference();\r\n        grplist=findViewById(R.id.list_HoithoaiGroup);\r\n        Button send=findViewById(R.id.btbGuiGroup);\r\n        EditText noidungtn=findViewById(R.id.edtNoiDungGroup);\r\n        sharedPreferences = getSharedPreferences(\"GhiNhoDangNhap\", MODE_PRIVATE);\r\n        editor = sharedPreferences.edit();\r\n        String email = sharedPreferences.getString(\"tenTaiKhoan\", \"\");\r\n        scrollMyListViewToBottom();\r\n        //intent\r\n        Intent i=getIntent();\r\n        Bundle b=i.getExtras();\r\n        if(b!=null)\r\n        {\r\n            j =(String) b.get(\"idgroup\");\r\n            Toast.makeText(this, j, Toast.LENGTH_SHORT).show();\r\n\r\n        }\r\n        setTitle(j);\r\n        Objects.requireNonNull(getSupportActionBar()).setDisplayShowHomeEnabled(true);\r\n        getSupportActionBar().setIcon(R.drawable.user);\r\n        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);\r\n\r\n\r\n        final ArrayList<Group> hoiThoaiArrayList = new ArrayList<>();\r\n        final ArrayList<Group> forArr = new ArrayList<>();\r\n        groupAdapter = new GroupAdapter(GroupHoiThoaiActivity.this,R.layout.list_tin_nhan_item,hoiThoaiArrayList);\r\n        grplist.setAdapter(groupAdapter);\r\n\r\n\r\n\r\n//end intent\r\n\r\n\r\n        mDatabase.child(\"HoiThoaiGroup\").addChildEventListener(new ChildEventListener() {\r\n            @Override\r\n            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {\r\n                Group group = snapshot.getValue(Group.class);\r\n                forArr.clear();\r\n                forArr.add(new Group(group.Email,group.message,group.IdGroup));\r\n\r\n                for(int i = 0; i < forArr.size(); i++){\r\n                    if(forArr.get(i).IdGroup.equals(j)){\r\n                        hoiThoaiArrayList.add(new Group(forArr.get(i).Email,forArr.get(i).message,forArr.get(i).IdGroup));\r\n                    }\r\n\r\n                }\r\n                groupAdapter.notifyDataSetChanged();\r\n                scrollMyListViewToBottom();\r\n\r\n            }\r\n\r\n            @Override\r\n            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {\r\n\r\n            }\r\n\r\n            @Override\r\n            public void onChildRemoved(@NonNull DataSnapshot snapshot) {\r\n\r\n            }\r\n\r\n            @Override\r\n            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {\r\n\r\n            }\r\n\r\n            @Override\r\n            public void onCancelled(@NonNull DatabaseError error) {\r\n\r\n            }\r\n        });\r\n\r\n\r\n\r\n        send.setOnClickListener(new View.OnClickListener() {\r\n            @Override\r\n            public void onClick(View v) {\r\n                Group group =new Group(email,noidungtn.getText().toString(),j);\r\n                mDatabase.child(\"HoiThoaiGroup\").push().setValue(group);\r\n                noidungtn.setText(\"\");\r\n            }\r\n        });\r\n\r\n\r\n\r\n\r\n\r\n    }\r\n    public void hamthemlistview(){\r\n\r\n\r\n    }\r\n    @Override\r\n    public boolean onCreateOptionsMenu(Menu menu) {\r\n        getMenuInflater().inflate(R.menu.callgroup, menu);\r\n        return super.onCreateOptionsMenu(menu);\r\n    }\r\n\r\n    // handle button activities\r\n    @Override\r\n    public boolean onOptionsItemSelected(MenuItem item) {\r\n        int id = item.getItemId();\r\n\r\n        if (id == R.id.groupchat) {\r\n            //đang nhap sinchclient o day = UserEmail sau do goi cho EmailNguoiGui\r\n\r\n            if (getGiaodiendichvu().isStarted()) {\r\n\r\n                Hamchuyenidgroupquagroupcall();\r\n\r\n            } else {\r\n                Toast.makeText(this, \"chua chay dich vu\", Toast.LENGTH_SHORT).show();\r\n            }\r\n        }\r\n        return super.onOptionsItemSelected(item);\r\n    }\r\n    private void Hamchuyenidgroupquagroupcall() {\r\n        FrameLayout frameLayout = findViewById(R.id.sidecall);\r\n        ImageView test = (ImageView) View.inflate(this, R.layout.sideview, null);\r\n        frameLayout.addView(test);\r\n\r\n        test.setOnClickListener(new View.OnClickListener() {\r\n            @Override\r\n            public void onClick(View v) {\r\n                Toast.makeText(GroupHoiThoaiActivity.this, \"dwqdwqdwqd\", Toast.LENGTH_SHORT).show();\r\n            }\r\n        });\r\n//        String username=\"idgroup\";\r\n//\r\n//        Intent callScreen = new Intent(this, CuocGoi_Screen.class);\r\n//        callScreen.putExtra(SinchServices.CALL_ID,username);\r\n//        startActivity(callScreen);\r\n\r\n//        Intent mainActivity = new Intent(this, Dialer.class);\r\n//        startActivity(mainActivity);\r\n    }\r\n    private void scrollMyListViewToBottom() {\r\n        grplist.post(new Runnable() {\r\n            @Override\r\n            public void run() {\r\n                // Select the last row so it will scroll into view...\r\n                grplist.setSelection(groupAdapter.getCount() - 1);\r\n            }\r\n        });\r\n    }\r\n    @Override\r\n    public void onBackPressed(){\r\n        Intent intent = new Intent(GroupHoiThoaiActivity.this, MainActivity.class);\r\n        startActivity(intent);\r\n        finish();\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/tinnhn/Call/GroupHoiThoaiActivity.java	(revision f60c8ecf9471ba36da605aa84a99016960ca3d09)
++++ app/src/main/java/com/example/tinnhn/Call/GroupHoiThoaiActivity.java	(date 1606718252453)
+@@ -55,6 +55,7 @@
+     public static GroupAdapter groupAdapter;
+     ListView grplist;
+     String j;
++
+     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+     @Override
+     protected void onCreate(Bundle savedInstanceState) {
+@@ -62,19 +63,18 @@
+         setContentView(R.layout.activity_group_hoi_thoai);
+ 
+         mDatabase = FirebaseDatabase.getInstance().getReference();
+-        grplist=findViewById(R.id.list_HoithoaiGroup);
+-        Button send=findViewById(R.id.btbGuiGroup);
+-        EditText noidungtn=findViewById(R.id.edtNoiDungGroup);
++        grplist = findViewById(R.id.list_HoithoaiGroup);
++        Button send = findViewById(R.id.btbGuiGroup);
++        EditText noidungtn = findViewById(R.id.edtNoiDungGroup);
+         sharedPreferences = getSharedPreferences("GhiNhoDangNhap", MODE_PRIVATE);
+         editor = sharedPreferences.edit();
+         String email = sharedPreferences.getString("tenTaiKhoan", "");
+         scrollMyListViewToBottom();
+         //intent
+-        Intent i=getIntent();
+-        Bundle b=i.getExtras();
+-        if(b!=null)
+-        {
+-            j =(String) b.get("idgroup");
++        Intent i = getIntent();
++        Bundle b = i.getExtras();
++        if (b != null) {
++            j = (String) b.get("idgroup");
+             Toast.makeText(this, j, Toast.LENGTH_SHORT).show();
+ 
+         }
+@@ -86,24 +86,19 @@
+ 
+         final ArrayList<Group> hoiThoaiArrayList = new ArrayList<>();
+         final ArrayList<Group> forArr = new ArrayList<>();
+-        groupAdapter = new GroupAdapter(GroupHoiThoaiActivity.this,R.layout.list_tin_nhan_item,hoiThoaiArrayList);
++        groupAdapter = new GroupAdapter(GroupHoiThoaiActivity.this, R.layout.list_tin_nhan_item, hoiThoaiArrayList);
+         grplist.setAdapter(groupAdapter);
+-
+-
+-
+ //end intent
+-
+-
+         mDatabase.child("HoiThoaiGroup").addChildEventListener(new ChildEventListener() {
+             @Override
+             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                 Group group = snapshot.getValue(Group.class);
+                 forArr.clear();
+-                forArr.add(new Group(group.Email,group.message,group.IdGroup));
++                forArr.add(new Group(group.Email, group.message, group.IdGroup));
+ 
+-                for(int i = 0; i < forArr.size(); i++){
+-                    if(forArr.get(i).IdGroup.equals(j)){
+-                        hoiThoaiArrayList.add(new Group(forArr.get(i).Email,forArr.get(i).message,forArr.get(i).IdGroup));
++                for (int i = 0; i < forArr.size(); i++) {
++                    if (forArr.get(i).IdGroup.equals(j)) {
++                        hoiThoaiArrayList.add(new Group(forArr.get(i).Email, forArr.get(i).message, forArr.get(i).IdGroup));
+                     }
+ 
+                 }
+@@ -134,25 +129,23 @@
+         });
+ 
+ 
+-
+         send.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View v) {
+-                Group group =new Group(email,noidungtn.getText().toString(),j);
++                Group group = new Group(email, noidungtn.getText().toString(), j);
+                 mDatabase.child("HoiThoaiGroup").push().setValue(group);
+                 noidungtn.setText("");
+             }
+         });
+ 
+ 
+-
+-
+-
+     }
+-    public void hamthemlistview(){
++
++    public void hamthemlistview() {
+ 
+ 
+     }
++
+     @Override
+     public boolean onCreateOptionsMenu(Menu menu) {
+         getMenuInflater().inflate(R.menu.callgroup, menu);
+@@ -177,10 +170,11 @@
+         }
+         return super.onOptionsItemSelected(item);
+     }
++
+     private void Hamchuyenidgroupquagroupcall() {
+-        FrameLayout frameLayout = findViewById(R.id.sidecall);
++//        FrameLayout frameLayout = findViewById(R.id.sidecall);
+         ImageView test = (ImageView) View.inflate(this, R.layout.sideview, null);
+-        frameLayout.addView(test);
++//        frameLayout.addView(test);
+ 
+         test.setOnClickListener(new View.OnClickListener() {
+             @Override
+@@ -197,6 +191,7 @@
+ //        Intent mainActivity = new Intent(this, Dialer.class);
+ //        startActivity(mainActivity);
+     }
++
+     private void scrollMyListViewToBottom() {
+         grplist.post(new Runnable() {
+             @Override
+@@ -206,8 +201,9 @@
+             }
+         });
+     }
++
+     @Override
+-    public void onBackPressed(){
++    public void onBackPressed() {
+         Intent intent = new Intent(GroupHoiThoaiActivity.this, MainActivity.class);
+         startActivity(intent);
+         finish();
+Index: app/src/main/res/layout/activity_group_hoi_thoai.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<RelativeLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    xmlns:app=\"http://schemas.android.com/apk/res-auto\"\r\n    xmlns:tools=\"http://schemas.android.com/tools\"\r\n    android:layout_width=\"match_parent\"\r\n    android:layout_height=\"match_parent\"\r\n    tools:context=\".HoiThoaiActivity\"\r\n    android:background=\"#fff\"\r\n    >\r\n    <ListView\r\n        android:id=\"@+id/list_HoithoaiGroup\"\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"538dp\"\r\n        android:layout_above=\"@+id/calllistview\"\r\n        android:layout_alignParentStart=\"true\"\r\n        android:layout_alignParentLeft=\"true\"\r\n        android:layout_alignParentRight=\"true\"\r\n        android:layout_alignParentTop=\"true\"\r\n        android:layout_marginStart=\"0dp\"\r\n        android:layout_marginLeft=\"0dp\"\r\n        android:layout_marginTop=\"0dp\"\r\n        android:divider=\"@null\" />\r\n\r\n   <org.lucasr.twowayview.widget.TwoWayView\r\n       android:id=\"@+id/calllistview\"\r\n       android:layout_width=\"match_parent\"\r\n       android:layout_height=\"100dp\"\r\n       android:scrollbarThumbHorizontal=\"@color/colorBlack\"\r\n       android:layout_alignParentLeft=\"true\"\r\n       android:layout_alignParentRight=\"true\"\r\n       />\r\n    <EditText\r\n        android:id=\"@+id/edtNoiDungGroup\"\r\n        android:layout_width=\"333dp\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:layout_alignParentStart=\"true\"\r\n        android:layout_alignParentLeft=\"true\"\r\n        android:layout_alignParentBottom=\"true\"\r\n        android:layout_marginStart=\"0dp\"\r\n        android:layout_marginLeft=\"0dp\"\r\n        android:layout_marginRight=\"30dp\"\r\n        android:layout_marginBottom=\"0dp\"\r\n        android:background=\"#fff\"\r\n        android:hint=\"Nội dung\"\r\n        android:maxLines=\"1\"\r\n        android:lines=\"1\"\r\n        android:padding=\"20dp\" />\r\n\r\n    <Button\r\n        android:id=\"@+id/btbGuiGroup\"\r\n        android:layout_width=\"75dp\"\r\n        android:layout_height=\"45dp\"\r\n        android:layout_alignParentEnd=\"true\"\r\n        android:layout_alignParentRight=\"true\"\r\n        android:layout_alignParentBottom=\"true\"\r\n        android:layout_marginStart=\"80dp\"\r\n        android:layout_marginLeft=\"80dp\"\r\n        android:layout_marginEnd=\"3dp\"\r\n        android:layout_marginRight=\"3dp\"\r\n        android:layout_marginBottom=\"5dp\"\r\n        android:background=\"@drawable/radius\"\r\n        android:text=\"Send\"\r\n        android:textColor=\"#fff\" />\r\n\r\n\r\n</RelativeLayout>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/activity_group_hoi_thoai.xml	(revision f60c8ecf9471ba36da605aa84a99016960ca3d09)
++++ app/src/main/res/layout/activity_group_hoi_thoai.xml	(date 1606718707942)
+@@ -7,11 +7,19 @@
+     tools:context=".HoiThoaiActivity"
+     android:background="#fff"
+     >
++   <org.lucasr.twowayview.widget.TwoWayView
++       android:id="@+id/calllistview"
++       android:layout_width="match_parent"
++       android:layout_height="100dp"
++       android:scrollbarThumbHorizontal="@color/colorBlack"
++       android:layout_alignParentLeft="true"
++       android:layout_alignParentRight="true"
++       />
+     <ListView
+         android:id="@+id/list_HoithoaiGroup"
+         android:layout_width="match_parent"
+         android:layout_height="538dp"
+-        android:layout_above="@+id/calllistview"
++        android:layout_above="@+id/edtNoiDungGroup"
+         android:layout_alignParentStart="true"
+         android:layout_alignParentLeft="true"
+         android:layout_alignParentRight="true"
+@@ -21,30 +29,22 @@
+         android:layout_marginTop="0dp"
+         android:divider="@null" />
+ 
+-   <org.lucasr.twowayview.widget.TwoWayView
+-       android:id="@+id/calllistview"
+-       android:layout_width="match_parent"
+-       android:layout_height="100dp"
+-       android:scrollbarThumbHorizontal="@color/colorBlack"
+-       android:layout_alignParentLeft="true"
+-       android:layout_alignParentRight="true"
+-       />
+     <EditText
+         android:id="@+id/edtNoiDungGroup"
+         android:layout_width="333dp"
+-        android:layout_height="wrap_content"
++        android:layout_height="45dp"
+         android:layout_alignParentStart="true"
+         android:layout_alignParentLeft="true"
+         android:layout_alignParentBottom="true"
+         android:layout_marginStart="0dp"
+         android:layout_marginLeft="0dp"
+         android:layout_marginRight="30dp"
+-        android:layout_marginBottom="0dp"
++        android:layout_marginBottom="5dp"
+         android:background="#fff"
+         android:hint="Nội dung"
+         android:maxLines="1"
+         android:lines="1"
+-        android:padding="20dp" />
++        android:padding="2dp" />
+ 
+     <Button
+         android:id="@+id/btbGuiGroup"
