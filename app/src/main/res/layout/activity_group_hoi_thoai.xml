@@ -7,11 +7,19 @@
     tools:context=".HoiThoaiActivity"
     android:background="#fff"
     >
+   <org.lucasr.twowayview.widget.TwoWayView
+       android:id="@+id/calllistview"
+       android:layout_width="match_parent"
+       android:layout_height="100dp"
+       android:scrollbarThumbHorizontal="@color/colorBlack"
+       android:layout_alignParentLeft="true"
+       android:layout_alignParentRight="true"
+       />
     <ListView
         android:id="@+id/list_HoithoaiGroup"
         android:layout_width="match_parent"
         android:layout_height="538dp"
-        android:layout_above="@+id/calllistview"
+        android:layout_above="@+id/edtNoiDungGroup"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
@@ -21,30 +29,22 @@
         android:layout_marginTop="0dp"
         android:divider="@null" />
 
-   <org.lucasr.twowayview.widget.TwoWayView
-       android:id="@+id/calllistview"
-       android:layout_width="match_parent"
-       android:layout_height="100dp"
-       android:scrollbarThumbHorizontal="@color/colorBlack"
-       android:layout_alignParentLeft="true"
-       android:layout_alignParentRight="true"
-       />
     <EditText
         android:id="@+id/edtNoiDungGroup"
         android:layout_width="333dp"
-        android:layout_height="wrap_content"
+        android:layout_height="45dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentBottom="true"
         android:layout_marginStart="0dp"
         android:layout_marginLeft="0dp"
         android:layout_marginRight="30dp"
-        android:layout_marginBottom="0dp"
+        android:layout_marginBottom="5dp"
         android:background="#fff"
         android:hint="Nội dung"
         android:maxLines="1"
         android:lines="1"
-        android:padding="20dp" />
+        android:padding="2dp" />
 
     <Button
         android:id="@+id/btbGuiGroup"

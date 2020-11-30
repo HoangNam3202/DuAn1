@@ -18,7 +18,7 @@
         android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
         <activity android:name=".SearchMessageActivity"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"
-            ></activity>
+            />
         <activity
             android:name=".SearchFriendsActivity"
             android:parentActivityName=".MainActivity"

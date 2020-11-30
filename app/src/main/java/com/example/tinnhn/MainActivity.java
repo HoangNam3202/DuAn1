@@ -1,6 +1,7 @@
 package com.example.tinnhn;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -22,7 +23,6 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 
 import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AlertDialog;
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -48,6 +48,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 
 import static com.example.tinnhn.taikhoan.LoginActivity.dbFirebase;
+import static com.example.tinnhn.taikhoan.LoginActivity.kTraMang;
 import static com.example.tinnhn.taikhoan.LoginActivity.urlHinhDaiDien;
 
 public class MainActivity extends BaseActivity {
@@ -121,7 +122,17 @@ public class MainActivity extends BaseActivity {
             public void onTabReselected(TabLayout.Tab tab) {
             }
         });
+        if (kTraMang == 0) {
+            android.app.AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+            builder.setMessage("No internet, check network and restart app");
+            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
 
+                }
+            });
+            builder.show();
+        }
     }
 
 
