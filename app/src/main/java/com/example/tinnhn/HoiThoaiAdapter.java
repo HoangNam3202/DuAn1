@@ -16,6 +16,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 
+import com.example.tinnhn.taikhoan.DownloadImageTask;
+import com.example.tinnhn.taikhoan.TaiKhoan;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -33,6 +35,7 @@ public class HoiThoaiAdapter extends BaseAdapter {
     private DatabaseReference mDatabase;
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
+    String urlHinh;
 
     public HoiThoaiAdapter(Context context, int layout, List<HoiThoai> hoiThoaiList) {
         this.context = context;
@@ -59,7 +62,7 @@ public class HoiThoaiAdapter extends BaseAdapter {
     public View getView(int i, View view, ViewGroup viewGroup) {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         view = inflater.inflate(layout, null);
-
+        mDatabase = FirebaseDatabase.getInstance().getReference();
 
         TextView tvUser_tin_nhan = view.findViewById(R.id.tvHoiThoai_User_tin_nhan);
         TextView tv_HoiThoaiBanCuaUser = view.findViewById(R.id.tv_HoiThoaiBanCuaUser);
@@ -77,17 +80,79 @@ public class HoiThoaiAdapter extends BaseAdapter {
         String EmailNguoiGui = intent.getStringExtra("EmailNguoiGui");
         final String EmailUser = sharedPreferences.getString("tenTaiKhoan", "");
 
+
+
         if (hoiThoai.email_User.equals(EmailUser)) {
             tvUser_tin_nhan.setText(hoiThoai.message_User);
             tv_HoiThoaiBanCuaUser.setVisibility(View.GONE);
             imgAnh_Ban_Cua_User.setVisibility(View.GONE);
             card_view_Friend.setVisibility(View.GONE);
+            mDatabase.child("TaiKhoan").addChildEventListener(new ChildEventListener() {
+                @Override
+                public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                    TaiKhoan taiKhoan = snapshot.getValue(TaiKhoan.class);
+                    if (taiKhoan.getEmail().equals(hoiThoai.email_User)) {
+                        urlHinh = taiKhoan.getHinhDaiDien();
+                        new DownloadImageTask(imgAnh_User_tin_nhan).execute(urlHinh);
+                    }
+                }
+
+                @Override
+                public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+                }
+
+                @Override
+                public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+                }
+
+                @Override
+                public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
         }
         if (hoiThoai.email_User.equals(EmailNguoiGui)) {
             tv_HoiThoaiBanCuaUser.setText(hoiThoai.message_User);
             tvUser_tin_nhan.setVisibility(View.GONE);
             imgAnh_User_tin_nhan.setVisibility(View.GONE);
             card_view_User.setVisibility(View.GONE);
+            mDatabase.child("TaiKhoan").addChildEventListener(new ChildEventListener() {
+                @Override
+                public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                    TaiKhoan taiKhoan = snapshot.getValue(TaiKhoan.class);
+                    if (taiKhoan.getEmail().equals(hoiThoai.email_User)) {
+                        urlHinh = taiKhoan.getHinhDaiDien();
+                        new DownloadImageTask(imgAnh_Ban_Cua_User).execute(urlHinh);
+                    }
+                }
+
+                @Override
+                public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+                }
+
+                @Override
+                public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+                }
+
+                @Override
+                public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
         }
 
         return view;

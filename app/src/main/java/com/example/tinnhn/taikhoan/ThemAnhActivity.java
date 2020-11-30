@@ -48,7 +48,6 @@ public class ThemAnhActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_them_anh);
-
         ThemHinh();
         HienHinh();
     }
@@ -75,7 +74,7 @@ public class ThemAnhActivity extends AppCompatActivity {
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 startActivityForResult(intent, REQUEST_CODE_IMAGE);
                 // chọn hình từ bộ sưu tập
-//                asdf;
+//                err;
                 //
             }
         });
@@ -95,14 +94,13 @@ public class ThemAnhActivity extends AppCompatActivity {
                 uploadTask.addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception exception) {
-                        Toast.makeText(ThemAnhActivity.this, "NOT OK ", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ThemAnhActivity.this, "98 NOT OK ", Toast.LENGTH_SHORT).show();
                     }
                 }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                         StorageMetadata metadata = taskSnapshot.getMetadata();
-                        Log.d(TAG, "onSuccess: " + metadata);
-//                        Toast.makeText(ThemAnhActivity.this, "OK: " + metadata, Toast.LENGTH_SHORT).show();
+                        Log.d(TAG, "104 onSuccess: " + metadata);
                     }
                 }).continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
                     @Override
@@ -118,8 +116,8 @@ public class ThemAnhActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             Uri downloadUri = task.getResult();
                             linkURLImage = downloadUri.toString();
-                            Toast.makeText(ThemAnhActivity.this, "downloadUri: " + linkURLImage, Toast.LENGTH_SHORT).show();
-                            Log.d(TAG, "onComplete: " + linkURLImage);
+                            Toast.makeText(ThemAnhActivity.this, "121 downloadUri: " + linkURLImage, Toast.LENGTH_SHORT).show();
+                            Log.d(TAG, "122 onComplete: " + linkURLImage);
                         } else {
                             // ...
                         }

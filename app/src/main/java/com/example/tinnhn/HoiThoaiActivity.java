@@ -64,7 +64,7 @@ public class HoiThoaiActivity extends BaseActivity implements SinchServices.Star
 
         setTitle(TenNguoiGui);
         Objects.requireNonNull(getSupportActionBar()).setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setIcon(R.drawable.user);
+//        getSupportActionBar().setIcon(R.drawable.user);
 
         sharedPreferences = getSharedPreferences("GhiNhoDangNhap", MODE_PRIVATE);
         editor = sharedPreferences.edit();
@@ -154,11 +154,10 @@ public class HoiThoaiActivity extends BaseActivity implements SinchServices.Star
 //                    HoiThoai hThoai = ds.getValue(HoiThoai.class);
 //                    if(hThoai.email_User.equals(EmailUser) && hThoai.emailNguoiNhan.equals(EmailNguoiGui)){
 //                        hoiThoaiArrayList.add(new HoiThoai(hThoai.message_User,hThoai.emailNguoiNhan,hThoai.email_User));
-////                        Toast.makeText(HoiThoaiActivity.this, ""+hThoai.message_User, Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(HoiThoaiActivity.this, ""+hThoai.message_User, Toast.LENGTH_SHORT).show();
 //                    }
 //                    if(hThoai.email_User.equals(EmailNguoiGui) && hThoai.emailNguoiNhan.equals(EmailUser)){
 //                        hoiThoaiArrayList.add(new HoiThoai(hThoai.message_User,hThoai.emailNguoiNhan,hThoai.email_User));
-////                        Toast.makeText(HoiThoaiActivity.this, ""+hThoai.message_User, Toast.LENGTH_SHORT).show();
 //                    }
 //                    hoiThoaiAdapter.notifyDataSetChanged();
 //                }

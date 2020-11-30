@@ -15,11 +15,13 @@
         android:roundIcon="@drawable/logo_app"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
-
+        <activity android:name=".SearchMessageActivity"
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"
+            ></activity>
         <activity
             android:name=".SearchFriendsActivity"
             android:parentActivityName=".MainActivity"
-            android:theme="@style/TinNhanMoi"/>
+            android:theme="@style/TinNhanMoi" />
 
         <service android:name=".Call.SinchServices" />
 
@@ -40,10 +42,11 @@
         <activity android:name=".Call.CuocGoiToi_Screen" />
         <activity android:name=".Call.Dialer" />
         <activity android:name=".MainActivity" />
-        <activity android:name=".Call.GroupListActivity"/>
-        <activity android:name=".Call.GroupHoiThoaiActivity"
+        <activity android:name=".Call.GroupListActivity" />
+        <activity
+            android:name=".Call.GroupHoiThoaiActivity"
             android:theme="@style/TinNhanMoi" />
-        <activity android:name=".Call.GroupCallActivity"/>
+        <activity android:name=".Call.GroupCallActivity" />
         <activity
             android:name=".HoiThoaiActivity"
             android:label="Tên Người gửi"
@@ -57,7 +60,7 @@
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
         <activity android:name=".taikhoan.QuenMatKhauActivity" />
         <activity android:name=".taikhoan.ThemAnhActivity" />
-        <activity android:name=".taikhoan.StorageActivity"/>
+        <activity android:name=".taikhoan.StorageActivity" />
     </application>
 
 </manifest>

@@ -28,12 +28,13 @@
                 android:layout_height="54dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
-                card_view:cardCornerRadius="30dp">
+                card_view:cardCornerRadius="27dp">
 
                 <ImageView
                     android:id="@+id/imgAnh_Ban_Cua_User"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
                     android:background="@drawable/hinhnen" />
             </androidx.cardview.widget.CardView>
 
@@ -87,12 +88,13 @@
                     android:layout_height="54dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="10dp"
-                    card_view:cardCornerRadius="30dp">
+                    card_view:cardCornerRadius="27dp">
 
                     <ImageView
                         android:id="@+id/imgAnh_User_tin_nhan"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
                         android:background="@drawable/hinhnen" />
                 </androidx.cardview.widget.CardView>
             </LinearLayout>

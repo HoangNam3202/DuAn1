@@ -8,12 +8,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.example.tinnhn.taikhoan.DownloadImageTask;
 import com.example.tinnhn.taikhoan.TaiKhoan;
 import com.example.tinnhn.ui.main.FriendChildFragment;
 import com.example.tinnhn.ui.main.PlaceholderFragment;
@@ -42,6 +44,8 @@ public class FriendsRequestAdapter extends BaseAdapter {
     String idUser;
     String hinhUser;
     boolean check_friended = false;
+    String urlHinh;
+
 //    FriendChildFragment friendChildFragment = new FriendChildFragment();
 
     public FriendsRequestAdapter(Context context, int layout, List<FriendsRequest> friendsRequestsList) {
@@ -77,6 +81,7 @@ public class FriendsRequestAdapter extends BaseAdapter {
         TextView tvTenLoi_Moi = view.findViewById(R.id.tvTenLoi_Moi);
         TextView btnAddFriend_Loi_Moi = view.findViewById(R.id.btnAddFriend_Loi_Moi);
         TextView btndeleteFriend_Loi_Moi = view.findViewById(R.id.btndeleteFriend_Loi_Moi);
+        ImageView imgAnh_Loi_Moi = view.findViewById(R.id.imgAnh_Loi_Moi);
 
         FriendsRequest friendsRequest = friendsRequestsList.get(i);
         tvTenLoi_Moi.setText(friendsRequest.tenTaiKhoan);
@@ -148,7 +153,37 @@ public class FriendsRequestAdapter extends BaseAdapter {
                 GoiLoiMoiKetBan();
             }
         });
+//
+        mDatabase.child("TaiKhoan").addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                TaiKhoan taiKhoan = snapshot.getValue(TaiKhoan.class);
+                if (taiKhoan.getEmail().equals(friendsRequest.email)) {
+                    urlHinh = taiKhoan.getHinhDaiDien();
+                    new DownloadImageTask(imgAnh_Loi_Moi).execute(urlHinh);
+                }
+            }
 
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
         return view;
     }
 }

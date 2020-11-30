@@ -8,14 +8,16 @@
         android:layout_width="54dp"
         android:layout_height="54dp"
         android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
-        card_view:cardCornerRadius="25dp">
+        android:layout_marginTop="8dp"
+        card_view:cardCornerRadius="26dp">
 
         <ImageView
             android:id="@+id/imgAnh_Message"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/hinhnen" />
+            android:background="#EDE9E9"
+            android:scaleType="centerCrop"
+            />
     </androidx.cardview.widget.CardView>
 
     <TextView
