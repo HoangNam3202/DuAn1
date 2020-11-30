@@ -1,13 +1,25 @@
 package com.example.tinnhn.Call;
 
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Binder;
+import android.os.Build;
 import android.os.IBinder;
 import android.util.Log;
+import android.widget.Toast;
 
+import com.example.tinnhn.MainActivity;
+import com.example.tinnhn.R;
 import com.sinch.android.rtc.AudioController;
+import com.sinch.android.rtc.Beta;
 import com.sinch.android.rtc.ClientRegistration;
+import com.sinch.android.rtc.ManagedPush;
 import com.sinch.android.rtc.Sinch;
 import com.sinch.android.rtc.SinchClient;
 import com.sinch.android.rtc.SinchClientListener;
@@ -19,6 +31,7 @@ import com.sinch.android.rtc.video.VideoController;
 import com.sinch.android.rtc.video.VideoScalingType;
 
 import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
+import static android.content.Intent.makeRestartActivityTask;
 
 public class SinchServices extends Service {
     private static final String APP_KEY = "16732ff2-dd27-4c5a-8301-6b693da2fef1";
@@ -31,17 +44,60 @@ public class SinchServices extends Service {
     private SinchClient appSinchClient;
     private String appIDNguoiDung;
     private CallClient callClient;
+    Notification notification;
 
     private StartFailedListener mListener;
 
     @Override
     public void onCreate() {
+
+
+
+        notification = createNotification();
+        startForeground(111, notification);
+
         super.onCreate();
     }
+    private Notification createNotification() {
+        final String notificationChannelId = "Tin Nhắn";
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            final NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+            final NotificationChannel notificationChannel = new NotificationChannel(notificationChannelId, "Endless Service notifications channel", NotificationManager.IMPORTANCE_LOW);
+            notificationChannel.setDescription("Tin nhắn service");
+            notificationChannel.enableLights(true);
+            notificationChannel.setLightColor(Color.RED);
+            notificationChannel.enableVibration(true);
+            notificationChannel.setVibrationPattern(new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400});
+            if (notificationManager != null) {
+                notificationManager.createNotificationChannel(notificationChannel);
+            }
+        }
+        Intent notificationIntent = new Intent(this, MainActivity.class);
+//        notificationIntent.putExtra(Utils.NAVPAGE, TAG);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
+
+        Notification.Builder notificationBuilder;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            notificationBuilder = new Notification.Builder(this, notificationChannelId);
+        } else {
+            notificationBuilder = new Notification.Builder(this);
+        }
+        notificationBuilder.setContentTitle("Nhắn Tin");
+        notificationBuilder.setContentText("Luôn chờ cuộc gọi");
+        notificationBuilder.setContentIntent(pendingIntent);
+        notificationBuilder.setSmallIcon(R.drawable.logo_app);
+        notificationBuilder.setTicker("what is this?");
+        notificationBuilder.setAutoCancel(false);
+        notificationBuilder.setOngoing(true);
+        notificationBuilder.setPriority(Notification.PRIORITY_DEFAULT); // for under android 26 compatibility
+        return notificationBuilder.build();
+    }
+
 
     @Override
     public void onDestroy() {
         if (appSinchClient != null && appSinchClient.isStarted()) {
+            appSinchClient.stopListeningOnActiveConnection();
             appSinchClient.terminate();
         }
         super.onDestroy();
@@ -57,6 +113,8 @@ public class SinchServices extends Service {
 
             appSinchClient.setSupportCalling(true);
             appSinchClient.startListeningOnActiveConnection();
+            appSinchClient.setSupportManagedPush(true);
+           appSinchClient.setSupportActiveConnectionInBackground(true);
 
             appSinchClient.addSinchClientListener(new MySinchClientListener());
             appSinchClient.getCallClient().addCallClientListener(new SinchCallClientListener());
@@ -94,7 +152,6 @@ public class SinchServices extends Service {
         public Call callGroup(String userId) {
             return appSinchClient.getCallClient().callConference(userId);
         }
-
 
         public String getUserName() {
             return appIDNguoiDung;
@@ -141,6 +198,7 @@ public class SinchServices extends Service {
 
         void onStarted();
     }
+
 
     private class MySinchClientListener implements SinchClientListener {
 
@@ -196,10 +254,12 @@ public class SinchServices extends Service {
 
         @Override
         public void onIncomingCall(CallClient callClient, Call call) {
+
             Intent intent = new Intent(SinchServices.this, CuocGoiToi_Screen.class);
             intent.putExtra(CALL_ID, call.getCallId());
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            SinchServices.this.startActivity(intent);
+            startActivity(intent);
+            //SinchServices.this.startActivity(intent);
         }
     }
 
