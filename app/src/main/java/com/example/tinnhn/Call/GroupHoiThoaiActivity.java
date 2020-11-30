@@ -178,16 +178,7 @@ public class GroupHoiThoaiActivity extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
     private void Hamchuyenidgroupquagroupcall() {
-        FrameLayout frameLayout = findViewById(R.id.sidecall);
-        ImageView test = (ImageView) View.inflate(this, R.layout.sideview, null);
-        frameLayout.addView(test);
 
-        test.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(GroupHoiThoaiActivity.this, "dwqdwqdwqd", Toast.LENGTH_SHORT).show();
-            }
-        });
 //        String username="idgroup";
 //
 //        Intent callScreen = new Intent(this, CuocGoi_Screen.class);
