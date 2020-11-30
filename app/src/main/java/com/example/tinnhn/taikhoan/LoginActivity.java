@@ -3,6 +3,7 @@ package com.example.tinnhn.taikhoan;
 import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
@@ -31,7 +32,7 @@ public class LoginActivity extends BaseActivity {
     public static String DiaChiUser = "";
     public static String urlHinhDaiDien = "";
     public static KiemTraMang kiemTraMang = new KiemTraMang();
-    int kTraMang;
+    public static int kTraMang;
     EditText edtEmail;
     TextInputLayout tilMatKhau;
     TextInputEditText edtMatKhau;
@@ -56,7 +57,7 @@ public class LoginActivity extends BaseActivity {
         editor = sharedPreferences.edit();
         emailsv = sharedPreferences.getString("tenTaiKhoan", "");
         kTraMang = kiemTraMang.CheckNetworkStatus(LoginActivity.this);
-        Toast.makeText(this, "" + kTraMang, Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, "" + kTraMang, Toast.LENGTH_SHORT).show();
         KiemTraGhiNhoDangNhap();
         if (kTraMang != 0) {
             DangNhap();
@@ -77,9 +78,17 @@ public class LoginActivity extends BaseActivity {
 
                 }
             });
-        } else{
-            Toast.makeText(this, "No internet, check netword and restart app", Toast.LENGTH_LONG).show();
-//            AlertDialog.Builder builder = AlertDialog.Builder();
+        } else {
+//            Toast.makeText(this, "No internet, check network and restart app", Toast.LENGTH_LONG).show();
+            AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+            builder.setMessage("No internet, check network and restart app");
+            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+
+                }
+            });
+            builder.show();
         }
 
     }
@@ -88,6 +97,7 @@ public class LoginActivity extends BaseActivity {
         String tenTaiKhoan = sharedPreferences.getString("tenTaiKhoan", "");
         if (tenTaiKhoan.length() != 0) {
             urlHinhDaiDien = sharedPreferences.getString("urlHinhDaiDien", "");
+
             startActivity(new Intent(LoginActivity.this, MainActivity.class));
             finish();
         }
