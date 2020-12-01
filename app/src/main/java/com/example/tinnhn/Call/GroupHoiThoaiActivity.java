@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -12,6 +14,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -29,6 +32,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Toolbar;
 
+import com.example.tinnhn.Call.HienHinhVaoRecyclerView.RecyclerViewAdapter;
 import com.example.tinnhn.Friends;
 import com.example.tinnhn.HoiThoai;
 import com.example.tinnhn.HoiThoaiActivity;
@@ -55,6 +59,10 @@ public class GroupHoiThoaiActivity extends BaseActivity {
     public static GroupAdapter groupAdapter;
     ListView grplist;
     String j;
+    // Hiện hình lên RecyclerView
+    String TAG = "MainActivity";
+    private ArrayList<String> mNames = new ArrayList<>();
+    private ArrayList<String> mImageUrls = new ArrayList<>();
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
@@ -89,44 +97,44 @@ public class GroupHoiThoaiActivity extends BaseActivity {
         grplist.setAdapter(groupAdapter);
 
 //end intent
-        mDatabase.child("HoiThoaiGroup").addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                Group group = snapshot.getValue(Group.class);
-                forArr.clear();
-                forArr.add(new Group(group.Email, group.message, group.IdGroup));
-
-                for (int i = 0; i < forArr.size(); i++) {
-                    if (forArr.get(i).IdGroup.equals(j)) {
-                        hoiThoaiArrayList.add(new Group(forArr.get(i).Email, forArr.get(i).message, forArr.get(i).IdGroup));
-                    }
-
-                }
-                groupAdapter.notifyDataSetChanged();
-                scrollMyListViewToBottom();
-
-            }
-
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-            }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
+//        mDatabase.child("HoiThoaiGroup").addChildEventListener(new ChildEventListener() {
+//            @Override
+//            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+//                Group group = snapshot.getValue(Group.class);
+//                forArr.clear();
+//                forArr.add(new Group(group.Email, group.message, group.IdGroup));
+//
+//                for (int i = 0; i < forArr.size(); i++) {
+//                    if (forArr.get(i).IdGroup.equals(j)) {
+//                        hoiThoaiArrayList.add(new Group(forArr.get(i).Email, forArr.get(i).message, forArr.get(i).IdGroup));
+//                    }
+//
+//                }
+//                groupAdapter.notifyDataSetChanged();
+//                scrollMyListViewToBottom();
+//
+//            }
+//
+//            @Override
+//            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+//
+//            }
+//
+//            @Override
+//            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+//
+//            }
+//
+//            @Override
+//            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+//
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//
+//            }
+//        });
 
 
         send.setOnClickListener(new View.OnClickListener() {
@@ -137,8 +145,39 @@ public class GroupHoiThoaiActivity extends BaseActivity {
                 noidungtn.setText("");
             }
         });
+        // hiện hình từ FB lên RecyclerView
+        initImageBitmaps();
+        initRecyclerView();
+//        đang dừng ở việc thêm hình vô chát room;
 
+    }
+    private void initImageBitmaps() {
+        Log.d(TAG, "initImageBitmaps: initImageBitmaps");
+        mImageUrls.add("https://firebasestorage.googleapis.com/v0/b/duan1-f124f.appspot.com/o/HoangNam.jpg?alt=media&token=4c7d6e45-daad-4a52-8096-c92e86cdc2f1");
+        mNames.add("A01");
+        mImageUrls.add("https://firebasestorage.googleapis.com/v0/b/duan1-f124f.appspot.com/o/hinhanh_1606315408915?alt=media&token=9a2a0fed-ce64-4675-b1ac-206fb8bd40f7");
+        mNames.add("A02");
+        mImageUrls.add("https://firebasestorage.googleapis.com/v0/b/duan1-f124f.appspot.com/o/hinhanh_1606355843795?alt=media&token=348fd72d-665e-44f2-8e30-138aeacf0cfb");
+        mNames.add("A03");
+        mImageUrls.add("https://firebasestorage.googleapis.com/v0/b/duan1-f124f.appspot.com/o/tuan.jpg?alt=media&token=2cfa8b49-2308-486b-a300-625351cf5713");
+        mNames.add("A04");
+        mImageUrls.add("https://firebasestorage.googleapis.com/v0/b/duan1-f124f.appspot.com/o/HoangNam.jpg?alt=media&token=4c7d6e45-daad-4a52-8096-c92e86cdc2f1");
+        mNames.add("A05");
+        mImageUrls.add("https://firebasestorage.googleapis.com/v0/b/duan1-f124f.appspot.com/o/hinhanh_1606315408915?alt=media&token=9a2a0fed-ce64-4675-b1ac-206fb8bd40f7");
+        mNames.add("A06");
+        mImageUrls.add("https://firebasestorage.googleapis.com/v0/b/duan1-f124f.appspot.com/o/hinhanh_1606355843795?alt=media&token=348fd72d-665e-44f2-8e30-138aeacf0cfb");
+        mNames.add("A07");
+        mImageUrls.add("https://firebasestorage.googleapis.com/v0/b/duan1-f124f.appspot.com/o/tuan.jpg?alt=media&token=2cfa8b49-2308-486b-a300-625351cf5713");
+        mNames.add("A08");
+    }
 
+    private void initRecyclerView() {
+        Log.d(TAG, "initRecyclerView: ");
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        RecyclerView recyclerView = findViewById(R.id.recyclerView);
+        recyclerView.setLayoutManager(layoutManager);
+        RecyclerViewAdapter adapter = new RecyclerViewAdapter(this, mNames, mImageUrls);
+        recyclerView.setAdapter(adapter);
     }
 
     public void hamthemlistview() {

@@ -20,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.tinnhn.Call.BaseActivity;
+import com.example.tinnhn.Call.GroupHoiThoaiActivity;
 import com.example.tinnhn.MainActivity;
 import com.example.tinnhn.R;
 import com.google.android.material.textfield.TextInputEditText;
@@ -75,7 +76,6 @@ public class LoginActivity extends BaseActivity {
                     Intent intent = new Intent(LoginActivity.this, QuenMatKhauActivity.class);
                     intent.putExtra("QMK", true);
                     startActivity(intent);
-
                 }
             });
         } else {
@@ -98,8 +98,8 @@ public class LoginActivity extends BaseActivity {
         if (tenTaiKhoan.length() != 0) {
             urlHinhDaiDien = sharedPreferences.getString("urlHinhDaiDien", "");
 
-            startActivity(new Intent(LoginActivity.this, MainActivity.class));
-            finish();
+            startActivity(new Intent(LoginActivity.this, GroupHoiThoaiActivity.class));
+//            finish();
         }
     }
 
