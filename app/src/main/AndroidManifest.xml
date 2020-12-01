@@ -16,7 +16,12 @@
         android:roundIcon="@drawable/logo_app"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
-        <receiver android:name=".taikhoan.MyReceiver"/>
+        <receiver android:name=".taikhoan.MyReceiver">
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+                <action android:name="android.net.wifi.WIFI_STATE_CHANGED" />
+            </intent-filter>
+        </receiver>
 
         <activity android:name=".SearchMessageActivity"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"
