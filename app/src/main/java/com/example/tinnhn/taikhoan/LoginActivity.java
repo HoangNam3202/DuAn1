@@ -3,9 +3,13 @@ package com.example.tinnhn.taikhoan;
 import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.BroadcastReceiver;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -42,12 +46,17 @@ public class LoginActivity extends BaseActivity {
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
     String emailsv;
+    BroadcastReceiver broadcastReceiver = new MyReceiver();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_login);
+        IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+        filter.addAction(WifiManager.SUPPLICANT_CONNECTION_CHANGE_ACTION);
+        filter.addAction(WifiManager.EXTRA_RESULTS_UPDATED);
+        this.registerReceiver(broadcastReceiver, filter);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             requestPermissions(new String[]{Manifest.permission.RECORD_AUDIO, Manifest.permission.CAMERA, Manifest.permission.ACCESS_NETWORK_STATE, Manifest.permission.READ_PHONE_STATE}, 100);
@@ -59,9 +68,10 @@ public class LoginActivity extends BaseActivity {
         emailsv = sharedPreferences.getString("tenTaiKhoan", "");
         kTraMang = kiemTraMang.CheckNetworkStatus(LoginActivity.this);
 //        Toast.makeText(this, "" + kTraMang, Toast.LENGTH_SHORT).show();
+
         KiemTraGhiNhoDangNhap();
+        DangNhap();
         if (kTraMang != 0) {
-            DangNhap();
             txtDangKy = findViewById(R.id.txtDangKy);
             txtDangKy.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -179,7 +189,7 @@ public class LoginActivity extends BaseActivity {
                         final Dialog dialog = new Dialog(LoginActivity.this);
                         dialog.setContentView(R.layout.dialog_loading);
                         dialog.show();
-                        new CountDownTimer(1300, 100) {
+                        new CountDownTimer(1500, 100) {
                             @Override
                             public void onTick(long millisUntilFinished) {
                             }
@@ -228,7 +238,7 @@ public class LoginActivity extends BaseActivity {
 
                     }
                 } else
-                    Toast.makeText(LoginActivity.this, "No internet, check netword and restart app", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, "No internet, check network and restart app", Toast.LENGTH_SHORT).show();
             }
         });
     }

@@ -1,24 +1,18 @@
 package com.example.tinnhn;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Handler;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.tinnhn.taikhoan.DownloadImageTask;
-import com.example.tinnhn.taikhoan.HihNgNhanTrogMessArrLst;
-import com.example.tinnhn.taikhoan.LoginActivity;
 import com.example.tinnhn.taikhoan.TaiKhoan;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -31,8 +25,6 @@ import java.util.Calendar;
 import java.util.List;
 
 import static android.content.Context.MODE_PRIVATE;
-import static com.example.tinnhn.MainActivity.hihNgNhanTrogMessArrLsts;
-import static com.example.tinnhn.taikhoan.LoginActivity.dbFirebase;
 
 public class MessageAdapter extends BaseAdapter {
     private Context context;
@@ -42,7 +34,6 @@ public class MessageAdapter extends BaseAdapter {
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
     String EmailUser, EmailNguoiGui;
-    public static String urlHinhNguoiNhan = "";
     String TAG = "MessageAdapter";
     String urlHinh = "";
 

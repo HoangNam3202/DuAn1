@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,8 +16,6 @@ import androidx.annotation.Nullable;
 
 import com.example.tinnhn.taikhoan.DownloadImageTask;
 import com.example.tinnhn.taikhoan.TaiKhoan;
-import com.example.tinnhn.ui.main.FriendChildFragment;
-import com.example.tinnhn.ui.main.PlaceholderFragment;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -29,7 +26,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static android.content.Context.MODE_PRIVATE;
-import static com.example.tinnhn.ui.main.FriendChildFragment.GoiDanhSachBanBe;
 import static com.example.tinnhn.ui.main.FriendChildFragment.GoiLoiMoiKetBan;
 import static com.example.tinnhn.ui.main.FriendChildFragment.arrFriends;
 
