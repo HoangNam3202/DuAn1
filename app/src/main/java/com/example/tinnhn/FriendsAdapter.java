@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -22,11 +21,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static com.example.tinnhn.ui.main.FriendChildFragment.GoiDanhSachBanBe;
-import static com.example.tinnhn.ui.main.FriendChildFragment.arrFriends_check;
 import static com.example.tinnhn.ui.main.FriendChildFragment.arrFriends_check1;
 
 public class FriendsAdapter extends BaseAdapter {

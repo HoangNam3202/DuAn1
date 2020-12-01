@@ -7,9 +7,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.PorterDuff;
 import android.net.ConnectivityManager;
 import android.net.wifi.WifiManager;
@@ -17,44 +14,24 @@ import android.os.Build;
 import android.os.Bundle;
 
 import com.example.tinnhn.Call.BaseActivity;
-import com.example.tinnhn.Call.SinchServices;
 import com.example.tinnhn.taikhoan.HihNgNhanTrogMessArrLst;
 import com.example.tinnhn.taikhoan.LoginActivity;
 import com.example.tinnhn.taikhoan.MyReceiver;
-import com.example.tinnhn.ui.main.PlaceholderFragment;
-import com.google.android.gms.common.api.internal.SignInConnectionListener;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 
 import androidx.annotation.RequiresApi;
 import androidx.viewpager.widget.ViewPager;
-import androidx.appcompat.app.AppCompatActivity;
 
-import android.os.IBinder;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.WindowManager;
-import android.widget.ArrayAdapter;
-import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.Toast;
 
 import com.example.tinnhn.ui.main.SectionsPagerAdapter;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
-import java.io.InputStream;
 import java.util.ArrayList;
 
-import static com.example.tinnhn.taikhoan.LoginActivity.dbFirebase;
 import static com.example.tinnhn.taikhoan.LoginActivity.kTraMang;
-import static com.example.tinnhn.taikhoan.LoginActivity.urlHinhDaiDien;
 
 public class MainActivity extends BaseActivity {
     String TAG = "MainActivity";
