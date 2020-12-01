@@ -16,6 +16,8 @@
         android:roundIcon="@drawable/logo_app"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
+        <receiver android:name=".taikhoan.MyReceiver"/>
+
         <activity android:name=".SearchMessageActivity"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"
             />
