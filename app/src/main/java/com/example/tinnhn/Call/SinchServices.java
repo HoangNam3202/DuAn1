@@ -324,7 +324,7 @@ stopForeground(true);
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 ThongBao cVu = snapshot.getValue(ThongBao.class);
                 if(cVu.emailNguoiNhan.equals(EmailUser)){
-                    NotificationCompat.Builder builder = new NotificationCompat.Builder(getBaseContext(), "CHANNEL_ID")
+                    NotificationCompat.Builder builder = new NotificationCompat.Builder(getBaseContext(), "Tin Nhắn")
                             .setSmallIcon(R.drawable.logo_app)
                             .setContentTitle(cVu.tenUser)
                             .setContentText(cVu.message_User)
@@ -332,7 +332,7 @@ stopForeground(true);
                             .setAutoCancel(true);
                     builder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALL));
                     NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getBaseContext());
-                    notificationManager.notify(0, builder.build());
+                    notificationManager.notify(11, builder.build());
                 }
             }
 
