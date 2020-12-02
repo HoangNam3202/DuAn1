@@ -5,14 +5,21 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.tinnhn.R;
+import com.example.tinnhn.taikhoan.DBFirebase;
+import com.example.tinnhn.taikhoan.TaiKhoan;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
@@ -21,13 +28,14 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
     String TAG = "RecyclerViewAdapter";
     private ArrayList<String> mNames = new ArrayList<>();
-    private ArrayList<String> mImageUrls = new ArrayList<>();
+    private String tenNhomChat;
+
     private Context mContext;
 
-    public RecyclerViewAdapter(Context context, ArrayList<String> mNames, ArrayList<String> mImageUrls) {
+    public RecyclerViewAdapter(Context context, ArrayList<String> mNames, String tenNhomChat) {
         this.mNames = mNames;
-        this.mImageUrls = mImageUrls;
         this.mContext = context;
+        this.tenNhomChat = tenNhomChat;
     }
 
     @NonNull
@@ -37,12 +45,42 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         return new ViewHolder(view);
     }
 
+    DatabaseReference databaseReference;
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Log.d(TAG, "onCreateViewHolder: called.");
-        Glide.with(mContext).asBitmap().load(mImageUrls.get(position)).into(holder.image);
-//        holder.name.setText(mNames.get(position));
+        databaseReference = FirebaseDatabase.getInstance().getReference();
+        databaseReference.child("TaiKhoan").addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                TaiKhoan taiKhoan = snapshot.getValue(TaiKhoan.class);
+                if (taiKhoan.getEmail().equals(mNames.get(position))) {
+                    Glide.with(mContext).asBitmap().load(taiKhoan.getHinhDaiDien()).into(holder.image);
+                }
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+//        Glide.with(mContext).asBitmap().load(mImageUrls.get(position)).into(holder.image);
         holder.image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -50,7 +88,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 Toast.makeText(mContext, mNames.get(position), Toast.LENGTH_SHORT).show();
             }
         });
-        new DownloadImageTask(holder.image).execute(mImageUrls.get(position));
 
     }
 
@@ -61,12 +98,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         CircleImageView image;
-        TextView name;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             image = itemView.findViewById(R.id.image_view);
-            name = itemView.findViewById(R.id.name);
         }
     }
 }

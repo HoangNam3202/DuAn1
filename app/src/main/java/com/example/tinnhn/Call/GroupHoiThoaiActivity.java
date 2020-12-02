@@ -12,6 +12,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -60,9 +61,8 @@ public class GroupHoiThoaiActivity extends BaseActivity {
     ListView grplist;
     String j;
     // Hiện hình lên RecyclerView
-    String TAG = "MainActivity";
+    String TAG = "GroupHoiThoaiActivity";
     private ArrayList<String> mNames = new ArrayList<>();
-    private ArrayList<String> mImageUrls = new ArrayList<>();
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
@@ -84,7 +84,6 @@ public class GroupHoiThoaiActivity extends BaseActivity {
         if (b != null) {
             j = (String) b.get("idgroup");
             Toast.makeText(this, j, Toast.LENGTH_SHORT).show();
-
         }
         setTitle(j);
         Objects.requireNonNull(getSupportActionBar()).setDisplayShowHomeEnabled(true);
@@ -148,34 +147,7 @@ public class GroupHoiThoaiActivity extends BaseActivity {
 
 
     }
-    private void initImageBitmaps() {
-        Log.d(TAG, "initImageBitmaps: initImageBitmaps");
-        mImageUrls.add("https://firebasestorage.googleapis.com/v0/b/duan1-f124f.appspot.com/o/HoangNam.jpg?alt=media&token=4c7d6e45-daad-4a52-8096-c92e86cdc2f1");
-        mNames.add("A01");
-        mImageUrls.add("https://firebasestorage.googleapis.com/v0/b/duan1-f124f.appspot.com/o/hinhanh_1606315408915?alt=media&token=9a2a0fed-ce64-4675-b1ac-206fb8bd40f7");
-        mNames.add("A02");
-        mImageUrls.add("https://firebasestorage.googleapis.com/v0/b/duan1-f124f.appspot.com/o/hinhanh_1606355843795?alt=media&token=348fd72d-665e-44f2-8e30-138aeacf0cfb");
-        mNames.add("A03");
-        mImageUrls.add("https://firebasestorage.googleapis.com/v0/b/duan1-f124f.appspot.com/o/tuan.jpg?alt=media&token=2cfa8b49-2308-486b-a300-625351cf5713");
-        mNames.add("A04");
-        mImageUrls.add("https://firebasestorage.googleapis.com/v0/b/duan1-f124f.appspot.com/o/HoangNam.jpg?alt=media&token=4c7d6e45-daad-4a52-8096-c92e86cdc2f1");
-        mNames.add("A05");
-        mImageUrls.add("https://firebasestorage.googleapis.com/v0/b/duan1-f124f.appspot.com/o/hinhanh_1606315408915?alt=media&token=9a2a0fed-ce64-4675-b1ac-206fb8bd40f7");
-        mNames.add("A06");
-        mImageUrls.add("https://firebasestorage.googleapis.com/v0/b/duan1-f124f.appspot.com/o/hinhanh_1606355843795?alt=media&token=348fd72d-665e-44f2-8e30-138aeacf0cfb");
-        mNames.add("A07");
-        mImageUrls.add("https://firebasestorage.googleapis.com/v0/b/duan1-f124f.appspot.com/o/tuan.jpg?alt=media&token=2cfa8b49-2308-486b-a300-625351cf5713");
-        mNames.add("A08");
-    }
 
-    private void initRecyclerView() {
-        Log.d(TAG, "initRecyclerView: ");
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-        RecyclerView recyclerView = findViewById(R.id.recyclerView);
-        recyclerView.setLayoutManager(layoutManager);
-        RecyclerViewAdapter adapter = new RecyclerViewAdapter(this, mNames, mImageUrls);
-        recyclerView.setAdapter(adapter);
-    }
 
     public void hamthemlistview() {
 
@@ -192,14 +164,10 @@ public class GroupHoiThoaiActivity extends BaseActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-
         if (id == R.id.groupchat) {
             //đang nhap sinchclient o day = UserEmail sau do goi cho EmailNguoiGui
-
             if (getGiaodiendichvu().isStarted()) {
-
                 Hamchuyenidgroupquagroupcall();
-
             } else {
                 Toast.makeText(this, "chua chay dich vu", Toast.LENGTH_SHORT).show();
             }
@@ -207,11 +175,61 @@ public class GroupHoiThoaiActivity extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    boolean ktraTrung = false;
+    String idGroup = "";
+    String emailNguoiDung;
+
     private void Hamchuyenidgroupquagroupcall() {
+        emailNguoiDung = sharedPreferences.getString("tenTaiKhoan", "");
+        Toast.makeText(this, "" + emailNguoiDung, Toast.LENGTH_SHORT).show();
+        if (j.equals("Chat Room 1")) idGroup = "Chatroom1";
+        if (j.equals("Chat Room 2")) idGroup = "Chatroom2";
+        mNames.clear();
+        mDatabase.child("GroupGoiDien" + idGroup).addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                String email = snapshot.getValue().toString();
+                if (email.equals(emailNguoiDung)) ktraTrung = true;
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+        new CountDownTimer(1300, 100) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+            }
+
+            @Override
+            public void onFinish() {
+                if (!ktraTrung) {
+                    mDatabase.child("GroupGoiDien" + idGroup).push().setValue(emailNguoiDung);
+                }
+                initRecyclerView();
+                initImageBitmaps();
+            }
+        }.start();
 
         // hiện hình từ FB lên RecyclerView
-        initImageBitmaps();
-        initRecyclerView();
+//        initImageBitmaps();
+//        initRecyclerView();
 //        đang dừng ở việc thêm hình vô chát room;
 //        String username="idgroup";
 //
@@ -222,6 +240,54 @@ public class GroupHoiThoaiActivity extends BaseActivity {
 //        Intent mainActivity = new Intent(this, Dialer.class);
 //        startActivity(mainActivity);
     }
+
+    private void initImageBitmaps() {
+        mNames.clear();
+        Log.d(TAG, "initImageBitmaps: initImageBitmaps");
+        mDatabase.child("GroupGoiDien" + idGroup).addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                String email = snapshot.getValue().toString();
+                mNames.add(email);
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                String email = snapshot.getValue().toString();
+                mNames.add(email);
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    RecyclerViewAdapter adapter;
+
+    private void initRecyclerView() {
+        Log.d(TAG, "initRecyclerView: ");
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        RecyclerView recyclerView = findViewById(R.id.recyclerView);
+        recyclerView.setLayoutManager(layoutManager);
+        String temp = "GroupGoiDien" + idGroup;
+        adapter = new RecyclerViewAdapter(this, mNames, temp);
+        recyclerView.setAdapter(adapter);
+    }
+
 
     private void scrollMyListViewToBottom() {
         grplist.post(new Runnable() {
@@ -235,8 +301,75 @@ public class GroupHoiThoaiActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(GroupHoiThoaiActivity.this, MainActivity.class);
-        startActivity(intent);
+//        mDatabase.child("GroupGoiDien" + idGroup).addChildEventListener(new ChildEventListener() {
+//            @Override
+//            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+//                String email = snapshot.getValue().toString();
+//                if (email.equals(emailNguoiDung)) {
+//                    String idKey = snapshot.getKey();
+//                    mDatabase.child("GroupGoiDien" + idGroup).child(idKey).removeValue();
+//                    ;
+//                }
+//
+//            }
+//
+//            @Override
+//            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+//
+//            }
+//
+//            @Override
+//            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+//
+//            }
+//
+//            @Override
+//            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+//
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//
+//            }
+//        });
+        startActivity(new Intent(GroupHoiThoaiActivity.this, MainActivity.class));
         finish();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+//        mDatabase.child("GroupGoiDien" + idGroup).addChildEventListener(new ChildEventListener() {
+//            @Override
+//            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+//                String email = snapshot.getValue().toString();
+//                if (email.equals(emailNguoiDung)) {
+//                    String idKey = snapshot.getKey();
+//                    mDatabase.child("GroupGoiDien" + idGroup).child(idKey).removeValue();
+//                }
+//
+//            }
+//
+//            @Override
+//            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+//
+//            }
+//
+//            @Override
+//            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+//
+//            }
+//
+//            @Override
+//            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+//
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//
+//            }
+//        });
     }
 }
