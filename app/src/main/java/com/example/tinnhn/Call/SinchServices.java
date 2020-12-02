@@ -51,10 +51,8 @@ public class SinchServices extends Service {
     @Override
     public void onCreate() {
 
-
-
         notification = createNotification();
-        startForeground(111, notification);
+    startForeground(11,notification);
 
         super.onCreate();
     }
@@ -248,7 +246,10 @@ public class SinchServices extends Service {
         public void onRegistrationCredentialsRequired(SinchClient client,
                                                       ClientRegistration clientRegistration) {
         }
+
+
     }
+
 
     private class SinchCallClientListener implements CallClientListener {
 
@@ -258,8 +259,8 @@ public class SinchServices extends Service {
             Intent intent = new Intent(SinchServices.this, CuocGoiToi_Screen.class);
             intent.putExtra(CALL_ID, call.getCallId());
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
-            //SinchServices.this.startActivity(intent);
+            //startActivity(intent);
+            SinchServices.this.startActivity(intent);
         }
     }
 
