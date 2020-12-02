@@ -13,10 +13,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.util.ArrayList;
-
-import static com.example.tinnhn.MainActivity.hihNgNhanTrogMessArrLsts;
-import static com.example.tinnhn.MessageAdapter.urlHinhNguoiNhan;
 import static com.example.tinnhn.taikhoan.DangKiActivity.kiemTraTrungEmail;
 import static com.example.tinnhn.taikhoan.DangKiActivity.kiemTraTrungSoDienThoai;
 import static com.example.tinnhn.taikhoan.DangKiActivity.kiemTraTrungTenTaiKhoan;

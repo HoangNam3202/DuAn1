@@ -14,7 +14,6 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.example.tinnhn.ui.main.PageViewModel;
 import com.google.firebase.database.ChildEventListener;
@@ -29,8 +28,8 @@ public class SearchMessageActivity extends AppCompatActivity {
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
     private PageViewModel pageViewModel;
-    int vitri;
-    boolean clickcheck = false;
+//    int vitri;
+//    boolean clickcheck = false;
     private DatabaseReference mDatabase;
     public String NoiDung,TenUser;
     ArrayList<TinNhanHienThi> messageArrayList;
@@ -49,8 +48,8 @@ public class SearchMessageActivity extends AppCompatActivity {
         ListView list_view_Message = findViewById(R.id.list_view_Message);
         messageArrayList = new ArrayList<>();
         messageArrayList_Message1 = new ArrayList<>();
-        ArrayList<Friends> messageArrayList_check = new ArrayList<>();
-        ArrayList<HoiThoai> messageArrayList_Message = new ArrayList<>();
+//        ArrayList<Friends> messageArrayList_check = new ArrayList<>();
+//        ArrayList<HoiThoai> messageArrayList_Message = new ArrayList<>();
         messageAdapter = new MessageAdapter(SearchMessageActivity.this,R.layout.list_message_item,messageArrayList);
         list_view_Message.setAdapter(messageAdapter);
         sharedPreferences = getSharedPreferences("GhiNhoDangNhap", MODE_PRIVATE);
