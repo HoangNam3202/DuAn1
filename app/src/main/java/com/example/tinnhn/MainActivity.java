@@ -123,16 +123,26 @@ public class MainActivity extends BaseActivity {
             builder.show();
         }
     }
-//    private void actionOnService(Actions actions) {
-//        if ( actions.equals(Actions.STOP))
-//            return;
-//
-//        Intent intent = new Intent(MainActivity.this, SinchServices.class);
-//        intent.setAction(actions.name());
-//        startService(intent);
-//
-//    }
 
+    private void actionOnService(Actions actions) {
+
+        Intent intent = new Intent(MainActivity.this, SinchServices.class);
+        intent.setAction(actions.name());
+        startService(intent);
+
+
+
+    }
+    @Override
+    public void onDestroy() {
+        actionOnService(Actions.START);
+        super.onDestroy();
+    }
+    @Override
+    public void onResume() {
+        actionOnService(Actions.STOP);
+        super.onResume();
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -148,7 +158,7 @@ public class MainActivity extends BaseActivity {
         switch (item.getItemId()) {
             case R.id.menu_Dangxuat:
                 XoaGhiNhoDangNhap();
-                //actionOnService(Actions.STOP);
+
                 startActivity(new Intent(MainActivity.this, LoginActivity.class));
                 finish();
                 break;

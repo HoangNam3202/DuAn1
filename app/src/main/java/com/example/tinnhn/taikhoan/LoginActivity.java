@@ -23,8 +23,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.tinnhn.Call.Actions;
 import com.example.tinnhn.Call.BaseActivity;
 import com.example.tinnhn.Call.GroupHoiThoaiActivity;
+import com.example.tinnhn.Call.SinchServices;
 import com.example.tinnhn.MainActivity;
 import com.example.tinnhn.R;
 import com.google.android.material.textfield.TextInputEditText;
@@ -243,8 +245,19 @@ public class LoginActivity extends BaseActivity {
         });
     }
 
+    private void actionOnService(Actions actions) {
+
+            Intent intent = new Intent(LoginActivity.this, SinchServices.class);
+            intent.setAction(actions.name());
+            startService(intent);
+
+
+
+    }
+
     @Override
     public void onDestroy() {
+//        actionOnService(Actions.START);
         getGiaodiendichvu().startClient(emailsv);
         super.onDestroy();
     }

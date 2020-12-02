@@ -97,7 +97,7 @@ public class SinchServices extends Service {
             if (action != null) {
                 switch (action) {
                     case "START":
-//                        startService();
+                       startService();
                         break;
                     case "STOP":
                         stopService();
@@ -119,14 +119,18 @@ public class SinchServices extends Service {
         }
         super.onDestroy();
     }
-
+    private void startService() {
+        notification = createNotification();
+        startForeground(11,notification);
+    }
     private void stopService() {
-
+stopForeground(true);
+//stopSelf();
     }
 
     private void start(String userName) {
-        notification = createNotification();
-        startForeground(11,notification);
+//        notification = createNotification();
+//        startForeground(11,notification);
         if (appSinchClient == null) {
             appIDNguoiDung = userName;
             appSinchClient = Sinch.getSinchClientBuilder().context(getApplicationContext()).userId(userName)
