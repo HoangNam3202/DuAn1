@@ -13,7 +13,9 @@ import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Bundle;
 
+import com.example.tinnhn.Call.Actions;
 import com.example.tinnhn.Call.BaseActivity;
+import com.example.tinnhn.Call.SinchServices;
 import com.example.tinnhn.taikhoan.HihNgNhanTrogMessArrLst;
 import com.example.tinnhn.taikhoan.LoginActivity;
 import com.example.tinnhn.taikhoan.MyReceiver;
@@ -121,7 +123,15 @@ public class MainActivity extends BaseActivity {
             builder.show();
         }
     }
-
+//    private void actionOnService(Actions actions) {
+//        if ( actions.equals(Actions.STOP))
+//            return;
+//
+//        Intent intent = new Intent(MainActivity.this, SinchServices.class);
+//        intent.setAction(actions.name());
+//        startService(intent);
+//
+//    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -138,6 +148,7 @@ public class MainActivity extends BaseActivity {
         switch (item.getItemId()) {
             case R.id.menu_Dangxuat:
                 XoaGhiNhoDangNhap();
+                //actionOnService(Actions.STOP);
                 startActivity(new Intent(MainActivity.this, LoginActivity.class));
                 finish();
                 break;

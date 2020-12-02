@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.example.tinnhn.MainActivity;
 import com.example.tinnhn.R;
+import com.example.tinnhn.taikhoan.LoginActivity;
 import com.sinch.android.rtc.AudioController;
 import com.sinch.android.rtc.Beta;
 import com.sinch.android.rtc.ClientRegistration;
@@ -51,8 +52,6 @@ public class SinchServices extends Service {
     @Override
     public void onCreate() {
 
-        notification = createNotification();
-    startForeground(11,notification);
 
         super.onCreate();
     }
@@ -70,7 +69,7 @@ public class SinchServices extends Service {
                 notificationManager.createNotificationChannel(notificationChannel);
             }
         }
-        Intent notificationIntent = new Intent(this, MainActivity.class);
+        Intent notificationIntent = new Intent(this, LoginActivity.class);
 //        notificationIntent.putExtra(Utils.NAVPAGE, TAG);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
 
@@ -90,7 +89,27 @@ public class SinchServices extends Service {
         notificationBuilder.setPriority(Notification.PRIORITY_DEFAULT); // for under android 26 compatibility
         return notificationBuilder.build();
     }
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
 
+        if (intent != null) {
+            String action = intent.getAction();
+            if (action != null) {
+                switch (action) {
+                    case "START":
+//                        startService();
+                        break;
+                    case "STOP":
+                        stopService();
+                        break;
+                    case "":
+
+                        break;
+                }
+            }
+        }
+        return START_STICKY;
+    }
 
     @Override
     public void onDestroy() {
@@ -101,7 +120,13 @@ public class SinchServices extends Service {
         super.onDestroy();
     }
 
+    private void stopService() {
+
+    }
+
     private void start(String userName) {
+        notification = createNotification();
+        startForeground(11,notification);
         if (appSinchClient == null) {
             appIDNguoiDung = userName;
             appSinchClient = Sinch.getSinchClientBuilder().context(getApplicationContext()).userId(userName)
