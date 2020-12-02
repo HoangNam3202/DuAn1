@@ -44,15 +44,11 @@ public class GroupFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mRoot = inflater.inflate(R.layout.group_list, container, false);
 
-        final EditText tengrp = mRoot.findViewById(R.id.tengroup);
-        Button them = mRoot.findViewById(R.id.themgrp);
-
-
         ListView grplist = mRoot.findViewById(R.id.grplv);
         mDatabase = FirebaseDatabase.getInstance().getReference();
         ArrayList<String> dsgrp = new ArrayList<>();
 
-        ArrayAdapter adapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, dsgrp);
+        ArrayAdapter adapter = new ArrayAdapter(getActivity(), android.R.layout.simple_expandable_list_item_1, dsgrp);
         grplist.setAdapter(adapter);
         mDatabase.child("Group").addChildEventListener(new ChildEventListener() {
             @Override
@@ -127,12 +123,7 @@ public class GroupFragment extends Fragment {
 
             }
         });
-        them.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getContext(), "có cái gì đâu mà ấn :)))", Toast.LENGTH_SHORT).show();
-            }
-        });
+
         return mRoot;
     }
 }

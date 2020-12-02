@@ -47,9 +47,7 @@
         <activity android:name=".Call.CuocGoi_Screen" />
         <activity android:name=".Call.BaseActivity" />
         <activity android:name=".Call.CuocGoiToi_Screen" />
-        <activity android:name=".Call.Dialer" />
         <activity android:name=".MainActivity" />
-        <activity android:name=".Call.GroupListActivity" />
         <activity
             android:name=".Call.GroupHoiThoaiActivity"
             android:theme="@style/TinNhanMoi" />
