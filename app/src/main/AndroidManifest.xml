@@ -43,7 +43,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Call.testcall" />
         <activity android:name=".Call.AudioCall" />
         <activity android:name=".Call.CuocGoi_Screen" />
         <activity android:name=".Call.BaseActivity" />
@@ -54,7 +53,6 @@
         <activity
             android:name=".Call.GroupHoiThoaiActivity"
             android:theme="@style/TinNhanMoi" />
-        <activity android:name=".Call.GroupCallActivity" />
         <activity
             android:name=".HoiThoaiActivity"
             android:label="Tên Người gửi"
