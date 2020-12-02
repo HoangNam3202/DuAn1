@@ -326,7 +326,7 @@ stopForeground(true);
                 if(cVu.emailNguoiNhan.equals(EmailUser)){
                     NotificationCompat.Builder builder = new NotificationCompat.Builder(getBaseContext(), "CHANNEL_ID")
                             .setSmallIcon(R.drawable.logo_app)
-                            .setContentTitle(cVu.tenNguoiGui)
+                            .setContentTitle(cVu.tenUser)
                             .setContentText(cVu.message_User)
                             .setContentIntent(pendingIntent)
                             .setAutoCancel(true);

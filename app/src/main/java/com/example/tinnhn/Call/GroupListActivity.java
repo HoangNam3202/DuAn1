@@ -35,8 +35,8 @@ public class GroupListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.group_list);
 
-        final EditText tengrp = findViewById(R.id.tengroup);
-        Button them = findViewById(R.id.themgrp);
+//        final EditText tengrp = findViewById(R.id.tengroup);
+//        Button them = findViewById(R.id.themgrp);
         ListView grplist = findViewById(R.id.grplv);
         mDatabase = FirebaseDatabase.getInstance().getReference();
         ArrayList<String> dsgrp = new ArrayList<>();
@@ -73,15 +73,15 @@ public class GroupListActivity extends AppCompatActivity {
         });
 
 
-        them.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//                Group group =new Group(tengrp.getText().toString(),RandomString(9));
-//                mDatabase.child("Group").push().setValue(group);
-
-
-            }
-        });
+//        them.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+////                Group group =new Group(tengrp.getText().toString(),RandomString(9));
+////                mDatabase.child("Group").push().setValue(group);
+//
+//
+//            }
+//        });
 
 
     }
