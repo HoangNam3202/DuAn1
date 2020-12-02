@@ -129,6 +129,8 @@ public class HoiThoaiActivity extends BaseActivity implements SinchServices.Star
                         TinNhanHienThi tinNhanHienThi = new TinNhanHienThi(null, edtNoiDung.getText().toString(), EmailNguoiGui, EmailUser, TenNguoiGui, TenUser);
                         mDatabase.child("TinNhan").push().setValue(tinNhanHienThi);
                     }
+                    TinNhanHienThi tinNhanHienThi = new TinNhanHienThi(null, edtNoiDung.getText().toString(), EmailNguoiGui, EmailUser, TenNguoiGui, TenUser);
+                    mDatabase.child("ThongBao").push().setValue(tinNhanHienThi);
                     edtNoiDung.setText("");
                 } else {
                     Toast.makeText(HoiThoaiActivity.this, "Message is empty", Toast.LENGTH_SHORT).show();

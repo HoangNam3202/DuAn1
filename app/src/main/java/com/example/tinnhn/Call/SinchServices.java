@@ -5,21 +5,33 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.media.RingtoneManager;
 import android.os.Binder;
 import android.os.Build;
 import android.os.IBinder;
 import android.util.Log;
-import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
 import com.example.tinnhn.MainActivity;
 import com.example.tinnhn.R;
+import com.example.tinnhn.ThongBao;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.sinch.android.rtc.AudioController;
-import com.sinch.android.rtc.Beta;
 import com.sinch.android.rtc.ClientRegistration;
-import com.sinch.android.rtc.ManagedPush;
 import com.sinch.android.rtc.Sinch;
 import com.sinch.android.rtc.SinchClient;
 import com.sinch.android.rtc.SinchClientListener;
@@ -29,9 +41,6 @@ import com.sinch.android.rtc.calling.CallClient;
 import com.sinch.android.rtc.calling.CallClientListener;
 import com.sinch.android.rtc.video.VideoController;
 import com.sinch.android.rtc.video.VideoScalingType;
-
-import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
-import static android.content.Intent.makeRestartActivityTask;
 
 public class SinchServices extends Service {
     private static final String APP_KEY = "16732ff2-dd27-4c5a-8301-6b693da2fef1";
@@ -47,15 +56,20 @@ public class SinchServices extends Service {
     Notification notification;
 
     private StartFailedListener mListener;
+    private DatabaseReference mDatabase;
+    String EmailUser;
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
 
     @Override
     public void onCreate() {
 
         notification = createNotification();
-    startForeground(11,notification);
-
+        ThongBao();
+        startForeground(11,notification);
         super.onCreate();
     }
+
     private Notification createNotification() {
         final String notificationChannelId = "Tin Nhắn";
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -262,6 +276,55 @@ public class SinchServices extends Service {
             //startActivity(intent);
             SinchServices.this.startActivity(intent);
         }
+    }
+
+    public void ThongBao(){
+        sharedPreferences = getSharedPreferences("GhiNhoDangNhap", MODE_PRIVATE);
+        editor = sharedPreferences.edit();
+        EmailUser = sharedPreferences.getString("tenTaiKhoan", "");
+        Intent intent = new Intent(this,MainActivity.class);
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        final PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
+
+        mDatabase.child("ThongBao").addChildEventListener(new ChildEventListener() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                ThongBao cVu = snapshot.getValue(ThongBao.class);
+                if(cVu.emailNguoiNhan.equals(EmailUser)){
+                    NotificationCompat.Builder builder = new NotificationCompat.Builder(getBaseContext(), "CHANNEL_ID")
+                            .setSmallIcon(R.drawable.logo_app)
+                            .setContentTitle(cVu.tenNguoiGui)
+                            .setContentText(cVu.message_User)
+                            .setContentIntent(pendingIntent)
+                            .setAutoCancel(true);
+                    builder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALL));
+                    NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getBaseContext());
+                    notificationManager.notify(0, builder.build());
+                }
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
 }

@@ -108,7 +108,7 @@ public class LoginActivity extends BaseActivity {
         if (tenTaiKhoan.length() != 0) {
             urlHinhDaiDien = sharedPreferences.getString("urlHinhDaiDien", "");
 
-            startActivity(new Intent(LoginActivity.this, GroupHoiThoaiActivity.class));
+            startActivity(new Intent(LoginActivity.this, MainActivity.class));
 //            finish();
         }
     }
