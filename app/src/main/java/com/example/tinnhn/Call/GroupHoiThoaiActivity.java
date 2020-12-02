@@ -145,10 +145,7 @@ public class GroupHoiThoaiActivity extends BaseActivity {
                 noidungtn.setText("");
             }
         });
-        // hiện hình từ FB lên RecyclerView
-        initImageBitmaps();
-        initRecyclerView();
-//        đang dừng ở việc thêm hình vô chát room;
+
 
     }
     private void initImageBitmaps() {
@@ -212,6 +209,10 @@ public class GroupHoiThoaiActivity extends BaseActivity {
 
     private void Hamchuyenidgroupquagroupcall() {
 
+        // hiện hình từ FB lên RecyclerView
+        initImageBitmaps();
+        initRecyclerView();
+//        đang dừng ở việc thêm hình vô chát room;
 //        String username="idgroup";
 //
 //        Intent callScreen = new Intent(this, CuocGoi_Screen.class);

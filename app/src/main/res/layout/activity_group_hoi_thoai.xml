@@ -14,14 +14,23 @@
     <!--       android:layout_alignParentLeft="true"-->
     <!--       android:layout_alignParentRight="true"-->
     <!--       />-->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="90dp"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content"
+        android:fillViewport="true">
 
-    </androidx.recyclerview.widget.RecyclerView>
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:stretchColumns="1">
 
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="90dp"
+                android:orientation="horizontal" />
+        </TableLayout>
+    </ScrollView>
 
     <ListView
         android:id="@+id/list_HoithoaiGroup"

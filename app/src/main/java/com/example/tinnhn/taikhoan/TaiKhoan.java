@@ -1,7 +1,5 @@
 package com.example.tinnhn.taikhoan;
 
-import java.io.File;
-
 public class TaiKhoan {
     public String idTaiKhoan;
     public String tenTaiKhoan;

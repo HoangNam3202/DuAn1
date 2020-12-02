@@ -16,7 +16,6 @@ import android.os.Bundle;
 import com.example.tinnhn.Call.Actions;
 import com.example.tinnhn.Call.BaseActivity;
 import com.example.tinnhn.Call.SinchServices;
-import com.example.tinnhn.taikhoan.HihNgNhanTrogMessArrLst;
 import com.example.tinnhn.taikhoan.LoginActivity;
 import com.example.tinnhn.taikhoan.MyReceiver;
 import com.google.android.material.tabs.TabLayout;
@@ -38,7 +37,6 @@ import static com.example.tinnhn.taikhoan.LoginActivity.kTraMang;
 public class MainActivity extends BaseActivity {
     String TAG = "MainActivity";
     // lấy url hình từ mail người dùng
-    public static ArrayList<HihNgNhanTrogMessArrLst> hihNgNhanTrogMessArrLsts = new ArrayList<>();
     BroadcastReceiver broadcastReceiver = new MyReceiver();
 
     @Override

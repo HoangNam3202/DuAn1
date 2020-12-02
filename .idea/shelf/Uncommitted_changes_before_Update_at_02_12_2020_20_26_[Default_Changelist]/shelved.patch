@@ -1,0 +1,509 @@
+Index: .idea/shelf/Uncommitted_changes_before_Checkout_at_25_11_2020_16_15_[Default_Changelist]/shelved.patch
+===================================================================
+--- .idea/shelf/Uncommitted_changes_before_Checkout_at_25_11_2020_16_15_[Default_Changelist]/shelved.patch	(revision 92dd5e96dc177b08fb1ed90a1c743b9a59feceff)
++++ .idea/shelf/Uncommitted_changes_before_Checkout_at_25_11_2020_16_15_[Default_Changelist]/shelved.patch	(revision 92dd5e96dc177b08fb1ed90a1c743b9a59feceff)
+@@ -1,17 +0,0 @@
+-Index: .idea/gradle.xml
+-IDEA additional info:
+-Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+-<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"GradleMigrationSettings\" migrationVersion=\"1\" />\r\n  <component name=\"GradleSettings\">\r\n    <option name=\"linkedExternalProjectsSettings\">\r\n      <GradleProjectSettings>\r\n        <option name=\"testRunner\" value=\"PLATFORM\" />\r\n        <option name=\"distributionType\" value=\"DEFAULT_WRAPPED\" />\r\n        <option name=\"externalProjectPath\" value=\"$PROJECT_DIR$\" />\r\n        <option name=\"gradleJvm\" value=\"1.8\" />\r\n        <option name=\"modules\">\r\n          <set>\r\n            <option value=\"$PROJECT_DIR$\" />\r\n            <option value=\"$PROJECT_DIR$/app\" />\r\n          </set>\r\n        </option>\r\n        <option name=\"resolveModulePerSourceSet\" value=\"false\" />\r\n      </GradleProjectSettings>\r\n    </option>\r\n  </component>\r\n</project>
+-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+-<+>UTF-8
+-===================================================================
+---- .idea/gradle.xml	(revision b6c10d00d40961867903314af39b78abfb4d16c5)
+-+++ .idea/gradle.xml	(date 1606295691952)
+-@@ -15,6 +15,7 @@
+-           </set>
+-         </option>
+-         <option name="resolveModulePerSourceSet" value="false" />
+-+        <option name="useQualifiedModuleNames" value="true" />
+-       </GradleProjectSettings>
+-     </option>
+-   </component>
+Index: .idea/shelf/Uncommitted_changes_before_Update_at_11_25_2020_4_10_PM__Default_Changelist_1.xml
+===================================================================
+--- .idea/shelf/Uncommitted_changes_before_Update_at_11_25_2020_4_10_PM__Default_Changelist_1.xml	(revision 92dd5e96dc177b08fb1ed90a1c743b9a59feceff)
++++ .idea/shelf/Uncommitted_changes_before_Update_at_11_25_2020_4_10_PM__Default_Changelist_1.xml	(revision 92dd5e96dc177b08fb1ed90a1c743b9a59feceff)
+@@ -1,4 +0,0 @@
+-<changelist name="Uncommitted_changes_before_Update_at_11_25_2020_4_10_PM_[Default_Changelist]1" date="1606295456730" recycled="true" deleted="true">
+-  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_11_25_2020_4_10_PM_[Default_Changelist]1/shelved.patch" />
+-  <option name="DESCRIPTION" value="Uncommitted changes before Update at 11/25/2020 4:10 PM [Default Changelist]" />
+-</changelist>
+\ No newline at end of file
+Index: .idea/shelf/Uncommitted_changes_before_Update_at_11_25_2020_4_10_PM_[Default_Changelist]1/shelved.patch
+===================================================================
+--- .idea/shelf/Uncommitted_changes_before_Update_at_11_25_2020_4_10_PM_[Default_Changelist]1/shelved.patch	(revision 92dd5e96dc177b08fb1ed90a1c743b9a59feceff)
++++ .idea/shelf/Uncommitted_changes_before_Update_at_11_25_2020_4_10_PM_[Default_Changelist]1/shelved.patch	(revision 92dd5e96dc177b08fb1ed90a1c743b9a59feceff)
+@@ -1,371 +0,0 @@
+-Index: app/src/main/java/com/example/tinnhn/Call/GroupListActivity.java
+-IDEA additional info:
+-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+-<+>UTF-8
+-===================================================================
+---- app/src/main/java/com/example/tinnhn/Call/GroupListActivity.java	(date 1606290676274)
+-+++ app/src/main/java/com/example/tinnhn/Call/GroupListActivity.java	(date 1606290676274)
+-@@ -0,0 +1,99 @@
+-+package com.example.tinnhn.Call;
+-+
+-+import androidx.annotation.NonNull;
+-+import androidx.annotation.Nullable;
+-+import androidx.appcompat.app.AppCompatActivity;
+-+
+-+import android.os.Bundle;
+-+import android.view.View;
+-+import android.widget.ArrayAdapter;
+-+import android.widget.Button;
+-+import android.widget.EditText;
+-+import android.widget.ListView;
+-+
+-+import com.example.tinnhn.HoiThoai;
+-+import com.example.tinnhn.R;
+-+import com.google.firebase.database.ChildEventListener;
+-+import com.google.firebase.database.DataSnapshot;
+-+import com.google.firebase.database.DatabaseError;
+-+import com.google.firebase.database.DatabaseReference;
+-+import com.google.firebase.database.FirebaseDatabase;
+-+
+-+import java.util.ArrayList;
+-+import java.util.List;
+-+
+-+public class GroupListActivity extends AppCompatActivity {
+-+    private DatabaseReference mFirebaseDatabase;
+-+    private FirebaseDatabase mFirebaseInstance;
+-+    private DatabaseReference mDatabase;
+-+    String TenGroup;
+-+    int IdGroup;
+-+
+-+
+-+    @Override
+-+    protected void onCreate(Bundle savedInstanceState) {
+-+        super.onCreate(savedInstanceState);
+-+        setContentView(R.layout.group_list);
+-+
+-+        final EditText tengrp=findViewById(R.id.tengroup);
+-+        Button them=findViewById(R.id.themgrp);
+-+        ListView grplist=findViewById(R.id.grplv);
+-+
+-+        mDatabase = FirebaseDatabase.getInstance().getReference();
+-+        ArrayList<String> dsgrp = new ArrayList<>();
+-+
+-+        mDatabase.child("Group").addChildEventListener(new ChildEventListener() {
+-+            @Override
+-+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+-+                String nhom=snapshot.getValue().toString();
+-+                dsgrp.add(nhom);
+-+            }
+-+
+-+            @Override
+-+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+-+
+-+            }
+-+
+-+            @Override
+-+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+-+
+-+            }
+-+
+-+            @Override
+-+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+-+
+-+            }
+-+
+-+            @Override
+-+            public void onCancelled(@NonNull DatabaseError error) {
+-+
+-+            }
+-+        });
+-+
+-+        ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, dsgrp);
+-+        grplist.setAdapter(adapter);
+-+
+-+
+-+
+-+        them.setOnClickListener(new View.OnClickListener() {
+-+            @Override
+-+            public void onClick(View v) {
+-+                Group group =new Group(tengrp.getText().toString(),RandomString(9));
+-+                mDatabase.child("Group").push().setValue(group);
+-+            }
+-+        });
+-+
+-+
+-+
+-+    }
+-+    public int RandomString(int n) {
+-+//        String AlphaNumericString = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvxyz0123456789";
+-+        String AlphaNumericString = "0123456789";
+-+        StringBuilder sb = new StringBuilder(n);
+-+        for (int i = 0; i < n; i++) {
+-+            int index = (int) (AlphaNumericString.length() * Math.random());
+-+            sb.append(AlphaNumericString.charAt(index));
+-+        }
+-+        return Integer.parseInt(sb.toString());
+-+    }
+-+}
+-\ No newline at end of file
+-Index: app/src/main/java/com/example/tinnhn/Call/Group.java
+-IDEA additional info:
+-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+-<+>UTF-8
+-===================================================================
+---- app/src/main/java/com/example/tinnhn/Call/Group.java	(date 1606212155239)
+-+++ app/src/main/java/com/example/tinnhn/Call/Group.java	(date 1606212155239)
+-@@ -0,0 +1,14 @@
+-+package com.example.tinnhn.Call;
+-+
+-+public class Group {
+-+    public String TenGroup;
+-+    public int IdGroup;
+-+
+-+    public Group() {
+-+    }
+-+
+-+    public Group(String TenGroup, int IdGroup) {
+-+        this.TenGroup = TenGroup;
+-+        this.IdGroup = IdGroup;
+-+    }
+-+}
+-Index: app/src/main/res/layout/group_list.xml
+-IDEA additional info:
+-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+-<+>UTF-8
+-===================================================================
+---- app/src/main/res/layout/group_list.xml	(date 1606195840697)
+-+++ app/src/main/res/layout/group_list.xml	(date 1606195840697)
+-@@ -0,0 +1,24 @@
+-+<?xml version="1.0" encoding="utf-8"?>
+-+<RelativeLayout
+-+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+-+    android:layout_height="match_parent">
+-+    <ListView
+-+        android:id="@+id/grplv"
+-+        android:layout_width="match_parent"
+-+        android:layout_height="500dp"/>
+-+    <EditText
+-+        android:id="@+id/tengroup"
+-+        android:hint="nhap ten group"
+-+        android:layout_below="@+id/grplv"
+-+        android:layout_width="wrap_content"
+-+        android:layout_height="wrap_content"/>
+-+    <Button
+-+        android:id="@+id/themgrp"
+-+        android:layout_below="@+id/tengroup"
+-+        android:layout_width="wrap_content"
+-+        android:layout_height="wrap_content"
+-+        android:text="them group"
+-+        />
+-+
+-+
+-+</RelativeLayout>
+-\ No newline at end of file
+-Index: app/src/main/java/com/example/tinnhn/Call/GroupHoiThoaiActivity.java
+-IDEA additional info:
+-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+-<+>UTF-8
+-===================================================================
+---- app/src/main/java/com/example/tinnhn/Call/GroupHoiThoaiActivity.java	(date 1606123565309)
+-+++ app/src/main/java/com/example/tinnhn/Call/GroupHoiThoaiActivity.java	(date 1606123565309)
+-@@ -0,0 +1,57 @@
+-+package com.example.tinnhn.Call;
+-+
+-+import androidx.appcompat.app.AppCompatActivity;
+-+
+-+import android.content.Intent;
+-+import android.os.Bundle;
+-+import android.view.Menu;
+-+import android.view.MenuItem;
+-+import android.widget.Toast;
+-+
+-+import com.example.tinnhn.R;
+-+import com.sinch.android.rtc.calling.Call;
+-+
+-+public class GroupHoiThoaiActivity extends BaseActivity {
+-+
+-+    @Override
+-+    protected void onCreate(Bundle savedInstanceState) {
+-+        super.onCreate(savedInstanceState);
+-+        setContentView(R.layout.activity_group_hoi_thoai);
+-+    }
+-+    @Override
+-+    public boolean onCreateOptionsMenu(Menu menu) {
+-+        // R.menu.mymenu is a reference to an xml file named mymenu.xml which should be inside your res/menu directory.
+-+        // If you don't have res/menu, just create a directory named "menu" inside res
+-+        getMenuInflater().inflate(R.menu.callgroup, menu);
+-+        return super.onCreateOptionsMenu(menu);
+-+    }
+-+
+-+    // handle button activities
+-+    @Override
+-+    public boolean onOptionsItemSelected(MenuItem item) {
+-+        int id = item.getItemId();
+-+
+-+        if (id == R.id.groupchat) {
+-+            //đang nhap sinchclient o day = UserEmail sau do goi cho EmailNguoiGui
+-+
+-+            if (getGiaodiendichvu().isStarted()) {
+-+
+-+                Hamchuyenidgroupquagroupcall();
+-+
+-+            } else {
+-+                Toast.makeText(this, "chua chay dich vu", Toast.LENGTH_SHORT).show();
+-+            }
+-+        }
+-+        return super.onOptionsItemSelected(item);
+-+    }
+-+    private void Hamchuyenidgroupquagroupcall() {
+-+        String username="idgroup";
+-+
+-+        Intent callScreen = new Intent(this, CuocGoi_Screen.class);
+-+        callScreen.putExtra(SinchServices.CALL_ID,username);
+-+        startActivity(callScreen);
+-+
+-+//        Intent mainActivity = new Intent(this, Dialer.class);
+-+//        startActivity(mainActivity);
+-+    }
+-+}
+-\ No newline at end of file
+-Index: app/src/main/res/drawable/ic_groupchat.xml
+-IDEA additional info:
+-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+-<+>UTF-8
+-===================================================================
+---- app/src/main/res/drawable/ic_groupchat.xml	(date 1606122933584)
+-+++ app/src/main/res/drawable/ic_groupchat.xml	(date 1606122933584)
+-@@ -0,0 +1,5 @@
+-+<vector android:height="24dp" android:tint="#F2F2F2"
+-+    android:viewportHeight="24" android:viewportWidth="24"
+-+    android:width="24dp" xmlns:android="http://schemas.android.com/apk/res/android">
+-+    <path android:fillColor="@android:color/white" android:pathData="M12,1c-4.97,0 -9,4.03 -9,9v7c0,1.66 1.34,3 3,3h3v-8H5v-2c0,-3.87 3.13,-7 7,-7s7,3.13 7,7v2h-4v8h4v1h-7v2h6c1.66,0 3,-1.34 3,-3V10c0,-4.97 -4.03,-9 -9,-9z"/>
+-+</vector>
+-Index: app/src/main/res/menu/callgroup.xml
+-IDEA additional info:
+-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+-<+>UTF-8
+-===================================================================
+---- app/src/main/res/menu/callgroup.xml	(date 1606122948144)
+-+++ app/src/main/res/menu/callgroup.xml	(date 1606122948144)
+-@@ -0,0 +1,10 @@
+-+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+-+    xmlns:app="http://schemas.android.com/apk/res-auto">
+-+    <item
+-+        android:id="@+id/groupchat"
+-+        android:title=""
+-+        app:showAsAction="always"
+-+        android:icon="@drawable/ic_groupchat"
+-+        />
+-+
+-+</menu>
+-\ No newline at end of file
+-Index: app/src/main/res/layout/activity_group_hoi_thoai.xml
+-IDEA additional info:
+-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+-<+>UTF-8
+-===================================================================
+---- app/src/main/res/layout/activity_group_hoi_thoai.xml	(date 1606123087149)
+-+++ app/src/main/res/layout/activity_group_hoi_thoai.xml	(date 1606123087149)
+-@@ -0,0 +1,58 @@
+-+<?xml version="1.0" encoding="utf-8"?>
+-+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+-+    xmlns:app="http://schemas.android.com/apk/res-auto"
+-+    xmlns:tools="http://schemas.android.com/tools"
+-+    android:layout_width="match_parent"
+-+    android:layout_height="match_parent"
+-+    tools:context=".HoiThoaiActivity"
+-+    android:background="#fff"
+-+    >
+-+
+-+    <ListView
+-+        android:id="@+id/list_Hoithoai"
+-+        android:layout_width="match_parent"
+-+        android:layout_height="538dp"
+-+        android:layout_above="@+id/edtNoiDung"
+-+        android:layout_alignParentStart="true"
+-+        android:layout_alignParentLeft="true"
+-+        android:layout_alignParentRight="true"
+-+        android:layout_alignParentTop="true"
+-+        android:layout_marginStart="0dp"
+-+        android:layout_marginLeft="0dp"
+-+        android:layout_marginTop="0dp"
+-+        android:divider="@null" />
+-+    <EditText
+-+        android:id="@+id/edtNoiDung"
+-+        android:layout_width="333dp"
+-+        android:layout_height="wrap_content"
+-+        android:layout_alignParentStart="true"
+-+        android:layout_alignParentLeft="true"
+-+        android:layout_alignParentBottom="true"
+-+        android:layout_marginStart="0dp"
+-+        android:layout_marginLeft="0dp"
+-+        android:layout_marginRight="30dp"
+-+        android:layout_marginBottom="0dp"
+-+        android:background="#fff"
+-+        android:hint="Nội dung"
+-+        android:maxLines="1"
+-+        android:lines="1"
+-+        android:padding="20dp" />
+-+
+-+    <Button
+-+        android:id="@+id/btbGui"
+-+        android:layout_width="75dp"
+-+        android:layout_height="45dp"
+-+        android:layout_alignParentEnd="true"
+-+        android:layout_alignParentRight="true"
+-+        android:layout_alignParentBottom="true"
+-+        android:layout_marginStart="80dp"
+-+        android:layout_marginLeft="80dp"
+-+        android:layout_marginEnd="3dp"
+-+        android:layout_marginRight="3dp"
+-+        android:layout_marginBottom="5dp"
+-+        android:background="@drawable/radius"
+-+        android:text="Send"
+-+        android:textColor="#fff" />
+-+
+-+
+-+</RelativeLayout>
+-\ No newline at end of file
+-Index: app/src/main/java/com/example/tinnhn/Call/GroupCallActivity.java
+-IDEA additional info:
+-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+-<+>UTF-8
+-===================================================================
+---- app/src/main/java/com/example/tinnhn/Call/GroupCallActivity.java	(date 1606123870612)
+-+++ app/src/main/java/com/example/tinnhn/Call/GroupCallActivity.java	(date 1606123870612)
+-@@ -0,0 +1,16 @@
+-+package com.example.tinnhn.Call;
+-+
+-+import androidx.appcompat.app.AppCompatActivity;
+-+
+-+import android.os.Bundle;
+-+
+-+import com.example.tinnhn.R;
+-+
+-+public class GroupCallActivity extends AppCompatActivity {
+-+
+-+    @Override
+-+    protected void onCreate(Bundle savedInstanceState) {
+-+        super.onCreate(savedInstanceState);
+-+        setContentView(R.layout.activity_group_call);
+-+    }
+-+}
+-\ No newline at end of file
+-Index: app/src/main/res/layout/activity_group_call.xml
+-IDEA additional info:
+-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+-<+>UTF-8
+-===================================================================
+---- app/src/main/res/layout/activity_group_call.xml	(date 1606123992533)
+-+++ app/src/main/res/layout/activity_group_call.xml	(date 1606123992533)
+-@@ -0,0 +1,9 @@
+-+<?xml version="1.0" encoding="utf-8"?>
+-+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+-+    xmlns:app="http://schemas.android.com/apk/res-auto"
+-+    xmlns:tools="http://schemas.android.com/tools"
+-+    android:layout_width="match_parent"
+-+    android:layout_height="match_parent"
+-+    tools:context=".Call.GroupCallActivity">
+-+
+-+</androidx.constraintlayout.widget.ConstraintLayout>
+-\ No newline at end of file
+Index: .idea/shelf/Uncommitted_changes_before_Checkout_at_25_11_2020_16_15__Default_Changelist_.xml
+===================================================================
+--- .idea/shelf/Uncommitted_changes_before_Checkout_at_25_11_2020_16_15__Default_Changelist_.xml	(revision 92dd5e96dc177b08fb1ed90a1c743b9a59feceff)
++++ .idea/shelf/Uncommitted_changes_before_Checkout_at_25_11_2020_16_15__Default_Changelist_.xml	(revision 92dd5e96dc177b08fb1ed90a1c743b9a59feceff)
+@@ -1,4 +0,0 @@
+-<changelist name="Uncommitted_changes_before_Checkout_at_25_11_2020_16_15_[Default_Changelist]" date="1606295741155" recycled="true" deleted="true">
+-  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_25_11_2020_16_15_[Default_Changelist]/shelved.patch" />
+-  <option name="DESCRIPTION" value="Uncommitted changes before Checkout at 25/11/2020 16:15 [Default Changelist]" />
+-</changelist>
+\ No newline at end of file
+Index: app/src/main/java/com/example/tinnhn/Call/GroupHoiThoaiActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.tinnhn.Call;\r\n\r\nimport androidx.annotation.NonNull;\r\nimport androidx.annotation.Nullable;\r\nimport androidx.annotation.RequiresApi;\r\nimport androidx.appcompat.app.AppCompatActivity;\r\nimport androidx.recyclerview.widget.LinearLayoutManager;\r\nimport androidx.recyclerview.widget.RecyclerView;\r\n\r\nimport android.annotation.SuppressLint;\r\nimport android.content.Intent;\r\nimport android.content.SharedPreferences;\r\nimport android.os.Build;\r\nimport android.os.Bundle;\r\nimport android.text.Editable;\r\nimport android.text.TextWatcher;\r\nimport android.util.Log;\r\nimport android.view.Menu;\r\nimport android.view.MenuItem;\r\nimport android.view.View;\r\nimport android.view.ViewGroup;\r\nimport android.view.WindowManager;\r\nimport android.widget.Adapter;\r\nimport android.widget.ArrayAdapter;\r\nimport android.widget.Button;\r\nimport android.widget.EditText;\r\nimport android.widget.FrameLayout;\r\nimport android.widget.ImageView;\r\nimport android.widget.ListView;\r\nimport android.widget.RelativeLayout;\r\nimport android.widget.TextView;\r\nimport android.widget.Toast;\r\nimport android.widget.Toolbar;\r\n\r\nimport com.example.tinnhn.Call.HienHinhVaoRecyclerView.RecyclerViewAdapter;\r\nimport com.example.tinnhn.Friends;\r\nimport com.example.tinnhn.HoiThoai;\r\nimport com.example.tinnhn.HoiThoaiActivity;\r\nimport com.example.tinnhn.HoiThoaiAdapter;\r\nimport com.example.tinnhn.MainActivity;\r\nimport com.example.tinnhn.MessageAdapter;\r\nimport com.example.tinnhn.R;\r\nimport com.example.tinnhn.TinNhanHienThi;\r\nimport com.google.firebase.database.ChildEventListener;\r\nimport com.google.firebase.database.DataSnapshot;\r\nimport com.google.firebase.database.DatabaseError;\r\nimport com.google.firebase.database.DatabaseReference;\r\nimport com.google.firebase.database.FirebaseDatabase;\r\nimport com.sinch.android.rtc.calling.Call;\r\n\r\nimport java.security.PublicKey;\r\nimport java.util.ArrayList;\r\nimport java.util.Objects;\r\n\r\npublic class GroupHoiThoaiActivity extends BaseActivity {\r\n    private DatabaseReference mDatabase;\r\n    SharedPreferences sharedPreferences;\r\n    SharedPreferences.Editor editor;\r\n    public static GroupAdapter groupAdapter;\r\n    ListView grplist;\r\n    String j;\r\n    // Hiện hình lên RecyclerView\r\n    String TAG = \"MainActivity\";\r\n    private ArrayList<String> mNames = new ArrayList<>();\r\n    private ArrayList<String> mImageUrls = new ArrayList<>();\r\n\r\n    @RequiresApi(api = Build.VERSION_CODES.KITKAT)\r\n    @Override\r\n    protected void onCreate(Bundle savedInstanceState) {\r\n        super.onCreate(savedInstanceState);\r\n        setContentView(R.layout.activity_group_hoi_thoai);\r\n\r\n        mDatabase = FirebaseDatabase.getInstance().getReference();\r\n        grplist = findViewById(R.id.list_HoithoaiGroup);\r\n        Button send = findViewById(R.id.btbGuiGroup);\r\n        EditText noidungtn = findViewById(R.id.edtNoiDungGroup);\r\n        sharedPreferences = getSharedPreferences(\"GhiNhoDangNhap\", MODE_PRIVATE);\r\n        editor = sharedPreferences.edit();\r\n        String email = sharedPreferences.getString(\"tenTaiKhoan\", \"\");\r\n        scrollMyListViewToBottom();\r\n        //intent\r\n        Intent i = getIntent();\r\n        Bundle b = i.getExtras();\r\n        if (b != null) {\r\n            j = (String) b.get(\"idgroup\");\r\n            Toast.makeText(this, j, Toast.LENGTH_SHORT).show();\r\n\r\n        }\r\n        setTitle(j);\r\n        Objects.requireNonNull(getSupportActionBar()).setDisplayShowHomeEnabled(true);\r\n        getSupportActionBar().setIcon(R.drawable.user);\r\n        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);\r\n\r\n        final ArrayList<Group> hoiThoaiArrayList = new ArrayList<>();\r\n        final ArrayList<Group> forArr = new ArrayList<>();\r\n        groupAdapter = new GroupAdapter(GroupHoiThoaiActivity.this, R.layout.list_tin_nhan_item, hoiThoaiArrayList);\r\n        grplist.setAdapter(groupAdapter);\r\n\r\n//end intent\r\n//        mDatabase.child(\"HoiThoaiGroup\").addChildEventListener(new ChildEventListener() {\r\n//            @Override\r\n//            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {\r\n//                Group group = snapshot.getValue(Group.class);\r\n//                forArr.clear();\r\n//                forArr.add(new Group(group.Email, group.message, group.IdGroup));\r\n//\r\n//                for (int i = 0; i < forArr.size(); i++) {\r\n//                    if (forArr.get(i).IdGroup.equals(j)) {\r\n//                        hoiThoaiArrayList.add(new Group(forArr.get(i).Email, forArr.get(i).message, forArr.get(i).IdGroup));\r\n//                    }\r\n//\r\n//                }\r\n//                groupAdapter.notifyDataSetChanged();\r\n//                scrollMyListViewToBottom();\r\n//\r\n//            }\r\n//\r\n//            @Override\r\n//            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {\r\n//\r\n//            }\r\n//\r\n//            @Override\r\n//            public void onChildRemoved(@NonNull DataSnapshot snapshot) {\r\n//\r\n//            }\r\n//\r\n//            @Override\r\n//            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {\r\n//\r\n//            }\r\n//\r\n//            @Override\r\n//            public void onCancelled(@NonNull DatabaseError error) {\r\n//\r\n//            }\r\n//        });\r\n\r\n\r\n        send.setOnClickListener(new View.OnClickListener() {\r\n            @Override\r\n            public void onClick(View v) {\r\n                Group group = new Group(email, noidungtn.getText().toString(), j);\r\n                mDatabase.child(\"HoiThoaiGroup\").push().setValue(group);\r\n                noidungtn.setText(\"\");\r\n            }\r\n        });\r\n        // hiện hình từ FB lên RecyclerView\r\n        initImageBitmaps();\r\n        initRecyclerView();\r\n//        đang dừng ở việc thêm hình vô chát room;\r\n\r\n    }\r\n    private void initImageBitmaps() {\r\n        Log.d(TAG, \"initImageBitmaps: initImageBitmaps\");\r\n        mImageUrls.add(\"https://firebasestorage.googleapis.com/v0/b/duan1-f124f.appspot.com/o/HoangNam.jpg?alt=media&token=4c7d6e45-daad-4a52-8096-c92e86cdc2f1\");\r\n        mNames.add(\"A01\");\r\n        mImageUrls.add(\"https://firebasestorage.googleapis.com/v0/b/duan1-f124f.appspot.com/o/hinhanh_1606315408915?alt=media&token=9a2a0fed-ce64-4675-b1ac-206fb8bd40f7\");\r\n        mNames.add(\"A02\");\r\n        mImageUrls.add(\"https://firebasestorage.googleapis.com/v0/b/duan1-f124f.appspot.com/o/hinhanh_1606355843795?alt=media&token=348fd72d-665e-44f2-8e30-138aeacf0cfb\");\r\n        mNames.add(\"A03\");\r\n        mImageUrls.add(\"https://firebasestorage.googleapis.com/v0/b/duan1-f124f.appspot.com/o/tuan.jpg?alt=media&token=2cfa8b49-2308-486b-a300-625351cf5713\");\r\n        mNames.add(\"A04\");\r\n        mImageUrls.add(\"https://firebasestorage.googleapis.com/v0/b/duan1-f124f.appspot.com/o/HoangNam.jpg?alt=media&token=4c7d6e45-daad-4a52-8096-c92e86cdc2f1\");\r\n        mNames.add(\"A05\");\r\n        mImageUrls.add(\"https://firebasestorage.googleapis.com/v0/b/duan1-f124f.appspot.com/o/hinhanh_1606315408915?alt=media&token=9a2a0fed-ce64-4675-b1ac-206fb8bd40f7\");\r\n        mNames.add(\"A06\");\r\n        mImageUrls.add(\"https://firebasestorage.googleapis.com/v0/b/duan1-f124f.appspot.com/o/hinhanh_1606355843795?alt=media&token=348fd72d-665e-44f2-8e30-138aeacf0cfb\");\r\n        mNames.add(\"A07\");\r\n        mImageUrls.add(\"https://firebasestorage.googleapis.com/v0/b/duan1-f124f.appspot.com/o/tuan.jpg?alt=media&token=2cfa8b49-2308-486b-a300-625351cf5713\");\r\n        mNames.add(\"A08\");\r\n    }\r\n\r\n    private void initRecyclerView() {\r\n        Log.d(TAG, \"initRecyclerView: \");\r\n        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);\r\n        RecyclerView recyclerView = findViewById(R.id.recyclerView);\r\n        recyclerView.setLayoutManager(layoutManager);\r\n        RecyclerViewAdapter adapter = new RecyclerViewAdapter(this, mNames, mImageUrls);\r\n        recyclerView.setAdapter(adapter);\r\n    }\r\n\r\n    public void hamthemlistview() {\r\n\r\n\r\n    }\r\n\r\n    @Override\r\n    public boolean onCreateOptionsMenu(Menu menu) {\r\n        getMenuInflater().inflate(R.menu.callgroup, menu);\r\n        return super.onCreateOptionsMenu(menu);\r\n    }\r\n\r\n    // handle button activities\r\n    @Override\r\n    public boolean onOptionsItemSelected(MenuItem item) {\r\n        int id = item.getItemId();\r\n\r\n        if (id == R.id.groupchat) {\r\n            //đang nhap sinchclient o day = UserEmail sau do goi cho EmailNguoiGui\r\n\r\n            if (getGiaodiendichvu().isStarted()) {\r\n\r\n                Hamchuyenidgroupquagroupcall();\r\n\r\n            } else {\r\n                Toast.makeText(this, \"chua chay dich vu\", Toast.LENGTH_SHORT).show();\r\n            }\r\n        }\r\n        return super.onOptionsItemSelected(item);\r\n    }\r\n\r\n    private void Hamchuyenidgroupquagroupcall() {\r\n\r\n//        String username=\"idgroup\";\r\n//\r\n//        Intent callScreen = new Intent(this, CuocGoi_Screen.class);\r\n//        callScreen.putExtra(SinchServices.CALL_ID,username);\r\n//        startActivity(callScreen);\r\n\r\n//        Intent mainActivity = new Intent(this, Dialer.class);\r\n//        startActivity(mainActivity);\r\n    }\r\n\r\n    private void scrollMyListViewToBottom() {\r\n        grplist.post(new Runnable() {\r\n            @Override\r\n            public void run() {\r\n                // Select the last row so it will scroll into view...\r\n                grplist.setSelection(groupAdapter.getCount() - 1);\r\n            }\r\n        });\r\n    }\r\n\r\n    @Override\r\n    public void onBackPressed() {\r\n        Intent intent = new Intent(GroupHoiThoaiActivity.this, MainActivity.class);\r\n        startActivity(intent);\r\n        finish();\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/tinnhn/Call/GroupHoiThoaiActivity.java	(revision 92dd5e96dc177b08fb1ed90a1c743b9a59feceff)
++++ app/src/main/java/com/example/tinnhn/Call/GroupHoiThoaiActivity.java	(date 1606901856310)
+@@ -145,10 +145,7 @@
+                 noidungtn.setText("");
+             }
+         });
+-        // hiện hình từ FB lên RecyclerView
+-        initImageBitmaps();
+-        initRecyclerView();
+-//        đang dừng ở việc thêm hình vô chát room;
++
+ 
+     }
+     private void initImageBitmaps() {
+@@ -212,6 +209,10 @@
+ 
+     private void Hamchuyenidgroupquagroupcall() {
+ 
++        // hiện hình từ FB lên RecyclerView
++        initImageBitmaps();
++        initRecyclerView();
++//        đang dừng ở việc thêm hình vô chát room;
+ //        String username="idgroup";
+ //
+ //        Intent callScreen = new Intent(this, CuocGoi_Screen.class);
+Index: app/src/main/res/layout/activity_group_hoi_thoai.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<RelativeLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    xmlns:app=\"http://schemas.android.com/apk/res-auto\"\r\n    xmlns:tools=\"http://schemas.android.com/tools\"\r\n    android:layout_width=\"match_parent\"\r\n    android:layout_height=\"match_parent\"\r\n    android:background=\"#fff\"\r\n    tools:context=\".HoiThoaiActivity\">\r\n    <!--   <org.lucasr.twowayview.widget.TwoWayView-->\r\n    <!--       android:id=\"@+id/calllistview\"-->\r\n    <!--       android:layout_width=\"match_parent\"-->\r\n    <!--       android:layout_height=\"100dp\"-->\r\n    <!--       android:scrollbarThumbHorizontal=\"@color/colorBlack\"-->\r\n    <!--       android:layout_alignParentLeft=\"true\"-->\r\n    <!--       android:layout_alignParentRight=\"true\"-->\r\n    <!--       />-->\r\n    <androidx.recyclerview.widget.RecyclerView\r\n        android:id=\"@+id/recyclerView\"\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"90dp\"\r\n        android:orientation=\"horizontal\">\r\n\r\n    </androidx.recyclerview.widget.RecyclerView>\r\n\r\n\r\n    <ListView\r\n        android:id=\"@+id/list_HoithoaiGroup\"\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"538dp\"\r\n        android:layout_above=\"@+id/edtNoiDungGroup\"\r\n        android:layout_alignParentStart=\"true\"\r\n        android:layout_alignParentLeft=\"true\"\r\n        android:layout_alignParentTop=\"true\"\r\n        android:layout_alignParentRight=\"true\"\r\n        android:layout_marginStart=\"0dp\"\r\n        android:layout_marginLeft=\"0dp\"\r\n        android:layout_marginTop=\"0dp\"\r\n        android:divider=\"@null\" />\r\n\r\n    <EditText\r\n        android:id=\"@+id/edtNoiDungGroup\"\r\n        android:layout_width=\"333dp\"\r\n        android:layout_height=\"45dp\"\r\n        android:layout_alignParentStart=\"true\"\r\n        android:layout_alignParentLeft=\"true\"\r\n        android:layout_alignParentBottom=\"true\"\r\n        android:layout_marginStart=\"0dp\"\r\n        android:layout_marginLeft=\"0dp\"\r\n        android:layout_marginRight=\"30dp\"\r\n        android:layout_marginBottom=\"5dp\"\r\n        android:background=\"#fff\"\r\n        android:hint=\"Nội dung\"\r\n        android:lines=\"1\"\r\n        android:maxLines=\"1\"\r\n        android:padding=\"2dp\" />\r\n\r\n    <Button\r\n        android:id=\"@+id/btbGuiGroup\"\r\n        android:layout_width=\"75dp\"\r\n        android:layout_height=\"45dp\"\r\n        android:layout_alignParentEnd=\"true\"\r\n        android:layout_alignParentRight=\"true\"\r\n        android:layout_alignParentBottom=\"true\"\r\n        android:layout_marginStart=\"80dp\"\r\n        android:layout_marginLeft=\"80dp\"\r\n        android:layout_marginEnd=\"3dp\"\r\n        android:layout_marginRight=\"3dp\"\r\n        android:layout_marginBottom=\"5dp\"\r\n        android:background=\"@drawable/radius\"\r\n        android:text=\"Send\"\r\n        android:textColor=\"#fff\" />\r\n\r\n\r\n</RelativeLayout>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/activity_group_hoi_thoai.xml	(revision 92dd5e96dc177b08fb1ed90a1c743b9a59feceff)
++++ app/src/main/res/layout/activity_group_hoi_thoai.xml	(date 1606902228636)
+@@ -14,14 +14,23 @@
+     <!--       android:layout_alignParentLeft="true"-->
+     <!--       android:layout_alignParentRight="true"-->
+     <!--       />-->
+-    <androidx.recyclerview.widget.RecyclerView
+-        android:id="@+id/recyclerView"
+-        android:layout_width="match_parent"
+-        android:layout_height="90dp"
+-        android:orientation="horizontal">
+-
+-    </androidx.recyclerview.widget.RecyclerView>
+-
++    <ScrollView
++        android:layout_width="match_parent"
++        android:layout_height="wrap_content"
++        android:fillViewport="true">
++
++        <TableLayout
++            android:layout_width="match_parent"
++            android:layout_height="wrap_content"
++            android:stretchColumns="1">
++
++            <androidx.recyclerview.widget.RecyclerView
++                android:id="@+id/recyclerView"
++                android:layout_width="match_parent"
++                android:layout_height="90dp"
++                android:orientation="horizontal" />
++        </TableLayout>
++    </ScrollView>
+ 
+     <ListView
+         android:id="@+id/list_HoithoaiGroup"
+Index: app/src/main/java/com/example/tinnhn/taikhoan/LoginActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.tinnhn.taikhoan;\r\n\r\nimport android.Manifest;\r\nimport android.app.AlertDialog;\r\nimport android.app.Dialog;\r\nimport android.content.BroadcastReceiver;\r\nimport android.content.DialogInterface;\r\nimport android.content.Intent;\r\nimport android.content.IntentFilter;\r\nimport android.content.SharedPreferences;\r\nimport android.net.ConnectivityManager;\r\nimport android.net.wifi.WifiManager;\r\nimport android.os.Build;\r\nimport android.os.Bundle;\r\nimport android.os.CountDownTimer;\r\nimport android.os.Handler;\r\nimport android.text.Editable;\r\nimport android.text.TextWatcher;\r\nimport android.view.View;\r\nimport android.view.WindowManager;\r\nimport android.widget.Button;\r\nimport android.widget.EditText;\r\nimport android.widget.TextView;\r\nimport android.widget.Toast;\r\n\r\nimport com.example.tinnhn.Call.BaseActivity;\r\nimport com.example.tinnhn.Call.GroupHoiThoaiActivity;\r\nimport com.example.tinnhn.MainActivity;\r\nimport com.example.tinnhn.R;\r\nimport com.google.android.material.textfield.TextInputEditText;\r\nimport com.google.android.material.textfield.TextInputLayout;\r\n\r\npublic class LoginActivity extends BaseActivity {\r\n    public static int kiemTraDangNhap;\r\n    public static DBFirebase dbFirebase;\r\n    public static String tenUser = \"\";\r\n    public static String DiaChiUser = \"\";\r\n    public static String urlHinhDaiDien = \"\";\r\n    public static KiemTraMang kiemTraMang = new KiemTraMang();\r\n    public static int kTraMang;\r\n    EditText edtEmail;\r\n    TextInputLayout tilMatKhau;\r\n    TextInputEditText edtMatKhau;\r\n    Button btnDangNhap;\r\n    TextView txtQuenMatKhau, txtDangKy, tvEmail, tvMatKhau;\r\n    SharedPreferences sharedPreferences;\r\n    SharedPreferences.Editor editor;\r\n    String emailsv;\r\n    BroadcastReceiver broadcastReceiver = new MyReceiver();\r\n\r\n    @Override\r\n    protected void onCreate(Bundle savedInstanceState) {\r\n        super.onCreate(savedInstanceState);\r\n        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);\r\n        setContentView(R.layout.activity_login);\r\n        IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);\r\n        filter.addAction(WifiManager.SUPPLICANT_CONNECTION_CHANGE_ACTION);\r\n        filter.addAction(WifiManager.EXTRA_RESULTS_UPDATED);\r\n        this.registerReceiver(broadcastReceiver, filter);\r\n\r\n        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {\r\n            requestPermissions(new String[]{Manifest.permission.RECORD_AUDIO, Manifest.permission.CAMERA, Manifest.permission.ACCESS_NETWORK_STATE, Manifest.permission.READ_PHONE_STATE}, 100);\r\n        }\r\n\r\n        dbFirebase = new DBFirebase();\r\n        sharedPreferences = getSharedPreferences(\"GhiNhoDangNhap\", MODE_PRIVATE);\r\n        editor = sharedPreferences.edit();\r\n        emailsv = sharedPreferences.getString(\"tenTaiKhoan\", \"\");\r\n        kTraMang = kiemTraMang.CheckNetworkStatus(LoginActivity.this);\r\n//        Toast.makeText(this, \"\" + kTraMang, Toast.LENGTH_SHORT).show();\r\n\r\n        KiemTraGhiNhoDangNhap();\r\n        DangNhap();\r\n        if (kTraMang != 0) {\r\n            txtDangKy = findViewById(R.id.txtDangKy);\r\n            txtDangKy.setOnClickListener(new View.OnClickListener() {\r\n                @Override\r\n                public void onClick(View v) {\r\n                    startActivity(new Intent(LoginActivity.this, DangKiActivity.class));\r\n                }\r\n            });\r\n            txtQuenMatKhau = findViewById(R.id.txtQuenMatKhau);\r\n            txtQuenMatKhau.setOnClickListener(new View.OnClickListener() {\r\n                @Override\r\n                public void onClick(View v) {\r\n                    Intent intent = new Intent(LoginActivity.this, QuenMatKhauActivity.class);\r\n                    intent.putExtra(\"QMK\", true);\r\n                    startActivity(intent);\r\n                }\r\n            });\r\n        } else {\r\n//            Toast.makeText(this, \"No internet, check network and restart app\", Toast.LENGTH_LONG).show();\r\n            AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);\r\n            builder.setMessage(\"No internet, check network and restart app\");\r\n            builder.setPositiveButton(\"OK\", new DialogInterface.OnClickListener() {\r\n                @Override\r\n                public void onClick(DialogInterface dialog, int which) {\r\n\r\n                }\r\n            });\r\n            builder.show();\r\n        }\r\n\r\n    }\r\n\r\n    private void KiemTraGhiNhoDangNhap() {\r\n        String tenTaiKhoan = sharedPreferences.getString(\"tenTaiKhoan\", \"\");\r\n        if (tenTaiKhoan.length() != 0) {\r\n            urlHinhDaiDien = sharedPreferences.getString(\"urlHinhDaiDien\", \"\");\r\n\r\n            startActivity(new Intent(LoginActivity.this, GroupHoiThoaiActivity.class));\r\n//            finish();\r\n        }\r\n    }\r\n\r\n    private void DangNhap() {\r\n        edtEmail = findViewById(R.id.edtEmail);\r\n        tilMatKhau = findViewById(R.id.tilMatKhau);\r\n        edtMatKhau = findViewById(R.id.edtMatKhau);\r\n        tvEmail = findViewById(R.id.tvEmail);\r\n        tvMatKhau = findViewById(R.id.tvMatKhau);\r\n        //Kiểm tra hợp lệ\r\n        final String checkEmail = \"[a-zA-Z0-9.]+@[a-z]+(\\\\.+[a-z]+){1,2}\";\r\n        final String checkMatKhau = \"[a-zA-Z0-9+]{6,300}\";\r\n        final boolean[] kiemTra = new boolean[2];\r\n        kiemTra[0] = false;\r\n        kiemTra[1] = false;\r\n        edtEmail.addTextChangedListener(new TextWatcher() {\r\n            @Override\r\n            public void beforeTextChanged(CharSequence s, int start, int count, int after) {\r\n\r\n            }\r\n\r\n            @Override\r\n            public void onTextChanged(CharSequence s, int start, int before, int count) {\r\n                if (s.toString().matches(checkEmail)) {\r\n                    tvEmail.setText(\"\");\r\n                    tvEmail.setTextColor(getResources().getColor(R.color.colorSuccess));\r\n                    kiemTra[0] = true;\r\n                } else {\r\n                    tvEmail.setText(\"Email chưa hợp lệ\");\r\n                    tvEmail.setTextColor(getResources().getColor(R.color.colorDanger));\r\n                    kiemTra[0] = false;\r\n                }\r\n            }\r\n\r\n            @Override\r\n            public void afterTextChanged(Editable s) {\r\n\r\n            }\r\n        });\r\n        edtMatKhau.addTextChangedListener(new TextWatcher() {\r\n            @Override\r\n            public void beforeTextChanged(CharSequence s, int start, int count, int after) {\r\n\r\n            }\r\n\r\n            @Override\r\n            public void onTextChanged(CharSequence s, int start, int before, int count) {\r\n                if (s.toString().matches(checkMatKhau)) {\r\n                    tvMatKhau.setText(\"\");\r\n                    tvMatKhau.setTextColor(getResources().getColor(R.color.colorSuccess));\r\n                    kiemTra[1] = true;\r\n                } else {\r\n                    tvMatKhau.setText(\"Mật khẩu chưa hợp lệ\");\r\n                    tvMatKhau.setTextColor(getResources().getColor(R.color.colorDanger));\r\n                    kiemTra[1] = false;\r\n                }\r\n            }\r\n\r\n            @Override\r\n            public void afterTextChanged(Editable s) {\r\n\r\n            }\r\n        });\r\n        //\r\n        btnDangNhap = findViewById(R.id.btnDangNhap);\r\n        txtQuenMatKhau = findViewById(R.id.txtQuenMatKhau);\r\n        txtDangKy = findViewById(R.id.txtDangKy);\r\n        btnDangNhap.setOnClickListener(new View.OnClickListener() {\r\n            @Override\r\n            public void onClick(View v) {\r\n                if (kTraMang != 0) {\r\n                    if (kiemTra[0] && kiemTra[1]) {\r\n                        String email = edtEmail.getText().toString().trim();\r\n                        String matKhau = edtMatKhau.getText().toString().trim();\r\n                        dbFirebase.KiemTraDangNhap(email, matKhau);\r\n                        //\r\n                        final Dialog dialog = new Dialog(LoginActivity.this);\r\n                        dialog.setContentView(R.layout.dialog_loading);\r\n                        dialog.show();\r\n                        new CountDownTimer(1500, 100) {\r\n                            @Override\r\n                            public void onTick(long millisUntilFinished) {\r\n                            }\r\n\r\n                            @Override\r\n                            public void onFinish() {\r\n                                dialog.dismiss();\r\n                            }\r\n                        }.start();\r\n                        //\r\n                        new Handler().postDelayed(new Runnable() {\r\n                            @Override\r\n                            public void run() {\r\n                                if (kiemTraDangNhap == 0) {\r\n                                    editor.putString(\"tenTaiKhoan\", email);\r\n                                    editor.putString(\"tenUser\", tenUser);\r\n                                    editor.putString(\"DiaChiUser\", DiaChiUser);\r\n                                    editor.putString(\"urlHinhDaiDien\", urlHinhDaiDien);\r\n                                    editor.commit();\r\n                                    getGiaodiendichvu().startClient(email);\r\n                                    startActivity(new Intent(LoginActivity.this, MainActivity.class));\r\n                                    finish();\r\n                                }\r\n                                if (kiemTraDangNhap == 1) {\r\n                                    tvEmail.setText(\"Email sai, kiểm tra lại\");\r\n                                    tvEmail.setTextColor(getResources().getColor(R.color.colorDanger));\r\n                                }\r\n                                if (kiemTraDangNhap == 2) {\r\n                                    tvMatKhau.setText(\"Mật khẩu sai, kiểm tra lại\");\r\n                                    tvMatKhau.setTextColor(getResources().getColor(R.color.colorDanger));\r\n                                }\r\n                                if (kiemTraDangNhap == -1) {\r\n                                    Toast.makeText(LoginActivity.this, \"Sai tên đăng nhập hoặc mật khẩu\", Toast.LENGTH_SHORT).show();\r\n                                }\r\n                            }\r\n                        }, 1300);\r\n                    } else {\r\n                        if (!kiemTra[0]) {\r\n                            tvEmail.setText(\"Email chưa hợp lệ\");\r\n                            tvEmail.setTextColor(getResources().getColor(R.color.colorDanger));\r\n                        }\r\n                        if (!kiemTra[1]) {\r\n                            tvMatKhau.setText(\"Mật khẩu chưa hợp lệ\");\r\n                            tvMatKhau.setTextColor(getResources().getColor(R.color.colorDanger));\r\n                        }\r\n\r\n                    }\r\n                } else\r\n                    Toast.makeText(LoginActivity.this, \"No internet, check network and restart app\", Toast.LENGTH_SHORT).show();\r\n            }\r\n        });\r\n    }\r\n\r\n    @Override\r\n    public void onDestroy() {\r\n        getGiaodiendichvu().startClient(emailsv);\r\n        super.onDestroy();\r\n    }\r\n\r\n}\r\n\r\n//                    AlertDialog dialog = new AlertDialog.Builder(LoginActivity.this)\r\n//                            .setMessage(\"Đang đăng nhập...\")\r\n//                            .create();\r\n//                    dialog.setOnShowListener(new DialogInterface.OnShowListener() {\r\n//                        private static final int AUTO_DISMISS_MILLIS = 1200;\r\n//                        @Override\r\n//                        public void onShow(final DialogInterface dialog) {\r\n//                            new CountDownTimer(AUTO_DISMISS_MILLIS, 100) {\r\n//                                @Override\r\n//                                public void onTick(long millisUntilFinished) {\r\n////                                    dbFirebase.KiemTraTaiKhoan(email, matKhau);\r\n//                                }\r\n//\r\n//                                @Override\r\n//                                public void onFinish() {\r\n//                                    if (kiemTraTaiKhoan == 1) {\r\n//                                        tvEmail.setText(\"01 Email chưa đúng, kiểm tra lại\");\r\n//                                        tvEmail.setTextColor(getResources().getColor(R.color.colorDanger));\r\n//                                        kiemTra[0] = false;\r\n//                                    } else if (kiemTraTaiKhoan == 2) {\r\n//                                        tvMatKhau.setText(\"01 Mật khẩu chưa đúng, kiểm tra lại\");\r\n//                                        tvMatKhau.setTextColor(getResources().getColor(R.color.colorDanger));\r\n//                                        kiemTra[1] = false;\r\n//                                    } else if (kiemTraTaiKhoan == 0) {\r\n//                                        Toast.makeText(LoginActivity.this, \"OK!\", Toast.LENGTH_SHORT).show();\r\n//                                        editor.putString(\"tenTaiKhoan\", email);\r\n//                                        editor.putString(\"tenUser\", TenUser);\r\n//                                        editor.commit();\r\n//                                        getGiaodiendichvu().startClient(email);\r\n//                                        startActivity(new Intent(LoginActivity.this, MainActivity.class));\r\n//                                        finish();\r\n//                                    }\r\n//                                }\r\n//                            }.start();\r\n//                        }\r\n//                    });\r\n//                    dialog.show();\r\n\r\n\r\n//    SharedPreferences sharedPreferences;\r\n//    SharedPreferences.Editor editor;\r\n//    boolean check = false;\r\n//    DatabaseHelper databasehelper;\r\n//        initPreferences();\r\n//        final EditText edtTen = findViewById(R.id.edtTen);\r\n//        final EditText edtMatKhau = findViewById(R.id.edtMatKhau);\r\n//        Button btnGo = findViewById(R.id.btnGo);\r\n//        TextView txtDangKi = findViewById(R.id.txtDangKi);\r\n//        txtDangKi.setOnClickListener(new View.OnClickListener() {\r\n//            @Override\r\n//            public void onClick(View view) {\r\n//                Intent intent = new Intent(LoginActivity.this, DangKiActivity.class);\r\n//                startActivity(intent);\r\n//            }\r\n//        });\r\n//    private void initPreferences() {\r\n//        sharedPreferences = getSharedPreferences(\"mylogin\", MODE_PRIVATE);\r\n//        editor = sharedPreferences.edit();\r\n//    }\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/tinnhn/taikhoan/LoginActivity.java	(revision 92dd5e96dc177b08fb1ed90a1c743b9a59feceff)
++++ app/src/main/java/com/example/tinnhn/taikhoan/LoginActivity.java	(date 1606902028525)
+@@ -108,7 +108,7 @@
+         if (tenTaiKhoan.length() != 0) {
+             urlHinhDaiDien = sharedPreferences.getString("urlHinhDaiDien", "");
+ 
+-            startActivity(new Intent(LoginActivity.this, GroupHoiThoaiActivity.class));
++            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+ //            finish();
+         }
+     }
