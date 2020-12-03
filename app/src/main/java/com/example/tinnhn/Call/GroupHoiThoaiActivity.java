@@ -54,18 +54,20 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class GroupHoiThoaiActivity extends BaseActivity {
-    private DatabaseReference mDatabase;
-    SharedPreferences sharedPreferences;
-    SharedPreferences.Editor editor;
     public static GroupAdapter groupAdapter;
-    ListView grplist;
-    String j;
-    boolean ktraTrung = false;
-    String idGroup = "";
-    String emailNguoiDung;
+    private boolean ktraTrung = false;
+    private DatabaseReference mDatabase;
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editor;
+    private ListView grplist;
+    private String j;
+    private String idGroup = "";
+    private String emailNguoiDung;
     // Hiện hình lên RecyclerView
-    String TAG = "GroupHoiThoaiActivity";
+    private String TAG = "GroupHoiThoaiActivity";
     private ArrayList<String> mNames = new ArrayList<>();
+    private String idkey = "";
+    private Call call;
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
@@ -188,8 +190,8 @@ public class GroupHoiThoaiActivity extends BaseActivity {
 
 
         //end
+//        call = getGiaodiendichvu().getCall(j);
     }
-
 
 
     public void hamthemlistview() {
@@ -239,6 +241,7 @@ public class GroupHoiThoaiActivity extends BaseActivity {
                 adapter.notifyDataSetChanged();
             }
         }.start();
+        call = getGiaodiendichvu().callGroup(j);
 
 
         // hiện hình từ FB lên RecyclerView
@@ -254,8 +257,7 @@ public class GroupHoiThoaiActivity extends BaseActivity {
 //        Intent mainActivity = new Intent(this, Dialer.class);
 //        startActivity(mainActivity);
     }
-boolean check=false;
-    int i=0;
+
     private void initImageBitmaps() {
         mNames.clear();
         Log.d(TAG, "initImageBitmaps: initImageBitmaps");
@@ -270,10 +272,7 @@ boolean check=false;
 
             @Override
             public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-//                mNames.clear();
-//                String email = snapshot.getValue().toString();
-//                mNames.add(email);
-//                adapter.notifyDataSetChanged();
+
             }
 
             @Override
@@ -315,9 +314,10 @@ boolean check=false;
             }
         });
     }
-String idkey="";
+
     @Override
     public void onBackPressed() {
+        if (call != null) call.hangup();
         mDatabase.child("GroupGoiDien" + idGroup).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
