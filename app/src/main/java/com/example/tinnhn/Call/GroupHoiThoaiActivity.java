@@ -219,7 +219,6 @@ public class GroupHoiThoaiActivity extends BaseActivity {
     }
 
 
-
     private void Hamchuyenidgroupquagroupcall() {
         mNames.clear();
         if (!ktraTrung) {
@@ -255,10 +254,12 @@ public class GroupHoiThoaiActivity extends BaseActivity {
 //        Intent mainActivity = new Intent(this, Dialer.class);
 //        startActivity(mainActivity);
     }
-
+boolean check=false;
+    int i=0;
     private void initImageBitmaps() {
         mNames.clear();
         Log.d(TAG, "initImageBitmaps: initImageBitmaps");
+
         mDatabase.child("GroupGoiDien" + idGroup).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
@@ -269,9 +270,10 @@ public class GroupHoiThoaiActivity extends BaseActivity {
 
             @Override
             public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                String email = snapshot.getValue().toString();
-                mNames.add(email);
-                adapter.notifyDataSetChanged();
+//                mNames.clear();
+//                String email = snapshot.getValue().toString();
+//                mNames.add(email);
+//                adapter.notifyDataSetChanged();
             }
 
             @Override
@@ -313,41 +315,50 @@ public class GroupHoiThoaiActivity extends BaseActivity {
             }
         });
     }
-
+String idkey="";
     @Override
     public void onBackPressed() {
-//        mDatabase.child("GroupGoiDien" + idGroup).addChildEventListener(new ChildEventListener() {
-//            @Override
-//            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-//                String email = snapshot.getValue().toString();
-//                if (email.equals(emailNguoiDung)) {
-//                    String idKey = snapshot.getKey();
-//                    mDatabase.child("GroupGoiDien" + idGroup).child(idKey).removeValue();
-//                    ;
-//                }
-//
-//            }
-//
-//            @Override
-//            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-//
-//            }
-//
-//            @Override
-//            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-//
-//            }
-//
-//            @Override
-//            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-//
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//
-//            }
-//        });
+        mDatabase.child("GroupGoiDien" + idGroup).addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                String email = snapshot.getValue().toString();
+                if (email.equals(emailNguoiDung)) {
+                    idkey = snapshot.getKey();
+                }
+
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+        new CountDownTimer(1300, 100) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+            }
+
+            @Override
+            public void onFinish() {
+                mDatabase.child("GroupGoiDien" + idGroup).child(idkey).removeValue();
+            }
+        }.start();
+
         startActivity(new Intent(GroupHoiThoaiActivity.this, MainActivity.class));
         finish();
     }
