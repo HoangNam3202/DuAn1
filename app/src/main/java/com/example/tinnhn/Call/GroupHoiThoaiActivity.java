@@ -60,6 +60,9 @@ public class GroupHoiThoaiActivity extends BaseActivity {
     public static GroupAdapter groupAdapter;
     ListView grplist;
     String j;
+    boolean ktraTrung = false;
+    String idGroup = "";
+    String emailNguoiDung;
     // Hiện hình lên RecyclerView
     String TAG = "GroupHoiThoaiActivity";
     private ArrayList<String> mNames = new ArrayList<>();
@@ -146,7 +149,47 @@ public class GroupHoiThoaiActivity extends BaseActivity {
         });
 
 
+//ham do hinh
+        initRecyclerView();
+        emailNguoiDung = sharedPreferences.getString("tenTaiKhoan", "");
+        Toast.makeText(this, "" + emailNguoiDung, Toast.LENGTH_SHORT).show();
+        if (j.equals("Chat Room 1")) idGroup = "Chatroom1";
+        if (j.equals("Chat Room 2")) idGroup = "Chatroom2";
+        mNames.clear();
+
+        mDatabase.child("GroupGoiDien" + idGroup).addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                String email = snapshot.getValue().toString();
+                if (email.equals(emailNguoiDung)) ktraTrung = true;
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+        initImageBitmaps();
+
+
+        //end
     }
+
 
 
     public void hamthemlistview() {
@@ -175,43 +218,15 @@ public class GroupHoiThoaiActivity extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    boolean ktraTrung = false;
-    String idGroup = "";
-    String emailNguoiDung;
+
 
     private void Hamchuyenidgroupquagroupcall() {
-        emailNguoiDung = sharedPreferences.getString("tenTaiKhoan", "");
-        Toast.makeText(this, "" + emailNguoiDung, Toast.LENGTH_SHORT).show();
-        if (j.equals("Chat Room 1")) idGroup = "Chatroom1";
-        if (j.equals("Chat Room 2")) idGroup = "Chatroom2";
         mNames.clear();
-        mDatabase.child("GroupGoiDien" + idGroup).addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                String email = snapshot.getValue().toString();
-                if (email.equals(emailNguoiDung)) ktraTrung = true;
-            }
+        if (!ktraTrung) {
+            mDatabase.child("GroupGoiDien" + idGroup).push().setValue(emailNguoiDung);
+        }
 
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
 
-            }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
         new CountDownTimer(1300, 100) {
             @Override
             public void onTick(long millisUntilFinished) {
@@ -219,13 +234,13 @@ public class GroupHoiThoaiActivity extends BaseActivity {
 
             @Override
             public void onFinish() {
-                if (!ktraTrung) {
-                    mDatabase.child("GroupGoiDien" + idGroup).push().setValue(emailNguoiDung);
-                }
-                initRecyclerView();
+
                 initImageBitmaps();
+
+                adapter.notifyDataSetChanged();
             }
         }.start();
+
 
         // hiện hình từ FB lên RecyclerView
 //        initImageBitmaps();
@@ -339,7 +354,7 @@ public class GroupHoiThoaiActivity extends BaseActivity {
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
+
 //        mDatabase.child("GroupGoiDien" + idGroup).addChildEventListener(new ChildEventListener() {
 //            @Override
 //            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
@@ -371,5 +386,6 @@ public class GroupHoiThoaiActivity extends BaseActivity {
 //
 //            }
 //        });
+        super.onDestroy();
     }
 }
