@@ -333,6 +333,8 @@ stopForeground(true);
                     builder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALL));
                     NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getBaseContext());
                     notificationManager.notify(11, builder.build());
+                    String key = snapshot.getKey();
+                    mDatabase.child("ThongBao").child(key).removeValue();
                 }
             }
 
