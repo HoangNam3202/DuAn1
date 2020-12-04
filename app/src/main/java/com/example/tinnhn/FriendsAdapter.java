@@ -13,6 +13,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.bumptech.glide.Glide;
 import com.example.tinnhn.taikhoan.DownloadImageTask;
 import com.example.tinnhn.taikhoan.TaiKhoan;
 import com.google.firebase.database.ChildEventListener;
@@ -101,7 +102,8 @@ public class FriendsAdapter extends BaseAdapter {
                 TaiKhoan taiKhoan = snapshot.getValue(TaiKhoan.class);
                 if (taiKhoan.getEmail().equals(friends.email)) {
                     urlHinh = taiKhoan.getHinhDaiDien();
-                    new DownloadImageTask(imgAnh_Friends).execute(urlHinh);
+//                    new DownloadImageTask(imgAnh_Friends).execute(urlHinh);
+                    Glide.with(context).asBitmap().load(urlHinh).into(imgAnh_Friends);
                 }
             }
 

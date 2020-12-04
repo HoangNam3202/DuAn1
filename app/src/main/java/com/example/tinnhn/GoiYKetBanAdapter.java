@@ -14,6 +14,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.bumptech.glide.Glide;
 import com.example.tinnhn.taikhoan.DownloadImageTask;
 import com.example.tinnhn.taikhoan.TaiKhoan;
 import com.google.firebase.database.ChildEventListener;
@@ -144,7 +145,8 @@ public class GoiYKetBanAdapter extends BaseAdapter {
                 TaiKhoan taiKhoan = snapshot.getValue(TaiKhoan.class);
                 if (taiKhoan.getEmail().equals(goiYKetBan.email)) {
                     urlHinh = taiKhoan.getHinhDaiDien();
-                    new DownloadImageTask(imgAnh_Goi_Y).execute(urlHinh);
+//                    new DownloadImageTask(imgAnh_Goi_Y).execute(urlHinh);
+                    Glide.with(context).asBitmap().load(urlHinh).into(imgAnh_Goi_Y);
                 }
             }
 
