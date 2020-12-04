@@ -109,7 +109,6 @@ public class LoginActivity extends BaseActivity {
         String tenTaiKhoan = sharedPreferences.getString("tenTaiKhoan", "");
         if (tenTaiKhoan.length() != 0) {
             urlHinhDaiDien = sharedPreferences.getString("urlHinhDaiDien", "");
-
             startActivity(new Intent(LoginActivity.this, MainActivity.class));
             finish();
         }
@@ -247,10 +246,9 @@ public class LoginActivity extends BaseActivity {
 
     private void actionOnService(Actions actions) {
 
-            Intent intent = new Intent(LoginActivity.this, SinchServices.class);
-            intent.setAction(actions.name());
-            startService(intent);
-
+        Intent intent = new Intent(LoginActivity.this, SinchServices.class);
+        intent.setAction(actions.name());
+        startService(intent);
 
 
     }

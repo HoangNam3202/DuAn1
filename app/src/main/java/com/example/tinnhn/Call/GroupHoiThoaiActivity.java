@@ -88,7 +88,7 @@ public class GroupHoiThoaiActivity extends BaseActivity {
         Bundle b = i.getExtras();
         if (b != null) {
             j = (String) b.get("idgroup");
-            Toast.makeText(this, j, Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, j, Toast.LENGTH_SHORT).show();
         }
         setTitle(j);
         Objects.requireNonNull(getSupportActionBar()).setDisplayShowHomeEnabled(true);
@@ -154,7 +154,7 @@ public class GroupHoiThoaiActivity extends BaseActivity {
 //ham do hinh
         initRecyclerView();
         emailNguoiDung = sharedPreferences.getString("tenTaiKhoan", "");
-        Toast.makeText(this, "" + emailNguoiDung, Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, "" + emailNguoiDung, Toast.LENGTH_SHORT).show();
         if (j.equals("Chat Room 1")) idGroup = "Chatroom1";
         if (j.equals("Chat Room 2")) idGroup = "Chatroom2";
         mNames.clear();
@@ -187,10 +187,23 @@ public class GroupHoiThoaiActivity extends BaseActivity {
             }
         });
         initImageBitmaps();
-
-
         //end
-//        call = getGiaodiendichvu().getCall(j);
+        RefreshAdapterHinhGoiDien();
+    }
+
+    private void RefreshAdapterHinhGoiDien() {
+        initImageBitmaps();
+        new CountDownTimer(3000, 100) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+            }
+
+            @Override
+            public void onFinish() {
+                adapter.notifyDataSetChanged();
+                RefreshAdapterHinhGoiDien();
+            }
+        }.start();
     }
 
 
@@ -214,7 +227,7 @@ public class GroupHoiThoaiActivity extends BaseActivity {
             if (getGiaodiendichvu().isStarted()) {
                 Hamchuyenidgroupquagroupcall();
             } else {
-                Toast.makeText(this, "chua chay dich vu", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Service is not start", Toast.LENGTH_SHORT).show();
             }
         }
         return super.onOptionsItemSelected(item);
@@ -226,8 +239,6 @@ public class GroupHoiThoaiActivity extends BaseActivity {
         if (!ktraTrung) {
             mDatabase.child("GroupGoiDien" + idGroup).push().setValue(emailNguoiDung);
         }
-
-
         new CountDownTimer(1300, 100) {
             @Override
             public void onTick(long millisUntilFinished) {
@@ -235,9 +246,7 @@ public class GroupHoiThoaiActivity extends BaseActivity {
 
             @Override
             public void onFinish() {
-
                 initImageBitmaps();
-
                 adapter.notifyDataSetChanged();
             }
         }.start();
@@ -261,7 +270,6 @@ public class GroupHoiThoaiActivity extends BaseActivity {
     private void initImageBitmaps() {
         mNames.clear();
         Log.d(TAG, "initImageBitmaps: initImageBitmaps");
-
         mDatabase.child("GroupGoiDien" + idGroup).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
