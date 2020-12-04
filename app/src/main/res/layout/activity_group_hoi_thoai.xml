@@ -15,6 +15,8 @@
     <!--       android:layout_alignParentRight="true"-->
     <!--       />-->
     <ScrollView
+
+        android:id="@+id/ee"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fillViewport="true">
@@ -35,15 +37,17 @@
     <ListView
         android:id="@+id/list_HoithoaiGroup"
         android:layout_width="match_parent"
-        android:layout_height="538dp"
+        android:layout_height="400dp"
         android:layout_above="@+id/edtNoiDungGroup"
+        android:layout_below="@+id/ee"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
-        android:layout_marginStart="0dp"
-        android:layout_marginLeft="0dp"
-        android:layout_marginTop="0dp"
+        android:layout_marginStart="2dp"
+        android:layout_marginLeft="2dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginRight="-1dp"
+        android:layout_marginBottom="59dp"
         android:divider="@null" />
 
     <EditText

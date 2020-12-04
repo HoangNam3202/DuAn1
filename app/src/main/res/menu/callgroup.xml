@@ -6,5 +6,11 @@
         app:showAsAction="always"
         android:icon="@drawable/ic_groupchat"
         />
+    <item
+        android:id="@+id/icon_group"
+        android:title=""
+        app:showAsAction="always"
+        android:icon="@drawable/ic_videocall"
+        />
 
 </menu>

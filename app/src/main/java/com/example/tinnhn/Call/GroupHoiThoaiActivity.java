@@ -63,6 +63,7 @@ public class GroupHoiThoaiActivity extends BaseActivity {
     boolean ktraTrung = false;
     String idGroup = "";
     String emailNguoiDung;
+
     // Hiện hình lên RecyclerView
     String TAG = "GroupHoiThoaiActivity";
     private ArrayList<String> mNames = new ArrayList<>();
@@ -99,44 +100,44 @@ public class GroupHoiThoaiActivity extends BaseActivity {
         grplist.setAdapter(groupAdapter);
 
 //end intent
-//        mDatabase.child("HoiThoaiGroup").addChildEventListener(new ChildEventListener() {
-//            @Override
-//            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-//                Group group = snapshot.getValue(Group.class);
-//                forArr.clear();
-//                forArr.add(new Group(group.Email, group.message, group.IdGroup));
-//
-//                for (int i = 0; i < forArr.size(); i++) {
-//                    if (forArr.get(i).IdGroup.equals(j)) {
-//                        hoiThoaiArrayList.add(new Group(forArr.get(i).Email, forArr.get(i).message, forArr.get(i).IdGroup));
-//                    }
-//
-//                }
-//                groupAdapter.notifyDataSetChanged();
-//                scrollMyListViewToBottom();
-//
-//            }
-//
-//            @Override
-//            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-//
-//            }
-//
-//            @Override
-//            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-//
-//            }
-//
-//            @Override
-//            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-//
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//
-//            }
-//        });
+        mDatabase.child("HoiThoaiGroup").addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                Group group = snapshot.getValue(Group.class);
+                forArr.clear();
+                forArr.add(new Group(group.Email, group.message, group.IdGroup));
+
+                for (int i = 0; i < forArr.size(); i++) {
+                    if (forArr.get(i).IdGroup.equals(j)) {
+                        hoiThoaiArrayList.add(new Group(forArr.get(i).Email, forArr.get(i).message, forArr.get(i).IdGroup));
+                    }
+
+                }
+                groupAdapter.notifyDataSetChanged();
+                scrollMyListViewToBottom();
+
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
 
         send.setOnClickListener(new View.OnClickListener() {
@@ -184,7 +185,19 @@ public class GroupHoiThoaiActivity extends BaseActivity {
 
             }
         });
-        initImageBitmaps();
+        new CountDownTimer(1300, 100) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+            }
+
+            @Override
+            public void onFinish() {
+
+                initImageBitmaps();
+
+                adapter.notifyDataSetChanged();
+            }
+        }.start();
 
 
         //end
@@ -218,7 +231,7 @@ public class GroupHoiThoaiActivity extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
-
+    Call call;
     private void Hamchuyenidgroupquagroupcall() {
         mNames.clear();
         if (!ktraTrung) {
@@ -239,6 +252,7 @@ public class GroupHoiThoaiActivity extends BaseActivity {
                 adapter.notifyDataSetChanged();
             }
         }.start();
+        call =getGiaodiendichvu().callGroup(j);
 
 
         // hiện hình từ FB lên RecyclerView
@@ -318,6 +332,10 @@ boolean check=false;
 String idkey="";
     @Override
     public void onBackPressed() {
+
+        if (call != null) {
+            call.hangup();
+        }
         mDatabase.child("GroupGoiDien" + idGroup).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
