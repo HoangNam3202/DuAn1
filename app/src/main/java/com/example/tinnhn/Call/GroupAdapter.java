@@ -12,10 +12,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 
+import com.bumptech.glide.Glide;
 import com.example.tinnhn.HoiThoai;
 import com.example.tinnhn.R;
+import com.example.tinnhn.taikhoan.TaiKhoan;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -31,6 +38,7 @@ public class GroupAdapter extends BaseAdapter {
     private List<Group> hoiThoaiList;
     private DatabaseReference mDatabase;
     SharedPreferences sharedPreferences;
+
     SharedPreferences.Editor editor;
 
     public GroupAdapter(Context context, int layout, List<Group> hoiThoaiList) {
@@ -67,6 +75,8 @@ public class GroupAdapter extends BaseAdapter {
         ImageView imgAnh_Ban_Cua_User = view.findViewById(R.id.imgAnh_Ban_Cua_User);
         CardView card_view_Friend = view.findViewById(R.id.card_view);
         CardView card_view_User = view.findViewById(R.id.card_view1);
+        sharedPreferences = context.getSharedPreferences("GhiNhoDangNhap", MODE_PRIVATE);
+        String urlHinhUser = sharedPreferences.getString("urlHinhDaiDien", "");
 
         Group group = hoiThoaiList.get(i);
         Intent intent = ((Activity) context).getIntent();
@@ -82,12 +92,43 @@ public class GroupAdapter extends BaseAdapter {
             tv_HoiThoaiBanCuaUser.setVisibility(View.GONE);
             imgAnh_Ban_Cua_User.setVisibility(View.GONE);
             card_view_Friend.setVisibility(View.GONE);
+            Glide.with(context).asBitmap().load(urlHinhUser).into(imgAnh_User_tin_nhan);
         }
         if (!group.Email.equals(EmailUser)) {
             tv_HoiThoaiBanCuaUser.setText(group.message);
             tvUser_tin_nhan.setVisibility(View.GONE);
             imgAnh_User_tin_nhan.setVisibility(View.GONE);
             card_view_User.setVisibility(View.GONE);
+            mDatabase = FirebaseDatabase.getInstance().getReference();
+            mDatabase.child("TaiKhoan").addChildEventListener(new ChildEventListener() {
+                @Override
+                public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                    TaiKhoan taiKhoan = snapshot.getValue(TaiKhoan.class);
+                    if (taiKhoan.getEmail().equals(group.Email)) {
+                        Glide.with(context).asBitmap().load(taiKhoan.getHinhDaiDien()).into(imgAnh_Ban_Cua_User);
+                    }
+                }
+
+                @Override
+                public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+                }
+
+                @Override
+                public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+                }
+
+                @Override
+                public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
         }
 
         return view;
