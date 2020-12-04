@@ -101,44 +101,44 @@ public class GroupHoiThoaiActivity extends BaseActivity {
         grplist.setAdapter(groupAdapter);
 
 //end intent
-//        mDatabase.child("HoiThoaiGroup").addChildEventListener(new ChildEventListener() {
-//            @Override
-//            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-//                Group group = snapshot.getValue(Group.class);
-//                forArr.clear();
-//                forArr.add(new Group(group.Email, group.message, group.IdGroup));
-//
-//                for (int i = 0; i < forArr.size(); i++) {
-//                    if (forArr.get(i).IdGroup.equals(j)) {
-//                        hoiThoaiArrayList.add(new Group(forArr.get(i).Email, forArr.get(i).message, forArr.get(i).IdGroup));
-//                    }
-//
-//                }
-//                groupAdapter.notifyDataSetChanged();
-//                scrollMyListViewToBottom();
-//
-//            }
-//
-//            @Override
-//            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-//
-//            }
-//
-//            @Override
-//            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-//
-//            }
-//
-//            @Override
-//            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-//
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//
-//            }
-//        });
+        mDatabase.child("HoiThoaiGroup").addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                Group group = snapshot.getValue(Group.class);
+                forArr.clear();
+                forArr.add(new Group(group.Email, group.message, group.IdGroup));
+
+                for (int i = 0; i < forArr.size(); i++) {
+                    if (forArr.get(i).IdGroup.equals(j)) {
+                        hoiThoaiArrayList.add(new Group(forArr.get(i).Email, forArr.get(i).message, forArr.get(i).IdGroup));
+                    }
+
+                }
+                groupAdapter.notifyDataSetChanged();
+                scrollMyListViewToBottom();
+
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
 
         send.setOnClickListener(new View.OnClickListener() {
