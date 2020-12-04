@@ -14,7 +14,6 @@
         android:layout_weight="1"
         app:cardCornerRadius="1000dp"
         android:elevation="5dp"
-
         app:cardBackgroundColor="@android:color/transparent">
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"

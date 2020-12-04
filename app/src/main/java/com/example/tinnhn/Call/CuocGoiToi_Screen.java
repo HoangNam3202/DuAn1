@@ -20,6 +20,7 @@ import java.util.List;
 
 public class CuocGoiToi_Screen extends BaseActivity {
     private String appIDNguoiGoi;
+    private AudioPlayer mAudioPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +30,8 @@ public class CuocGoiToi_Screen extends BaseActivity {
         LottieAnimationView Nghe = findViewById(R.id.nghedien);
 
         LottieAnimationView Tuchoi = findViewById(R.id.tuchoi);
+        mAudioPlayer = new AudioPlayer(this);
+        mAudioPlayer.playRingtone();
 
         // appAudioPlayer=new AudioPlayer(this);
 
@@ -70,9 +73,11 @@ public class CuocGoiToi_Screen extends BaseActivity {
     }
 
     private void nghe() {
+        mAudioPlayer.stopRingtone();
         Call call = getGiaodiendichvu().getCall(appIDNguoiGoi);
         if (call != null) {
             call.answer();
+
             Intent intent = new Intent(this, CuocGoi_Screen.class);
             intent.putExtra(SinchServices.CALL_ID, appIDNguoiGoi);
             startActivity(intent);
@@ -95,6 +100,7 @@ public class CuocGoiToi_Screen extends BaseActivity {
 
     private void tuchoi() {
         // mAudioPlayer.stopRingtone();
+        mAudioPlayer.stopRingtone();
         Call call = getGiaodiendichvu().getCall(appIDNguoiGoi);
         if (call != null) {
             call.hangup();
@@ -110,7 +116,7 @@ public class CuocGoiToi_Screen extends BaseActivity {
         public void onCallEnded(Call call) {
             CallEndCause cause = call.getDetails().getEndCause();
             //Log.d(TAG, "Call ended, cause: " + cause.toString());
-            //mAudioPlayer.stopRingtone();
+            mAudioPlayer.stopRingtone();
             finish();
         }
 
