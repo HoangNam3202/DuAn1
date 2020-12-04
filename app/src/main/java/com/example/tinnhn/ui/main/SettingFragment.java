@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.bumptech.glide.Glide;
 import com.example.tinnhn.MainActivity;
 import com.example.tinnhn.R;
 import com.example.tinnhn.taikhoan.DownloadImageTask;
@@ -60,7 +61,8 @@ public class SettingFragment extends Fragment {
                 TaiKhoan taiKhoan = snapshot.getValue(TaiKhoan.class);
                 if (taiKhoan.getEmail().equals(EmailUser)) {
                     urlHinh = taiKhoan.getHinhDaiDien();
-                    new DownloadImageTask(imgAnh_User_setting).execute(urlHinh);
+//                    new DownloadImageTask(imgAnh_User_setting).execute(urlHinh);
+                    Glide.with(getContext()).asBitmap().load(urlHinh).into(imgAnh_User_setting);
                     TenUser_setting.setText(taiKhoan.tenTaiKhoan);
                     EmailUser_setting.setText(taiKhoan.email);
                     DiaChiUser_setting.setText(taiKhoan.diaChi);

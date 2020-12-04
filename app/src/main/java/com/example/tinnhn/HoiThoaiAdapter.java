@@ -15,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 
+import com.bumptech.glide.Glide;
 import com.example.tinnhn.taikhoan.DownloadImageTask;
 import com.example.tinnhn.taikhoan.TaiKhoan;
 import com.google.firebase.database.ChildEventListener;
@@ -92,7 +93,8 @@ public class HoiThoaiAdapter extends BaseAdapter {
                     TaiKhoan taiKhoan = snapshot.getValue(TaiKhoan.class);
                     if (taiKhoan.getEmail().equals(hoiThoai.email_User)) {
                         urlHinh = taiKhoan.getHinhDaiDien();
-                        new DownloadImageTask(imgAnh_User_tin_nhan).execute(urlHinh);
+//                        new DownloadImageTask(imgAnh_User_tin_nhan).execute(urlHinh);
+                        Glide.with(context).asBitmap().load(urlHinh).into(imgAnh_User_tin_nhan);
                     }
                 }
 
@@ -128,7 +130,8 @@ public class HoiThoaiAdapter extends BaseAdapter {
                     TaiKhoan taiKhoan = snapshot.getValue(TaiKhoan.class);
                     if (taiKhoan.getEmail().equals(hoiThoai.email_User)) {
                         urlHinh = taiKhoan.getHinhDaiDien();
-                        new DownloadImageTask(imgAnh_Ban_Cua_User).execute(urlHinh);
+//                        new DownloadImageTask(imgAnh_Ban_Cua_User).execute(urlHinh);
+                        Glide.with(context).asBitmap().load(urlHinh).into(imgAnh_Ban_Cua_User);
                     }
                 }
 
