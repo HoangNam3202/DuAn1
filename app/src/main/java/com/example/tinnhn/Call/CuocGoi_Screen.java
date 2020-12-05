@@ -48,6 +48,7 @@ public class CuocGoi_Screen extends BaseActivity {
     private TextView mCallDuration;
     private TextView mCallState;
     private TextView mCallerName;
+    ImageButton camoffButton;
 
     private class UpdateCallDurationTask extends TimerTask {
 
@@ -86,7 +87,7 @@ public class CuocGoi_Screen extends BaseActivity {
         mCallState = (TextView) findViewById(R.id.callState);
         ImageButton endCallButton = (ImageButton) findViewById(R.id.hangupButton);
         ImageButton flipButton = (ImageButton) findViewById(R.id.flipcamera);
-        ImageButton camoffButton = (ImageButton) findViewById(R.id.offcam);
+       camoffButton = (ImageButton) findViewById(R.id.offcam);
 
 
         flipButton.setOnClickListener(new View.OnClickListener() {
@@ -237,9 +238,11 @@ public class CuocGoi_Screen extends BaseActivity {
         if (check == 1) {
             view.removeView(vc.getLocalView());
             call.pauseVideo();
+            camoffButton.setImageResource(R.drawable.ic_videocam_off);
             check = 2;
         } else if (check == 2) {
             view.addView(vc.getLocalView());
+            camoffButton.setImageResource(R.drawable.ic_videocall);
             call.resumeVideo();
             check = 1;
         }

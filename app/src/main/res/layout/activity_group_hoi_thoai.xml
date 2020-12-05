@@ -12,14 +12,48 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        app:cardCornerRadius="1000dp"
-        android:elevation="5dp"
+        app:cardCornerRadius="5dp"
+
         app:cardBackgroundColor="@android:color/transparent">
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            />
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:weightSum="6">
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="0dp"
+                android:layout_gravity="center"
+                android:layout_height="match_parent"
+                android:layout_weight="4.9"
+                />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.1"/>
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_weight="0.8"
+                android:layout_height="match_parent"
+                android:gravity="center">
+                <androidx.cardview.widget.CardView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    app:cardCornerRadius="15dp">
+                    <ImageButton
+                        android:id="@+id/endcall"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:background="@color/colorRose"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_call" />
+                </androidx.cardview.widget.CardView>
+            </RelativeLayout>
+
+
+        </LinearLayout>
+
     </androidx.cardview.widget.CardView>
 
     <ListView
@@ -29,15 +63,12 @@
         android:layout_height="0dp"
         android:layout_weight="8.8"
         android:divider="@null" />
-<RelativeLayout
-    android:layout_width="match_parent"
-    android:layout_height="50dp"
-    android:layout_weight="0.2"
-    android:background="#80000000"
-    >
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="50dp"
+        android:layout_weight="0.2"
+        android:background="#00000000"
         android:orientation="horizontal"
         android:weightSum="10">
         <EditText
@@ -62,7 +93,6 @@
             android:textColor="#fff" />
     </LinearLayout>
 
-</RelativeLayout>
 
 
 
