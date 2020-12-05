@@ -41,11 +41,11 @@ public abstract class BaseActivity extends AppCompatActivity implements ServiceC
     //end hàm check service connection
 
     protected void onServiceConnected() {
-        // for subclasses
+
     }
 
     protected void onServiceDisconnected() {
-        // for subclasses
+
     }
 
     protected SinchServices.giaodiendichvu getGiaodiendichvu() {

@@ -20,21 +20,23 @@ import java.util.List;
 
 public class CuocGoiToi_Screen extends BaseActivity {
     private String appIDNguoiGoi;
+    private AudioPlayer mAudioPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cuoc_goi_toi__screen);
-
+        //ánh xạ
         LottieAnimationView Nghe = findViewById(R.id.nghedien);
-
         LottieAnimationView Tuchoi = findViewById(R.id.tuchoi);
-
-        // appAudioPlayer=new AudioPlayer(this);
-
+        //nhạc chuông
+        mAudioPlayer = new AudioPlayer(this);
+        mAudioPlayer.playRingtone();
+        //end nhạc chuông
         appIDNguoiGoi = getIntent().getStringExtra(SinchServices.CALL_ID);
-        Toast.makeText(this, appIDNguoiGoi, Toast.LENGTH_SHORT).show();
+        //end ánh xạ
 
+        //nút answer
         Nghe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -42,13 +44,8 @@ public class CuocGoiToi_Screen extends BaseActivity {
                 nghe();
             }
         });
-//       Nghe2.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                //audio
-//                nghe2();
-//            }
-//        });
+
+        //nút decline
         Tuchoi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -57,7 +54,7 @@ public class CuocGoiToi_Screen extends BaseActivity {
         });
     }
 
-
+//hàm check service connection
     @Override
     protected void onServiceConnected() {
         Call call = getGiaodiendichvu().getCall(appIDNguoiGoi);
@@ -68,11 +65,15 @@ public class CuocGoiToi_Screen extends BaseActivity {
             finish();
         }
     }
+    //end hàm check service connection
 
+    //hàm bắt máy
     private void nghe() {
+        mAudioPlayer.stopRingtone();
         Call call = getGiaodiendichvu().getCall(appIDNguoiGoi);
         if (call != null) {
             call.answer();
+
             Intent intent = new Intent(this, CuocGoi_Screen.class);
             intent.putExtra(SinchServices.CALL_ID, appIDNguoiGoi);
             startActivity(intent);
@@ -80,68 +81,50 @@ public class CuocGoiToi_Screen extends BaseActivity {
             finish();
         }
     }
+    //end hàm bắt máy
 
-    private void nghe2() {
-        Call call = getGiaodiendichvu().getCall(appIDNguoiGoi);
-        if (call != null) {
-            call.answer();
-            Intent intent = new Intent(this, AudioCall.class);
-            intent.putExtra(SinchServices.CALL_ID, appIDNguoiGoi);
-            startActivity(intent);
-        } else {
-            finish();
-        }
-    }
-
+    //hàm từ chối
     private void tuchoi() {
         // mAudioPlayer.stopRingtone();
+        mAudioPlayer.stopRingtone();
         Call call = getGiaodiendichvu().getCall(appIDNguoiGoi);
         if (call != null) {
             call.hangup();
         }
         finish();
-
     }
+    //end hàm từ chối
 
-
+//hàm bắt sự kiện Sinch
     private class SinchCallListener implements VideoCallListener {
-
+        //hàm show chi tiết cuộc gọi khi bị end+stop nhạc chuông
         @Override
         public void onCallEnded(Call call) {
             CallEndCause cause = call.getDetails().getEndCause();
-            //Log.d(TAG, "Call ended, cause: " + cause.toString());
-            //mAudioPlayer.stopRingtone();
+            mAudioPlayer.stopRingtone();
             finish();
         }
-
         @Override
         public void onCallEstablished(Call call) {
-            //  Log.d(TAG, "Call established");
+
         }
 
         @Override
         public void onCallProgressing(Call call) {
-            // Log.d(TAG, "Call progressing");
         }
 
         @Override
         public void onShouldSendPushNotification(Call call, List<PushPair> pushPairs) {
-            // Send a push through your push provider here, e.g. GCM
         }
-
         @Override
         public void onVideoTrackAdded(Call call) {
-            // Display some kind of icon showing it's a video call
         }
 
         @Override
         public void onVideoTrackPaused(Call call) {
-
         }
-
         @Override
         public void onVideoTrackResumed(Call call) {
-
         }
     }
 }

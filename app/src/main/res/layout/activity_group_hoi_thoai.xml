@@ -1,91 +1,99 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#fff"
-    tools:context=".HoiThoaiActivity">
-    <!--   <org.lucasr.twowayview.widget.TwoWayView-->
-    <!--       android:id="@+id/calllistview"-->
-    <!--       android:layout_width="match_parent"-->
-    <!--       android:layout_height="100dp"-->
-    <!--       android:scrollbarThumbHorizontal="@color/colorBlack"-->
-    <!--       android:layout_alignParentLeft="true"-->
-    <!--       android:layout_alignParentRight="true"-->
-    <!--       />-->
-    <ScrollView
+    android:background="@drawable/hinhnen_register"
+    android:orientation="vertical"
+    tools:context=".HoiThoaiActivity"
+    android:weightSum="10">
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="0dp"
-        android:layout_marginEnd="0dp"
-        android:fillViewport="true">
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        app:cardCornerRadius="5dp"
 
-        <TableLayout
+        app:cardBackgroundColor="@android:color/transparent">
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:stretchColumns="1">
-
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:weightSum="6">
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerView"
-                android:layout_width="match_parent"
-                android:layout_height="90dp"
-                android:orientation="horizontal" />
-        </TableLayout>
-    </ScrollView>
+                android:layout_width="0dp"
+                android:layout_gravity="center"
+                android:layout_height="match_parent"
+                android:layout_weight="4.9"
+                />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.1"/>
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_weight="0.8"
+                android:layout_height="match_parent"
+                android:gravity="center">
+                <androidx.cardview.widget.CardView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    app:cardCornerRadius="15dp">
+                    <ImageButton
+                        android:id="@+id/endcall"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:background="@color/colorRose"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_call" />
+                </androidx.cardview.widget.CardView>
+            </RelativeLayout>
+
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
 
     <ListView
+
         android:id="@+id/list_HoithoaiGroup"
         android:layout_width="match_parent"
-        android:layout_height="538dp"
-        android:layout_above="@+id/edtNoiDungGroup"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginStart="0dp"
-        android:layout_marginLeft="0dp"
-        android:layout_marginTop="3dp"
-        android:layout_marginRight="0dp"
-        android:layout_marginBottom="-2dp"
+        android:layout_height="0dp"
+        android:layout_weight="8.8"
         android:divider="@null" />
 
-    <EditText
-        android:id="@+id/edtNoiDungGroup"
-        android:layout_width="333dp"
-        android:layout_height="45dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="0dp"
-        android:layout_marginLeft="0dp"
-        android:layout_marginRight="30dp"
-        android:layout_marginBottom="5dp"
-        android:background="#fff"
-        android:hint="Nội dung"
-        android:lines="1"
-        android:maxLines="1"
-        android:padding="2dp" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_weight="0.2"
+        android:background="#00000000"
+        android:orientation="horizontal"
+        android:weightSum="10">
+        <EditText
+            android:id="@+id/edtNoiDungGroup"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="8"
+            android:hint="Nội dung..."
+            android:textColorHint="@color/colorWhite"
+            android:textColor="@color/colorWhite"
+            android:lines="1"
+            android:maxLines="1"
+            android:padding="2dp" />
 
-    <Button
-        android:id="@+id/btbGuiGroup"
-        android:layout_width="75dp"
-        android:layout_height="45dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="80dp"
-        android:layout_marginLeft="80dp"
-        android:layout_marginEnd="3dp"
-        android:layout_marginRight="3dp"
-        android:layout_marginBottom="5dp"
-        android:background="@drawable/radius"
-        android:text="Send"
-        android:textColor="#fff" />
+        <Button
+            android:id="@+id/btbGuiGroup"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:background="@drawable/radius"
+            android:text="Send"
+            android:textColor="#fff" />
+    </LinearLayout>
 
 
-</RelativeLayout>
+
+
+</LinearLayout>
