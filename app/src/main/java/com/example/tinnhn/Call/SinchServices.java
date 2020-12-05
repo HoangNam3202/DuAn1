@@ -44,16 +44,13 @@ import com.sinch.android.rtc.video.VideoController;
 import com.sinch.android.rtc.video.VideoScalingType;
 
 public class SinchServices extends Service {
-    private static final String APP_KEY = "16732ff2-dd27-4c5a-8301-6b693da2fef1";
-    private static final String APP_SECRET = "xsw87CnBMUCqVL+bpwXAKw==";
+    private static final String APP_KEY = "16732ff2-dd27-4c5a-8301-6b693da2fef1";//key client của tài khoản Sinch
+    private static final String APP_SECRET = "xsw87CnBMUCqVL+bpwXAKw==";//key client của tài khoản Sinch
     private static final String ENVIRONMENT = "clientapi.sinch.com";
-
     public static final String CALL_ID = "77";
-
     private giaodiendichvu appGiaodiendichvu = new giaodiendichvu();
     private SinchClient appSinchClient;
     private String appIDNguoiDung;
-    private CallClient callClient;
     Notification notification;
 
     private StartFailedListener mListener;
@@ -65,12 +62,12 @@ public class SinchServices extends Service {
     @Override
     public void onCreate() {
 
-        notification = createNotification();
-        ThongBao();
-        startForeground(11,notification);
+        notification = createNotification();//tạo noti
+        ThongBao();//noti tin nhắn
+        startForeground(11,notification);//chạy foreground
         super.onCreate();
     }
-
+//hàm tạo noti
     private Notification createNotification() {
         final String notificationChannelId = "Tin Nhắn";
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -85,8 +82,7 @@ public class SinchServices extends Service {
                 notificationManager.createNotificationChannel(notificationChannel);
             }
         }
-        Intent notificationIntent = new Intent(this, MainActivity.class);
-//        notificationIntent.putExtra(Utils.NAVPAGE, TAG);
+        Intent notificationIntent = new Intent(this, LoginActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
 
         Notification.Builder notificationBuilder;
@@ -105,6 +101,9 @@ public class SinchServices extends Service {
         notificationBuilder.setPriority(Notification.PRIORITY_DEFAULT); // for under android 26 compatibility
         return notificationBuilder.build();
     }
+    //end hàm tạo noti
+
+    //hàm hứng trạng thái của foreground
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
@@ -126,6 +125,8 @@ public class SinchServices extends Service {
         }
         return START_STICKY;
     }
+    //end hàm hứng trạng thái của foreground
+
 
     @Override
     public void onDestroy() {
@@ -135,18 +136,19 @@ public class SinchServices extends Service {
         }
         super.onDestroy();
     }
+
+    //hàm bắt đầu chạy fore ground+ kết thức foreground
     private void startService() {
         notification = createNotification();
         startForeground(11,notification);
     }
     private void stopService() {
-stopForeground(true);
-//stopSelf();
+        stopForeground(true);
     }
+    //end hàm bắt đầu chạy fore ground+ kết thức foreground
 
+    //hàm chạy Sinch Client :dùng để bắt đầu tạo service cho các cuộc gọi, hàm này nếu không chạy=>không gọi được
     private void start(String userName) {
-//        notification = createNotification();
-//        startForeground(11,notification);
         if (appSinchClient == null) {
             appIDNguoiDung = userName;
             appSinchClient = Sinch.getSinchClientBuilder().context(getApplicationContext()).userId(userName)
@@ -165,6 +167,7 @@ stopForeground(true);
             appSinchClient.start();
         }
     }
+    //end hàm chạy client
 
     private void stop() {
         if (appSinchClient != null) {
@@ -172,10 +175,12 @@ stopForeground(true);
             appSinchClient = null;
         }
     }
-
+//hàm check trạng thái của service
     private boolean isStarted() {
         return (appSinchClient != null && appSinchClient.isStarted());
     }
+    //end hàm check trạng thái của service
+
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -185,53 +190,53 @@ stopForeground(true);
     public class giaodiendichvu extends Binder {
 
         public Call callUserVideo(String userId) {
-            return appSinchClient.getCallClient().callUserVideo(userId);
+            return appSinchClient.getCallClient().callUserVideo(userId);//dùng chạy service gọi video
         }
 
         public Call calluser(String userId) {
-            return appSinchClient.getCallClient().callUser(userId);
+            return appSinchClient.getCallClient().callUser(userId);//dùng chạy service gọi audio
         }
 
         public Call callGroup(String userId) {
-            return appSinchClient.getCallClient().callConference(userId);
+            return appSinchClient.getCallClient().callConference(userId);//dùng chạy service gọi nhóm
         }
 
         public String getUserName() {
             return appIDNguoiDung;
-        }
+        }//dùng chạy service lấy tên ng gọi
 
         public boolean isStarted() {
             return SinchServices.this.isStarted();
-        }
+        }//dùng chạy service lấy trạng thái service
 
         public void startClient(String userName) {
             start(userName);
-        }
+        }//dùng chạy service lấy tên ng dùng
 
         public void stopClient() {
             stop();
-        }
+        }//dùng chạy service dùng để dừng client
 
         public void setStartListener(StartFailedListener listener) {
             mListener = listener;
         }
 
         public Call getCall(String callId) {
-            return appSinchClient.getCallClient().getCall(callId);
+            return appSinchClient.getCallClient().getCall(callId);//dùng chạy service dùng để lấy ID cuộc gọi thường dùng để dừng cuộc gọi 1 vs 1
         }
 
         public VideoController getVideoController() {
             if (!isStarted()) {
                 return null;
             }
-            return appSinchClient.getVideoController();
+            return appSinchClient.getVideoController();//dùng chạy service dùng để lấy info từ video:hình ảnh,tắt cam, mở cam , xoay cam...
         }
 
         public AudioController getAudioController() {
             if (!isStarted()) {
                 return null;
             }
-            return appSinchClient.getAudioController();
+            return appSinchClient.getAudioController();//dùng chạy service dùng để lấy info từ audio:tắt tiếng mở tiếng vv.v.v
         }
     }
 
@@ -295,20 +300,20 @@ stopForeground(true);
 
     }
 
-
+    //hàm hứng sự kiện của Sinch service
     private class SinchCallClientListener implements CallClientListener {
-
+        //hàm hứng cuộc gọi tới
         @Override
         public void onIncomingCall(CallClient callClient, Call call) {
-
             Intent intent = new Intent(SinchServices.this, CuocGoiToi_Screen.class);
-            intent.putExtra(CALL_ID, call.getCallId());
+            intent.putExtra(CALL_ID, call.getCallId());//lấy thông tin ng gọi đưa vào màn hình cuộc gọi tới: lấy ID, usernamevv.vv
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            //startActivity(intent);
             SinchServices.this.startActivity(intent);
         }
     }
+    //end hàm hứng sự kiện của Sinch service
 
+    //hàm thông báo tin nhắn tới vào noti
     public void ThongBao(){
         sharedPreferences = getSharedPreferences("GhiNhoDangNhap", MODE_PRIVATE);
         editor = sharedPreferences.edit();
@@ -359,5 +364,5 @@ stopForeground(true);
             }
         });
     }
-
+    //end hàm thông báo tin nhắn tới vào noti
 }

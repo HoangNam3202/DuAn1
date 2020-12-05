@@ -31,20 +31,13 @@ public class CuocGoi_Screen extends BaseActivity {
     static final String TAG = CuocGoi_Screen.class.getSimpleName();
     static final String CALL_START_TIME = "callStartTime";
     static final String ADDED_LISTENER = "addedListener";
-
-    //private AudioPlayer mAudioPlayer;
-
     private Timer appTimer;
-
     int check = 1;
-
     private UpdateCallDurationTask mDurationTask;
-
     private String appCallId;
     private long mCallStart = 0;
     private boolean mAddedListener = false;
     private boolean mVideoViewsAdded = false;
-
     private TextView mCallDuration;
     private TextView mCallState;
     private TextView mCallerName;
@@ -81,29 +74,34 @@ public class CuocGoi_Screen extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cuoc_goi__screen);
 
-        //mAudioPlayer = new AudioPlayer(this);
+   //ánh xạ
         mCallDuration = (TextView) findViewById(R.id.callDuration);
         mCallerName = (TextView) findViewById(R.id.remoteUser);
         mCallState = (TextView) findViewById(R.id.callState);
         ImageButton endCallButton = (ImageButton) findViewById(R.id.hangupButton);
         ImageButton flipButton = (ImageButton) findViewById(R.id.flipcamera);
        camoffButton = (ImageButton) findViewById(R.id.offcam);
+//end ánh xạ
 
-
+        //hàm quay camera
         flipButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 flipcam();
             }
         });
+        //end hàm quay camera
+
+        //hàm tắt camera
         camoffButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 camoff();
             }
         });
+//end hàm tắt camera
 
-
+        //Nút hàm dừng cuộc goi
         endCallButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -116,7 +114,9 @@ public class CuocGoi_Screen extends BaseActivity {
             mCallStart = System.currentTimeMillis();
         }
     }
+    //end hàm dừng cuộc goi
 
+    //hàm check service connection
     @Override
     public void onServiceConnected() {
         Call call = getGiaodiendichvu().getCall(appCallId);
@@ -132,8 +132,9 @@ public class CuocGoi_Screen extends BaseActivity {
 
         updateUI();
     }
+    //end hàm check service connection
 
-    //method to update video feeds in the UI
+    //hàm update UI của màn hình gọi
     private void updateUI() {
         if (getGiaodiendichvu() == null) {
             return; // early
@@ -150,16 +151,9 @@ public class CuocGoi_Screen extends BaseActivity {
         }
     }
 
-    //stop the timer when call is ended
-    @Override
-    public void onStop() {
-        super.onStop();
-        mDurationTask.cancel();
-        appTimer.cancel();
-        removeVideoViews();
-    }
+    //end hàm update UI của màn hình gọi
 
-    //start the timer for the call duration here
+    //hàm bắt đầutính time,tắt camera view
     @Override
     public void onStart() {
         super.onStart();
@@ -168,13 +162,20 @@ public class CuocGoi_Screen extends BaseActivity {
         appTimer.schedule(mDurationTask, 0, 500);
         updateUI();
     }
+    //end hàm bắt đầutính time,tắt camera view
 
+    //hàm dừng tính time,tắt camera view
     @Override
-    public void onBackPressed() {
-        // User should exit activity by ending call, not by going back.
+    public void onStop() {
+        super.onStop();
+        mDurationTask.cancel();
+        appTimer.cancel();
+        removeVideoViews();
     }
+//end hàm dừng tính time,tắt camera view
 
-    //method to end the call
+
+    //hàn ngừng cuộc gọi
     private void endCall() {
         //mAudioPlayer.stopProgressTone();
         Call call = getGiaodiendichvu().getCall(appCallId);
@@ -183,22 +184,27 @@ public class CuocGoi_Screen extends BaseActivity {
         }
         finish();
     }
+    //end hàn ngừng cuộc gọi
 
+    //hàm đổi thời gian
     private String formatTimespan(long timespan) {
         long totalSeconds = timespan / 1000;
         long minutes = totalSeconds / 60;
         long seconds = totalSeconds % 60;
         return String.format(Locale.US, "%02d:%02d", minutes, seconds);
     }
+    //end hàm đổi thời gian
 
-    //method to update live duration of the call
+    //hàm chạy tính thời gian khi gọi
     private void updateCallDuration() {
         if (mCallStart > 0) {
             mCallDuration.setText(formatTimespan(System.currentTimeMillis() - mCallStart));
         }
     }
 
-    //method which sets up the video feeds from the server to the UI of the activity
+    //end hàm chạy tính thời gian khi gọi
+
+    //hàm thêm video view
     private void addVideoViews() {
         if (mVideoViewsAdded || getGiaodiendichvu() == null) {
             return; //early
@@ -224,12 +230,15 @@ public class CuocGoi_Screen extends BaseActivity {
             mVideoViewsAdded = true;
         }
     }
+    //end hàm thêm video view
 
+    //chức năng quay cam
     private void flipcam() {
         final VideoController vc = getGiaodiendichvu().getVideoController();
         vc.toggleCaptureDevicePosition();
     }
 
+//chức năng tắt cam
     private void camoff() {
 
         final VideoController vc = getGiaodiendichvu().getVideoController();
@@ -251,7 +260,7 @@ public class CuocGoi_Screen extends BaseActivity {
         ;
     }
 
-    //removes video feeds from the app once the call is terminated
+    //chức năng nỏ video view
     private void removeVideoViews() {
         if (getGiaodiendichvu() == null) {
             return; // early
@@ -268,8 +277,9 @@ public class CuocGoi_Screen extends BaseActivity {
         }
     }
 
+    //hàm sự kiện của Sinch client
     private class SinchCallListener implements VideoCallListener {
-
+// lúc end cuộc gọi,hàm toast các thông số về cuộc gọi
         @Override
         public void onCallEnded(Call call) {
             CallEndCause cause = call.getDetails().getEndCause();
@@ -282,6 +292,7 @@ public class CuocGoi_Screen extends BaseActivity {
             endCall();
         }
 
+//lúc bắt đầu cuộc gọi
         @Override
         public void onCallEstablished(Call call) {
             Log.d(TAG, "Call established");
@@ -293,7 +304,7 @@ public class CuocGoi_Screen extends BaseActivity {
             mCallStart = System.currentTimeMillis();
             Log.d(TAG, "Call offered video: " + call.getDetails().isVideoOffered());
         }
-
+//lúc cuộc gọi đang tiến hành
         @Override
         public void onCallProgressing(Call call) {
             Log.d(TAG, "Call progressing");
@@ -321,4 +332,5 @@ public class CuocGoi_Screen extends BaseActivity {
 
         }
     }
+    //end hàm sự kiện Sinch
 }

@@ -64,7 +64,6 @@ public class GroupHoiThoaiActivity extends BaseActivity {
     private String j;
     private String idGroup = "";
     private String emailNguoiDung;
-    // Hiện hình lên RecyclerView
     private String TAG = "GroupHoiThoaiActivity";
     private ArrayList<String> mNames = new ArrayList<>();
     private String idkey = "";
@@ -76,7 +75,7 @@ public class GroupHoiThoaiActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_group_hoi_thoai);
-
+//ánh xạ
         mDatabase = FirebaseDatabase.getInstance().getReference();
         grplist = findViewById(R.id.list_HoithoaiGroup);
         Button send = findViewById(R.id.btbGuiGroup);
@@ -85,26 +84,37 @@ public class GroupHoiThoaiActivity extends BaseActivity {
         sharedPreferences = getSharedPreferences("GhiNhoDangNhap", MODE_PRIVATE);
         editor = sharedPreferences.edit();
         String email = sharedPreferences.getString("tenTaiKhoan", "");
-        scrollMyListViewToBottom();
         endcall.setEnabled(false);
-        //intent
+        //end ánh xạ
+
+        //đưa list view xuống cuối
+        scrollMyListViewToBottom();
+        //end đưa listview xuống cuối
+
+
+        //intent lấy idgroup
         Intent i = getIntent();
         Bundle b = i.getExtras();
         if (b != null) {
             j = (String) b.get("idgroup");
-//            Toast.makeText(this, j, Toast.LENGTH_SHORT).show();
         }
-        setTitle(j);
+        setTitle(j);//đặt title toolbar
+        //end intent
+
+        //set frullscreen
         Objects.requireNonNull(getSupportActionBar()).setDisplayShowHomeEnabled(true);
         getSupportActionBar().setIcon(R.drawable.user);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        //end set full screen
 
+        //khai báo arraylist
         final ArrayList<Group> hoiThoaiArrayList = new ArrayList<>();
         final ArrayList<Group> forArr = new ArrayList<>();
         groupAdapter = new GroupAdapter(GroupHoiThoaiActivity.this, R.layout.list_tin_nhan_item, hoiThoaiArrayList);
         grplist.setAdapter(groupAdapter);
+        //end arraylist
 
-//end intent
+        //hàm thêm tin nhắn từ firebase vào arraylist
         mDatabase.child("HoiThoaiGroup").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
@@ -143,8 +153,9 @@ public class GroupHoiThoaiActivity extends BaseActivity {
 
             }
         });
+        //end hàm thêm tin nhắn từ firebase vào arraylist
 
-
+        //nút gửi tin nhắn
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -156,14 +167,17 @@ public class GroupHoiThoaiActivity extends BaseActivity {
                 noidungtn.setText("");
             }
         });
+//end nút gửi tin nhắn
 
+        //nút dừng cuộc gọi thoại:
         endcall.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (call != null) call.hangup();
-                endcall.setEnabled(false);
+                if (call != null) call.hangup();//dừng cuộc gọi từ Sinch
+                endcall.setEnabled(false);//tắt nút dừng
+                endcall.setImageResource(R.drawable.ic_call_end2);//đổi icon
 
-                endcall.setImageResource(R.drawable.ic_call_end2);
+                //hàm lấy key từ FB để xóa
                 mDatabase.child("GroupGoiDien" + idGroup).addChildEventListener(new ChildEventListener() {
                     @Override
                     public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
@@ -194,6 +208,8 @@ public class GroupHoiThoaiActivity extends BaseActivity {
 
                     }
                 });
+
+                //hàm countdown
                 new CountDownTimer(1300, 100) {
                     @Override
                     public void onTick(long millisUntilFinished) {
@@ -201,20 +217,17 @@ public class GroupHoiThoaiActivity extends BaseActivity {
 
                     @Override
                     public void onFinish() {
-                        mDatabase.child("GroupGoiDien" + idGroup).child(idkey).removeValue();
+                        mDatabase.child("GroupGoiDien" + idGroup).child(idkey).removeValue();//xóa key từ FB
                     }
                 }.start();
-                ktraTrung=false;
-
-
+                ktraTrung=false;//trả kiểm tra trùng về false để tránh bug không thêm hình
             }
         });
 
 
-//ham do hinh
+        //ham do hinh
         initRecyclerView();
         emailNguoiDung = sharedPreferences.getString("tenTaiKhoan", "");
-//        Toast.makeText(this, "" + emailNguoiDung, Toast.LENGTH_SHORT).show();
         if (j.equals("Chat Room 1")) idGroup = "Chatroom1";
         if (j.equals("Chat Room 2")) idGroup = "Chatroom2";
         mNames.clear();
@@ -223,7 +236,7 @@ public class GroupHoiThoaiActivity extends BaseActivity {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 String email = snapshot.getValue().toString();
-                if (email.equals(emailNguoiDung)) ktraTrung = true;
+                if (email.equals(emailNguoiDung)) ktraTrung = true;//kiểm tra trùng
             }
 
             @Override
@@ -247,10 +260,12 @@ public class GroupHoiThoaiActivity extends BaseActivity {
             }
         });
         initImageBitmaps();
-        //end
+
         RefreshAdapterHinhGoiDien();
     }
+//end hàm do hình
 
+    //hàm refresh hình trong 3s
     private void RefreshAdapterHinhGoiDien() {
         initImageBitmaps();
         new CountDownTimer(3000, 100) {
@@ -266,36 +281,37 @@ public class GroupHoiThoaiActivity extends BaseActivity {
             }
         }.start();
     }
+    //end hàm refresh hình trong 3s
 
-
+//hàm sự kiện cho menu
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.callgroup, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
-    // handle button activities
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.groupchat) {
-            //đang nhap sinchclient o day = UserEmail sau do goi cho EmailNguoiGui
+        if (id == R.id.groupchat) {//nút gọi cho group
+
             if (getGiaodiendichvu().isStarted()) {
                 endcall.setEnabled(true);
                 endcall.setImageResource(R.drawable.ic_call);
                 Hamchuyenidgroupquagroupcall();
             } else {
-                Toast.makeText(this, "Service is not start", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "dịch vụ chưa chạy", Toast.LENGTH_SHORT).show();
             }
         }
         return super.onOptionsItemSelected(item);
     }
+//end hàm sự kiện cho menu
 
-
+    //hàm gọi vào voice group+ thêm hình lên FB
     private void Hamchuyenidgroupquagroupcall() {
         mNames.clear();
         if (!ktraTrung) {
-            mDatabase.child("GroupGoiDien" + idGroup).push().setValue(emailNguoiDung);
+            mDatabase.child("GroupGoiDien" + idGroup).push().setValue(emailNguoiDung);//thêm hình người dùng vào list trên FB
         }else{
             Toast.makeText(this, "trùng", Toast.LENGTH_SHORT).show();
         }
@@ -311,23 +327,11 @@ public class GroupHoiThoaiActivity extends BaseActivity {
             }
         }.start();
 
-        call = getGiaodiendichvu().callGroup(j);
+        call = getGiaodiendichvu().callGroup(j);//hàm gọi conference của Sinch
 
-
-        // hiện hình từ FB lên RecyclerView
-//        initImageBitmaps();
-//        initRecyclerView();
-//        đang dừng ở việc thêm hình vô chát room;
-//        String username="idgroup";
-//
-//        Intent callScreen = new Intent(this, CuocGoi_Screen.class);
-//        callScreen.putExtra(SinchServices.CALL_ID,username);
-//        startActivity(callScreen);
-
-//        Intent mainActivity = new Intent(this, Dialer.class);
-//        startActivity(mainActivity);
     }
 
+    //hàm đổ hình vào adapter
     private void initImageBitmaps() {
         mNames.clear();
         Log.d(TAG, "initImageBitmaps: initImageBitmaps");
@@ -361,6 +365,8 @@ public class GroupHoiThoaiActivity extends BaseActivity {
         });
     }
 
+
+
     RecyclerViewAdapter adapter;
 
     private void initRecyclerView() {
@@ -372,18 +378,17 @@ public class GroupHoiThoaiActivity extends BaseActivity {
         adapter = new RecyclerViewAdapter(this, mNames, temp);
         recyclerView.setAdapter(adapter);
     }
-
+    //end hàm đổ hình vào adapter
 
     private void scrollMyListViewToBottom() {
         grplist.post(new Runnable() {
             @Override
             public void run() {
-                // Select the last row so it will scroll into view...
                 grplist.setSelection(groupAdapter.getCount() - 1);
             }
         });
     }
-
+//nút quay lại
     @Override
     public void onBackPressed() {
         if (call != null) call.hangup();
@@ -432,6 +437,7 @@ public class GroupHoiThoaiActivity extends BaseActivity {
         startActivity(new Intent(GroupHoiThoaiActivity.this, MainActivity.class));
         finish();
     }
+    //end nút quay lại
 
     @Override
     protected void onDestroy() {
@@ -477,38 +483,6 @@ public class GroupHoiThoaiActivity extends BaseActivity {
                 mDatabase.child("GroupGoiDien" + idGroup).child(idkey).removeValue();
             }
         }.start();
-
-//        mDatabase.child("GroupGoiDien" + idGroup).addChildEventListener(new ChildEventListener() {
-//            @Override
-//            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-//                String email = snapshot.getValue().toString();
-//                if (email.equals(emailNguoiDung)) {
-//                    String idKey = snapshot.getKey();
-//                    mDatabase.child("GroupGoiDien" + idGroup).child(idKey).removeValue();
-//                }
-//
-//            }
-//
-//            @Override
-//            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-//
-//            }
-//
-//            @Override
-//            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-//
-//            }
-//
-//            @Override
-//            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-//
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//
-//            }
-//        });
         super.onDestroy();
     }
 }
