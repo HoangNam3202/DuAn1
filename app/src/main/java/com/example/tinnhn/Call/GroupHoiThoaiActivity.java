@@ -187,7 +187,7 @@ public class GroupHoiThoaiActivity extends BaseActivity {
 
     private void RefreshAdapterHinhGoiDien() {
         initImageBitmaps();
-        new CountDownTimer(3000, 100) {
+        new CountDownTimer(5000, 100) {
             @Override
             public void onTick(long millisUntilFinished) {
             }
