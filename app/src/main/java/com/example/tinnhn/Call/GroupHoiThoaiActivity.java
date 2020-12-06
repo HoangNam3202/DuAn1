@@ -80,7 +80,7 @@ public class GroupHoiThoaiActivity extends BaseActivity {
         grplist = findViewById(R.id.list_HoithoaiGroup);
         Button send = findViewById(R.id.btbGuiGroup);
         EditText noidungtn = findViewById(R.id.edtNoiDungGroup);
-        endcall=findViewById(R.id.endcall);
+        endcall = findViewById(R.id.endcall);
         sharedPreferences = getSharedPreferences("GhiNhoDangNhap", MODE_PRIVATE);
         editor = sharedPreferences.edit();
         String email = sharedPreferences.getString("tenTaiKhoan", "");
@@ -159,7 +159,7 @@ public class GroupHoiThoaiActivity extends BaseActivity {
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!noidungtn.getText().toString().equals("")){
+                if (!noidungtn.getText().toString().equals("")) {
                     Group group = new Group(email, noidungtn.getText().toString(), j);
                     mDatabase.child("HoiThoaiGroup").push().setValue(group);
                 }
@@ -167,7 +167,7 @@ public class GroupHoiThoaiActivity extends BaseActivity {
                 noidungtn.setText("");
             }
         });
-//end nút gửi tin nhắn
+        //end nút gửi tin nhắn
 
         //nút dừng cuộc gọi thoại:
         endcall.setOnClickListener(new View.OnClickListener() {
@@ -220,18 +220,17 @@ public class GroupHoiThoaiActivity extends BaseActivity {
                         mDatabase.child("GroupGoiDien" + idGroup).child(idkey).removeValue();//xóa key từ FB
                     }
                 }.start();
-                ktraTrung=false;//trả kiểm tra trùng về false để tránh bug không thêm hình
+                ktraTrung = false;//trả kiểm tra trùng về false để tránh bug không thêm hình
             }
         });
 
 
-        //ham do hinh
+        //hàm đổ hình
         initRecyclerView();
         emailNguoiDung = sharedPreferences.getString("tenTaiKhoan", "");
         if (j.equals("Chat Room 1")) idGroup = "Chatroom1";
         if (j.equals("Chat Room 2")) idGroup = "Chatroom2";
         mNames.clear();
-
         mDatabase.child("GroupGoiDien" + idGroup).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
@@ -260,30 +259,28 @@ public class GroupHoiThoaiActivity extends BaseActivity {
             }
         });
         initImageBitmaps();
-
         RefreshAdapterHinhGoiDien();
+        //end hàm do hình
     }
-//end hàm do hình
 
-    //hàm refresh hình trong 3s
+    //hàm refresh hình trong 5s
     private void RefreshAdapterHinhGoiDien() {
         initImageBitmaps();
-        new CountDownTimer(3000, 100) {
+        new CountDownTimer(5000, 100) {
             @Override
             public void onTick(long millisUntilFinished) {
             }
 
             @Override
             public void onFinish() {
-
                 adapter.notifyDataSetChanged();
                 RefreshAdapterHinhGoiDien();
             }
         }.start();
     }
-    //end hàm refresh hình trong 3s
+    //end hàm refresh hình trong 5s
 
-//hàm sự kiện cho menu
+    //hàm sự kiện cho menu
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.callgroup, menu);
@@ -306,14 +303,14 @@ public class GroupHoiThoaiActivity extends BaseActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-//end hàm sự kiện cho menu
+    //end hàm sự kiện cho menu
 
-    //hàm gọi vào voice group+ thêm hình lên FB
+    //hàm gọi vào voice group + thêm hình lên FB
     private void Hamchuyenidgroupquagroupcall() {
         mNames.clear();
         if (!ktraTrung) {
             mDatabase.child("GroupGoiDien" + idGroup).push().setValue(emailNguoiDung);//thêm hình người dùng vào list trên FB
-        }else{
+        } else {
             Toast.makeText(this, "trùng", Toast.LENGTH_SHORT).show();
         }
         new CountDownTimer(1300, 100) {
@@ -366,8 +363,6 @@ public class GroupHoiThoaiActivity extends BaseActivity {
         });
     }
 
-
-
     RecyclerViewAdapter adapter;
 
     private void initRecyclerView() {
@@ -389,7 +384,8 @@ public class GroupHoiThoaiActivity extends BaseActivity {
             }
         });
     }
-//nút quay lại
+
+    //nút quay lại
     @Override
     public void onBackPressed() {
         if (call != null) call.hangup();
@@ -442,6 +438,7 @@ public class GroupHoiThoaiActivity extends BaseActivity {
 
     @Override
     protected void onDestroy() {
+        // hàm thoát gọi voice và xóa email người dùng trên FB
         if (call != null) call.hangup();
         endcall.setEnabled(false);
         mDatabase.child("GroupGoiDien" + idGroup).addChildEventListener(new ChildEventListener() {
@@ -484,6 +481,7 @@ public class GroupHoiThoaiActivity extends BaseActivity {
                 mDatabase.child("GroupGoiDien" + idGroup).child(idkey).removeValue();
             }
         }.start();
+        //end hàm thoát gọi voice và xóa email người dùng trên FB
         super.onDestroy();
     }
 }
