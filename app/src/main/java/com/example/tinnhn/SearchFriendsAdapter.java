@@ -6,12 +6,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.bumptech.glide.Glide;
 import com.example.tinnhn.taikhoan.TaiKhoan;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -67,8 +69,9 @@ public class SearchFriendsAdapter extends BaseAdapter {
 
         TextView tvTenTimKiem = view.findViewById(R.id.tvTenTimKiem);
         TextView btnAddFriend_Tim_Kiem = view.findViewById(R.id.btnAddFriend_Tim_Kiem);
+        ImageView imgAnh_Tim_Kiem = view.findViewById(R.id.imgAnh_Tim_Kiem);
         TaiKhoan searchLisKhoan = searchList.get(i);
-
+        Glide.with(context).asBitmap().load(searchLisKhoan.getHinhDaiDien()).into(imgAnh_Tim_Kiem);
         final ArrayList<TaiKhoan> goiYKetBanArrayList_check = new ArrayList<>();
 
         mDatabase.child("TaiKhoan").addChildEventListener(new ChildEventListener() {
@@ -84,6 +87,7 @@ public class SearchFriendsAdapter extends BaseAdapter {
                         DiaChiUser = goiYKetBanArrayList_check.get(i).diaChi;
                         idUser = goiYKetBanArrayList_check.get(i).idTaiKhoan;
                         hinhUser = goiYKetBanArrayList_check.get(i).hinhDaiDien;
+//                        Glide.with(context).asBitmap().load(hinhUser).into(imgAnh_Tim_Kiem);
                     }
                 }
             }
