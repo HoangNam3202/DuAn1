@@ -63,10 +63,12 @@ public class FriendsAdapter extends BaseAdapter {
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
         TextView tvTenFriends = view.findViewById(R.id.tvTenFriends);
+        TextView tvDiaChiFriend = view.findViewById(R.id.tvDiaChiFriend);
         ImageView imgAnh_Friends = view.findViewById(R.id.imgAnh_Friends);
         Friends friends = friendsList.get(i);
 
         tvTenFriends.setText(friends.tenTaiKhoan);
+        tvDiaChiFriend.setText(friends.diaChi);
         TextView btnUnfriend = view.findViewById(R.id.btnUnfriend);
         btnUnfriend.setOnClickListener(new View.OnClickListener() {
             @Override
