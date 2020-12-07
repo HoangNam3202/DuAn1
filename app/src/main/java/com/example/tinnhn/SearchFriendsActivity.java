@@ -25,6 +25,7 @@ import java.util.ArrayList;
 
 public class SearchFriendsActivity extends AppCompatActivity {
     private DatabaseReference mDatabase;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,7 +37,7 @@ public class SearchFriendsActivity extends AppCompatActivity {
         EditText tv_Search = findViewById(R.id.tv_Search);
         ListView List_TimKiem = findViewById(R.id.List_TimKiem);
         ArrayList<TaiKhoan> TimKiemarrayList = new ArrayList<>();
-        SearchFriendsAdapter searchFriendsAdapter = new SearchFriendsAdapter(SearchFriendsActivity.this,R.layout.list_tim_kiem_item,TimKiemarrayList);
+        SearchFriendsAdapter searchFriendsAdapter = new SearchFriendsAdapter(SearchFriendsActivity.this, R.layout.list_tim_kiem_item, TimKiemarrayList);
         List_TimKiem.setAdapter(searchFriendsAdapter);
         final ArrayList<TaiKhoan> goiYKetBanArrayList_check = new ArrayList<>();
 
@@ -58,10 +59,9 @@ public class SearchFriendsActivity extends AppCompatActivity {
                         goiYKetBanArrayList_check.clear();
                         goiYKetBanArrayList_check.add(taiKhoan);
                         for (int x = 0; x < goiYKetBanArrayList_check.size(); x++) {
-                            if(goiYKetBanArrayList_check.get(x).email.contains(tv_Search.getText().toString())){
-                                TimKiemarrayList.add(new TaiKhoan(goiYKetBanArrayList_check.get(x).idTaiKhoan,goiYKetBanArrayList_check.get(x).tenTaiKhoan,goiYKetBanArrayList_check.get(x).email,
-                                        goiYKetBanArrayList_check.get(x).matKhau,goiYKetBanArrayList_check.get(x).soDienThoai,goiYKetBanArrayList_check.get(x).diaChi,
-                                        goiYKetBanArrayList_check.get(x).hinhDaiDien));
+                            if (goiYKetBanArrayList_check.get(x).email.contains(tv_Search.getText().toString())) {
+                                TimKiemarrayList.add(new TaiKhoan(goiYKetBanArrayList_check.get(x).idTaiKhoan, goiYKetBanArrayList_check.get(x).tenTaiKhoan, goiYKetBanArrayList_check.get(x).email, goiYKetBanArrayList_check.get(x).matKhau, goiYKetBanArrayList_check.get(x).soDienThoai, goiYKetBanArrayList_check.get(x).diaChi, goiYKetBanArrayList_check.get(x).hinhDaiDien));
+
                             }
                         }
                         searchFriendsAdapter.notifyDataSetChanged();
