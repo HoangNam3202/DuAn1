@@ -139,7 +139,7 @@ public class LoginActivity extends BaseActivity {
                     tvEmail.setTextColor(getResources().getColor(R.color.colorSuccess));
                     kiemTra[0] = true;
                 } else {
-                    tvEmail.setText("Email chưa hợp lệ");
+                    tvEmail.setText("Invalid email");
                     tvEmail.setTextColor(getResources().getColor(R.color.colorDanger));
                     kiemTra[0] = false;
                 }
@@ -163,7 +163,7 @@ public class LoginActivity extends BaseActivity {
                     tvMatKhau.setTextColor(getResources().getColor(R.color.colorSuccess));
                     kiemTra[1] = true;
                 } else {
-                    tvMatKhau.setText("Mật khẩu chưa hợp lệ");
+                    tvMatKhau.setText("Invalid password");
                     tvMatKhau.setTextColor(getResources().getColor(R.color.colorDanger));
                     kiemTra[1] = false;
                 }
@@ -215,25 +215,25 @@ public class LoginActivity extends BaseActivity {
                                     finish();
                                 }
                                 if (kiemTraDangNhap == 1) {
-                                    tvEmail.setText("Email sai, kiểm tra lại");
+                                    tvEmail.setText("Wrong email, check again");
                                     tvEmail.setTextColor(getResources().getColor(R.color.colorDanger));
                                 }
                                 if (kiemTraDangNhap == 2) {
-                                    tvMatKhau.setText("Mật khẩu sai, kiểm tra lại");
+                                    tvMatKhau.setText("Wrong password, check again");
                                     tvMatKhau.setTextColor(getResources().getColor(R.color.colorDanger));
                                 }
                                 if (kiemTraDangNhap == -1) {
-                                    Toast.makeText(LoginActivity.this, "Sai tên đăng nhập hoặc mật khẩu", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(LoginActivity.this, "Wrong email or password", Toast.LENGTH_SHORT).show();
                                 }
                             }
                         }, 1300);
                     } else {
                         if (!kiemTra[0]) {
-                            tvEmail.setText("Email chưa hợp lệ");
+                            tvEmail.setText("Invalid email");
                             tvEmail.setTextColor(getResources().getColor(R.color.colorDanger));
                         }
                         if (!kiemTra[1]) {
-                            tvMatKhau.setText("Mật khẩu chưa hợp lệ");
+                            tvMatKhau.setText("Invalid password");
                             tvMatKhau.setTextColor(getResources().getColor(R.color.colorDanger));
                         }
 

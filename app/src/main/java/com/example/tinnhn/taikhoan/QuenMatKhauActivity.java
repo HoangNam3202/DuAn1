@@ -130,7 +130,7 @@ public class QuenMatKhauActivity extends AppCompatActivity {
                     tvNhapLaiMatKhau.setTextColor(getResources().getColor(R.color.colorSuccess));
                     kiemTra[2] = true;
                 } else {
-                    tvNhapLaiMatKhau.setText("Chưa khớp mật khẩu");
+                    tvNhapLaiMatKhau.setText("Password not matched");
                     tvNhapLaiMatKhau.setTextColor(getResources().getColor(R.color.colorDanger));
                     kiemTra[2] = false;
                 }

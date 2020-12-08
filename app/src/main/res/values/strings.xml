@@ -1,13 +1,20 @@
 <resources>
-    <string name="app_name">Tin Nhắn</string>
-    <string name="tin_nhan">Tin Nhắn</string>
-    <string name="danh_sach">Danh Bạ</string>
-    <string name="dang_ky">Đăng Ký</string>
+<!--    <string name="app_name">Tin Nhắn</string>-->
+    <string name="app_name">Message</string>
+<!--    <string name="tin_nhan">Tin Nhắn</string>-->
+    <string name="tin_nhan">Message</string>
+<!--    <string name="danh_sach">Danh Bạ</string>-->
+    <string name="danh_sach">Contacts</string>
+<!--    <string name="dang_ky">Đăng Ký</string>-->
+    <string name="dang_ky">Register</string>
     <string name="group">Groups</string>
-    <string name="ca_nhan">Cá Nhân</string>
+<!--    <string name="ca_nhan">Cá Nhân</string>-->
+    <string name="ca_nhan">Personal</string>
     <string name="ban_be">Friends</string>
     <string name="them_ban_be">People You May Know</string>
-    <string name="err_mat_khau">Mật khẩu từ 6-300 kí tự gồm chữ thường, chữ hoa và số. Không được có kí tự đặc biệt và khoảng trắng</string>
-    <string name="err_ten_tai_khoan">Tên tài khoản ít nhất 6-50 ký tự, không được có dấu, khoảng trắng, kí tự đặc biệt</string>
+    <string name="err_mat_khau">Password between 6-300 characters including lowercase letters, uppercase letters and numbers. There must be no special characters and spaces</string>
+<!--    <string name="err_mat_khau">Mật khẩu từ 6-300 ký tự gồm chữ thường, chữ hoa và số. Không được có ký tự đặc biệt và khoảng trắng</string>-->
+<!--    <string name="err_ten_tai_khoan">Tên tài khoản ít nhất 6-50 ký tự, không được có dấu, không được có khoảng trắng, không được có ký tự đặc biệt</string>-->
+    <string name="err_ten_tai_khoan">Account name must be at least 6-50 characters, must not have accents, must contain no spaces, must not have special characters</string>
 
 </resources>
