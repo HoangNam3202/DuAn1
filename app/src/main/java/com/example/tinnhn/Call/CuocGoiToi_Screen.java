@@ -1,16 +1,27 @@
 package com.example.tinnhn.Call;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.airbnb.lottie.LottieAnimationView;
+import com.bumptech.glide.Glide;
 import com.example.tinnhn.R;
+import com.example.tinnhn.taikhoan.TaiKhoan;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.sinch.android.rtc.PushPair;
 import com.sinch.android.rtc.calling.Call;
 import com.sinch.android.rtc.calling.CallEndCause;
@@ -21,6 +32,8 @@ import java.util.List;
 public class CuocGoiToi_Screen extends BaseActivity {
     private String appIDNguoiGoi;
     private AudioPlayer mAudioPlayer;
+    DatabaseReference databaseReference;
+    private Context mContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +42,7 @@ public class CuocGoiToi_Screen extends BaseActivity {
         //ánh xạ
         LottieAnimationView Nghe = findViewById(R.id.nghedien);
         LottieAnimationView Tuchoi = findViewById(R.id.tuchoi);
+        ImageView ava=findViewById(R.id.avatar);
 
 
         //nhạc chuông
@@ -37,6 +51,36 @@ public class CuocGoiToi_Screen extends BaseActivity {
         //end nhạc chuông
         appIDNguoiGoi = getIntent().getStringExtra(SinchServices.CALL_ID);
         //end ánh xạ
+        databaseReference = FirebaseDatabase.getInstance().getReference();
+        databaseReference.child("TaiKhoan").addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                TaiKhoan taiKhoan = snapshot.getValue(TaiKhoan.class);
+                if (taiKhoan.getEmail().equals(getGiaodiendichvu().getCall(appIDNguoiGoi).getRemoteUserId())) {
+                    Glide.with(getBaseContext()).asBitmap().load(taiKhoan.getHinhDaiDien()).into(ava);
+                }
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
         //nút answer
         Nghe.setOnClickListener(new View.OnClickListener() {

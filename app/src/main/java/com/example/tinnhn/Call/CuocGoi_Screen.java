@@ -13,7 +13,18 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
+import com.airbnb.lottie.LottieAnimationView;
+import com.bumptech.glide.Glide;
 import com.example.tinnhn.R;
+import com.example.tinnhn.taikhoan.TaiKhoan;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.sinch.android.rtc.AudioController;
 import com.sinch.android.rtc.calling.Call;
 import com.sinch.android.rtc.calling.CallEndCause;
@@ -32,17 +43,19 @@ public class CuocGoi_Screen extends BaseActivity {
     static final String CALL_START_TIME = "callStartTime";
     static final String ADDED_LISTENER = "addedListener";
     private Timer appTimer;
-    int check = 1;
+    int check,check2 = 1;
     private UpdateCallDurationTask mDurationTask;
     private String appCallId;
     private long mCallStart = 0;
     private boolean mAddedListener = false;
     private boolean mVideoViewsAdded = false;
     private TextView mCallDuration;
-    private TextView mCallState;
+    private TextView mCallState,calling;
     private TextView mCallerName;
-    ImageButton camoffButton;
-
+    ImageButton camoffButton,mute;
+    DatabaseReference databaseReference;
+    ImageView hinh;
+    LottieAnimationView anima;
     private class UpdateCallDurationTask extends TimerTask {
 
         @Override
@@ -73,15 +86,61 @@ public class CuocGoi_Screen extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cuoc_goi__screen);
+        appCallId = getIntent().getStringExtra(SinchServices.CALL_ID);
+
+
+        databaseReference = FirebaseDatabase.getInstance().getReference();
+        databaseReference.child("TaiKhoan").addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                TaiKhoan taiKhoan = snapshot.getValue(TaiKhoan.class);
+                if (taiKhoan.getEmail().equals(getGiaodiendichvu().getCall(appCallId).getRemoteUserId())) {
+                    Glide.with(getBaseContext()).asBitmap().load(taiKhoan.getHinhDaiDien()).into(hinh);
+                }
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
    //ánh xạ
         mCallDuration = (TextView) findViewById(R.id.callDuration);
         mCallerName = (TextView) findViewById(R.id.remoteUser);
-        mCallState = (TextView) findViewById(R.id.callState);
+        hinh=findViewById(R.id.nghedien);
+        calling=findViewById(R.id.callingtext);
+        anima=findViewById(R.id.animation);
+        mute=findViewById(R.id.mute);
+        //mCallState = (TextView) findViewById(R.id.callState);
         ImageButton endCallButton = (ImageButton) findViewById(R.id.hangupButton);
         ImageButton flipButton = (ImageButton) findViewById(R.id.flipcamera);
        camoffButton = (ImageButton) findViewById(R.id.offcam);
 //end ánh xạ
+
+        anima.setAnimation(R.raw.dots);
+
+        mute.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            mute();
+            }
+        });
 
         //hàm quay camera
         flipButton.setOnClickListener(new View.OnClickListener() {
@@ -143,7 +202,8 @@ public class CuocGoi_Screen extends BaseActivity {
         Call call = getGiaodiendichvu().getCall(appCallId);
         if (call != null) {
             mCallerName.setText(call.getRemoteUserId());
-            mCallState.setText(call.getState().toString());
+           // mCallState.setText(call.getState().toString());
+            calling.setText(call.getState().toString());
             if (call.getState() == CallState.ESTABLISHED) {
                 //when the call is established, addVideoViews configures the video to  be shown
                 addVideoViews();
@@ -160,6 +220,7 @@ public class CuocGoi_Screen extends BaseActivity {
         appTimer = new Timer();
         mDurationTask = new UpdateCallDurationTask();
         appTimer.schedule(mDurationTask, 0, 500);
+
         updateUI();
     }
     //end hàm bắt đầutính time,tắt camera view
@@ -231,6 +292,23 @@ public class CuocGoi_Screen extends BaseActivity {
         }
     }
     //end hàm thêm video view
+    //hàm tắt tiếng
+    private  void mute(){
+        if(check2==1){
+            mute.setImageResource(R.drawable.ic_volume);
+            AudioController audioController = getGiaodiendichvu().getAudioController();
+            audioController.mute();
+            check2=2;
+        }else if(check2==2){
+            mute.setImageResource(R.drawable.ic_mute);
+            AudioController audioController = getGiaodiendichvu().getAudioController();
+            audioController.unmute();
+            check2=1;
+        }
+
+    }
+    //end hàm tắt tiếng
+
 
     //chức năng quay cam
     private void flipcam() {
@@ -297,7 +375,8 @@ public class CuocGoi_Screen extends BaseActivity {
         public void onCallEstablished(Call call) {
             Log.d(TAG, "Call established");
             // mAudioPlayer.stopProgressTone();
-            mCallState.setText(call.getState().toString());
+            //mCallState.setText(call.getState().toString());
+            calling.setText(call.getState().toString());
             setVolumeControlStream(AudioManager.STREAM_VOICE_CALL);
             AudioController audioController = getGiaodiendichvu().getAudioController();
             audioController.enableSpeaker();
@@ -308,6 +387,7 @@ public class CuocGoi_Screen extends BaseActivity {
         @Override
         public void onCallProgressing(Call call) {
             Log.d(TAG, "Call progressing");
+
             //mAudioPlayer.playProgressTone();
         }
 
