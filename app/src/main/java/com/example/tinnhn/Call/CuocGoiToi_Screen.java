@@ -29,6 +29,8 @@ public class CuocGoiToi_Screen extends BaseActivity {
         //ánh xạ
         LottieAnimationView Nghe = findViewById(R.id.nghedien);
         LottieAnimationView Tuchoi = findViewById(R.id.tuchoi);
+
+
         //nhạc chuông
         mAudioPlayer = new AudioPlayer(this);
         mAudioPlayer.playRingtone();

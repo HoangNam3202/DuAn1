@@ -30,24 +30,19 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     String TAG = "RecyclerViewAdapter";
     private ArrayList<String> mNames = new ArrayList<>();
     private String tenNhomChat;
-
     private Context mContext;
-
     public RecyclerViewAdapter(Context context, ArrayList<String> mNames, String tenNhomChat) {
         this.mNames = mNames;
         this.mContext = context;
         this.tenNhomChat = tenNhomChat;
     }
-
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_listitem, parent, false);
         return new ViewHolder(view);
     }
-
     DatabaseReference databaseReference;
-
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Log.d(TAG, "onCreateViewHolder: called.");
