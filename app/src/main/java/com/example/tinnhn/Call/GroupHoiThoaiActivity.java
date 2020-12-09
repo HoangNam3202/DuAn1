@@ -291,16 +291,16 @@ public class GroupHoiThoaiActivity extends BaseActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.groupchat) {//nút gọi cho group
-
-            if (getGiaodiendichvu().isStarted()) {
-                endcall.setEnabled(true);
-                endcall.setImageResource(R.drawable.ic_call);
-                Hamchuyenidgroupquagroupcall();
-            } else {
-                Toast.makeText(this, "dịch vụ chưa chạy", Toast.LENGTH_SHORT).show();
-            }
-        }
+//        if (id == R.id.groupchat) {//nút gọi cho group
+//
+//            if (getGiaodiendichvu().isStarted()) {
+//                endcall.setEnabled(true);
+//                endcall.setImageResource(R.drawable.ic_call);
+//                Hamchuyenidgroupquagroupcall();
+//            } else {
+//                Toast.makeText(this, "dịch vụ chưa chạy", Toast.LENGTH_SHORT).show();
+//            }
+//        }
         return super.onOptionsItemSelected(item);
     }
     //end hàm sự kiện cho menu
