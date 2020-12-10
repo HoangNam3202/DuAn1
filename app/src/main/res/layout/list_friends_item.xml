@@ -42,7 +42,7 @@
         android:textSize="16dp" />
     <TextView
         android:id="@+id/tvDiaChiFriend"
-        android:layout_width="260dp"
+        android:layout_width="160dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvTenFriends"
         android:layout_marginStart="19dp"
@@ -55,15 +55,28 @@
         android:drawableStart="@drawable/ic_baseline_location_on_24"
         android:drawablePadding="5dp"
         android:textSize="12dp" />
+
+    <TextView
+        android:id="@+id/tvTrangThai"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvTenFriends"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="0dp"
+        android:drawablePadding="5dp"
+        android:text="ⓘ  Active now"
+        android:textColor="#0BDE9B"
+        android:textSize="12dp" />
     <TextView
         android:id="@+id/btnUnfriend"
         android:layout_width="match_parent"
         android:layout_height="35dp"
-        android:layout_below="@+id/card_Friends"
+        android:layout_below="@+id/tvDiaChiFriend"
         android:layout_alignParentStart="true"
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="22dp"
         android:background="@drawable/gradient_btn_refuse"
         android:gravity="center"
         android:text="Unfriend"

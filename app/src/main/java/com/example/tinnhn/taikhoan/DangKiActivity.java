@@ -26,6 +26,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.tinnhn.R;
+import com.example.tinnhn.TrangThai;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -274,6 +275,11 @@ public class DangKiActivity extends AppCompatActivity {
                                 }
                                 TaiKhoan taiKhoan = new TaiKhoan(RandomString(17), tenTaiKhoan, email, matKhau, soDienThoai, tinhThanhDaChon, urlHinhDaiDien);
                                 dbFirebase.ThemTaiKhoan(taiKhoan);
+
+                                DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+                                TrangThai trangThai = new TrangThai("null",email,"Not Active");
+                                mDatabase.child("TrangThai").push().setValue(trangThai);
+
                                 Toast.makeText(DangKiActivity.this, "Đăng ký thành công: ", Toast.LENGTH_SHORT).show();
                                 finish();
                             } else {

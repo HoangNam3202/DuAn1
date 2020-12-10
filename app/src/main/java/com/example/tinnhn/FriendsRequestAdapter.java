@@ -2,6 +2,7 @@ package com.example.tinnhn;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -129,7 +130,7 @@ public class FriendsRequestAdapter extends BaseAdapter {
                         AlertDialog.Builder builder = new AlertDialog.Builder(context);
                         builder.setMessage("Friended");
                         builder.create().show();
-                        Toast.makeText(context, "Friended", Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(context, "Friended", Toast.LENGTH_SHORT).show();
                         check_friended = true;
                     }
                 }
