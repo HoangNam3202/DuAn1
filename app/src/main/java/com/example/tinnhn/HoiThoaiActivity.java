@@ -288,10 +288,10 @@ public class HoiThoaiActivity extends BaseActivity implements SinchServices.Star
         });
     }
 
-    @Override
-    public void onBackPressed() {
-        Intent intent = new Intent(HoiThoaiActivity.this, MainActivity.class);
-        startActivity(intent);
-        finish();
-    }
+//    @Override
+//    public void onBackPressed() {
+//        Intent intent = new Intent(HoiThoaiActivity.this, MainActivity.class);
+//        startActivity(intent);
+//        finish();
+//    }
 }
