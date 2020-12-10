@@ -57,6 +57,7 @@ public class CuocGoi_Screen extends BaseActivity {
     DatabaseReference databaseReference;
     ImageView hinh;
     LottieAnimationView anima;
+    AudioManager audioManager;
     private class UpdateCallDurationTask extends TimerTask {
 
         @Override
@@ -88,7 +89,9 @@ public class CuocGoi_Screen extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cuoc_goi__screen);
         appCallId = getIntent().getStringExtra(SinchServices.CALL_ID);
-
+        audioManager = (AudioManager) getApplicationContext().getSystemService(Context.AUDIO_SERVICE);
+        audioManager.setMode(AudioManager.MODE_IN_CALL);
+        audioManager.setMicrophoneMute(false);
 
         databaseReference = FirebaseDatabase.getInstance().getReference();
         databaseReference.child("TaiKhoan").addChildEventListener(new ChildEventListener() {
@@ -132,6 +135,7 @@ public class CuocGoi_Screen extends BaseActivity {
         ImageButton endCallButton = (ImageButton) findViewById(R.id.hangupButton);
         ImageButton flipButton = (ImageButton) findViewById(R.id.flipcamera);
        camoffButton = (ImageButton) findViewById(R.id.offcam);
+
 //end ánh xạ
 
         anima.setAnimation(R.raw.dots);
@@ -295,19 +299,10 @@ public class CuocGoi_Screen extends BaseActivity {
     //end hàm thêm video view
     //hàm tắt tiếng
     private  void mute(){
-        AudioManager audioManager = (AudioManager) getApplicationContext().getSystemService(Context.AUDIO_SERVICE);
-        audioManager.setMode(AudioManager.MODE_IN_CALL);
+
         if(check2==1){
             mute.setImageResource(R.drawable.ic_volume);
-//            AudioController audioController = getGiaodiendichvu().getAudioController();
-//            audioController.mute();
-
-
                 audioManager.setMicrophoneMute(true);
-
-
-
-
             check2=2;
         }else if(check2==2){
             mute.setImageResource(R.drawable.ic_mute);

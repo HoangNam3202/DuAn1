@@ -8,8 +8,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.AudioManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -71,6 +73,7 @@ public class GroupHoiThoaiActivity extends BaseActivity {
     ImageButton endcall;
     private AudioPlayer mAudioPlayer,mAudioPlayer2;
     int checkvoice=1;
+    AudioManager audioManager;
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
@@ -88,6 +91,10 @@ public class GroupHoiThoaiActivity extends BaseActivity {
         String email = sharedPreferences.getString("tenTaiKhoan", "");
         mAudioPlayer = new AudioPlayer(this);
         mAudioPlayer2 = new AudioPlayer(this);
+
+        audioManager = (AudioManager) getApplicationContext().getSystemService(Context.AUDIO_SERVICE);
+        audioManager.setMode(AudioManager.MODE_IN_CALL);
+        audioManager.setMicrophoneMute(false);
         //end ánh xạ
 
         //đưa list view xuống cuối
