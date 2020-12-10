@@ -239,7 +239,7 @@ public class GroupHoiThoaiActivity extends BaseActivity {
                         @Override
                         public void onFinish() {
                             mDatabase.child("GroupGoiDien" + idGroup).child(idkey).removeValue();//xóa key từ FB
-                            mAudioPlayer2.playouttone();
+
                         }
                     }.start();
                     ktraTrung = false;//trả kiểm tra trùng về false để tránh bug không thêm hình
@@ -261,6 +261,7 @@ public class GroupHoiThoaiActivity extends BaseActivity {
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 String email = snapshot.getValue().toString();
                 if (email.equals(emailNguoiDung)) ktraTrung = true;//kiểm tra trùng
+                mAudioPlayer.playjointone();
             }
 
             @Override
@@ -270,7 +271,7 @@ public class GroupHoiThoaiActivity extends BaseActivity {
 
             @Override
             public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-
+                mAudioPlayer2.playouttone();
             }
 
             @Override
@@ -335,7 +336,7 @@ public class GroupHoiThoaiActivity extends BaseActivity {
         mNames.clear();
         if (!ktraTrung) {
             mDatabase.child("GroupGoiDien" + idGroup).push().setValue(emailNguoiDung);//thêm hình người dùng vào list trên FB
-            mAudioPlayer.playjointone();
+
         } else {
             Toast.makeText(this, "trùng", Toast.LENGTH_SHORT).show();
         }
