@@ -17,6 +17,7 @@ import androidx.fragment.app.Fragment;
 import com.bumptech.glide.Glide;
 import com.example.tinnhn.MainActivity;
 import com.example.tinnhn.R;
+import com.example.tinnhn.TrangThai;
 import com.example.tinnhn.taikhoan.DownloadImageTask;
 import com.example.tinnhn.taikhoan.LoginActivity;
 import com.example.tinnhn.taikhoan.QuenMatKhauActivity;
@@ -96,6 +97,7 @@ public class SettingFragment extends Fragment {
             public void onClick(View view) {
                 editor.remove("tenTaiKhoan");
                 editor.commit();
+                HamTrangThai(EmailUser);
                 Intent intent = new Intent(getContext(), LoginActivity.class);
                 startActivity(intent);
                 getActivity().finish();
@@ -110,5 +112,39 @@ public class SettingFragment extends Fragment {
             }
         });
         return mRoot;
+    }
+    //dang xuat
+    public void HamTrangThai(String email){
+        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+        mDatabase.child("TrangThai").addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                TrangThai trangThai1 = snapshot.getValue(TrangThai.class);
+                if (trangThai1.Email_user.equals(email)) {
+                    String key = snapshot.getKey();
+                    mDatabase.child("TrangThai").child(key).child("TrangThai").setValue("Not Active");
+                }
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 }

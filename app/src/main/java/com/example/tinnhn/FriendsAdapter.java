@@ -3,6 +3,7 @@ package com.example.tinnhn;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -64,6 +65,7 @@ public class FriendsAdapter extends BaseAdapter {
 
         TextView tvTenFriends = view.findViewById(R.id.tvTenFriends);
         TextView tvDiaChiFriend = view.findViewById(R.id.tvDiaChiFriend);
+        TextView tvTrangThai = view.findViewById(R.id.tvTrangThai);
         ImageView imgAnh_Friends = view.findViewById(R.id.imgAnh_Friends);
         Friends friends = friendsList.get(i);
 
@@ -95,6 +97,42 @@ public class FriendsAdapter extends BaseAdapter {
                 });
 
                 builder.create().show();
+            }
+        });
+
+        mDatabase.child("TrangThai").addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                TrangThai trangThai = snapshot.getValue(TrangThai.class);
+                if (trangThai.Email_user.equals(friends.email)){
+                    tvTrangThai.setText("ⓘ  "+trangThai.TrangThai);
+                    if(trangThai.TrangThai.equals("Active Now")){
+                        tvTrangThai.setTextColor(Color.parseColor("#0BDE9B"));
+                    }
+                    else {
+                        tvTrangThai.setTextColor(Color.parseColor("#DE0B4E"));
+                    }
+                }
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
             }
         });
         //

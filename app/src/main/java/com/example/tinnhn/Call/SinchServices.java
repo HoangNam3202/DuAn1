@@ -335,9 +335,21 @@ public class SinchServices extends Service {
                             .setContentText(cVu.message_User)
                             .setContentIntent(pendingIntent)
                             .setAutoCancel(true);
-                    builder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALL));
                     NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getBaseContext());
                     notificationManager.notify(11, builder.build());
+                    AudioPlayer mAudioPlayer = new AudioPlayer(getBaseContext());
+                    mAudioPlayer.playRingtone();
+                    try
+                    {
+                        Thread.sleep(1000);
+                    }
+                    catch(InterruptedException ex)
+                    {
+                        Thread.currentThread().interrupt();
+                    }
+                    finally {
+                        mAudioPlayer.stopRingtone();
+                    }
                     String key = snapshot.getKey();
                     mDatabase.child("ThongBao").child(key).removeValue();
                 }
