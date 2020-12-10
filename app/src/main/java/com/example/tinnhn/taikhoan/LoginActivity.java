@@ -23,14 +23,25 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import com.example.tinnhn.Call.Actions;
 import com.example.tinnhn.Call.BaseActivity;
 import com.example.tinnhn.Call.GroupHoiThoaiActivity;
 import com.example.tinnhn.Call.SinchServices;
 import com.example.tinnhn.MainActivity;
 import com.example.tinnhn.R;
+import com.example.tinnhn.TrangThai;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.ArrayList;
 
 public class LoginActivity extends BaseActivity {
     public static int kiemTraDangNhap;
@@ -211,6 +222,7 @@ public class LoginActivity extends BaseActivity {
                                     editor.putString("urlHinhDaiDien", urlHinhDaiDien);
                                     editor.commit();
                                     getGiaodiendichvu().startClient(email);
+                                    HamTrangThai(email);
                                     startActivity(new Intent(LoginActivity.this, MainActivity.class));
                                     finish();
                                 }
@@ -249,8 +261,40 @@ public class LoginActivity extends BaseActivity {
         Intent intent = new Intent(LoginActivity.this, SinchServices.class);
         intent.setAction(actions.name());
         startService(intent);
+    }
 
+    public void HamTrangThai(String email){
+        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+        mDatabase.child("TrangThai").addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                TrangThai trangThai1 = snapshot.getValue(TrangThai.class);
+                if (trangThai1.Email_user.equals(email)) {
+                    String key = snapshot.getKey();
+                    mDatabase.child("TrangThai").child(key).child("TrangThai").setValue("Active Now");
+                }
+            }
 
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     @Override

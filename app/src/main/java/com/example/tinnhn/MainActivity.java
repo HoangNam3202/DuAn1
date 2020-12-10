@@ -20,6 +20,8 @@ import com.example.tinnhn.taikhoan.LoginActivity;
 import com.example.tinnhn.taikhoan.MyReceiver;
 import com.google.android.material.tabs.TabLayout;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.viewpager.widget.ViewPager;
 
@@ -29,6 +31,11 @@ import android.view.MenuItem;
 import android.view.WindowManager;
 
 import com.example.tinnhn.ui.main.SectionsPagerAdapter;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
@@ -120,6 +127,10 @@ public class MainActivity extends BaseActivity {
             });
             builder.show();
         }
+        else {
+            String trangthai = "Active Now";
+            HamTrangThai(trangthai);
+        }
     }
 
     private void actionOnService(Actions actions) {
@@ -134,6 +145,8 @@ public class MainActivity extends BaseActivity {
     @Override
     public void onDestroy() {
         actionOnService(Actions.START);
+        String trangthai = "Not Active";
+        HamTrangThai(trangthai);
         super.onDestroy();
     }
     @Override
@@ -180,5 +193,44 @@ public class MainActivity extends BaseActivity {
         editor.remove("tenTaiKhoan");
         editor.commit();
     }
+    //dang xuat
+    public void HamTrangThai(String trangthai){
+        SharedPreferences sharedPreferences;
+        SharedPreferences.Editor editor;
+        sharedPreferences = getSharedPreferences("GhiNhoDangNhap", MODE_PRIVATE);
+        editor = sharedPreferences.edit();
+        String EmailUser = sharedPreferences.getString("tenTaiKhoan", "");
 
+        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+        mDatabase.child("TrangThai").addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                TrangThai trangThai1 = snapshot.getValue(TrangThai.class);
+                if (trangThai1.Email_user.equals(EmailUser)) {
+                    String key = snapshot.getKey();
+                    mDatabase.child("TrangThai").child(key).child("TrangThai").setValue(trangthai);
+                }
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
 }
