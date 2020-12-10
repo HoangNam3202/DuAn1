@@ -1,5 +1,6 @@
 package com.example.tinnhn.Call;
 
+import android.content.Context;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.util.Log;
@@ -294,15 +295,25 @@ public class CuocGoi_Screen extends BaseActivity {
     //end hàm thêm video view
     //hàm tắt tiếng
     private  void mute(){
+        AudioManager audioManager = (AudioManager) getApplicationContext().getSystemService(Context.AUDIO_SERVICE);
+        audioManager.setMode(AudioManager.MODE_IN_CALL);
         if(check2==1){
             mute.setImageResource(R.drawable.ic_volume);
-            AudioController audioController = getGiaodiendichvu().getAudioController();
-            audioController.mute();
+//            AudioController audioController = getGiaodiendichvu().getAudioController();
+//            audioController.mute();
+
+
+                audioManager.setMicrophoneMute(true);
+
+
+
+
             check2=2;
         }else if(check2==2){
             mute.setImageResource(R.drawable.ic_mute);
-            AudioController audioController = getGiaodiendichvu().getAudioController();
-            audioController.unmute();
+//            AudioController audioController = getGiaodiendichvu().getAudioController();
+//            audioController.unmute();
+            audioManager.setMicrophoneMute(false);
             check2=1;
         }
 
@@ -379,7 +390,7 @@ public class CuocGoi_Screen extends BaseActivity {
             calling.setText(call.getState().toString());
             setVolumeControlStream(AudioManager.STREAM_VOICE_CALL);
             AudioController audioController = getGiaodiendichvu().getAudioController();
-            audioController.enableSpeaker();
+            //audioController.enableSpeaker();
             mCallStart = System.currentTimeMillis();
             Log.d(TAG, "Call offered video: " + call.getDetails().isVideoOffered());
         }

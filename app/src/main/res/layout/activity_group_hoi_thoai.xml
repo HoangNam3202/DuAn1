@@ -46,8 +46,6 @@
                         android:background="@drawable/roundcorner3"
                         android:src="@drawable/ic_call" />
             </RelativeLayout>
-
-
         </LinearLayout>
 
 
