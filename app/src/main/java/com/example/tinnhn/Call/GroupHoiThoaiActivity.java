@@ -69,6 +69,7 @@ public class GroupHoiThoaiActivity extends BaseActivity {
     private String idkey = "";
     private Call call;
     ImageButton endcall;
+    private AudioPlayer mAudioPlayer,mAudioPlayer2;
     int checkvoice=1;
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -85,6 +86,8 @@ public class GroupHoiThoaiActivity extends BaseActivity {
         sharedPreferences = getSharedPreferences("GhiNhoDangNhap", MODE_PRIVATE);
         editor = sharedPreferences.edit();
         String email = sharedPreferences.getString("tenTaiKhoan", "");
+        mAudioPlayer = new AudioPlayer(this);
+        mAudioPlayer2 = new AudioPlayer(this);
         //end ánh xạ
 
         //đưa list view xuống cuối
@@ -176,6 +179,8 @@ public class GroupHoiThoaiActivity extends BaseActivity {
 
                 if(checkvoice==1){
                     //vao room
+                   // mAudioPlayer.stopout();
+
                     if (getGiaodiendichvu().isStarted()) {
                 endcall.setImageResource(R.drawable.ic_call_end2);
                 endcall.setBackgroundResource(R.drawable.roundcorner2);
@@ -185,6 +190,8 @@ public class GroupHoiThoaiActivity extends BaseActivity {
             }
                     checkvoice=2;
                 }else if(checkvoice==2){
+//                    mAudioPlayer.stopin();
+
                     //out room chat
                     endcall.setBackgroundResource(R.drawable.roundcorner3);
                     endcall.setImageResource(R.drawable.ic_call);//đổi icon
@@ -232,6 +239,7 @@ public class GroupHoiThoaiActivity extends BaseActivity {
                         @Override
                         public void onFinish() {
                             mDatabase.child("GroupGoiDien" + idGroup).child(idkey).removeValue();//xóa key từ FB
+                            mAudioPlayer2.playouttone();
                         }
                     }.start();
                     ktraTrung = false;//trả kiểm tra trùng về false để tránh bug không thêm hình
@@ -327,6 +335,7 @@ public class GroupHoiThoaiActivity extends BaseActivity {
         mNames.clear();
         if (!ktraTrung) {
             mDatabase.child("GroupGoiDien" + idGroup).push().setValue(emailNguoiDung);//thêm hình người dùng vào list trên FB
+            mAudioPlayer.playjointone();
         } else {
             Toast.makeText(this, "trùng", Toast.LENGTH_SHORT).show();
         }
