@@ -43,8 +43,8 @@
                         android:id="@+id/endcall"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
-                        android:background="@drawable/roundcorner2"
-                        android:src="@drawable/ic_call_end2" />
+                        android:background="@drawable/roundcorner3"
+                        android:src="@drawable/ic_call" />
             </RelativeLayout>
 
 

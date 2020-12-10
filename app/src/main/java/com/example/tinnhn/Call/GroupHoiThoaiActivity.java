@@ -69,6 +69,7 @@ public class GroupHoiThoaiActivity extends BaseActivity {
     private String idkey = "";
     private Call call;
     ImageButton endcall;
+    int checkvoice=1;
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
@@ -84,7 +85,6 @@ public class GroupHoiThoaiActivity extends BaseActivity {
         sharedPreferences = getSharedPreferences("GhiNhoDangNhap", MODE_PRIVATE);
         editor = sharedPreferences.edit();
         String email = sharedPreferences.getString("tenTaiKhoan", "");
-        endcall.setEnabled(false);
         //end ánh xạ
 
         //đưa list view xuống cuối
@@ -173,54 +173,71 @@ public class GroupHoiThoaiActivity extends BaseActivity {
         endcall.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (call != null) call.hangup();//dừng cuộc gọi từ Sinch
-                endcall.setEnabled(false);//tắt nút dừng
-                endcall.setImageResource(R.drawable.ic_call_end2);//đổi icon
 
-                //hàm lấy key từ FB để xóa
-                mDatabase.child("GroupGoiDien" + idGroup).addChildEventListener(new ChildEventListener() {
-                    @Override
-                    public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                        String email = snapshot.getValue().toString();
-                        if (email.equals(emailNguoiDung)) {
-                            idkey = snapshot.getKey();
+                if(checkvoice==1){
+                    //vao room
+                    if (getGiaodiendichvu().isStarted()) {
+                endcall.setImageResource(R.drawable.ic_call_end2);
+                endcall.setBackgroundResource(R.drawable.roundcorner2);
+                Hamchuyenidgroupquagroupcall();
+            } else {
+                        Toast.makeText(GroupHoiThoaiActivity.this, "Dịch vụ chưa chạy", Toast.LENGTH_SHORT).show();
+            }
+                    checkvoice=2;
+                }else if(checkvoice==2){
+                    //out room chat
+                    endcall.setBackgroundResource(R.drawable.roundcorner3);
+                    endcall.setImageResource(R.drawable.ic_call);//đổi icon
+                    if (call != null) call.hangup();//dừng cuộc gọi từ Sinch
+
+
+                    //hàm lấy key từ FB để xóa
+                    mDatabase.child("GroupGoiDien" + idGroup).addChildEventListener(new ChildEventListener() {
+                        @Override
+                        public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                            String email = snapshot.getValue().toString();
+                            if (email.equals(emailNguoiDung)) {
+                                idkey = snapshot.getKey();
+                            }
+
                         }
 
-                    }
+                        @Override
+                        public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
 
-                    @Override
-                    public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                        }
 
-                    }
+                        @Override
+                        public void onChildRemoved(@NonNull DataSnapshot snapshot) {
 
-                    @Override
-                    public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+                        }
 
-                    }
+                        @Override
+                        public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
 
-                    @Override
-                    public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                        }
 
-                    }
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
+                        }
+                    });
 
-                    }
-                });
+                    //hàm countdown
+                    new CountDownTimer(1300, 100) {
+                        @Override
+                        public void onTick(long millisUntilFinished) {
+                        }
 
-                //hàm countdown
-                new CountDownTimer(1300, 100) {
-                    @Override
-                    public void onTick(long millisUntilFinished) {
-                    }
+                        @Override
+                        public void onFinish() {
+                            mDatabase.child("GroupGoiDien" + idGroup).child(idkey).removeValue();//xóa key từ FB
+                        }
+                    }.start();
+                    ktraTrung = false;//trả kiểm tra trùng về false để tránh bug không thêm hình
+                    checkvoice=1;
+                }
 
-                    @Override
-                    public void onFinish() {
-                        mDatabase.child("GroupGoiDien" + idGroup).child(idkey).removeValue();//xóa key từ FB
-                    }
-                }.start();
-                ktraTrung = false;//trả kiểm tra trùng về false để tránh bug không thêm hình
             }
         });
 
@@ -288,21 +305,21 @@ public class GroupHoiThoaiActivity extends BaseActivity {
     }
 
     // handle button activities
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.groupchat) {//nút gọi cho group
-
-            if (getGiaodiendichvu().isStarted()) {
-                endcall.setEnabled(true);
-                endcall.setImageResource(R.drawable.ic_call);
-                Hamchuyenidgroupquagroupcall();
-            } else {
-                Toast.makeText(this, "dịch vụ chưa chạy", Toast.LENGTH_SHORT).show();
-            }
-        }
-        return super.onOptionsItemSelected(item);
-    }
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        int id = item.getItemId();
+//        if (id == R.id.groupchat) {//nút gọi cho group
+//
+//            if (getGiaodiendichvu().isStarted()) {
+//                endcall.setEnabled(true);
+//                endcall.setImageResource(R.drawable.ic_call);
+//                Hamchuyenidgroupquagroupcall();
+//            } else {
+//                Toast.makeText(this, "dịch vụ chưa chạy", Toast.LENGTH_SHORT).show();
+//            }
+//        }
+//        return super.onOptionsItemSelected(item);
+//    }
     //end hàm sự kiện cho menu
 
     //hàm gọi vào voice group + thêm hình lên FB
@@ -388,8 +405,10 @@ public class GroupHoiThoaiActivity extends BaseActivity {
     //nút quay lại
     @Override
     public void onBackPressed() {
+        endcall.setBackgroundResource(R.drawable.roundcorner3);
+        endcall.setImageResource(R.drawable.ic_call);//đổi icon
+        checkvoice=1;
         if (call != null) call.hangup();
-        endcall.setEnabled(false);
         mDatabase.child("GroupGoiDien" + idGroup).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
@@ -439,8 +458,10 @@ public class GroupHoiThoaiActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         // hàm thoát gọi voice và xóa email người dùng trên FB
+        endcall.setBackgroundResource(R.drawable.roundcorner3);
+        endcall.setImageResource(R.drawable.ic_call);//đổi icon
+        checkvoice=1;
         if (call != null) call.hangup();
-        endcall.setEnabled(false);
         mDatabase.child("GroupGoiDien" + idGroup).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
