@@ -164,6 +164,7 @@ public class FriendChildFragment extends Fragment {
     public static void GoiLoiMoiKetBan() {
         mDatabase = FirebaseDatabase.getInstance().getReference();
         arrFriendsRequests.clear();
+        friendsAdapter.notifyDataSetChanged();
         mDatabase.child("LoiMoiKetBan").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {

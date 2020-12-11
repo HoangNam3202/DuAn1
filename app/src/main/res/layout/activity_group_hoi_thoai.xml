@@ -68,12 +68,13 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="8"
-            android:hint="Nội dung..."
+            android:hint="Comment..."
             android:textColorHint="@color/colorWhite"
             android:textColor="@color/colorWhite"
             android:lines="1"
             android:maxLines="1"
-            android:padding="2dp" />
+            android:background="@null"
+            android:padding="10dp" />
 
         <Button
             android:id="@+id/btbGuiGroup"
