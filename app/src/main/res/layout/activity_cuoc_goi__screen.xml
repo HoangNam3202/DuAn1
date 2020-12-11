@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-   android:background="@drawable/hinhnen_register">
+    xmlns:card_view="http://schemas.android.com/tools"
+    android:background="@drawable/hinhnen_register">
     <LinearLayout
         android:id="@+id/textxx"
         android:layout_width="match_parent"
@@ -48,14 +49,14 @@
             android:layout_width="300dp"
             android:layout_height="300dp"
             android:layout_centerInParent="true"
-            app:cardCornerRadius="1000dp"
+            card_view:cardCornerRadius="1000dp"
             >
             <androidx.cardview.widget.CardView
                 android:layout_width="295dp"
                 android:layout_height="295dp"
                 android:background="@color/colorBlack"
                 android:layout_gravity="center"
-                app:cardCornerRadius="1000dp"
+                card_view:cardCornerRadius="1000dp"
                 >
 
                 <ImageView

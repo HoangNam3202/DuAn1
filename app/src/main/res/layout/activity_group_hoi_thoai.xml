@@ -21,6 +21,7 @@
                 android:layout_gravity="center"
                 app:cardCornerRadius="100dp"
                 app:cardBackgroundColor="@android:color/transparent"
+
                 app:cardElevation="0.5dp"
                 >
                 <androidx.recyclerview.widget.RecyclerView
