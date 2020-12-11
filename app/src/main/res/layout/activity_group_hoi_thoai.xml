@@ -14,18 +14,17 @@
             android:layout_weight="1"
             android:orientation="horizontal"
             android:weightSum="6">
-            <androidx.cardview.widget.CardView
+
+            <androidx.cardview.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/card_Message"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="4.9"
-                android:layout_gravity="center"
-                app:cardCornerRadius="100dp"
-                app:cardBackgroundColor="@android:color/transparent"
-                app:cardElevation="0.5dp"
-                >
+                android:layout_weight="5"
+                card_view:cardCornerRadius="26dp">
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerView"
                     android:layout_width="343dp"
+                    android:background="#82aa92"
                     android:layout_height="match_parent" />
             </androidx.cardview.widget.CardView>
 
@@ -69,12 +68,13 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="8"
-            android:hint="Nội dung..."
+            android:hint="Comment..."
             android:textColorHint="@color/colorWhite"
             android:textColor="@color/colorWhite"
             android:lines="1"
             android:maxLines="1"
-            android:padding="2dp" />
+            android:background="@null"
+            android:padding="10dp" />
 
         <Button
             android:id="@+id/btbGuiGroup"

@@ -30,6 +30,7 @@ import java.util.List;
 import static android.content.Context.MODE_PRIVATE;
 import static com.example.tinnhn.ui.main.FriendChildFragment.GoiLoiMoiKetBan;
 import static com.example.tinnhn.ui.main.FriendChildFragment.arrFriends;
+import static com.example.tinnhn.ui.main.FriendChildFragment.friendsAdapter;
 
 public class FriendsRequestAdapter extends BaseAdapter {
     private Context context;
@@ -140,6 +141,8 @@ public class FriendsRequestAdapter extends BaseAdapter {
                     Friends friends1 = new Friends(null, idUser, TenUser, EmailUser, DiaChiUser, hinhUser, friendsRequest.email);
                     mDatabase.child("BanBe").push().setValue(friends1);
                     mDatabase.child("LoiMoiKetBan").child(friendsRequest.idKey).removeValue();
+                    arrFriends.clear();
+                    friendsAdapter.notifyDataSetChanged();
                     GoiLoiMoiKetBan();
                 }
             }

@@ -44,7 +44,7 @@ public class FriendChildFragment extends Fragment {
     public static ArrayList<Friends> arrFriends;
     public static ArrayList<Friends> arrFriends_check;
     public static ArrayList<Friends> arrFriends_check1;
-    static FriendsAdapter friendsAdapter;
+    public static FriendsAdapter friendsAdapter;
     static ArrayList<FriendsRequest> arrFriendsRequests;
     static ArrayList<FriendsRequest> arrFriendsRequests_check;
     static String EmailUser;
@@ -140,6 +140,8 @@ public class FriendChildFragment extends Fragment {
 
             @Override
             public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                arrFriends.clear();
+                friendsAdapter.notifyDataSetChanged();
                 GoiDanhSachBanBe();
             }
 
