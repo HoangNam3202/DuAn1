@@ -27,6 +27,7 @@ import com.example.tinnhn.FriendsRequestAdapter;
 import com.example.tinnhn.HoiThoaiActivity;
 import com.example.tinnhn.MainActivity;
 import com.example.tinnhn.R;
+import com.example.tinnhn.TrangThai;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -142,9 +143,14 @@ public class FriendChildFragment extends Fragment {
 
             @Override
             public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                arrFriends.clear();
-                friendsAdapter.notifyDataSetChanged();
-                GoiDanhSachBanBe();
+                TrangThai trangThai123 = snapshot.getValue(TrangThai.class);
+                for(int i = 0 ; i < arrFriends.size(); i++){
+                    if(arrFriends.get(i).email.equals(trangThai123.Email_user)){
+                        arrFriends.clear();
+                        friendsAdapter.notifyDataSetChanged();
+                        GoiDanhSachBanBe();
+                    }
+                }
             }
 
             @Override
@@ -244,7 +250,6 @@ public class FriendChildFragment extends Fragment {
                 Friends friends = snapshot.getValue(Friends.class);
                 if(friends.EmailUser.equals(EmailUser)){
                     GoiDanhSachBanBe();
-                    Log.e("dm", "dmm "+arrFriends.size());
                 }
             }
 
