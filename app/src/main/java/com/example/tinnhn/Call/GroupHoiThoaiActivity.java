@@ -45,6 +45,7 @@ import com.example.tinnhn.MainActivity;
 import com.example.tinnhn.MessageAdapter;
 import com.example.tinnhn.R;
 import com.example.tinnhn.TinNhanHienThi;
+import com.example.tinnhn.TrangThai;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -60,15 +61,18 @@ public class GroupHoiThoaiActivity extends BaseActivity {
     public static GroupAdapter groupAdapter;
     private boolean ktraTrung = false;
     private DatabaseReference mDatabase;
-    private SharedPreferences sharedPreferences;
+    private SharedPreferences sharedPreferences,sharedPreferences2;
     private SharedPreferences.Editor editor;
     private ListView grplist;
     private String j;
     private String idGroup = "";
     private String emailNguoiDung;
+    private String checkmic="on";
     private String TAG = "GroupHoiThoaiActivity";
     private ArrayList<String> mNames = new ArrayList<>();
     private String idkey = "";
+    private  String emailll="";
+    int checkicmic=1;
     private Call call;
     ImageButton endcall;
     private AudioPlayer mAudioPlayer,mAudioPlayer2;
@@ -87,7 +91,9 @@ public class GroupHoiThoaiActivity extends BaseActivity {
         EditText noidungtn = findViewById(R.id.edtNoiDungGroup);
         endcall = findViewById(R.id.endcall);
         sharedPreferences = getSharedPreferences("GhiNhoDangNhap", MODE_PRIVATE);
-        editor = sharedPreferences.edit();
+
+        sharedPreferences2 = getSharedPreferences("checkmic", MODE_PRIVATE);
+        editor = sharedPreferences2.edit();
         String email = sharedPreferences.getString("tenTaiKhoan", "");
         mAudioPlayer = new AudioPlayer(this);
         mAudioPlayer2 = new AudioPlayer(this);
@@ -191,6 +197,7 @@ public class GroupHoiThoaiActivity extends BaseActivity {
                     if (getGiaodiendichvu().isStarted()) {
                 endcall.setImageResource(R.drawable.ic_call_end2);
                 endcall.setBackgroundResource(R.drawable.roundcorner2);
+
                 Hamchuyenidgroupquagroupcall();
             } else {
                         Toast.makeText(GroupHoiThoaiActivity.this, "Dịch vụ chưa chạy", Toast.LENGTH_SHORT).show();
@@ -209,8 +216,12 @@ public class GroupHoiThoaiActivity extends BaseActivity {
                     mDatabase.child("GroupGoiDien" + idGroup).addChildEventListener(new ChildEventListener() {
                         @Override
                         public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                            String email = snapshot.getValue().toString();
-                            if (email.equals(emailNguoiDung)) {
+//                String email = snapshot.getValue().toString();
+//                if (email.equals(emailNguoiDung)) {
+//                    idkey = snapshot.getKey();
+//                }
+                            MicStatus micStatus = snapshot.getValue(MicStatus.class);
+                            if(micStatus.User_Email.equals(emailNguoiDung)){
                                 idkey = snapshot.getKey();
                             }
 
@@ -236,8 +247,6 @@ public class GroupHoiThoaiActivity extends BaseActivity {
 
                         }
                     });
-
-                    //hàm countdown
                     new CountDownTimer(1300, 100) {
                         @Override
                         public void onTick(long millisUntilFinished) {
@@ -245,8 +254,7 @@ public class GroupHoiThoaiActivity extends BaseActivity {
 
                         @Override
                         public void onFinish() {
-                            mDatabase.child("GroupGoiDien" + idGroup).child(idkey).removeValue();//xóa key từ FB
-
+                            mDatabase.child("GroupGoiDien" + idGroup).child(idkey).removeValue();
                         }
                     }.start();
                     ktraTrung = false;//trả kiểm tra trùng về false để tránh bug không thêm hình
@@ -266,8 +274,13 @@ public class GroupHoiThoaiActivity extends BaseActivity {
         mDatabase.child("GroupGoiDien" + idGroup).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                String email = snapshot.getValue().toString();
-                if (email.equals(emailNguoiDung)) ktraTrung = true;//kiểm tra trùng
+//                String email = snapshot.getValue().toString();
+//                if (email.equals(emailNguoiDung)) ktraTrung = true;//kiểm tra trùng
+
+                MicStatus micStatus = snapshot.getValue(MicStatus.class);
+                if(micStatus.User_Email.equals(emailNguoiDung)){
+                    ktraTrung = true;//kiểm tra trùng
+                }
                 mAudioPlayer.playjointone();
             }
 
@@ -306,6 +319,11 @@ public class GroupHoiThoaiActivity extends BaseActivity {
 
             @Override
             public void onFinish() {
+                if(checkicmic==1){
+                    checkmic="on";
+                }else if(checkicmic==2){
+                    checkmic="off";
+                }
                 adapter.notifyDataSetChanged();
                 RefreshAdapterHinhGoiDien();
             }
@@ -321,29 +339,69 @@ public class GroupHoiThoaiActivity extends BaseActivity {
     }
 
     // handle button activities
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        int id = item.getItemId();
-//        if (id == R.id.groupchat) {//nút gọi cho group
-//
-//            if (getGiaodiendichvu().isStarted()) {
-//                endcall.setEnabled(true);
-//                endcall.setImageResource(R.drawable.ic_call);
-//                Hamchuyenidgroupquagroupcall();
-//            } else {
-//                Toast.makeText(this, "dịch vụ chưa chạy", Toast.LENGTH_SHORT).show();
-//            }
-//        }
-//        return super.onOptionsItemSelected(item);
-//    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.offmic) {//nút tắt mic
+            checkmic="off";
+mDatabase.child("GroupGoiDien" + idGroup).addChildEventListener(new ChildEventListener() {
+    @Override
+    public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+        MicStatus micStatus = snapshot.getValue(MicStatus.class);
+        if(micStatus.User_Email.equals(emailNguoiDung)&&checkicmic==1){
+            item.setIcon(R.drawable.ic_micon);
+            audioManager.setMicrophoneMute(true);
+            String key = snapshot.getKey();
+            mDatabase.child("GroupGoiDien" + idGroup).child(key).child("MicStatus").setValue("Micoff");
+            checkicmic=2;
+
+        }else{
+            if(micStatus.User_Email.equals(emailNguoiDung)&&checkicmic==2){
+                item.setIcon(R.drawable.ic_micoff);
+                audioManager.setMicrophoneMute(false);
+                String key = snapshot.getKey();
+                mDatabase.child("GroupGoiDien" + idGroup).child(key).child("MicStatus").setValue("Micon");
+                checkicmic=1;
+
+            }
+        }
+    }
+
+    @Override
+    public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+    }
+
+    @Override
+    public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+    }
+
+    @Override
+    public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+    }
+
+    @Override
+    public void onCancelled(@NonNull DatabaseError error) {
+
+    }
+});
+
+        }
+        return super.onOptionsItemSelected(item);
+    }
     //end hàm sự kiện cho menu
 
     //hàm gọi vào voice group + thêm hình lên FB
     private void Hamchuyenidgroupquagroupcall() {
+        checkmic="on";
         mNames.clear();
         if (!ktraTrung) {
-            mDatabase.child("GroupGoiDien" + idGroup).push().setValue(emailNguoiDung);//thêm hình người dùng vào list trên FB
-
+           // mDatabase.child("GroupGoiDien" + idGroup).push().setValue(emailNguoiDung);//thêm hình người dùng vào list trên FB
+            MicStatus micStatus=new MicStatus(emailNguoiDung,"Micon");
+            mDatabase.child("GroupGoiDien" + idGroup).push().setValue(micStatus);
         } else {
             Toast.makeText(this, "trùng", Toast.LENGTH_SHORT).show();
         }
@@ -370,8 +428,10 @@ public class GroupHoiThoaiActivity extends BaseActivity {
         mDatabase.child("GroupGoiDien" + idGroup).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                String email = snapshot.getValue().toString();
-                mNames.add(email);
+//                String email = snapshot.getValue().toString();
+//                mNames.add(email);
+                MicStatus micStatus = snapshot.getValue(MicStatus.class);
+                mNames.add(micStatus.User_Email);
                 adapter.notifyDataSetChanged();
             }
 
@@ -405,7 +465,7 @@ public class GroupHoiThoaiActivity extends BaseActivity {
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(layoutManager);
         String temp = "GroupGoiDien" + idGroup;
-        adapter = new RecyclerViewAdapter(this, mNames, temp);
+        adapter = new RecyclerViewAdapter(this, mNames, temp,checkmic);
         recyclerView.setAdapter(adapter);
     }
     //end hàm đổ hình vào adapter
@@ -429,8 +489,12 @@ public class GroupHoiThoaiActivity extends BaseActivity {
         mDatabase.child("GroupGoiDien" + idGroup).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                String email = snapshot.getValue().toString();
-                if (email.equals(emailNguoiDung)) {
+//                String email = snapshot.getValue().toString();
+//                if (email.equals(emailNguoiDung)) {
+//                    idkey = snapshot.getKey();
+//                }
+                MicStatus micStatus = snapshot.getValue(MicStatus.class);
+                if(micStatus.User_Email.equals(emailNguoiDung)){
                     idkey = snapshot.getKey();
                 }
 
@@ -482,8 +546,12 @@ public class GroupHoiThoaiActivity extends BaseActivity {
         mDatabase.child("GroupGoiDien" + idGroup).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                String email = snapshot.getValue().toString();
-                if (email.equals(emailNguoiDung)) {
+//                String email = snapshot.getValue().toString();
+//                if (email.equals(emailNguoiDung)) {
+//                    idkey = snapshot.getKey();
+//                }
+                MicStatus micStatus = snapshot.getValue(MicStatus.class);
+                if(micStatus.User_Email.equals(emailNguoiDung)){
                     idkey = snapshot.getKey();
                 }
 

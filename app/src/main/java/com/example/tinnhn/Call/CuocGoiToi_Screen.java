@@ -119,7 +119,6 @@ public class CuocGoiToi_Screen extends BaseActivity {
         Call call = getGiaodiendichvu().getCall(appIDNguoiGoi);
         if (call != null) {
             call.answer();
-
             Intent intent = new Intent(this, CuocGoi_Screen.class);
             intent.putExtra(SinchServices.CALL_ID, appIDNguoiGoi);
             startActivity(intent);

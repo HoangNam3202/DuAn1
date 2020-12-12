@@ -1,6 +1,7 @@
 package com.example.tinnhn.ui.main;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.telecom.Call;
 import android.view.LayoutInflater;
@@ -29,12 +30,16 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
+import static android.content.Context.MODE_PRIVATE;
+
 public class GroupFragment extends Fragment {
 
     private View mRoot;
     private DatabaseReference mFirebaseDatabase;
     private FirebaseDatabase mFirebaseInstance;
     private DatabaseReference mDatabase;
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
     String TenGroup;
     int IdGroup;
 
@@ -46,6 +51,9 @@ public class GroupFragment extends Fragment {
 
         ListView grplist = mRoot.findViewById(R.id.grplv);
         mDatabase = FirebaseDatabase.getInstance().getReference();
+
+        sharedPreferences = this.getContext().getSharedPreferences("tengroup", MODE_PRIVATE);
+        editor = sharedPreferences.edit();
         ArrayList<String> dsgrp = new ArrayList<>();
 
         ArrayAdapter adapter = new ArrayAdapter(getActivity(), android.R.layout.simple_expandable_list_item_1, dsgrp);
@@ -84,6 +92,10 @@ public class GroupFragment extends Fragment {
                 String tenkey = dsgrp.get(position);
                 Intent i = new Intent(getActivity(), GroupHoiThoaiActivity.class);
                 i.putExtra("idgroup", tenkey);
+
+                editor.putString("idgroup", tenkey);
+                editor.commit();
+
                 startActivity(i);
 //                Toast.makeText(getActivity(), tenkey, Toast.LENGTH_SHORT).show();
 //                mDatabase.child("Group").addChildEventListener(new ChildEventListener() {
@@ -126,4 +138,5 @@ public class GroupFragment extends Fragment {
 
         return mRoot;
     }
+
 }
