@@ -131,7 +131,9 @@ public class PlaceholderFragment extends Fragment {
 
                 @Override
                 public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                    messageArrayList.clear();
                     GoiDanhSachTinNhan();
+                    messageAdapter.notifyDataSetChanged();
                 }
 
                 @Override

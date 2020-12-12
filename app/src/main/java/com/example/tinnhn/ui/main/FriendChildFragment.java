@@ -1,6 +1,7 @@
 package com.example.tinnhn.ui.main;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -24,6 +25,7 @@ import com.example.tinnhn.FriendsAdapter;
 import com.example.tinnhn.FriendsRequest;
 import com.example.tinnhn.FriendsRequestAdapter;
 import com.example.tinnhn.HoiThoaiActivity;
+import com.example.tinnhn.MainActivity;
 import com.example.tinnhn.R;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -195,6 +197,7 @@ public class FriendChildFragment extends Fragment {
 
             @Override
             public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
             }
 
             @Override
@@ -210,10 +213,9 @@ public class FriendChildFragment extends Fragment {
     }
 
     public static void GoiDanhSachBanBe() {
-        mDatabase = FirebaseDatabase.getInstance().getReference();
-        arrFriends_check.clear();
         arrFriends.clear();
         friendsAdapter.notifyDataSetChanged();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
         mDatabase.child("BanBe").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
@@ -240,7 +242,10 @@ public class FriendChildFragment extends Fragment {
             @Override
             public void onChildRemoved(@NonNull DataSnapshot snapshot) {
                 Friends friends = snapshot.getValue(Friends.class);
-                arrFriends.remove(friends);
+                if(friends.EmailUser.equals(EmailUser)){
+                    GoiDanhSachBanBe();
+                    Log.e("dm", "dmm "+arrFriends.size());
+                }
             }
 
             @Override
