@@ -87,7 +87,7 @@ public class FriendsAdapter extends BaseAdapter {
                             }
                         }
                         mDatabase.child("BanBe").child(friends.idKeyFriend).removeValue();
-                        GoiDanhSachBanBe();
+//                        GoiDanhSachBanBe();
                     }
                 });
                 builder.setPositiveButton("No", new DialogInterface.OnClickListener() {
