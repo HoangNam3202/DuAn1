@@ -25,6 +25,7 @@ import com.example.tinnhn.FriendsAdapter;
 import com.example.tinnhn.FriendsRequest;
 import com.example.tinnhn.FriendsRequestAdapter;
 import com.example.tinnhn.HoiThoaiActivity;
+import com.example.tinnhn.Information_friend_acitivity;
 import com.example.tinnhn.MainActivity;
 import com.example.tinnhn.R;
 import com.example.tinnhn.TrangThai;
@@ -75,7 +76,7 @@ public class FriendChildFragment extends Fragment {
         list_friends_child.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent intent = new Intent(getActivity(), HoiThoaiActivity.class);
+                Intent intent = new Intent(getActivity(), Information_friend_acitivity.class);
                 intent.putExtra("EmailNguoiGui", arrFriends.get(i).email);
                 intent.putExtra("TenNguoiGui", arrFriends.get(i).tenTaiKhoan);
                 startActivity(intent);

@@ -68,18 +68,31 @@
         android:text="ⓘ  Active now"
         android:textColor="#0BDE9B"
         android:textSize="12dp" />
+
     <TextView
         android:id="@+id/btnUnfriend"
-        android:layout_width="match_parent"
+        android:layout_width="130dp"
         android:layout_height="35dp"
         android:layout_below="@+id/tvDiaChiFriend"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
+        android:layout_alignParentEnd="true"
         android:layout_marginTop="22dp"
+        android:layout_marginEnd="10dp"
         android:background="@drawable/gradient_btn_refuse"
         android:gravity="center"
         android:text="Unfriend"
         android:textColor="#DE0B4E" />
+
+    <TextView
+        android:id="@+id/btnSendMes"
+        android:layout_width="130dp"
+        android:layout_height="35dp"
+        android:layout_below="@+id/tvDiaChiFriend"
+        android:layout_marginTop="22dp"
+        android:layout_marginEnd="20dp"
+        android:layout_toStartOf="@+id/btnUnfriend"
+        android:background="@drawable/gradient_btn_add"
+        android:gravity="center"
+        android:text="Send message"
+        android:textColor="#0BDE9B" />
 </RelativeLayout>
 </LinearLayout>
