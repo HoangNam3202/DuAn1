@@ -85,6 +85,7 @@ public class GroupHoiThoaiActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_group_hoi_thoai);
 //ánh xạ
+
         mDatabase = FirebaseDatabase.getInstance().getReference();
         grplist = findViewById(R.id.list_HoithoaiGroup);
         Button send = findViewById(R.id.btbGuiGroup);
@@ -101,6 +102,8 @@ public class GroupHoiThoaiActivity extends BaseActivity {
         audioManager = (AudioManager) getApplicationContext().getSystemService(Context.AUDIO_SERVICE);
         audioManager.setMode(AudioManager.MODE_IN_CALL);
         audioManager.setMicrophoneMute(false);
+
+
         //end ánh xạ
 
         //đưa list view xuống cuối
@@ -338,7 +341,6 @@ public class GroupHoiThoaiActivity extends BaseActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-
         if (id == R.id.offmic) {//nút tắt mic
             if(checkicmic==1){
                 mDatabase.child("GroupGoiDien" + idGroup).addChildEventListener(new ChildEventListener() {
@@ -373,7 +375,7 @@ public class GroupHoiThoaiActivity extends BaseActivity {
 
                     }
                 });
-                item.setIcon(R.drawable.ic_micon);
+                item.setIcon(R.drawable.ic_micoffred);
                 checkicmic=2;
             }else if(checkicmic==2){
                 mDatabase.child("GroupGoiDien" + idGroup).addChildEventListener(new ChildEventListener() {
@@ -408,7 +410,7 @@ public class GroupHoiThoaiActivity extends BaseActivity {
 
                     }
                 });
-                item.setIcon(R.drawable.ic_micoffred);
+                item.setIcon(R.drawable.ic_micon);
                 checkicmic=1;
             }
 
