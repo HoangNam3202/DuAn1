@@ -99,20 +99,17 @@ public class FriendChildFragment extends Fragment {
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 FriendsRequest friendsRequest = snapshot.getValue(FriendsRequest.class);
 
-                arrFriendsRequests_check.clear();
-                arrFriendsRequests_check.add(friendsRequest);
-                for (int i = 0; i < arrFriendsRequests_check.size(); i++) {
-                    if (arrFriendsRequests_check.get(i).EmailUser.equals(EmailUser)) {
-                        String key = snapshot.getKey();
-                        arrFriendsRequests.add(new FriendsRequest(key, arrFriendsRequests_check.get(i).idTaiKhoan, arrFriendsRequests_check.get(i).tenTaiKhoan, arrFriendsRequests_check.get(i).email,
-                                arrFriendsRequests_check.get(i).diaChi, arrFriendsRequests_check.get(i).hinhDaiDien, arrFriendsRequests_check.get(i).EmailUser));
-                    }
-                    if (arrFriendsRequests.size() <= 0) {
-                        list_friends_request_child.setVisibility(View.GONE);
-                    } else {
-                        list_friends_request_child.setVisibility(View.VISIBLE);
-                    }
+                if (friendsRequest.EmailUser.equals(EmailUser)) {
+                    String key = snapshot.getKey();
+                    arrFriendsRequests.add(new FriendsRequest(key, friendsRequest.idTaiKhoan, friendsRequest.tenTaiKhoan, friendsRequest.email,
+                            friendsRequest.diaChi, friendsRequest.hinhDaiDien, friendsRequest.EmailUser));
                 }
+                if (arrFriendsRequests.size() <= 0) {
+                    list_friends_request_child.setVisibility(View.GONE);
+                } else {
+                    list_friends_request_child.setVisibility(View.VISIBLE);
+                }
+
                 friendsRequestAdapter.notifyDataSetChanged();
             }
 
@@ -180,20 +177,17 @@ public class FriendChildFragment extends Fragment {
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 FriendsRequest friendsRequest = snapshot.getValue(FriendsRequest.class);
 
-                arrFriendsRequests_check.clear();
-                arrFriendsRequests_check.add(friendsRequest);
-                for (int i = 0; i < arrFriendsRequests_check.size(); i++) {
-                    if (arrFriendsRequests_check.get(i).EmailUser.equals(EmailUser)) {
+                    if (friendsRequest.EmailUser.equals(EmailUser)) {
                         String key = snapshot.getKey();
-                        arrFriendsRequests.add(new FriendsRequest(key, arrFriendsRequests_check.get(i).idTaiKhoan, arrFriendsRequests_check.get(i).tenTaiKhoan, arrFriendsRequests_check.get(i).email,
-                                arrFriendsRequests_check.get(i).diaChi, arrFriendsRequests_check.get(i).hinhDaiDien, arrFriendsRequests_check.get(i).EmailUser));
+                        arrFriendsRequests.add(new FriendsRequest(key, friendsRequest.idTaiKhoan, friendsRequest.tenTaiKhoan, friendsRequest.email,
+                                friendsRequest.diaChi, friendsRequest.hinhDaiDien, friendsRequest.EmailUser));
                     }
                     if (arrFriendsRequests.size() <= 0) {
                         list_friends_request_child.setVisibility(View.GONE);
                     } else {
                         list_friends_request_child.setVisibility(View.VISIBLE);
                     }
-                }
+
                 friendsRequestAdapter.notifyDataSetChanged();
             }
 
