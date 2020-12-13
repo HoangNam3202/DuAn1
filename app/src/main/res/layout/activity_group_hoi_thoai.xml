@@ -23,7 +23,7 @@
                 card_view:cardCornerRadius="26dp">
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerView"
-                    android:layout_width="343dp"
+                    android:layout_width="match_parent"
                     android:background="#82aa92"
                     android:layout_height="match_parent" />
             </androidx.cardview.widget.CardView>

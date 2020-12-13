@@ -315,7 +315,7 @@ public class GroupHoiThoaiActivity extends BaseActivity {
     //hàm refresh hình trong 5s
     private void RefreshAdapterHinhGoiDien() {
         initImageBitmaps();
-        new CountDownTimer(5000, 100) {
+        new CountDownTimer(3000, 100) {
             @Override
             public void onTick(long millisUntilFinished) {
             }
@@ -375,7 +375,7 @@ public class GroupHoiThoaiActivity extends BaseActivity {
 
                     }
                 });
-                item.setIcon(R.drawable.ic_micoffred);
+                item.setIcon(R.drawable.ic_micon);
                 checkicmic=2;
             }else if(checkicmic==2){
                 mDatabase.child("GroupGoiDien" + idGroup).addChildEventListener(new ChildEventListener() {
@@ -410,7 +410,7 @@ public class GroupHoiThoaiActivity extends BaseActivity {
 
                     }
                 });
-                item.setIcon(R.drawable.ic_micon);
+                item.setIcon(R.drawable.ic_micoffred);
                 checkicmic=1;
             }
 
@@ -425,6 +425,8 @@ public class GroupHoiThoaiActivity extends BaseActivity {
         mNames.clear();
         if (!ktraTrung) {
            // mDatabase.child("GroupGoiDien" + idGroup).push().setValue(emailNguoiDung);//thêm hình người dùng vào list trên FB
+
+
             if(checkicmic==1){
                 Micstatus="Micon";
             }else if(checkicmic==2){
@@ -443,6 +445,74 @@ public class GroupHoiThoaiActivity extends BaseActivity {
 
             @Override
             public void onFinish() {
+                if(checkicmic==1){
+                    mDatabase.child("GroupGoiDien" + idGroup).addChildEventListener(new ChildEventListener() {
+                        @Override
+                        public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                            MicStatus micStatus = snapshot.getValue(MicStatus.class);
+                            if(micStatus.User_Email.equals(emailNguoiDung)){
+                                audioManager.setMicrophoneMute(true);
+                                String key = snapshot.getKey();
+                                mDatabase.child("GroupGoiDien" + idGroup).child(key).child("MicStatus").setValue("Micon");
+                            }
+
+                        }
+
+                        @Override
+                        public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+                        }
+
+                        @Override
+                        public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+                        }
+
+                        @Override
+                        public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
+                }else if(checkicmic==2){
+                    mDatabase.child("GroupGoiDien" + idGroup).addChildEventListener(new ChildEventListener() {
+                        @Override
+                        public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                            MicStatus micStatus = snapshot.getValue(MicStatus.class);
+                            if(micStatus.User_Email.equals(emailNguoiDung)){
+                                audioManager.setMicrophoneMute(false);
+                                String key = snapshot.getKey();
+                                mDatabase.child("GroupGoiDien" + idGroup).child(key).child("MicStatus").setValue("Micoff");
+                            }
+
+                        }
+
+                        @Override
+                        public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+                        }
+
+                        @Override
+                        public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+                        }
+
+                        @Override
+                        public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
+                }
+
                 initImageBitmaps();
                 adapter.notifyDataSetChanged();
             }
@@ -508,6 +578,12 @@ public class GroupHoiThoaiActivity extends BaseActivity {
                 grplist.setSelection(groupAdapter.getCount() - 1);
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+
+        super.onResume();
     }
 
     //nút quay lại
