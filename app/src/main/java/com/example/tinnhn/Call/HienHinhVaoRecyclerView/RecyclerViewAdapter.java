@@ -40,15 +40,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     private String idGroup = "";
     private SharedPreferences sharedPreferences1,sharedPreferences2,sharedPreferences3;
     private SharedPreferences.Editor editor;
-    private String j,emailsv,status;
-    private String check;
-    private String checks="on";
+    private String j,emailsv;
 
-    public RecyclerViewAdapter(Context context, ArrayList<String> mNames, String tenNhomChat, String check) {
+    public RecyclerViewAdapter(Context context, ArrayList<String> mNames, String tenNhomChat) {
         this.mNames = mNames;
         this.mContext = context;
         this.tenNhomChat = tenNhomChat;
-        this.check = check;
+
     }
     @NonNull
     @Override
@@ -56,10 +54,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_listitem, parent, false);
         sharedPreferences1 =mContext.getSharedPreferences("tengroup", MODE_PRIVATE);
         sharedPreferences2 = mContext.getSharedPreferences("GhiNhoDangNhap", MODE_PRIVATE);
-        sharedPreferences3 = mContext.getSharedPreferences("checkmic", MODE_PRIVATE);
-
         emailsv = sharedPreferences2.getString("tenTaiKhoan", "");
-        status = sharedPreferences3.getString("micstatus", "");
         j = sharedPreferences1.getString("idgroup", "");
         return new ViewHolder(view);
     }
@@ -71,58 +66,52 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         if (j.equals("Chat Room 1")) idGroup = "Chatroom1";
         if (j.equals("Chat Room 2")) idGroup = "Chatroom2";
         databaseReference = FirebaseDatabase.getInstance().getReference();
-        databaseReference.child("GroupGoiDien" + idGroup).addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                MicStatus micStatus =snapshot.getValue(MicStatus.class);
-                String key = snapshot.getKey();
-//                String micstats=databaseReference.child("GroupGoiDien" + idGroup).child(key).child("MicStatus").getKey();
-                //Toast.makeText(mContext, micstats, Toast.LENGTH_SHORT).show();
-                if(emailsv.equals(micStatus.User_Email)){
-                    if(micStatus.MicStatus.equals("Micon")){
-                        checks="on";
-                    }else{
-                        checks="off";
-                    }
-                }
-            }
 
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-            }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
 
             databaseReference.child("TaiKhoan").addChildEventListener(new ChildEventListener() {
                 @Override
                 public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                     TaiKhoan taiKhoan = snapshot.getValue(TaiKhoan.class);
-
-                    if (checks.equals("on")) {
+                    String haha=taiKhoan.getEmail();
                         if (taiKhoan.getEmail().equals(mNames.get(position))) {
-                            Glide.with(mContext).asBitmap().load(taiKhoan.getHinhDaiDien()).into(holder.image);
-                        }
+                                Glide.with(mContext).asBitmap().load(taiKhoan.getHinhDaiDien()).into(holder.image);
 
-                    } else {
-                        if (taiKhoan.getEmail().equals(mNames.get(position))) {
-                            Glide.with(mContext).asBitmap().load(R.drawable.hinhnen_register).into(holder.image);
+                                databaseReference.child("GroupGoiDien" + idGroup).addChildEventListener(new ChildEventListener() {
+                                    @Override
+                                    public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                                        MicStatus micStatus =snapshot.getValue(MicStatus.class);
+                                        if(micStatus.User_Email.equals(haha)){
+                                            if(micStatus.MicStatus.equals("Micon")){
+                                                holder.status.setImageResource(R.drawable.ic_micon);
+                                                holder.status.setBackgroundResource(R.drawable.roundcorner3);
+                                            }else{
+                                                holder.status.setImageResource(R.drawable.ic_micoff);
+                                                holder.status.setBackgroundResource(R.drawable.roundcorner4);
+                                            }
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+                                    }
+
+                                    @Override
+                                    public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+                                    }
+
+                                    @Override
+                                    public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError error) {
+
+                                    }
+                                });
                         }
-                    }
                 }
                 @Override
                 public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
@@ -165,11 +154,12 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        ImageView image;
+        ImageView image,status;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             image = itemView.findViewById(R.id.image_view);
+            status = itemView.findViewById(R.id.onoff);
         }
     }
 }

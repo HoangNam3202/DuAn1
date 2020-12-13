@@ -20,6 +20,7 @@
             android:background="@color/colorWhite"
             android:layout_centerInParent="true"
             card_view:cardCornerRadius="23dp">
+
             <androidx.cardview.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/card_Message1"
                 android:layout_width="45dp"
@@ -36,7 +37,15 @@
                     android:src="@drawable/ic_launcher_background" />
             </androidx.cardview.widget.CardView>
         </androidx.cardview.widget.CardView>
-    </RelativeLayout>
 
+    </RelativeLayout>
+    <ImageView
+        android:id="@+id/onoff"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:src="@drawable/ic_micon"
+        android:background="@drawable/roundcorner3"/>
 
 </RelativeLayout>

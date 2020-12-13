@@ -67,12 +67,12 @@ public class GroupHoiThoaiActivity extends BaseActivity {
     private String j;
     private String idGroup = "";
     private String emailNguoiDung;
-    private String checkmic="on";
     private String TAG = "GroupHoiThoaiActivity";
     private ArrayList<String> mNames = new ArrayList<>();
     private String idkey = "";
     private  String emailll="";
     int checkicmic=1;
+    private  String Micstatus;
     private Call call;
     ImageButton endcall;
     private AudioPlayer mAudioPlayer,mAudioPlayer2;
@@ -319,11 +319,7 @@ public class GroupHoiThoaiActivity extends BaseActivity {
 
             @Override
             public void onFinish() {
-                if(checkicmic==1){
-                    checkmic="on";
-                }else if(checkicmic==2){
-                    checkmic="off";
-                }
+
                 adapter.notifyDataSetChanged();
                 RefreshAdapterHinhGoiDien();
             }
@@ -344,50 +340,78 @@ public class GroupHoiThoaiActivity extends BaseActivity {
         int id = item.getItemId();
 
         if (id == R.id.offmic) {//nút tắt mic
-            checkmic="off";
-mDatabase.child("GroupGoiDien" + idGroup).addChildEventListener(new ChildEventListener() {
-    @Override
-    public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-        MicStatus micStatus = snapshot.getValue(MicStatus.class);
-        if(micStatus.User_Email.equals(emailNguoiDung)&&checkicmic==1){
-            item.setIcon(R.drawable.ic_micon);
-            audioManager.setMicrophoneMute(true);
-            String key = snapshot.getKey();
-            mDatabase.child("GroupGoiDien" + idGroup).child(key).child("MicStatus").setValue("Micoff");
-            checkicmic=2;
+            if(checkicmic==1){
+                mDatabase.child("GroupGoiDien" + idGroup).addChildEventListener(new ChildEventListener() {
+                    @Override
+                    public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                        MicStatus micStatus = snapshot.getValue(MicStatus.class);
+                        if(micStatus.User_Email.equals(emailNguoiDung)){
+                            audioManager.setMicrophoneMute(true);
+                            String key = snapshot.getKey();
+                            mDatabase.child("GroupGoiDien" + idGroup).child(key).child("MicStatus").setValue("Micoff");
+                        }
 
-        }else{
-            if(micStatus.User_Email.equals(emailNguoiDung)&&checkicmic==2){
-                item.setIcon(R.drawable.ic_micoff);
-                audioManager.setMicrophoneMute(false);
-                String key = snapshot.getKey();
-                mDatabase.child("GroupGoiDien" + idGroup).child(key).child("MicStatus").setValue("Micon");
+                    }
+
+                    @Override
+                    public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+                    }
+
+                    @Override
+                    public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+                    }
+
+                    @Override
+                    public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+                item.setIcon(R.drawable.ic_micon);
+                checkicmic=2;
+            }else if(checkicmic==2){
+                mDatabase.child("GroupGoiDien" + idGroup).addChildEventListener(new ChildEventListener() {
+                    @Override
+                    public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                        MicStatus micStatus = snapshot.getValue(MicStatus.class);
+                            if(micStatus.User_Email.equals(emailNguoiDung)){
+                                audioManager.setMicrophoneMute(false);
+                                String key = snapshot.getKey();
+                                mDatabase.child("GroupGoiDien" + idGroup).child(key).child("MicStatus").setValue("Micon");
+                            }
+
+                    }
+
+                    @Override
+                    public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+                    }
+
+                    @Override
+                    public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+                    }
+
+                    @Override
+                    public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+                item.setIcon(R.drawable.ic_micoffred);
                 checkicmic=1;
-
             }
-        }
-    }
 
-    @Override
-    public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-    }
-
-    @Override
-    public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-
-    }
-
-    @Override
-    public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-    }
-
-    @Override
-    public void onCancelled(@NonNull DatabaseError error) {
-
-    }
-});
 
         }
         return super.onOptionsItemSelected(item);
@@ -396,11 +420,16 @@ mDatabase.child("GroupGoiDien" + idGroup).addChildEventListener(new ChildEventLi
 
     //hàm gọi vào voice group + thêm hình lên FB
     private void Hamchuyenidgroupquagroupcall() {
-        checkmic="on";
         mNames.clear();
         if (!ktraTrung) {
            // mDatabase.child("GroupGoiDien" + idGroup).push().setValue(emailNguoiDung);//thêm hình người dùng vào list trên FB
-            MicStatus micStatus=new MicStatus(emailNguoiDung,"Micon");
+            if(checkicmic==1){
+                Micstatus="Micon";
+            }else if(checkicmic==2){
+                Micstatus="Micoff";
+            }
+
+            MicStatus micStatus=new MicStatus(emailNguoiDung,Micstatus);
             mDatabase.child("GroupGoiDien" + idGroup).push().setValue(micStatus);
         } else {
             Toast.makeText(this, "trùng", Toast.LENGTH_SHORT).show();
@@ -465,7 +494,7 @@ mDatabase.child("GroupGoiDien" + idGroup).addChildEventListener(new ChildEventLi
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(layoutManager);
         String temp = "GroupGoiDien" + idGroup;
-        adapter = new RecyclerViewAdapter(this, mNames, temp,checkmic);
+        adapter = new RecyclerViewAdapter(this, mNames, temp);
         recyclerView.setAdapter(adapter);
     }
     //end hàm đổ hình vào adapter
