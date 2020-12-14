@@ -51,6 +51,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.sinch.android.rtc.AudioController;
 import com.sinch.android.rtc.calling.Call;
 
 import java.security.PublicKey;
@@ -315,7 +316,7 @@ public class GroupHoiThoaiActivity extends BaseActivity {
     //hàm refresh hình trong 5s
     private void RefreshAdapterHinhGoiDien() {
         initImageBitmaps();
-        new CountDownTimer(3000, 100) {
+        new CountDownTimer(2000, 100) {
             @Override
             public void onTick(long millisUntilFinished) {
             }
@@ -451,7 +452,7 @@ public class GroupHoiThoaiActivity extends BaseActivity {
                         public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                             MicStatus micStatus = snapshot.getValue(MicStatus.class);
                             if(micStatus.User_Email.equals(emailNguoiDung)){
-                                audioManager.setMicrophoneMute(true);
+                                audioManager.setMicrophoneMute(false);
                                 String key = snapshot.getKey();
                                 mDatabase.child("GroupGoiDien" + idGroup).child(key).child("MicStatus").setValue("Micon");
                             }
@@ -484,7 +485,7 @@ public class GroupHoiThoaiActivity extends BaseActivity {
                         public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                             MicStatus micStatus = snapshot.getValue(MicStatus.class);
                             if(micStatus.User_Email.equals(emailNguoiDung)){
-                                audioManager.setMicrophoneMute(false);
+                                audioManager.setMicrophoneMute(true);
                                 String key = snapshot.getKey();
                                 mDatabase.child("GroupGoiDien" + idGroup).child(key).child("MicStatus").setValue("Micoff");
                             }
@@ -519,6 +520,9 @@ public class GroupHoiThoaiActivity extends BaseActivity {
         }.start();
 
         call = getGiaodiendichvu().callGroup(j);//hàm gọi conference của Sinch
+        setVolumeControlStream(AudioManager.STREAM_VOICE_CALL);
+        AudioController audioController = getGiaodiendichvu().getAudioController();
+        audioController.enableSpeaker();
 
     }
 
