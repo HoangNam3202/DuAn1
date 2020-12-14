@@ -22,6 +22,7 @@ import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
+import com.example.tinnhn.HoiThoaiActivity;
 import com.example.tinnhn.MainActivity;
 import com.example.tinnhn.R;
 import com.example.tinnhn.ThongBao;
@@ -318,16 +319,18 @@ public class SinchServices extends Service {
         sharedPreferences = getSharedPreferences("GhiNhoDangNhap", MODE_PRIVATE);
         editor = sharedPreferences.edit();
         EmailUser = sharedPreferences.getString("tenTaiKhoan", "");
-        Intent intent = new Intent(this,MainActivity.class);
+        Intent intent = new Intent(this, HoiThoaiActivity.class);
         mDatabase = FirebaseDatabase.getInstance().getReference();
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        final PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
 
         mDatabase.child("ThongBao").addChildEventListener(new ChildEventListener() {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 ThongBao cVu = snapshot.getValue(ThongBao.class);
+                intent.putExtra("EmailNguoiGui",cVu.email_User);
+                intent.putExtra("TenNguoiGui",cVu.tenUser);
+                final PendingIntent pendingIntent = PendingIntent.getActivity(getBaseContext(), 0, intent, 0);
                 if(cVu.emailNguoiNhan.equals(EmailUser)){
                     NotificationCompat.Builder builder = new NotificationCompat.Builder(getBaseContext(), "Tin Nhắn")
                             .setSmallIcon(R.drawable.logo_app)
