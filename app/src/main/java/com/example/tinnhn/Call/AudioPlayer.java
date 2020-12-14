@@ -20,7 +20,7 @@ public class AudioPlayer {
 
     private Context mContext;
 
-    private MediaPlayer mPlayer,mPlayer2,mPlayer3;
+    private MediaPlayer mPlayer,mPlayer2,mPlayer3,mPlayer4;
 
     private AudioTrack mProgressTone;
 
@@ -71,6 +71,33 @@ public class AudioPlayer {
                 }
                 mPlayer2.start();
                 break;
+        }
+    }
+    public void playmestone() {
+
+        AudioManager audioManager1 = (AudioManager) mContext.getSystemService(Context.AUDIO_SERVICE);
+        switch (audioManager1.getRingerMode()) {
+            case AudioManager.RINGER_MODE_NORMAL:
+                mPlayer4 = new MediaPlayer();
+                mPlayer4.setAudioStreamType(AudioManager.STREAM_NOTIFICATION);
+                try {
+                    mPlayer4.setDataSource(mContext,
+                            Uri.parse("android.resource://" + mContext.getPackageName() + "/" + R.raw.mestone));
+                    mPlayer4.prepare();
+                } catch (IOException e) {
+                    Log.e(LOG_TAG, "Could not setup media player for ringtone");
+                    mPlayer4 = null;
+                    return;
+                }
+                mPlayer4.start();
+                break;
+        }
+    }
+    public void stopmess(){
+        if (mPlayer4 != null) {
+            mPlayer4.stop();
+            mPlayer4.release();
+            mPlayer4= null;
         }
     }
     public void stopin(){

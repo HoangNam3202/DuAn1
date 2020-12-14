@@ -338,7 +338,7 @@ public class SinchServices extends Service {
                     NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getBaseContext());
                     notificationManager.notify(11, builder.build());
                     AudioPlayer mAudioPlayer = new AudioPlayer(getBaseContext());
-                    mAudioPlayer.playRingtone();
+                    mAudioPlayer.playmestone();
                     try
                     {
                         Thread.sleep(1000);
@@ -348,7 +348,7 @@ public class SinchServices extends Service {
                         Thread.currentThread().interrupt();
                     }
                     finally {
-                        mAudioPlayer.stopRingtone();
+                        mAudioPlayer.stopmess();
                     }
                     String key = snapshot.getKey();
                     mDatabase.child("ThongBao").child(key).removeValue();
