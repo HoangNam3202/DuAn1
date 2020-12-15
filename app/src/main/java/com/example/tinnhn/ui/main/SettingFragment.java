@@ -15,8 +15,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
-import com.example.tinnhn.Call.Actions;
-import com.example.tinnhn.Call.SinchServices;
 import com.example.tinnhn.MainActivity;
 import com.example.tinnhn.R;
 import com.example.tinnhn.TrangThai;
@@ -97,13 +95,18 @@ public class SettingFragment extends Fragment {
         btnDangXuat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                HamTrangThai(EmailUser);
                 editor.remove("tenTaiKhoan");
+                editor.remove("tenUser");
+                editor.remove("DiaChiUser");
+                editor.remove("urlHinhDaiDien");
                 editor.commit();
                 HamTrangThai(EmailUser);
                 Intent intent = new Intent(getActivity(), LoginActivity.class);
-
                 getActivity().finish();
                 startActivity(intent);
+
+
             }
         });
         Change_Pass_setting.setOnClickListener(new View.OnClickListener() {
@@ -116,7 +119,6 @@ public class SettingFragment extends Fragment {
         });
         return mRoot;
     }
-
     //dang xuat
     public void HamTrangThai(String email){
         DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
