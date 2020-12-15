@@ -9,6 +9,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.media.RingtoneManager;
 import android.os.Binder;
@@ -22,10 +24,12 @@ import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
+import com.example.tinnhn.FriendsRequest;
 import com.example.tinnhn.HoiThoaiActivity;
 import com.example.tinnhn.MainActivity;
 import com.example.tinnhn.R;
 import com.example.tinnhn.ThongBao;
+import com.example.tinnhn.ui.main.FriendChildFragment;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -62,9 +66,12 @@ public class SinchServices extends Service {
 
     @Override
     public void onCreate() {
-
+        sharedPreferences = getSharedPreferences("GhiNhoDangNhap", MODE_PRIVATE);
+        editor = sharedPreferences.edit();
+        EmailUser = sharedPreferences.getString("tenTaiKhoan", "");
         notification = createNotification();//tạo noti
         ThongBao();//noti tin nhắn
+        LoiMoi();
         startForeground(11,notification);//chạy foreground
         super.onCreate();
     }
@@ -316,9 +323,9 @@ public class SinchServices extends Service {
 
     //hàm thông báo tin nhắn tới vào noti
     public void ThongBao(){
-        sharedPreferences = getSharedPreferences("GhiNhoDangNhap", MODE_PRIVATE);
-        editor = sharedPreferences.edit();
-        EmailUser = sharedPreferences.getString("tenTaiKhoan", "");
+//        sharedPreferences = getSharedPreferences("GhiNhoDangNhap", MODE_PRIVATE);
+//        editor = sharedPreferences.edit();
+//        EmailUser = sharedPreferences.getString("tenTaiKhoan", "");
         Intent intent = new Intent(this, HoiThoaiActivity.class);
         mDatabase = FirebaseDatabase.getInstance().getReference();
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -328,10 +335,10 @@ public class SinchServices extends Service {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 ThongBao cVu = snapshot.getValue(ThongBao.class);
-                intent.putExtra("EmailNguoiGui",cVu.email_User);
-                intent.putExtra("TenNguoiGui",cVu.tenUser);
-                final PendingIntent pendingIntent = PendingIntent.getActivity(getBaseContext(), 0, intent, 0);
                 if(cVu.emailNguoiNhan.equals(EmailUser)){
+                    intent.putExtra("EmailNguoiGui",cVu.email_User);
+                    intent.putExtra("TenNguoiGui",cVu.tenUser);
+                    final PendingIntent pendingIntent = PendingIntent.getActivity(getBaseContext(), 0, intent, 0);
                     NotificationCompat.Builder builder = new NotificationCompat.Builder(getBaseContext(), "Tin Nhắn")
                             .setSmallIcon(R.drawable.logo_app)
                             .setContentTitle(cVu.tenUser)
@@ -380,4 +387,66 @@ public class SinchServices extends Service {
         });
     }
     //end hàm thông báo tin nhắn tới vào noti
+
+    public void LoiMoi(){
+//        sharedPreferences = getSharedPreferences("GhiNhoDangNhap", MODE_PRIVATE);
+//        editor = sharedPreferences.edit();
+//        EmailUser = sharedPreferences.getString("tenTaiKhoan", "");
+        Intent intent = new Intent(this, MainActivity.class);
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        final PendingIntent pendingIntent = PendingIntent.getActivity(getBaseContext(), 0, intent, 0);
+        Bitmap mIcon = BitmapFactory.decodeResource(getBaseContext().getResources(),R.drawable.logo_app);
+        mDatabase.child("LoiMoiKetBan").addChildEventListener(new ChildEventListener() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                FriendsRequest friendsRequest = snapshot.getValue(FriendsRequest.class);
+                if(friendsRequest.EmailUser.equals(EmailUser)){
+                    NotificationCompat.Builder builder = new NotificationCompat.Builder(getBaseContext(), "Tin Nhắn")
+                            .setSmallIcon(R.drawable.logo_app)
+                            .setLargeIcon(mIcon)
+                            .setContentTitle("Friends Request")
+                            .setContentText(friendsRequest.tenTaiKhoan + " send a request for you !")
+                            .setContentIntent(pendingIntent)
+                            .setAutoCancel(true);
+                    NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getBaseContext());
+                    notificationManager.notify(11, builder.build());
+                    AudioPlayer mAudioPlayer = new AudioPlayer(getBaseContext());
+                    mAudioPlayer.playmestone();
+                    try
+                    {
+                        Thread.sleep(1000);
+                    }
+                    catch(InterruptedException ex)
+                    {
+                        Thread.currentThread().interrupt();
+                    }
+                    finally {
+                        mAudioPlayer.stopmess();
+                    }
+                }
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
 }
