@@ -125,8 +125,8 @@ public class SinchServices extends Service {
                     case "STOP":
                         stopService();
                         break;
-                    case "":
-
+                    case "DISS":
+                        stop();
                         break;
                 }
             }
@@ -152,6 +152,7 @@ public class SinchServices extends Service {
     }
     private void stopService() {
         stopForeground(true);
+
     }
     //end hàm bắt đầu chạy fore ground+ kết thức foreground
 

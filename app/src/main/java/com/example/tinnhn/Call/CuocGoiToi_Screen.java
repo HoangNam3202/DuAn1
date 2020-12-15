@@ -45,6 +45,7 @@ public class CuocGoiToi_Screen extends BaseActivity {
         ImageView ava=findViewById(R.id.avatar);
 
 
+
         //nhạc chuông
         mAudioPlayer = new AudioPlayer(this);
         mAudioPlayer.playRingtone();

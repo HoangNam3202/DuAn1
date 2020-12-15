@@ -80,6 +80,8 @@ public class LoginActivity extends BaseActivity {
         sharedPreferences = getSharedPreferences("GhiNhoDangNhap", MODE_PRIVATE);
         editor = sharedPreferences.edit();
         emailsv = sharedPreferences.getString("tenTaiKhoan", "");
+
+        Toast.makeText(this, emailsv, Toast.LENGTH_SHORT).show();
         kTraMang = kiemTraMang.CheckNetworkStatus(LoginActivity.this);
 //        Toast.makeText(this, "" + kTraMang, Toast.LENGTH_SHORT).show();
 

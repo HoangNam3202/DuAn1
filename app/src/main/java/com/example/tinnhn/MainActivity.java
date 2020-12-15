@@ -29,6 +29,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 import com.example.tinnhn.ui.main.SectionsPagerAdapter;
 import com.google.firebase.database.ChildEventListener;
@@ -45,6 +46,9 @@ public class MainActivity extends BaseActivity {
     String TAG = "MainActivity";
     // lấy url hình từ mail người dùng
     BroadcastReceiver broadcastReceiver = new MyReceiver();
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
+    String emailsv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +58,10 @@ public class MainActivity extends BaseActivity {
         filter.addAction(WifiManager.SUPPLICANT_CONNECTION_CHANGE_ACTION);
         filter.addAction(WifiManager.EXTRA_RESULTS_UPDATED);
         this.registerReceiver(broadcastReceiver, filter);
-
+        sharedPreferences = getSharedPreferences("GhiNhoDangNhap", MODE_PRIVATE);
+        editor = sharedPreferences.edit();
+        emailsv = sharedPreferences.getString("tenTaiKhoan", "");
+        Toast.makeText(this, emailsv, Toast.LENGTH_SHORT).show();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             requestPermissions(new String[]{Manifest.permission.RECORD_AUDIO, Manifest.permission.CAMERA, Manifest.permission.ACCESS_NETWORK_STATE, Manifest.permission.READ_PHONE_STATE}, 100);
         }
