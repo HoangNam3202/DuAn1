@@ -71,6 +71,7 @@ public class LoginActivity extends BaseActivity {
         filter.addAction(WifiManager.EXTRA_RESULTS_UPDATED);
         this.registerReceiver(broadcastReceiver, filter);
 
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             requestPermissions(new String[]{Manifest.permission.RECORD_AUDIO, Manifest.permission.CAMERA, Manifest.permission.ACCESS_NETWORK_STATE, Manifest.permission.READ_PHONE_STATE}, 100);
         }
@@ -84,6 +85,7 @@ public class LoginActivity extends BaseActivity {
 
         KiemTraGhiNhoDangNhap();
         DangNhap();
+        actionOnService(Actions.STOP);
         if (kTraMang != 0) {
             txtDangKy = findViewById(R.id.txtDangKy);
             txtDangKy.setOnClickListener(new View.OnClickListener() {
@@ -254,6 +256,18 @@ public class LoginActivity extends BaseActivity {
                     Toast.makeText(LoginActivity.this, "No internet, check network and restart app", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    @Override
+    protected void onStart() {
+        actionOnService(Actions.STOP);
+        super.onStart();
+    }
+
+    @Override
+    protected void onResume() {
+        actionOnService(Actions.STOP);
+        super.onResume();
     }
 
     private void actionOnService(Actions actions) {

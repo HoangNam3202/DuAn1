@@ -6,20 +6,31 @@ import androidx.annotation.RequiresApi;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.BounceInterpolator;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.PopupMenu;
+import android.widget.PopupWindow;
+import android.widget.TextView;
 import android.widget.Toast;
-
 import com.example.tinnhn.Call.BaseActivity;
 import com.example.tinnhn.Call.CuocGoi_Screen;
 import com.example.tinnhn.Call.SinchServices;
+import com.example.tinnhn.translateapi.Language;
+import com.example.tinnhn.translateapi.TranslateAPI;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -41,6 +52,7 @@ public class HoiThoaiActivity extends BaseActivity implements SinchServices.Star
     String TenUser;
     public static HoiThoaiAdapter hoiThoaiAdapter;
     ListView list_Hoithoai;
+
     String key;
     boolean check_TinNhanTonTai;
 
@@ -64,9 +76,9 @@ public class HoiThoaiActivity extends BaseActivity implements SinchServices.Star
         final EditText edtNoiDung = findViewById(R.id.edtNoiDung);
         Button btnGui = findViewById(R.id.btbGui);
         list_Hoithoai = findViewById(R.id.list_Hoithoai);
+
         final ArrayList<HoiThoai> hoiThoaiArrayList = new ArrayList<>();
         final ArrayList<HoiThoai> forArr = new ArrayList<>();
-
         ArrayList<TinNhanHienThi> messageArrayList_Message1 = new ArrayList<>();
         ArrayList<String> StringKey = new ArrayList<>();
         hoiThoaiAdapter = new HoiThoaiAdapter(HoiThoaiActivity.this, R.layout.list_tin_nhan_item, hoiThoaiArrayList);
@@ -75,6 +87,9 @@ public class HoiThoaiActivity extends BaseActivity implements SinchServices.Star
         EmailUser = sharedPreferences.getString("tenTaiKhoan", "");
         EmailNguoiGui = intent_Friends.getStringExtra("EmailNguoiGui");
         TenUser = sharedPreferences.getString("tenUser", "");
+
+
+
         SimpleDateFormat df = new SimpleDateFormat("HH:mm");
         Calendar c = Calendar.getInstance();
         String formattedDate = df.format(c.getTime());
@@ -136,30 +151,7 @@ public class HoiThoaiActivity extends BaseActivity implements SinchServices.Star
                 }
             }
         });
-//        Query query = mDatabase.child("HoiThoai").orderByKey().limitToLast(10);
-//        query.addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                final ArrayList<HoiThoai> hoiThoaiArrayList = new ArrayList<>();
-//                for(DataSnapshot ds : snapshot.getChildren()){
-//                    HoiThoai hThoai = ds.getValue(HoiThoai.class);
-//                    if(hThoai.email_User.equals(EmailUser) && hThoai.emailNguoiNhan.equals(EmailNguoiGui)){
-//                        hoiThoaiArrayList.add(new HoiThoai(hThoai.message_User,hThoai.emailNguoiNhan,hThoai.email_User));
-//                        Toast.makeText(HoiThoaiActivity.this, ""+hThoai.message_User, Toast.LENGTH_SHORT).show();
-//                    }
-//                    if(hThoai.email_User.equals(EmailNguoiGui) && hThoai.emailNguoiNhan.equals(EmailUser)){
-//                        hoiThoaiArrayList.add(new HoiThoai(hThoai.message_User,hThoai.emailNguoiNhan,hThoai.email_User));
-//                    }
-//                    hoiThoaiAdapter.notifyDataSetChanged();
-//                }
-//                scrollMyListViewToBottom();
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//
-//            }
-//        });
+
 
         mDatabase.child("HoiThoai").addChildEventListener(new ChildEventListener() {
             @Override
@@ -200,6 +192,39 @@ public class HoiThoaiActivity extends BaseActivity implements SinchServices.Star
 
             }
         });
+
+
+        list_Hoithoai.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                View popupView = getLayoutInflater().inflate(R.layout.list_popup, null);
+                final PopupWindow popup = new PopupWindow(popupView, WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT, true);
+
+                TextView tv_dich=popupView.findViewById(R.id.tv_dich);
+                TranslateAPI translateAPI = new TranslateAPI(
+                        Language.AUTO_DETECT,
+                        Language.VIETNAMESE, hoiThoaiArrayList.get(position).getMessage_User());
+
+                translateAPI.setTranslateListener(new TranslateAPI.TranslateListener() {
+                    @Override
+                    public void onSuccess(String translatedText) {
+                        tv_dich.setText(translatedText);
+                    }
+
+                    @Override
+                    public void onFailure(String ErrorText) {
+
+                    }
+                });
+                popup.setBackgroundDrawable(new BitmapDrawable());
+                popup.setOutsideTouchable(true);
+                popup.showAsDropDown(view);
+                popup.update();
+                return false;
+            }
+        });
+
+
     }
 
     @Override

@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".HoiThoaiActivity"
     >
-
     <ListView
         android:id="@+id/list_Hoithoai"
         android:layout_width="match_parent"
@@ -52,6 +51,5 @@
         android:background="@drawable/radius"
         android:text="Send"
         android:textColor="#fff" />
-
 
 </RelativeLayout>

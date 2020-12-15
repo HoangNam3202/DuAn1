@@ -144,11 +144,30 @@ public class MainActivity extends BaseActivity {
     }
     @Override
     public void onDestroy() {
-        actionOnService(Actions.START);
+
         String trangthai = "Not Active";
         HamTrangThai(trangthai);
         super.onDestroy();
     }
+
+    @Override
+    protected void onPause() {
+        actionOnService(Actions.START);
+        super.onPause();
+    }
+
+    @Override
+    protected void onStop() {
+
+        super.onStop();
+    }
+
+    @Override
+    protected void onServiceDisconnected() {
+
+        super.onServiceDisconnected();
+    }
+
     @Override
     public void onResume() {
         actionOnService(Actions.STOP);
@@ -186,6 +205,7 @@ public class MainActivity extends BaseActivity {
     }
 
     private void XoaGhiNhoDangNhap() {
+
         SharedPreferences sharedPreferences;
         SharedPreferences.Editor editor;
         sharedPreferences = getSharedPreferences("GhiNhoDangNhap", MODE_PRIVATE);
