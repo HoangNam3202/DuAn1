@@ -61,7 +61,7 @@ public class MainActivity extends BaseActivity {
         sharedPreferences = getSharedPreferences("GhiNhoDangNhap", MODE_PRIVATE);
         editor = sharedPreferences.edit();
         emailsv = sharedPreferences.getString("tenTaiKhoan", "");
-        Toast.makeText(this, emailsv, Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, emailsv, Toast.LENGTH_SHORT).show();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             requestPermissions(new String[]{Manifest.permission.RECORD_AUDIO, Manifest.permission.CAMERA, Manifest.permission.ACCESS_NETWORK_STATE, Manifest.permission.READ_PHONE_STATE}, 100);
         }

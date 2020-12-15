@@ -66,9 +66,6 @@ public class SinchServices extends Service {
 
     @Override
     public void onCreate() {
-        sharedPreferences = getSharedPreferences("GhiNhoDangNhap", MODE_PRIVATE);
-        editor = sharedPreferences.edit();
-        EmailUser = sharedPreferences.getString("tenTaiKhoan", "");
         notification = createNotification();//tạo noti
         ThongBao();//noti tin nhắn
         LoiMoi();
@@ -152,7 +149,6 @@ public class SinchServices extends Service {
     }
     private void stopService() {
         stopForeground(true);
-
     }
     //end hàm bắt đầu chạy fore ground+ kết thức foreground
 
@@ -324,9 +320,9 @@ public class SinchServices extends Service {
 
     //hàm thông báo tin nhắn tới vào noti
     public void ThongBao(){
-//        sharedPreferences = getSharedPreferences("GhiNhoDangNhap", MODE_PRIVATE);
-//        editor = sharedPreferences.edit();
-//        EmailUser = sharedPreferences.getString("tenTaiKhoan", "");
+        sharedPreferences = getSharedPreferences("GhiNhoDangNhap", MODE_PRIVATE);
+        editor = sharedPreferences.edit();
+        EmailUser = sharedPreferences.getString("tenTaiKhoan", "");
         Intent intent = new Intent(this, HoiThoaiActivity.class);
         mDatabase = FirebaseDatabase.getInstance().getReference();
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -390,9 +386,9 @@ public class SinchServices extends Service {
     //end hàm thông báo tin nhắn tới vào noti
 
     public void LoiMoi(){
-//        sharedPreferences = getSharedPreferences("GhiNhoDangNhap", MODE_PRIVATE);
-//        editor = sharedPreferences.edit();
-//        EmailUser = sharedPreferences.getString("tenTaiKhoan", "");
+        sharedPreferences = getSharedPreferences("GhiNhoDangNhap", MODE_PRIVATE);
+        editor = sharedPreferences.edit();
+        EmailUser = sharedPreferences.getString("tenTaiKhoan", "");
         Intent intent = new Intent(this, MainActivity.class);
         mDatabase = FirebaseDatabase.getInstance().getReference();
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -408,7 +404,7 @@ public class SinchServices extends Service {
                             .setSmallIcon(R.drawable.logo_app)
                             .setLargeIcon(mIcon)
                             .setContentTitle("Friends Request")
-                            .setContentText(friendsRequest.tenTaiKhoan + " send a request for you !")
+                            .setContentText(friendsRequest.tenTaiKhoan + " had sent a request for you !")
                             .setContentIntent(pendingIntent)
                             .setAutoCancel(true);
                     NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getBaseContext());
