@@ -48,7 +48,7 @@ public class PlaceholderFragment extends Fragment {
     int vitri;
     boolean clickcheck = false;
     private DatabaseReference mDatabase;
-    public String NoiDung,TenUser;
+    public String NoiDung, TenUser;
     ArrayList<TinNhanHienThi> messageArrayList;
     MessageAdapter messageAdapter;
     String EmailUser;
@@ -75,7 +75,7 @@ public class PlaceholderFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_main, container, false);
         mDatabase = FirebaseDatabase.getInstance().getReference();
         TextView tv_Search_TinNhan = view.findViewById(R.id.title);
@@ -84,7 +84,7 @@ public class PlaceholderFragment extends Fragment {
         messageArrayList_Message1 = new ArrayList<>();
         ArrayList<Friends> messageArrayList_check = new ArrayList<>();
         ArrayList<HoiThoai> messageArrayList_Message = new ArrayList<>();
-        messageAdapter = new MessageAdapter(getActivity(),R.layout.list_message_item,messageArrayList);
+        messageAdapter = new MessageAdapter(getActivity(), R.layout.list_message_item, messageArrayList);
         list_view_Message.setAdapter(messageAdapter);
         sharedPreferences = getContext().getSharedPreferences("GhiNhoDangNhap", MODE_PRIVATE);
         editor = sharedPreferences.edit();
@@ -97,8 +97,7 @@ public class PlaceholderFragment extends Fragment {
                 Intent intent = new Intent(getActivity(), HoiThoaiActivity.class);
                 if (messageArrayList.get(i).email_User.equals(EmailUser)) {
                     intent.putExtra("TenNguoiGui", messageArrayList.get(i).tenUser);
-                }
-                else if (messageArrayList.get(i).emailNguoiNhan.equals(EmailUser)) {
+                } else if (messageArrayList.get(i).emailNguoiNhan.equals(EmailUser)) {
                     intent.putExtra("TenNguoiGui", messageArrayList.get(i).tenNguoiGui);
                 }
                 intent.putExtra("EmailNguoiGui", messageArrayList.get(i).emailNguoiNhan);
@@ -112,18 +111,18 @@ public class PlaceholderFragment extends Fragment {
                 startActivity(new Intent(getActivity(), SearchMessageActivity.class));
             }
         });
-        if(!check_search){
+        if (!check_search) {
             mDatabase.child("TinNhan").addChildEventListener(new ChildEventListener() {
                 @Override
                 public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                     TinNhanHienThi message = snapshot.getValue(TinNhanHienThi.class);
-                    if(message.email_User.equals(EmailUser)){
+                    if (message.email_User.equals(EmailUser)) {
                         String keyTinNhan = snapshot.getKey();
-                        messageArrayList.add(new TinNhanHienThi(keyTinNhan,message.message_User,message.emailNguoiNhan,message.email_User,message.tenUser,message.tenNguoiGui));
+                        messageArrayList.add(new TinNhanHienThi(keyTinNhan, message.message_User, message.emailNguoiNhan, message.email_User, message.tenUser, message.tenNguoiGui));
                     }
-                    if(message.emailNguoiNhan.equals(EmailUser)) {
+                    if (message.emailNguoiNhan.equals(EmailUser)) {
                         String keyTinNhan = snapshot.getKey();
-                        messageArrayList.add(new TinNhanHienThi(keyTinNhan,message.message_User,message.email_User,message.emailNguoiNhan,message.tenNguoiGui,message.tenUser));
+                        messageArrayList.add(new TinNhanHienThi(keyTinNhan, message.message_User, message.email_User, message.emailNguoiNhan, message.tenNguoiGui, message.tenUser));
                     }
 
                     messageAdapter.notifyDataSetChanged();
@@ -154,7 +153,8 @@ public class PlaceholderFragment extends Fragment {
         }
         return view;
     }
-    public void GoiDanhSachTinNhan(){
+
+    public void GoiDanhSachTinNhan() {
         mDatabase = FirebaseDatabase.getInstance().getReference();
         messageArrayList.clear();
         messageAdapter.notifyDataSetChanged();
@@ -162,13 +162,13 @@ public class PlaceholderFragment extends Fragment {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 TinNhanHienThi message = snapshot.getValue(TinNhanHienThi.class);
-                if(message.email_User.equals(EmailUser)){
+                if (message.email_User.equals(EmailUser)) {
                     String keyTinNhan = snapshot.getKey();
-                    messageArrayList.add(new TinNhanHienThi(keyTinNhan,message.message_User,message.emailNguoiNhan,message.email_User,message.tenUser,message.tenNguoiGui));
+                    messageArrayList.add(new TinNhanHienThi(keyTinNhan, message.message_User, message.emailNguoiNhan, message.email_User, message.tenUser, message.tenNguoiGui));
                 }
-                if(message.emailNguoiNhan.equals(EmailUser)) {
+                if (message.emailNguoiNhan.equals(EmailUser)) {
                     String keyTinNhan = snapshot.getKey();
-                    messageArrayList.add(new TinNhanHienThi(keyTinNhan,message.message_User,message.email_User,message.emailNguoiNhan,message.tenNguoiGui,message.tenUser));
+                    messageArrayList.add(new TinNhanHienThi(keyTinNhan, message.message_User, message.email_User, message.emailNguoiNhan, message.tenNguoiGui, message.tenUser));
                 }
 
                 messageAdapter.notifyDataSetChanged();

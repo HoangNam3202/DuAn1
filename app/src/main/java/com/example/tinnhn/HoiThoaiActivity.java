@@ -88,8 +88,7 @@ public class HoiThoaiActivity extends BaseActivity implements SinchServices.Star
                 messageArrayList_Message1.clear();
                 messageArrayList_Message1.add(message);
                 for (int i = 0; i < messageArrayList_Message1.size(); i++) {
-                    if (messageArrayList_Message1.get(i).email_User.equals(EmailUser) && messageArrayList_Message1.get(i).emailNguoiNhan.equals(EmailNguoiGui)
-                            || messageArrayList_Message1.get(i).email_User.equals(EmailNguoiGui) && messageArrayList_Message1.get(i).emailNguoiNhan.equals(EmailUser)) {
+                    if (messageArrayList_Message1.get(i).email_User.equals(EmailUser) && messageArrayList_Message1.get(i).emailNguoiNhan.equals(EmailNguoiGui) || messageArrayList_Message1.get(i).email_User.equals(EmailNguoiGui) && messageArrayList_Message1.get(i).emailNguoiNhan.equals(EmailUser)) {
                         check_TinNhanTonTai = true;
                         key = snapshot.getKey();
                         break;

@@ -261,7 +261,7 @@ public class QuenMatKhauActivity extends AppCompatActivity {
                     tvEmail.setTextColor(getResources().getColor(R.color.colorSuccess));
                     kiemTra[1] = true;
                 } else {
-                    tvEmail.setText("Email chưa hợp lệ");
+                    tvEmail.setText("Invalid email");
                     tvEmail.setTextColor(getResources().getColor(R.color.colorDanger));
                     kiemTra[1] = false;
                 }
@@ -285,7 +285,7 @@ public class QuenMatKhauActivity extends AppCompatActivity {
                     tvSoDienThoai.setTextColor(getResources().getColor(R.color.colorSuccess));
                     kiemTra[2] = true;
                 } else {
-                    tvSoDienThoai.setText("Chưa hợp lệ");
+                    tvSoDienThoai.setText("Invalid phone number");
                     tvSoDienThoai.setTextColor(getResources().getColor(R.color.colorOrange));
                     kiemTra[2] = false;
                 }

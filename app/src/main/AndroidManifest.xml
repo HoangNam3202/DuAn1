@@ -8,7 +8,7 @@
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
 
     <application
         android:allowBackup="true"
@@ -24,9 +24,9 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".SearchMessageActivity"
-            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"
-            />
+        <activity
+            android:name=".SearchMessageActivity"
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
         <activity
             android:name=".SearchFriendsActivity"
             android:parentActivityName=".MainActivity"
@@ -35,7 +35,7 @@
         <service android:name=".Call.SinchServices" />
 
         <activity
-            android:name=".taikhoan.LoginActivity"
+            android:name=".Splash_Screen"
             android:label="Chat Room"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
             <intent-filter>
@@ -50,6 +50,9 @@
         <activity android:name=".Call.CuocGoiToi_Screen" />
         <activity android:name=".MainActivity" />
         <activity
+            android:name=".taikhoan.LoginActivity"
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
+        <activity
             android:name=".Call.GroupHoiThoaiActivity"
             android:theme="@style/TinNhanMoi" />
         <activity
@@ -58,13 +61,10 @@
             android:parentActivityName=".MainActivity"
             android:theme="@style/TinNhanMoi" />
         <activity
-            android:name=".taikhoan.ThemTinhThanhActivity"
-            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
-        <activity
             android:name=".taikhoan.DangKiActivity"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
         <activity android:name=".taikhoan.QuenMatKhauActivity" />
-        <activity android:name=".taikhoan.ThemAnhActivity" />
+
         <activity android:name=".Information_friend_acitivity"
             android:parentActivityName=".MainActivity"
             android:theme="@style/TinNhanMoi"/>
