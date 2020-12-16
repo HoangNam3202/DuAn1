@@ -98,7 +98,6 @@ public class FriendChildFragment extends Fragment {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 FriendsRequest friendsRequest = snapshot.getValue(FriendsRequest.class);
-
                 if (friendsRequest.EmailUser.equals(EmailUser)) {
                     String key = snapshot.getKey();
                     arrFriendsRequests.add(new FriendsRequest(key, friendsRequest.idTaiKhoan, friendsRequest.tenTaiKhoan, friendsRequest.email,
@@ -142,8 +141,8 @@ public class FriendChildFragment extends Fragment {
             @Override
             public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 TrangThai trangThai123 = snapshot.getValue(TrangThai.class);
-                for(int i = 0 ; i < arrFriends.size(); i++){
-                    if(arrFriends.get(i).email.equals(trangThai123.Email_user)){
+                for (int i = 0; i < arrFriends.size(); i++) {
+                    if (arrFriends.get(i).email.equals(trangThai123.Email_user)) {
                         arrFriends.clear();
                         friendsAdapter.notifyDataSetChanged();
                         GoiDanhSachBanBe();
@@ -177,17 +176,15 @@ public class FriendChildFragment extends Fragment {
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 FriendsRequest friendsRequest = snapshot.getValue(FriendsRequest.class);
 
-                    if (friendsRequest.EmailUser.equals(EmailUser)) {
-                        String key = snapshot.getKey();
-                        arrFriendsRequests.add(new FriendsRequest(key, friendsRequest.idTaiKhoan, friendsRequest.tenTaiKhoan, friendsRequest.email,
-                                friendsRequest.diaChi, friendsRequest.hinhDaiDien, friendsRequest.EmailUser));
-                    }
-                    if (arrFriendsRequests.size() <= 0) {
-                        list_friends_request_child.setVisibility(View.GONE);
-                    } else {
-                        list_friends_request_child.setVisibility(View.VISIBLE);
-                    }
-
+                if (friendsRequest.EmailUser.equals(EmailUser)) {
+                    String key = snapshot.getKey();
+                    arrFriendsRequests.add(new FriendsRequest(key, friendsRequest.idTaiKhoan, friendsRequest.tenTaiKhoan, friendsRequest.email, friendsRequest.diaChi, friendsRequest.hinhDaiDien, friendsRequest.EmailUser));
+                }
+                if (arrFriendsRequests.size() <= 0) {
+                    list_friends_request_child.setVisibility(View.GONE);
+                } else {
+                    list_friends_request_child.setVisibility(View.VISIBLE);
+                }
                 friendsRequestAdapter.notifyDataSetChanged();
             }
 
@@ -243,7 +240,7 @@ public class FriendChildFragment extends Fragment {
             @Override
             public void onChildRemoved(@NonNull DataSnapshot snapshot) {
                 Friends friends = snapshot.getValue(Friends.class);
-                if(friends.EmailUser.equals(EmailUser)){
+                if (friends.EmailUser.equals(EmailUser)) {
                     GoiDanhSachBanBe();
                 }
             }

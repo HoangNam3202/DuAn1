@@ -10,11 +10,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
-//import com.example.tinnhn.AddActivity;
-//import com.example.tinnhn.DatabaseHelper;
 import com.example.tinnhn.R;
 import com.google.android.material.tabs.TabLayout;
-//import com.example.tinnhn.TinNhan;
 
 
 public class FriendsFragment extends Fragment {
