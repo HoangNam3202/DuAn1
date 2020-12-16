@@ -128,6 +128,7 @@ public class SinchServices extends Service {
                 }
             }
         }
+        EmailUser = intent.getStringExtra("EmailUser");
         return START_STICKY;
     }
     //end hàm hứng trạng thái của foreground
@@ -320,9 +321,9 @@ public class SinchServices extends Service {
 
     //hàm thông báo tin nhắn tới vào noti
     public void ThongBao(){
-        sharedPreferences = getSharedPreferences("GhiNhoDangNhap", MODE_PRIVATE);
-        editor = sharedPreferences.edit();
-        EmailUser = sharedPreferences.getString("tenTaiKhoan", "");
+//        sharedPreferences = getSharedPreferences("GhiNhoDangNhap", MODE_PRIVATE);
+//        editor = sharedPreferences.edit();
+//        EmailUser = sharedPreferences.getString("tenTaiKhoan", "");
         Intent intent = new Intent(this, HoiThoaiActivity.class);
         mDatabase = FirebaseDatabase.getInstance().getReference();
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -386,9 +387,9 @@ public class SinchServices extends Service {
     //end hàm thông báo tin nhắn tới vào noti
 
     public void LoiMoi(){
-        sharedPreferences = getSharedPreferences("GhiNhoDangNhap", MODE_PRIVATE);
-        editor = sharedPreferences.edit();
-        EmailUser = sharedPreferences.getString("tenTaiKhoan", "");
+//        sharedPreferences = getSharedPreferences("GhiNhoDangNhap", MODE_PRIVATE);
+//        editor = sharedPreferences.edit();
+//        EmailUser = sharedPreferences.getString("tenTaiKhoan", "");
         Intent intent = new Intent(this, MainActivity.class);
         mDatabase = FirebaseDatabase.getInstance().getReference();
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -446,4 +447,5 @@ public class SinchServices extends Service {
             }
         });
     }
+
 }

@@ -103,7 +103,6 @@ public class SettingFragment extends Fragment {
                 editor.remove("DiaChiUser");
                 editor.remove("urlHinhDaiDien");
                 editor.commit();
-                HamTrangThai(EmailUser);
                 actionOnService(Actions.DISS);
                 Intent intent = new Intent(getActivity(), LoginActivity.class);
                 getActivity().finish();

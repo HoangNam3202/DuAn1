@@ -10,7 +10,9 @@
             android:layout_height="wrap_content"
             android:textColor="@color/colorWhite"
             android:textSize="17sp"
-            android:background="@drawable/bg_tin_nhan_item2">
+            android:background="@drawable/bg_tin_nhan_item2"
+            android:padding="5dp"
+            >
 
         </TextView>
 

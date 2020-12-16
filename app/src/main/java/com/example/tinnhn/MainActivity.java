@@ -143,6 +143,7 @@ public class MainActivity extends BaseActivity {
     private void actionOnService(Actions actions) {
 
         Intent intent = new Intent(MainActivity.this, SinchServices.class);
+        intent.putExtra("EmailUser", emailsv);
         intent.setAction(actions.name());
         startService(intent);
 
