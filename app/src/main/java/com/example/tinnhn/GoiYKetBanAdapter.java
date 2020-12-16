@@ -2,6 +2,7 @@ package com.example.tinnhn;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -127,6 +128,12 @@ public class GoiYKetBanAdapter extends BaseAdapter {
                     if (goiYKetBan.email.equals(arrFriends.get(i).email)) {
                         AlertDialog.Builder builder = new AlertDialog.Builder(context);
                         builder.setMessage("Friended");
+                        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        });
                         builder.create().show();
                         check_friended = true;
                     }

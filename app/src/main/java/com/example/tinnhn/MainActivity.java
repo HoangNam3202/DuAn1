@@ -44,7 +44,6 @@ import static com.example.tinnhn.taikhoan.LoginActivity.kTraMang;
 
 public class MainActivity extends BaseActivity {
     String TAG = "MainActivity";
-    // lấy url hình từ mail người dùng
     BroadcastReceiver broadcastReceiver = new MyReceiver();
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
@@ -133,8 +132,7 @@ public class MainActivity extends BaseActivity {
                 }
             });
             builder.show();
-        }
-        else {
+        } else {
             String trangthai = "Active Now";
             HamTrangThai(trangthai);
         }
@@ -148,11 +146,10 @@ public class MainActivity extends BaseActivity {
         startService(intent);
 
 
-
     }
+
     @Override
     public void onDestroy() {
-
         String trangthai = "Not Active";
         HamTrangThai(trangthai);
         super.onDestroy();
@@ -181,6 +178,7 @@ public class MainActivity extends BaseActivity {
         actionOnService(Actions.STOP);
         super.onResume();
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -196,7 +194,6 @@ public class MainActivity extends BaseActivity {
         switch (item.getItemId()) {
             case R.id.menu_Dangxuat:
                 XoaGhiNhoDangNhap();
-
                 startActivity(new Intent(MainActivity.this, LoginActivity.class));
                 finish();
                 break;
@@ -219,10 +216,14 @@ public class MainActivity extends BaseActivity {
         sharedPreferences = getSharedPreferences("GhiNhoDangNhap", MODE_PRIVATE);
         editor = sharedPreferences.edit();
         editor.remove("tenTaiKhoan");
+        editor.remove("tenUser");
+        editor.remove("DiaChiUser");
+        editor.remove("urlHinhDaiDien");
         editor.commit();
     }
+
     //dang xuat
-    public void HamTrangThai(String trangthai){
+    public void HamTrangThai(String trangthai) {
         SharedPreferences sharedPreferences;
         SharedPreferences.Editor editor;
         sharedPreferences = getSharedPreferences("GhiNhoDangNhap", MODE_PRIVATE);

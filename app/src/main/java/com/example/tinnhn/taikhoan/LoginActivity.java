@@ -122,7 +122,10 @@ public class LoginActivity extends BaseActivity {
 
     private void KiemTraGhiNhoDangNhap() {
         String tenTaiKhoan = sharedPreferences.getString("tenTaiKhoan", "");
-        if (tenTaiKhoan.length() != 0) {
+        String tenUser = sharedPreferences.getString("tenUser", "");
+        String DiaChiUser = sharedPreferences.getString("DiaChiUser", "");
+        String urlHinhDaiDientest = sharedPreferences.getString("urlHinhDaiDien", "");
+        if (tenTaiKhoan.length() != 0 && tenUser.length() != 0 && DiaChiUser.length() != 0 && urlHinhDaiDientest.length() != 0) {
             urlHinhDaiDien = sharedPreferences.getString("urlHinhDaiDien", "");
             startActivity(new Intent(LoginActivity.this, MainActivity.class));
             finish();
@@ -279,7 +282,7 @@ public class LoginActivity extends BaseActivity {
         startService(intent);
     }
 
-    public void HamTrangThai(String email){
+    public void HamTrangThai(String email) {
         DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
         mDatabase.child("TrangThai").addChildEventListener(new ChildEventListener() {
             @Override
