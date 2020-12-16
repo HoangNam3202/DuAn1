@@ -324,9 +324,9 @@ public class SinchServices extends Service {
 //        sharedPreferences = getSharedPreferences("GhiNhoDangNhap", MODE_PRIVATE);
 //        editor = sharedPreferences.edit();
 //        EmailUser = sharedPreferences.getString("tenTaiKhoan", "");
-        Intent intent = new Intent(this, HoiThoaiActivity.class);
+        Intent intent1 = new Intent(this, HoiThoaiActivity.class);
         mDatabase = FirebaseDatabase.getInstance().getReference();
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 
         mDatabase.child("ThongBao").addChildEventListener(new ChildEventListener() {
             @RequiresApi(api = Build.VERSION_CODES.O)
@@ -334,9 +334,9 @@ public class SinchServices extends Service {
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 ThongBao cVu = snapshot.getValue(ThongBao.class);
                 if(cVu.emailNguoiNhan.equals(EmailUser)){
-                    intent.putExtra("EmailNguoiGui",cVu.email_User);
-                    intent.putExtra("TenNguoiGui",cVu.tenUser);
-                    final PendingIntent pendingIntent = PendingIntent.getActivity(getBaseContext(), 0, intent, 0);
+                    intent1.putExtra("EmailNguoiGui",cVu.email_User);
+                    intent1.putExtra("TenNguoiGui",cVu.tenUser);
+                    final PendingIntent pendingIntent = PendingIntent.getActivity(getBaseContext(), 0, intent1, 0);
                     NotificationCompat.Builder builder = new NotificationCompat.Builder(getBaseContext(), "Tin Nhắn")
                             .setSmallIcon(R.drawable.logo_app)
                             .setContentTitle(cVu.tenUser)
