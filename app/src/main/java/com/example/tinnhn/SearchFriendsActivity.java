@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.text.Editable;
@@ -25,6 +26,7 @@ import java.util.ArrayList;
 
 public class SearchFriendsActivity extends AppCompatActivity {
     private DatabaseReference mDatabase;
+    String check_fragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +43,19 @@ public class SearchFriendsActivity extends AppCompatActivity {
         List_TimKiem.setAdapter(searchFriendsAdapter);
         final ArrayList<TaiKhoan> goiYKetBanArrayList_check = new ArrayList<>();
 
-
+        Intent intent2 = getIntent();
+        if (intent2 != null){
+            check_fragment = getIntent().getStringExtra("check_fragment");;
+//            Toast.makeText(this, ""+check_fragment, Toast.LENGTH_SHORT).show();
+            if(check_fragment != null){
+                if (check_fragment.equals("true")) {
+                    Intent intent0 = new Intent(SearchFriendsActivity.this,MainActivity.class);
+                    intent0.putExtra("check_fragment","true");
+                    startActivity(intent0);
+                    finish();
+                }
+            }
+        }
         tv_Search.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {

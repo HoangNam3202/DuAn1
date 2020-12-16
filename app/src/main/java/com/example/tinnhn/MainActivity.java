@@ -48,7 +48,8 @@ public class MainActivity extends BaseActivity {
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
     String emailsv;
-
+    TabLayout tabs;
+    String check_fragment;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,8 +70,10 @@ public class MainActivity extends BaseActivity {
         SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(this, getSupportFragmentManager());
         ViewPager viewPager = findViewById(R.id.view_pager);
         viewPager.setAdapter(sectionsPagerAdapter);
-        final TabLayout tabs = findViewById(R.id.tabs);
+        tabs = findViewById(R.id.tabs);
         tabs.setupWithViewPager(viewPager);
+
+
         tabs.getTabAt(0).setIcon(R.drawable.envelope);
         tabs.getTabAt(1).setIcon(R.drawable.group);
         tabs.getTabAt(2).setIcon(R.drawable.friend);
@@ -176,6 +179,20 @@ public class MainActivity extends BaseActivity {
     @Override
     public void onResume() {
         actionOnService(Actions.STOP);
+        Intent intent2 = getIntent();
+        if (intent2 != null){
+            check_fragment = getIntent().getStringExtra("check_fragment");;
+//            Toast.makeText(this, ""+check_fragment, Toast.LENGTH_SHORT).show();
+            if(check_fragment != null){
+                if (check_fragment.equals("true")) {
+                    tabs.getTabAt(2).select();
+                    tabs.getTabAt(2).getIcon().setColorFilter(getResources().getColor(R.color.colorItemSelected), PorterDuff.Mode.SRC_IN);
+                    tabs.getTabAt(1).getIcon().setColorFilter(getResources().getColor(R.color.colorItem), PorterDuff.Mode.SRC_IN);
+                    tabs.getTabAt(0).getIcon().setColorFilter(getResources().getColor(R.color.colorItem), PorterDuff.Mode.SRC_IN);
+                    tabs.getTabAt(3).getIcon().setColorFilter(getResources().getColor(R.color.colorItem), PorterDuff.Mode.SRC_IN);
+                }
+            }
+        }
         super.onResume();
     }
 

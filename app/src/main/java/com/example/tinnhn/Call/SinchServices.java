@@ -5,14 +5,12 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.media.RingtoneManager;
 import android.os.Binder;
 import android.os.Build;
 import android.os.IBinder;
@@ -26,10 +24,9 @@ import androidx.core.app.NotificationManagerCompat;
 
 import com.example.tinnhn.FriendsRequest;
 import com.example.tinnhn.HoiThoaiActivity;
-import com.example.tinnhn.MainActivity;
 import com.example.tinnhn.R;
+import com.example.tinnhn.SearchFriendsActivity;
 import com.example.tinnhn.ThongBao;
-import com.example.tinnhn.ui.main.FriendChildFragment;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -390,10 +387,9 @@ public class SinchServices extends Service {
 //        sharedPreferences = getSharedPreferences("GhiNhoDangNhap", MODE_PRIVATE);
 //        editor = sharedPreferences.edit();
 //        EmailUser = sharedPreferences.getString("tenTaiKhoan", "");
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent2 = new Intent(this, SearchFriendsActivity.class);
         mDatabase = FirebaseDatabase.getInstance().getReference();
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        final PendingIntent pendingIntent = PendingIntent.getActivity(getBaseContext(), 0, intent, 0);
+        intent2.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         Bitmap mIcon = BitmapFactory.decodeResource(getBaseContext().getResources(),R.drawable.logo_app);
         mDatabase.child("LoiMoiKetBan").addChildEventListener(new ChildEventListener() {
             @RequiresApi(api = Build.VERSION_CODES.O)
@@ -401,6 +397,8 @@ public class SinchServices extends Service {
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 FriendsRequest friendsRequest = snapshot.getValue(FriendsRequest.class);
                 if(friendsRequest.EmailUser.equals(EmailUser)){
+                    intent2.putExtra("check_fragment", "true");
+                    final PendingIntent pendingIntent = PendingIntent.getActivity(getBaseContext(), 0, intent2, 0);
                     NotificationCompat.Builder builder = new NotificationCompat.Builder(getBaseContext(), "Tin Nhắn")
                             .setSmallIcon(R.drawable.logo_app)
                             .setLargeIcon(mIcon)
