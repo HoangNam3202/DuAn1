@@ -93,45 +93,8 @@ public class FriendChildFragment extends Fragment {
         if (arrFriendsRequests.size() <= 0) {
             list_friends_request_child.setVisibility(View.GONE);
         }
+        GoiLoiMoiKetBan();
 
-        mDatabase.child("LoiMoiKetBan").addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                FriendsRequest friendsRequest = snapshot.getValue(FriendsRequest.class);
-                if (friendsRequest.EmailUser.equals(EmailUser)) {
-                    String key = snapshot.getKey();
-                    arrFriendsRequests.add(new FriendsRequest(key, friendsRequest.idTaiKhoan, friendsRequest.tenTaiKhoan, friendsRequest.email,
-                            friendsRequest.diaChi, friendsRequest.hinhDaiDien, friendsRequest.EmailUser));
-                }
-                if (arrFriendsRequests.size() <= 0) {
-                    list_friends_request_child.setVisibility(View.GONE);
-                } else {
-                    list_friends_request_child.setVisibility(View.VISIBLE);
-                }
-
-                friendsRequestAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-            }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-                friendsRequestAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
         mDatabase.child("TrangThai").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
@@ -171,11 +134,11 @@ public class FriendChildFragment extends Fragment {
     public static void GoiLoiMoiKetBan() {
         mDatabase = FirebaseDatabase.getInstance().getReference();
         arrFriendsRequests.clear();
+        friendsRequestAdapter.notifyDataSetChanged();
         mDatabase.child("LoiMoiKetBan").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 FriendsRequest friendsRequest = snapshot.getValue(FriendsRequest.class);
-
                 if (friendsRequest.EmailUser.equals(EmailUser)) {
                     String key = snapshot.getKey();
                     arrFriendsRequests.add(new FriendsRequest(key, friendsRequest.idTaiKhoan, friendsRequest.tenTaiKhoan, friendsRequest.email, friendsRequest.diaChi, friendsRequest.hinhDaiDien, friendsRequest.EmailUser));
@@ -195,7 +158,15 @@ public class FriendChildFragment extends Fragment {
 
             @Override
             public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-
+                FriendsRequest friendsRequest = snapshot.getValue(FriendsRequest.class);
+                if (friendsRequest.EmailUser.equals(EmailUser)) {
+                    for (int i = 0; i < arrFriendsRequests.size(); i++) {
+                        if (arrFriendsRequests.get(i).email.equals(friendsRequest.email)) {
+                            arrFriendsRequests.remove(i);
+                        }
+                        friendsRequestAdapter.notifyDataSetChanged();
+                    }
+                }
             }
 
             @Override
@@ -241,7 +212,12 @@ public class FriendChildFragment extends Fragment {
             public void onChildRemoved(@NonNull DataSnapshot snapshot) {
                 Friends friends = snapshot.getValue(Friends.class);
                 if (friends.EmailUser.equals(EmailUser)) {
-                    GoiDanhSachBanBe();
+                    for (int i = 0; i < arrFriends.size(); i++) {
+                        if (arrFriends.get(i).email.equals(friends.email)) {
+                            arrFriends.remove(i);
+                        }
+                        friendsAdapter.notifyDataSetChanged();
+                    }
                 }
             }
 
