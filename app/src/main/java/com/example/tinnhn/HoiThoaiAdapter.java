@@ -120,6 +120,7 @@ public class HoiThoaiAdapter extends BaseAdapter {
             });
         }
         if (hoiThoai.email_User.equals(EmailNguoiGui)) {
+
             tv_HoiThoaiBanCuaUser.setText(hoiThoai.message_User);
             tvUser_tin_nhan.setVisibility(View.GONE);
             imgAnh_User_tin_nhan.setVisibility(View.GONE);

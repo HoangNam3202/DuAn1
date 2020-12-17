@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -15,6 +16,7 @@ import android.widget.Toast;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.bumptech.glide.Glide;
+import com.example.tinnhn.HoiThoai;
 import com.example.tinnhn.R;
 import com.example.tinnhn.taikhoan.TaiKhoan;
 import com.google.firebase.database.ChildEventListener;
@@ -34,6 +36,9 @@ public class CuocGoiToi_Screen extends BaseActivity {
     private AudioPlayer mAudioPlayer;
     DatabaseReference databaseReference;
     private Context mContext;
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
+    String  EmailUser,TenNguoiGui;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,13 +56,18 @@ public class CuocGoiToi_Screen extends BaseActivity {
         mAudioPlayer.playRingtone();
         //end nhạc chuông
         appIDNguoiGoi = getIntent().getStringExtra(SinchServices.CALL_ID);
+        sharedPreferences = getSharedPreferences("GhiNhoDangNhap", MODE_PRIVATE);
+        editor = sharedPreferences.edit();
+        EmailUser = sharedPreferences.getString("tenTaiKhoan", "");
         //end ánh xạ
         databaseReference = FirebaseDatabase.getInstance().getReference();
         databaseReference.child("TaiKhoan").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 TaiKhoan taiKhoan = snapshot.getValue(TaiKhoan.class);
+
                 if (taiKhoan.getEmail().equals(getGiaodiendichvu().getCall(appIDNguoiGoi).getRemoteUserId())) {
+                    TenNguoiGui=taiKhoan.getTenTaiKhoan();
                     Glide.with(getBaseContext()).asBitmap().load(taiKhoan.getHinhDaiDien()).into(ava);
                 }
             }
@@ -96,6 +106,11 @@ public class CuocGoiToi_Screen extends BaseActivity {
         Tuchoi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Call call = getGiaodiendichvu().getCall(appIDNguoiGoi);
+                String calldetail =
+                        "You have a missed call from "+TenNguoiGui+".";
+                final HoiThoai hoiThoai = new HoiThoai(calldetail, call.getRemoteUserId(), EmailUser);
+                databaseReference.child("HoiThoai").push().setValue(hoiThoai);
                 tuchoi();
             }
         });

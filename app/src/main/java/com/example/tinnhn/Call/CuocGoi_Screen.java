@@ -1,6 +1,8 @@
 package com.example.tinnhn.Call;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.util.Log;
@@ -19,7 +21,9 @@ import androidx.annotation.Nullable;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.bumptech.glide.Glide;
+import com.example.tinnhn.HoiThoai;
 import com.example.tinnhn.R;
+import com.example.tinnhn.TinNhanHienThi;
 import com.example.tinnhn.taikhoan.TaiKhoan;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -33,6 +37,8 @@ import com.sinch.android.rtc.calling.CallState;
 import com.sinch.android.rtc.video.VideoCallListener;
 import com.sinch.android.rtc.video.VideoController;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Timer;
@@ -58,6 +64,10 @@ public class CuocGoi_Screen extends BaseActivity {
     ImageView hinh;
     LottieAnimationView anima;
     AudioManager audioManager;
+
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
+    String  EmailUser;
     private class UpdateCallDurationTask extends TimerTask {
 
         @Override
@@ -92,6 +102,10 @@ public class CuocGoi_Screen extends BaseActivity {
         audioManager = (AudioManager) getApplicationContext().getSystemService(Context.AUDIO_SERVICE);
         audioManager.setMode(AudioManager.MODE_IN_CALL);
         audioManager.setMicrophoneMute(false);
+
+        sharedPreferences = getSharedPreferences("GhiNhoDangNhap", MODE_PRIVATE);
+        editor = sharedPreferences.edit();
+        EmailUser = sharedPreferences.getString("tenTaiKhoan", "");
 
         databaseReference = FirebaseDatabase.getInstance().getReference();
         databaseReference.child("TaiKhoan").addChildEventListener(new ChildEventListener() {
@@ -169,6 +183,13 @@ public class CuocGoi_Screen extends BaseActivity {
         endCallButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Call call = getGiaodiendichvu().getCall(appCallId);
+//                CallEndCause cause = call.getDetails().getEndCause();
+                String calldetail =
+                        "Your call have ended. \n"
+                                +"duration: "+call.getDetails().getDuration()+" sec.";
+                final HoiThoai hoiThoai = new HoiThoai(calldetail, call.getRemoteUserId(), EmailUser);
+                databaseReference.child("HoiThoai").push().setValue(hoiThoai);
                 endCall();
             }
         });
@@ -244,9 +265,23 @@ public class CuocGoi_Screen extends BaseActivity {
     //hàn ngừng cuộc gọi
     private void endCall() {
         //mAudioPlayer.stopProgressTone();
+//        SimpleDateFormat df = new SimpleDateFormat("hh:mm:ss a",Locale.ENGLISH);
         Call call = getGiaodiendichvu().getCall(appCallId);
+//        long starttimestamp=call.getDetails().getEstablishedTime();
+//        Date starttime=new Date((starttimestamp));
+//        long endtimestamp=call.getDetails().getEndedTime();
+//        Date endtime=new Date((endtimestamp));
+//        String starttime2=df.format(starttime);
+//        String endtime2=df.format(endtime);
+
+
+//                +"started at: "+starttime2+"\nended at: "
+//+endtime2;
         if (call != null) {
             call.hangup();
+//            Toast.makeText(this, call.getRemoteUserId(), Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this,EmailUser, Toast.LENGTH_SHORT).show();
+
         }
         finish();
     }
@@ -370,8 +405,6 @@ public class CuocGoi_Screen extends BaseActivity {
             Log.d(TAG, "Call ended. Reason: " + cause.toString());
             // mAudioPlayer.stopProgressTone();
             setVolumeControlStream(AudioManager.USE_DEFAULT_STREAM_TYPE);
-            String endMsg = "Call ended: " + call.getDetails().toString();
-            Toast.makeText(CuocGoi_Screen.this, endMsg, Toast.LENGTH_LONG).show();
 
             endCall();
         }
