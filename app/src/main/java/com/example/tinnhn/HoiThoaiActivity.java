@@ -12,9 +12,11 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.BounceInterpolator;
@@ -197,29 +199,49 @@ public class HoiThoaiActivity extends BaseActivity implements SinchServices.Star
         list_Hoithoai.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                View popupView = getLayoutInflater().inflate(R.layout.list_popup, null);
-                final PopupWindow popup = new PopupWindow(popupView, WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT, true);
+                if(hoiThoaiArrayList.get(position).getEmailNguoiNhan().equals(EmailUser)){
+                    View popupView = getLayoutInflater().inflate(R.layout.list_popup, null);
+                    final PopupWindow popup = new PopupWindow(popupView, WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT, true);
 
-                TextView tv_dich=popupView.findViewById(R.id.tv_dich);
-                TranslateAPI translateAPI = new TranslateAPI(
-                        Language.AUTO_DETECT,
-                        Language.VIETNAMESE, hoiThoaiArrayList.get(position).getMessage_User());
+                    TextView tv_dich=popupView.findViewById(R.id.tv_dich);
+                    TranslateAPI translateAPI = new TranslateAPI(
+                            Language.AUTO_DETECT,
+                            Language.VIETNAMESE, hoiThoaiArrayList.get(position).getMessage_User());
 
-                translateAPI.setTranslateListener(new TranslateAPI.TranslateListener() {
-                    @Override
-                    public void onSuccess(String translatedText) {
-                        tv_dich.setText(translatedText);
-                    }
+                    translateAPI.setTranslateListener(new TranslateAPI.TranslateListener() {
+                        @Override
+                        public void onSuccess(String translatedText) {
+                            tv_dich.setText(translatedText);
+                        }
 
-                    @Override
-                    public void onFailure(String ErrorText) {
+                        @Override
+                        public void onFailure(String ErrorText) {
 
-                    }
-                });
-                popup.setBackgroundDrawable(new BitmapDrawable());
-                popup.setOutsideTouchable(true);
-                popup.showAsDropDown(view);
-                popup.update();
+                        }
+                    });
+
+                    popup.setBackgroundDrawable(new BitmapDrawable());
+                    popup.setOutsideTouchable(true);
+                    popup.update(0, 0, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+//                    if(hoiThoaiArrayList.get(position).getEmailNguoiNhan().equals(EmailUser)){
+                        popup.setAnimationStyle(R.style.popup_window_animationright);
+                        popup.showAsDropDown(view,0,-200,Gravity.RIGHT);
+//                    }else{
+//                        popup.setAnimationStyle(R.style.popup_window_animationleft);
+//                        popup.showAsDropDown(view,0,-200,Gravity.LEFT);
+//                    }
+
+
+//                    if(hoiThoaiArrayList.get(position+1).getEmailNguoiNhan().equals(EmailUser)){
+//                        popup.showAsDropDown(view,0,0,Gravity.RIGHT);
+//                    }else{
+//                        popup.showAsDropDown(view,0,0,Gravity.LEFT);
+//                    }
+                    popup.update();
+                }else{
+                    //donothing
+                }
+
                 return false;
             }
         });
