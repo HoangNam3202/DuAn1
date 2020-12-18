@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -83,6 +84,14 @@ public class HoiThoaiAdapter extends BaseAdapter {
 
 
         if (hoiThoai.email_User.equals(EmailUser)) {
+            if (hoiThoai.message_User.contains("Your call have ended.")) {
+                tvUser_tin_nhan.setTextColor(Color.DKGRAY);
+                tvUser_tin_nhan.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_baseline_phone_callback_24, 0, 0, 0);
+            }
+            if (hoiThoai.message_User.contains("You have a missed call from")) {
+                tvUser_tin_nhan.setTextColor(Color.RED);
+                tvUser_tin_nhan.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_baseline_phone_missed_24, 0, 0, 0);
+            }
             tvUser_tin_nhan.setText(hoiThoai.message_User);
             tv_HoiThoaiBanCuaUser.setVisibility(View.GONE);
             imgAnh_Ban_Cua_User.setVisibility(View.GONE);
@@ -120,7 +129,14 @@ public class HoiThoaiAdapter extends BaseAdapter {
             });
         }
         if (hoiThoai.email_User.equals(EmailNguoiGui)) {
-
+            if (hoiThoai.message_User.contains("Your call have ended.")) {
+                tvUser_tin_nhan.setTextColor(Color.DKGRAY);
+                tvUser_tin_nhan.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_baseline_phone_callback_24, 0, 0, 0);
+            }
+            if (hoiThoai.message_User.contains("You have a missed call from")) {
+                tvUser_tin_nhan.setTextColor(Color.RED);
+                tvUser_tin_nhan.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_baseline_phone_missed_24, 0, 0, 0);
+            }
             tv_HoiThoaiBanCuaUser.setText(hoiThoai.message_User);
             tvUser_tin_nhan.setVisibility(View.GONE);
             imgAnh_User_tin_nhan.setVisibility(View.GONE);

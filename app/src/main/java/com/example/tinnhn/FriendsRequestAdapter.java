@@ -142,7 +142,7 @@ public class FriendsRequestAdapter extends BaseAdapter {
                     Friends friends1 = new Friends(null, idUser, TenUser, EmailUser, DiaChiUser, hinhUser, friendsRequest.email);
                     mDatabase.child("BanBe").push().setValue(friends1);
                     mDatabase.child("LoiMoiKetBan").child(friendsRequest.idKey).removeValue();
-                    GoiDanhSachBanBe();
+//                    GoiDanhSachBanBe();
                 }
             }
         });
