@@ -48,7 +48,7 @@ public class MainActivity extends BaseActivity {
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
     String emailsv;
-    TabLayout tabs;
+    public static TabLayout tabs;
     String check_fragment;
     @Override
     protected void onCreate(Bundle savedInstanceState) {

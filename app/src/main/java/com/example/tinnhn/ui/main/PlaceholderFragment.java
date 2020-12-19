@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.text.Editable;
@@ -41,6 +42,8 @@ import java.util.ArrayList;
 
 import static android.content.Context.MODE_PRIVATE;
 import static com.example.tinnhn.HoiThoaiActivity.hoiThoaiAdapter;
+import static com.example.tinnhn.MainActivity.tabs;
+import static com.example.tinnhn.ui.main.FriendsFragment.tabs_FriendFragment;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -58,7 +61,7 @@ public class PlaceholderFragment extends Fragment {
     MessageAdapter messageAdapter;
     String EmailUser;
     ArrayList<TinNhanHienThi> messageArrayList_Message1;
-    boolean check_search;
+    boolean check_search,check_dialog;
 
     public static PlaceholderFragment newInstance(int index) {
         PlaceholderFragment fragment = new PlaceholderFragment();
@@ -155,38 +158,39 @@ public class PlaceholderFragment extends Fragment {
                 }
             });
         }
-
-        mDatabase.child("BanBe").addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                LoadBanBe loadBanBe = snapshot.getValue(LoadBanBe.class);
-                if (loadBanBe.EmailUser.equals(EmailUser)) {
-                    String key_Friend = snapshot.getKey();
-                    messageArrayList_check.add(new LoadBanBe(key_Friend, loadBanBe.idTaiKhoan, loadBanBe.tenTaiKhoan, loadBanBe.email,
-                            loadBanBe.diaChi, loadBanBe.hinhDaiDien, loadBanBe.EmailUser));
+        if(!check_dialog) {
+            mDatabase.child("BanBe").addChildEventListener(new ChildEventListener() {
+                @Override
+                public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                    LoadBanBe loadBanBe = snapshot.getValue(LoadBanBe.class);
+                    if (loadBanBe.EmailUser.equals(EmailUser)) {
+                        String key_Friend = snapshot.getKey();
+                        messageArrayList_check.add(new LoadBanBe(key_Friend, loadBanBe.idTaiKhoan, loadBanBe.tenTaiKhoan, loadBanBe.email,
+                                loadBanBe.diaChi, loadBanBe.hinhDaiDien, loadBanBe.EmailUser));
+                    }
                 }
-            }
 
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                @Override
+                public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
 
-            }
+                }
 
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+                @Override
+                public void onChildRemoved(@NonNull DataSnapshot snapshot) {
 
-            }
+                }
 
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                @Override
+                public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
 
-            }
+                }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
 
-            }
-        });
+                }
+            });
+        }
         new CountDownTimer(2000, 100) {
             @Override
             public void onTick(long millisUntilFinished) {
@@ -194,16 +198,30 @@ public class PlaceholderFragment extends Fragment {
 
             @Override
             public void onFinish() {
-                if(messageArrayList_check.size() <= 0){
-                    android.app.AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                    builder.setMessage("M k co' ban., lam quen may' dua' di !");
-                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-
-                        }
-                    });
-                    builder.show();
+                if(!check_dialog) {
+                    if (messageArrayList_check.size() <= 0) {
+                        android.app.AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                        builder.setTitle("Friends suggestion !");
+                        builder.setMessage("Your friends list is empty, make friends with someone !");
+                        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                tabs.getTabAt(2).select();
+                                tabs.getTabAt(2).getIcon().setColorFilter(getResources().getColor(R.color.colorItemSelected), PorterDuff.Mode.SRC_IN);
+                                tabs.getTabAt(1).getIcon().setColorFilter(getResources().getColor(R.color.colorItem), PorterDuff.Mode.SRC_IN);
+                                tabs.getTabAt(0).getIcon().setColorFilter(getResources().getColor(R.color.colorItem), PorterDuff.Mode.SRC_IN);
+                                tabs.getTabAt(3).getIcon().setColorFilter(getResources().getColor(R.color.colorItem), PorterDuff.Mode.SRC_IN);
+                                tabs_FriendFragment.getTabAt(1).select();
+                            }
+                        });
+                        builder.setNegativeButton("Hidden Dialog", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                check_dialog = true;
+                            }
+                        });
+                        builder.show();
+                    }
                 }
             }
         }.start();

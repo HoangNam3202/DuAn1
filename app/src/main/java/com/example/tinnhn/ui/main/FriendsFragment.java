@@ -17,7 +17,7 @@ import com.google.android.material.tabs.TabLayout;
 public class FriendsFragment extends Fragment {
 
     private View mRoot;
-
+    public static TabLayout tabs_FriendFragment;
 
     @Nullable
     @Override
@@ -26,8 +26,8 @@ public class FriendsFragment extends Fragment {
         BanBePagerAdapter sectionsPagerAdapter = new BanBePagerAdapter(getContext(), getChildFragmentManager());
         ViewPager viewPager = mRoot.findViewById(R.id.view_pager);
         viewPager.setAdapter(sectionsPagerAdapter);
-        final TabLayout tabs = mRoot.findViewById(R.id.tabs);
-        tabs.setupWithViewPager(viewPager);
+        tabs_FriendFragment = mRoot.findViewById(R.id.tabs);
+        tabs_FriendFragment.setupWithViewPager(viewPager);
         return mRoot;
     }
 }
