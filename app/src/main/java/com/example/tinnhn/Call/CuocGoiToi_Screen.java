@@ -122,7 +122,6 @@ public class CuocGoiToi_Screen extends BaseActivity {
         Call call = getGiaodiendichvu().getCall(appIDNguoiGoi);
         if (call != null) {
             call.addCallListener(new SinchCallListener());
-            Toast.makeText(this, call.getRemoteUserId(), Toast.LENGTH_SHORT).show();
         } else {
             finish();
         }

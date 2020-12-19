@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -155,49 +156,58 @@ public class PlaceholderFragment extends Fragment {
             });
         }
 
-//        mDatabase.child("BanBe").addChildEventListener(new ChildEventListener() {
-//            @Override
-//            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-//                LoadBanBe loadBanBe = snapshot.getValue(LoadBanBe.class);
-//                if (loadBanBe.EmailUser.equals(EmailUser)) {
-//                    String key_Friend = snapshot.getKey();
-//                    messageArrayList_check.add(new LoadBanBe(key_Friend, loadBanBe.idTaiKhoan, loadBanBe.tenTaiKhoan, loadBanBe.email,
-//                            loadBanBe.diaChi, loadBanBe.hinhDaiDien, loadBanBe.EmailUser));
-//                }
-//            }
-//
-//            @Override
-//            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-//
-//            }
-//
-//            @Override
-//            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-//
-//            }
-//
-//            @Override
-//            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-//
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//
-//            }
-//        });
-//
-//        if(messageArrayList_check.size() <= 0){
-//            android.app.AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-//            builder.setMessage("M k co' ban., lam quen may' dua' di !");
-//            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-//                @Override
-//                public void onClick(DialogInterface dialog, int which) {
-//
-//                }
-//            });
-//            builder.show();
-//        }
+        mDatabase.child("BanBe").addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                LoadBanBe loadBanBe = snapshot.getValue(LoadBanBe.class);
+                if (loadBanBe.EmailUser.equals(EmailUser)) {
+                    String key_Friend = snapshot.getKey();
+                    messageArrayList_check.add(new LoadBanBe(key_Friend, loadBanBe.idTaiKhoan, loadBanBe.tenTaiKhoan, loadBanBe.email,
+                            loadBanBe.diaChi, loadBanBe.hinhDaiDien, loadBanBe.EmailUser));
+                }
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+        new CountDownTimer(2000, 100) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+            }
+
+            @Override
+            public void onFinish() {
+                if(messageArrayList_check.size() <= 0){
+                    android.app.AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                    builder.setMessage("M k co' ban., lam quen may' dua' di !");
+                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    });
+                    builder.show();
+                }
+            }
+        }.start();
+
         return view;
     }
 

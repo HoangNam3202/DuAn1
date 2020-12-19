@@ -15,6 +15,7 @@ import android.os.Binder;
 import android.os.Build;
 import android.os.IBinder;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -24,6 +25,7 @@ import androidx.core.app.NotificationManagerCompat;
 
 import com.example.tinnhn.FriendsRequest;
 import com.example.tinnhn.HoiThoaiActivity;
+import com.example.tinnhn.MainActivity;
 import com.example.tinnhn.R;
 import com.example.tinnhn.SearchFriendsActivity;
 import com.example.tinnhn.ThongBao;
@@ -84,7 +86,7 @@ public class SinchServices extends Service {
                 notificationManager.createNotificationChannel(notificationChannel);
             }
         }
-        Intent notificationIntent = new Intent(this, LoginActivity.class);
+        Intent notificationIntent = new Intent(this, MainActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
 
         Notification.Builder notificationBuilder;
@@ -160,13 +162,13 @@ public class SinchServices extends Service {
                     .environmentHost(ENVIRONMENT).build();
 
             appSinchClient.setSupportCalling(true);
-            appSinchClient.startListeningOnActiveConnection();
             appSinchClient.setSupportManagedPush(true);
            appSinchClient.setSupportActiveConnectionInBackground(true);
 
             appSinchClient.addSinchClientListener(new MySinchClientListener());
             appSinchClient.getCallClient().addCallClientListener(new SinchCallClientListener());
             appSinchClient.getVideoController().setResizeBehaviour(VideoScalingType.ASPECT_FILL);
+            appSinchClient.startListeningOnActiveConnection();
             appSinchClient.start();
         }
     }
@@ -174,10 +176,13 @@ public class SinchServices extends Service {
 
     private void stop() {
         if (appSinchClient != null) {
+            appSinchClient.stopListeningOnActiveConnection();
             appSinchClient.terminate();
             appSinchClient = null;
+
         }
     }
+
 //hàm check trạng thái của service
     private boolean isStarted() {
         return (appSinchClient != null && appSinchClient.isStarted());
@@ -302,16 +307,20 @@ public class SinchServices extends Service {
 
 
     }
-
+private void intentinomingcall(Call call){
+    Toast.makeText(this, "hell no!", Toast.LENGTH_SHORT).show();
+    Intent intent23 = new Intent(SinchServices.this, CuocGoiToi_Screen.class);
+    intent23.putExtra(CALL_ID, call.getCallId());//lấy thông tin ng gọi đưa vào màn hình cuộc gọi tới: lấy ID, usernamevv.vv
+    intent23.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+    intent23.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+    SinchServices.this.startActivity(intent23);
+}
     //hàm hứng sự kiện của Sinch service
     private class SinchCallClientListener implements CallClientListener {
         //hàm hứng cuộc gọi tới
         @Override
         public void onIncomingCall(CallClient callClient, Call call) {
-            Intent intent = new Intent(SinchServices.this, CuocGoiToi_Screen.class);
-            intent.putExtra(CALL_ID, call.getCallId());//lấy thông tin ng gọi đưa vào màn hình cuộc gọi tới: lấy ID, usernamevv.vv
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            SinchServices.this.startActivity(intent);
+            intentinomingcall(call);
         }
     }
     //end hàm hứng sự kiện của Sinch service
