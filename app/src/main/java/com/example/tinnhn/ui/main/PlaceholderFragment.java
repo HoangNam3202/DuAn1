@@ -1,5 +1,7 @@
 package com.example.tinnhn.ui.main;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -21,6 +23,8 @@ import androidx.fragment.app.Fragment;
 import com.example.tinnhn.Friends;
 import com.example.tinnhn.HoiThoai;
 import com.example.tinnhn.HoiThoaiActivity;
+import com.example.tinnhn.LoadBanBe;
+import com.example.tinnhn.MainActivity;
 import com.example.tinnhn.Message;
 import com.example.tinnhn.MessageAdapter;
 import com.example.tinnhn.R;
@@ -82,7 +86,7 @@ public class PlaceholderFragment extends Fragment {
         ListView list_view_Message = view.findViewById(R.id.list_view_Message);
         messageArrayList = new ArrayList<>();
         messageArrayList_Message1 = new ArrayList<>();
-        ArrayList<Friends> messageArrayList_check = new ArrayList<>();
+        ArrayList<LoadBanBe> messageArrayList_check = new ArrayList<>();
         ArrayList<HoiThoai> messageArrayList_Message = new ArrayList<>();
         messageAdapter = new MessageAdapter(getActivity(), R.layout.list_message_item, messageArrayList);
         list_view_Message.setAdapter(messageAdapter);
@@ -150,6 +154,50 @@ public class PlaceholderFragment extends Fragment {
                 }
             });
         }
+
+//        mDatabase.child("BanBe").addChildEventListener(new ChildEventListener() {
+//            @Override
+//            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+//                LoadBanBe loadBanBe = snapshot.getValue(LoadBanBe.class);
+//                if (loadBanBe.EmailUser.equals(EmailUser)) {
+//                    String key_Friend = snapshot.getKey();
+//                    messageArrayList_check.add(new LoadBanBe(key_Friend, loadBanBe.idTaiKhoan, loadBanBe.tenTaiKhoan, loadBanBe.email,
+//                            loadBanBe.diaChi, loadBanBe.hinhDaiDien, loadBanBe.EmailUser));
+//                }
+//            }
+//
+//            @Override
+//            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+//
+//            }
+//
+//            @Override
+//            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+//
+//            }
+//
+//            @Override
+//            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+//
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//
+//            }
+//        });
+//
+//        if(messageArrayList_check.size() <= 0){
+//            android.app.AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+//            builder.setMessage("M k co' ban., lam quen may' dua' di !");
+//            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+//                @Override
+//                public void onClick(DialogInterface dialog, int which) {
+//
+//                }
+//            });
+//            builder.show();
+//        }
         return view;
     }
 
