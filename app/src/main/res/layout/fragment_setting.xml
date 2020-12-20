@@ -59,7 +59,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:text="User 1"
+                android:text="not logged in"
                 android:textAllCaps="false"
                 android:textColor="#292828"
                 android:textSize="24dp" />
@@ -78,7 +78,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
                 android:layout_marginTop="5dp"
-                android:text="User@gmail.com"
+                android:text="not logged in"
                 android:textSize="18dp" />
 
             <TextView
@@ -95,7 +95,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
                 android:layout_marginTop="5dp"
-                android:text="Province"
+                android:text="not logged in"
                 android:textSize="18dp" />
 
             <TextView
@@ -112,7 +112,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
                 android:layout_marginTop="5dp"
-                android:text="0123456789"
+                android:text="not logged in"
                 android:textSize="18dp" />
 
             <TextView
