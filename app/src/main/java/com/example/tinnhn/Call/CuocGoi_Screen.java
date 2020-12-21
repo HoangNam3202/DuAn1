@@ -116,6 +116,7 @@ public class CuocGoi_Screen extends BaseActivity {
                 TaiKhoan taiKhoan = snapshot.getValue(TaiKhoan.class);
                 if (taiKhoan.getEmail().equals(getGiaodiendichvu().getCall(appCallId).getRemoteUserId())) {
                     Glide.with(getBaseContext()).asBitmap().load(taiKhoan.getHinhDaiDien()).into(hinh);
+
                 }
                 if (taiKhoan.getEmail().equals(getGiaodiendichvu().getUserName())) {
                     tennguoigoi = taiKhoan.getTenTaiKhoan();
@@ -143,25 +144,6 @@ public class CuocGoi_Screen extends BaseActivity {
 
             }
         });
-        new CountDownTimer(20000, 100) {
-            @Override
-            public void onTick(long millisUntilFinished) {
-            }
-
-            @Override
-            public void onFinish() {
-                Call call = getGiaodiendichvu().getCall(appCallId);
-                String calldetail =
-                        "You have a missed call from " + tennguoigoi + ".";
-                final HoiThoai hoiThoai = new HoiThoai(calldetail, EmailUser, call.getRemoteUserId());
-                databaseReference.child("HoiThoai").push().setValue(hoiThoai);
-                ThongBao thongBao = new ThongBao(null,calldetail,call.getRemoteUserId(),EmailUser,"null",tennguoigoi);
-                databaseReference.child("ThongBao").push().setValue(thongBao);
-                endCall();
-
-            }
-        }.start();
-
         //ánh xạ
         mCallDuration = (TextView) findViewById(R.id.callDuration);
         mCallerName = (TextView) findViewById(R.id.remoteUser);
@@ -221,6 +203,10 @@ public class CuocGoi_Screen extends BaseActivity {
                             "You have a missed call from " + tennguoigoi + ".";
                     final HoiThoai hoiThoai = new HoiThoai(calldetail, EmailUser, call.getRemoteUserId());
                     databaseReference.child("HoiThoai").push().setValue(hoiThoai);
+                    ThongBao thongBao = new ThongBao(null,calldetail,call.getRemoteUserId(),EmailUser,"null",tennguoigoi);
+                    databaseReference.child("ThongBao").push().setValue(thongBao);
+                    NotiCall notiCall = new NotiCall(call.getRemoteUserId(),EmailUser);
+                    databaseReference.child("NotiCall").push().setValue(notiCall);
                     endCall();
                 }
 
@@ -342,7 +328,24 @@ public class CuocGoi_Screen extends BaseActivity {
     private void updateCallDuration() {
         if (mCallStart > 0) {
             mCallDuration.setText(formatTimespan(System.currentTimeMillis() - mCallStart));
+            Call call = getGiaodiendichvu().getCall(appCallId);
+            if (call.getState() == CallState.INITIATING) {
+                if (formatTimespan(System.currentTimeMillis() - mCallStart).equals("00:10")) {
+                    Toast.makeText(this, "dwqdwqdwqdwqd", Toast.LENGTH_SHORT).show();
+                    String calldetail =
+                            "You have a missed call from " + tennguoigoi + ".";
+                    final HoiThoai hoiThoai = new HoiThoai(calldetail, EmailUser, call.getRemoteUserId());
+                    databaseReference.child("HoiThoai").push().setValue(hoiThoai);
+                    ThongBao thongBao = new ThongBao(null,calldetail,call.getRemoteUserId(),EmailUser,"null",tennguoigoi);
+                    databaseReference.child("ThongBao").push().setValue(thongBao);
+                    NotiCall notiCall = new NotiCall(call.getRemoteUserId(),EmailUser);
+                    databaseReference.child("NotiCall").push().setValue(notiCall);
+                    endCall();
+
+                }
+            }
         }
+
     }
 
     //end hàm chạy tính thời gian khi gọi

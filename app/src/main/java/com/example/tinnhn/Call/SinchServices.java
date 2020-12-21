@@ -39,6 +39,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.example.tinnhn.taikhoan.LoginActivity;
 import com.sinch.android.rtc.AudioController;
 import com.sinch.android.rtc.ClientRegistration;
+import com.sinch.android.rtc.PushPair;
 import com.sinch.android.rtc.Sinch;
 import com.sinch.android.rtc.SinchClient;
 import com.sinch.android.rtc.SinchClientListener;
@@ -46,8 +47,12 @@ import com.sinch.android.rtc.SinchError;
 import com.sinch.android.rtc.calling.Call;
 import com.sinch.android.rtc.calling.CallClient;
 import com.sinch.android.rtc.calling.CallClientListener;
+import com.sinch.android.rtc.calling.CallListener;
+import com.sinch.android.rtc.video.VideoCallListener;
 import com.sinch.android.rtc.video.VideoController;
 import com.sinch.android.rtc.video.VideoScalingType;
+
+import java.util.List;
 
 public class SinchServices extends Service {
     private static final String APP_KEY = "16732ff2-dd27-4c5a-8301-6b693da2fef1";//key client của tài khoản Sinch
@@ -56,7 +61,7 @@ public class SinchServices extends Service {
     public static final String CALL_ID = "77";
     private giaodiendichvu appGiaodiendichvu = new giaodiendichvu();
     private SinchClient appSinchClient;
-    private String appIDNguoiDung,trangthaiforeground;
+    private String appIDNguoiDung,trangthaiforeground,Tennguoigoinee;
     Notification notification;
 
     private StartFailedListener mListener;
@@ -71,6 +76,8 @@ public class SinchServices extends Service {
         ThongBao();//noti tin nhắn
         LoiMoi();
         startForeground(11,notification);//chạy foreground
+
+        Noticall();
         super.onCreate();
     }
 //hàm tạo noti
@@ -346,6 +353,7 @@ public class SinchServices extends Service {
                         TaiKhoan taiKhoan = snapshot.getValue(TaiKhoan.class);
 
                         if (taiKhoan.getEmail().equals(call.getRemoteUserId())) {
+                            Tennguoigoinee=taiKhoan.getEmail();
                             NotificationCompat.Builder builder = new NotificationCompat.Builder(getBaseContext(), "haha")
                                     .setSmallIcon(R.drawable.ic_baseline_phone_callback_24)
                                     .setContentTitle("Incoming call")
@@ -391,6 +399,8 @@ public class SinchServices extends Service {
 
                     }
                 });
+
+
             }else if(trangthaiforeground.equals("off")){
                     Intent intent23 = new Intent(SinchServices.this, CuocGoiToi_Screen.class);
                      intent23.putExtra(CALL_ID,call.getCallId());//lấy thông tin ng gọi đưa vào màn hình cuộc gọi tới: lấy ID, usernamevv.vv
@@ -402,6 +412,43 @@ public class SinchServices extends Service {
 
 
         }
+
+    }
+    public void Noticall(){
+        mDatabase.child("NotiCall").addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                NotiCall notiCall = snapshot.getValue(NotiCall.class);
+
+                if(notiCall.EmailNguoiNhanCuocGoi.equals(EmailUser)&&notiCall.EmailNguoiGoi.equals(Tennguoigoinee)){
+
+                    NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getBaseContext());
+                    notificationManager.cancel(112);
+                    String key = snapshot.getKey();
+                    mDatabase.child("NotiCall").child(key).removeValue();
+                }
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     //end hàm hứng sự kiện của Sinch service
