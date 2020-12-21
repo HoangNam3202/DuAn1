@@ -130,12 +130,12 @@ public class HoiThoaiAdapter extends BaseAdapter {
         }
         if (hoiThoai.email_User.equals(EmailNguoiGui)) {
             if (hoiThoai.message_User.contains("Your call have ended.")) {
-                tvUser_tin_nhan.setTextColor(Color.DKGRAY);
-                tvUser_tin_nhan.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_baseline_phone_callback_24, 0, 0, 0);
+                tv_HoiThoaiBanCuaUser.setTextColor(Color.DKGRAY);
+                tv_HoiThoaiBanCuaUser.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_baseline_phone_callback_24, 0, 0, 0);
             }
             if (hoiThoai.message_User.contains("You have a missed call from")) {
-                tvUser_tin_nhan.setTextColor(Color.RED);
-                tvUser_tin_nhan.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_baseline_phone_missed_24, 0, 0, 0);
+                tv_HoiThoaiBanCuaUser.setTextColor(Color.RED);
+                tv_HoiThoaiBanCuaUser.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_baseline_phone_missed_24, 0, 0, 0);
             }
             tv_HoiThoaiBanCuaUser.setText(hoiThoai.message_User);
             tvUser_tin_nhan.setVisibility(View.GONE);
