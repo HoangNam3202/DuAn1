@@ -317,7 +317,15 @@ public class CuocGoi_Screen extends BaseActivity {
         finish();
     }
     //end hàn ngừng cuộc gọi
-
+//    private void actionOnService(Actions actions) {
+//
+//        Intent intent = new Intent(this, SinchServices.class);
+//        intent.setAction(actions.name());
+//        this.startService(intent);
+//
+//
+//
+//    }
     //hàm đổi thời gian
     private String formatTimespan(long timespan) {
         long totalSeconds = timespan / 1000;

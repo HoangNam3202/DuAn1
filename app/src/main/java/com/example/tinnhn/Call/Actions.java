@@ -2,5 +2,5 @@ package com.example.tinnhn.Call;
 
 public enum Actions {
     START,
-    STOP,DISS
+    STOP,DISS,OFFNOTI
 }
