@@ -23,12 +23,14 @@ import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
+import com.bumptech.glide.Glide;
 import com.example.tinnhn.FriendsRequest;
 import com.example.tinnhn.HoiThoaiActivity;
 import com.example.tinnhn.MainActivity;
 import com.example.tinnhn.R;
 import com.example.tinnhn.SearchFriendsActivity;
 import com.example.tinnhn.ThongBao;
+import com.example.tinnhn.taikhoan.TaiKhoan;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -54,7 +56,7 @@ public class SinchServices extends Service {
     public static final String CALL_ID = "77";
     private giaodiendichvu appGiaodiendichvu = new giaodiendichvu();
     private SinchClient appSinchClient;
-    private String appIDNguoiDung;
+    private String appIDNguoiDung,trangthaiforeground;
     Notification notification;
 
     private StartFailedListener mListener;
@@ -117,9 +119,11 @@ public class SinchServices extends Service {
                 switch (action) {
                     case "START":
                        startService();
+                       trangthaiforeground="on";
                         break;
                     case "STOP":
                         stopService();
+                        trangthaiforeground="off";
                         break;
                     case "DISS":
                         stop();
@@ -162,7 +166,6 @@ public class SinchServices extends Service {
                     .environmentHost(ENVIRONMENT).build();
 
             appSinchClient.setSupportCalling(true);
-            appSinchClient.setSupportManagedPush(true);
            appSinchClient.setSupportActiveConnectionInBackground(true);
 
             appSinchClient.addSinchClientListener(new MySinchClientListener());
@@ -306,23 +309,120 @@ public class SinchServices extends Service {
         }
 
 
+
+
     }
-private void intentinomingcall(Call call){
-    Toast.makeText(this, "hell no!", Toast.LENGTH_SHORT).show();
-    Intent intent23 = new Intent(SinchServices.this, CuocGoiToi_Screen.class);
-    intent23.putExtra(CALL_ID, call.getCallId());//lấy thông tin ng gọi đưa vào màn hình cuộc gọi tới: lấy ID, usernamevv.vv
-    intent23.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-    intent23.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-    SinchServices.this.startActivity(intent23);
+private void intentinomingcall(String callid) {
+
+//    Intent fullScreenIntent = new Intent(this, CuocGoiToi_Screen.class);
+//               PendingIntent fullScreenPendingIntent = PendingIntent.getActivity(this, 0,
+//                    fullScreenIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+//               fullScreenIntent.putExtra("callid", callid);//lấy thông tin ng gọi đưa vào màn hình cuộc gọi tới: lấy ID, usernamevv.vv
+//
+//            NotificationCompat.Builder notificationBuilder =
+//                    new NotificationCompat.Builder(this, "haha")
+//                            .setSmallIcon(R.drawable.ic_baseline_phone_callback_24)
+//                            .setContentTitle("Incoming call")
+//                            .setContentText("(919) 555-1234")
+//                            .setPriority(NotificationCompat.PRIORITY_HIGH)
+//                            .setCategory(NotificationCompat.CATEGORY_CALL)
+//                            .setFullScreenIntent(fullScreenPendingIntent, true);
+//    Notification incomingCallNotification = notificationBuilder.build();
+//    startForeground(112,incomingCallNotification);
+////
+////    Toast.makeText(this, "hell no!", Toast.LENGTH_SHORT).show();
+////    Intent i = new Intent(this, CuocGoiToi_Screen.class);
+////    i.setAction(Intent.ACTION_MAIN);
+////    i.addCategory(Intent.CATEGORY_LAUNCHER);
+////    i.putExtra(CALL_ID, call.getCallId());//lấy thông tin ng gọi đưa vào màn hình cuộc gọi tới: lấy ID, usernamevv.vv
+////    i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+////    startActivity(i);
+//    Intent intent23 = new Intent(SinchServices.this, CuocGoiToi_Screen.class);
+//    intent23.putExtra("callid", callid);//lấy thông tin ng gọi đưa vào màn hình cuộc gọi tới: lấy ID, usernamevv.vv
+//    intent23.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+//    intent23.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//    SinchServices.this.startActivity(intent23);
+
 }
     //hàm hứng sự kiện của Sinch service
     private class SinchCallClientListener implements CallClientListener {
         //hàm hứng cuộc gọi tới
         @Override
         public void onIncomingCall(CallClient callClient, Call call) {
-            intentinomingcall(call);
+
+            if(trangthaiforeground.equals("on")){
+                String chanell2="haha";
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    final NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                    final NotificationChannel notificationChannel = new NotificationChannel(chanell2, "incommingcall", NotificationManager.IMPORTANCE_LOW);
+                    notificationChannel.setDescription("nonono");
+                    notificationChannel.enableLights(true);
+                    notificationChannel.setLightColor(Color.RED);
+                    notificationChannel.enableVibration(true);
+                    notificationChannel.setVibrationPattern(new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400});
+                    if (notificationManager != null) {
+                        notificationManager.createNotificationChannel(notificationChannel);
+                    }
+                }
+                Intent intent23 = new Intent(SinchServices.this, CuocGoiToi_Screen.class);
+                intent23.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                intent23.putExtra(CALL_ID,call.getCallId());
+                final PendingIntent dpendingIntent = PendingIntent.getActivity(getBaseContext(), 0, intent23, PendingIntent.FLAG_UPDATE_CURRENT);
+                mDatabase = FirebaseDatabase.getInstance().getReference();
+                mDatabase.child("TaiKhoan").addChildEventListener(new ChildEventListener() {
+                    @Override
+                    public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                        TaiKhoan taiKhoan = snapshot.getValue(TaiKhoan.class);
+                        Bitmap mbitmap=BitmapFactory.decodeResource(getResources(),
+                                R.drawable.hinhnen);
+                        if (taiKhoan.getEmail().equals(call.getRemoteUserId())) {
+                            NotificationCompat.Builder builder = new NotificationCompat.Builder(getBaseContext(), "haha")
+                                    .setSmallIcon(R.drawable.ic_baseline_phone_callback_24)
+                                    .setContentTitle("Incoming call")
+                                    .setContentText("from "+taiKhoan.getTenTaiKhoan())
+                                    .setStyle(new NotificationCompat.BigPictureStyle().bigPicture(mbitmap))
+                                    .setContentIntent(dpendingIntent)
+                                    .setAutoCancel(true);
+
+
+                            NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getBaseContext());
+                            notificationManager.notify(112, builder.build());
+                        }
+                    }
+
+                    @Override
+                    public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+                    }
+
+                    @Override
+                    public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+                    }
+
+                    @Override
+                    public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+            }else if(trangthaiforeground.equals("off")){
+                    Intent intent23 = new Intent(SinchServices.this, CuocGoiToi_Screen.class);
+                     intent23.putExtra(CALL_ID,call.getCallId());//lấy thông tin ng gọi đưa vào màn hình cuộc gọi tới: lấy ID, usernamevv.vv
+                     intent23.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                        intent23.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                     SinchServices.this.startActivity(intent23);
+            }
+
+
+
         }
     }
+
     //end hàm hứng sự kiện của Sinch service
 
     //hàm thông báo tin nhắn tới vào noti
@@ -347,7 +447,7 @@ private void intentinomingcall(Call call){
                             .setSmallIcon(R.drawable.logo_app)
                             .setContentTitle(cVu.tenUser)
                             .setContentText(cVu.message_User)
-                            .setContentIntent(pendingIntent)
+                           .setContentIntent(pendingIntent)
                             .setAutoCancel(true);
                     NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getBaseContext());
                     notificationManager.notify(11, builder.build());
