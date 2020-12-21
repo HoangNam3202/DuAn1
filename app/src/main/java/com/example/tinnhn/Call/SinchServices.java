@@ -312,38 +312,9 @@ public class SinchServices extends Service {
 
 
     }
-private void intentinomingcall(String callid) {
 
-//    Intent fullScreenIntent = new Intent(this, CuocGoiToi_Screen.class);
-//               PendingIntent fullScreenPendingIntent = PendingIntent.getActivity(this, 0,
-//                    fullScreenIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-//               fullScreenIntent.putExtra("callid", callid);//lấy thông tin ng gọi đưa vào màn hình cuộc gọi tới: lấy ID, usernamevv.vv
-//
-//            NotificationCompat.Builder notificationBuilder =
-//                    new NotificationCompat.Builder(this, "haha")
-//                            .setSmallIcon(R.drawable.ic_baseline_phone_callback_24)
-//                            .setContentTitle("Incoming call")
-//                            .setContentText("(919) 555-1234")
-//                            .setPriority(NotificationCompat.PRIORITY_HIGH)
-//                            .setCategory(NotificationCompat.CATEGORY_CALL)
-//                            .setFullScreenIntent(fullScreenPendingIntent, true);
-//    Notification incomingCallNotification = notificationBuilder.build();
-//    startForeground(112,incomingCallNotification);
-////
-////    Toast.makeText(this, "hell no!", Toast.LENGTH_SHORT).show();
-////    Intent i = new Intent(this, CuocGoiToi_Screen.class);
-////    i.setAction(Intent.ACTION_MAIN);
-////    i.addCategory(Intent.CATEGORY_LAUNCHER);
-////    i.putExtra(CALL_ID, call.getCallId());//lấy thông tin ng gọi đưa vào màn hình cuộc gọi tới: lấy ID, usernamevv.vv
-////    i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-////    startActivity(i);
-//    Intent intent23 = new Intent(SinchServices.this, CuocGoiToi_Screen.class);
-//    intent23.putExtra("callid", callid);//lấy thông tin ng gọi đưa vào màn hình cuộc gọi tới: lấy ID, usernamevv.vv
-//    intent23.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-//    intent23.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//    SinchServices.this.startActivity(intent23);
 
-}
+
     //hàm hứng sự kiện của Sinch service
     private class SinchCallClientListener implements CallClientListener {
         //hàm hứng cuộc gọi tới
@@ -373,18 +344,14 @@ private void intentinomingcall(String callid) {
                     @Override
                     public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                         TaiKhoan taiKhoan = snapshot.getValue(TaiKhoan.class);
-                        Bitmap mbitmap=BitmapFactory.decodeResource(getResources(),
-                                R.drawable.hinhnen);
+
                         if (taiKhoan.getEmail().equals(call.getRemoteUserId())) {
                             NotificationCompat.Builder builder = new NotificationCompat.Builder(getBaseContext(), "haha")
                                     .setSmallIcon(R.drawable.ic_baseline_phone_callback_24)
                                     .setContentTitle("Incoming call")
                                     .setContentText("from "+taiKhoan.getTenTaiKhoan())
-                                    .setStyle(new NotificationCompat.BigPictureStyle().bigPicture(mbitmap))
                                     .setContentIntent(dpendingIntent)
                                     .setAutoCancel(true);
-
-
                             NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getBaseContext());
                             notificationManager.notify(112, builder.build());
                             AudioPlayer mAudioPlayer = new AudioPlayer(getBaseContext());

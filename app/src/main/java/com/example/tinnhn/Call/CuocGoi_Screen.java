@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -50,16 +51,16 @@ public class CuocGoi_Screen extends BaseActivity {
     static final String CALL_START_TIME = "callStartTime";
     static final String ADDED_LISTENER = "addedListener";
     private Timer appTimer;
-    int check,check2 = 1;
+    int check, check2 = 1;
     private UpdateCallDurationTask mDurationTask;
-    private String appCallId;
+    private String appCallId, tennguoigoi;
     private long mCallStart = 0;
     private boolean mAddedListener = false;
     private boolean mVideoViewsAdded = false;
     private TextView mCallDuration;
-    private TextView mCallState,calling;
+    private TextView mCallState, calling;
     private TextView mCallerName;
-    ImageButton camoffButton,mute;
+    ImageButton camoffButton, mute;
     DatabaseReference databaseReference;
     ImageView hinh;
     LottieAnimationView anima;
@@ -67,7 +68,8 @@ public class CuocGoi_Screen extends BaseActivity {
 
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
-    String  EmailUser;
+    String EmailUser;
+
     private class UpdateCallDurationTask extends TimerTask {
 
         @Override
@@ -106,7 +108,6 @@ public class CuocGoi_Screen extends BaseActivity {
         sharedPreferences = getSharedPreferences("GhiNhoDangNhap", MODE_PRIVATE);
         editor = sharedPreferences.edit();
         EmailUser = sharedPreferences.getString("tenTaiKhoan", "");
-
         databaseReference = FirebaseDatabase.getInstance().getReference();
         databaseReference.child("TaiKhoan").addChildEventListener(new ChildEventListener() {
             @Override
@@ -115,6 +116,10 @@ public class CuocGoi_Screen extends BaseActivity {
                 if (taiKhoan.getEmail().equals(getGiaodiendichvu().getCall(appCallId).getRemoteUserId())) {
                     Glide.with(getBaseContext()).asBitmap().load(taiKhoan.getHinhDaiDien()).into(hinh);
                 }
+                if (taiKhoan.getEmail().equals(getGiaodiendichvu().getUserName())) {
+                    tennguoigoi = taiKhoan.getTenTaiKhoan();
+                }
+
             }
 
             @Override
@@ -137,18 +142,34 @@ public class CuocGoi_Screen extends BaseActivity {
 
             }
         });
+        new CountDownTimer(20000, 100) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+            }
 
-   //ánh xạ
+            @Override
+            public void onFinish() {
+                Call call = getGiaodiendichvu().getCall(appCallId);
+                String calldetail =
+                        "You have a missed call from " + tennguoigoi + ".";
+                final HoiThoai hoiThoai = new HoiThoai(calldetail, EmailUser, call.getRemoteUserId());
+                databaseReference.child("HoiThoai").push().setValue(hoiThoai);
+                endCall();
+
+            }
+        }.start();
+
+        //ánh xạ
         mCallDuration = (TextView) findViewById(R.id.callDuration);
         mCallerName = (TextView) findViewById(R.id.remoteUser);
-        hinh=findViewById(R.id.nghedien);
-        calling=findViewById(R.id.callingtext);
-        anima=findViewById(R.id.animation);
-        mute=findViewById(R.id.mute);
+        hinh = findViewById(R.id.nghedien);
+        calling = findViewById(R.id.callingtext);
+        anima = findViewById(R.id.animation);
+        mute = findViewById(R.id.mute);
         //mCallState = (TextView) findViewById(R.id.callState);
         ImageButton endCallButton = (ImageButton) findViewById(R.id.hangupButton);
         ImageButton flipButton = (ImageButton) findViewById(R.id.flipcamera);
-       camoffButton = (ImageButton) findViewById(R.id.offcam);
+        camoffButton = (ImageButton) findViewById(R.id.offcam);
 
 //end ánh xạ
 
@@ -157,7 +178,7 @@ public class CuocGoi_Screen extends BaseActivity {
         mute.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-            mute();
+                mute();
             }
         });
 
@@ -185,12 +206,22 @@ public class CuocGoi_Screen extends BaseActivity {
             public void onClick(View v) {
                 Call call = getGiaodiendichvu().getCall(appCallId);
 //                CallEndCause cause = call.getDetails().getEndCause();
-                String calldetail =
-                        "Your call have ended. \n"
-                                +"duration: "+call.getDetails().getDuration()+" sec.";
-                final HoiThoai hoiThoai = new HoiThoai(calldetail, call.getRemoteUserId(), EmailUser);
-                databaseReference.child("HoiThoai").push().setValue(hoiThoai);
-                endCall();
+                if (call.getState() == CallState.ESTABLISHED) {
+                    String calldetail =
+                            "Your call have ended. \n"
+                                    + "duration: " + call.getDetails().getDuration() + " sec.";
+                    final HoiThoai hoiThoai = new HoiThoai(calldetail, call.getRemoteUserId(), EmailUser);
+                    databaseReference.child("HoiThoai").push().setValue(hoiThoai);
+                    endCall();
+                } else {
+                    String calldetail =
+                            "You have a missed call from " + tennguoigoi + ".";
+                    final HoiThoai hoiThoai = new HoiThoai(calldetail, EmailUser, call.getRemoteUserId());
+                    databaseReference.child("HoiThoai").push().setValue(hoiThoai);
+                    endCall();
+                }
+
+
             }
         });
 
@@ -228,7 +259,7 @@ public class CuocGoi_Screen extends BaseActivity {
         Call call = getGiaodiendichvu().getCall(appCallId);
         if (call != null) {
             mCallerName.setText(call.getRemoteUserId());
-           // mCallState.setText(call.getState().toString());
+            // mCallState.setText(call.getState().toString());
             calling.setText(call.getState().toString());
             if (call.getState() == CallState.ESTABLISHED) {
                 //when the call is established, addVideoViews configures the video to  be shown
@@ -331,20 +362,21 @@ public class CuocGoi_Screen extends BaseActivity {
             mVideoViewsAdded = true;
         }
     }
+
     //end hàm thêm video view
     //hàm tắt tiếng
-    private  void mute(){
+    private void mute() {
 
-        if(check2==1){
+        if (check2 == 1) {
             mute.setImageResource(R.drawable.ic_volume);
-                audioManager.setMicrophoneMute(true);
-            check2=2;
-        }else if(check2==2){
+            audioManager.setMicrophoneMute(true);
+            check2 = 2;
+        } else if (check2 == 2) {
             mute.setImageResource(R.drawable.ic_mute);
 //            AudioController audioController = getGiaodiendichvu().getAudioController();
 //            audioController.unmute();
             audioManager.setMicrophoneMute(false);
-            check2=1;
+            check2 = 1;
         }
 
     }
@@ -357,7 +389,7 @@ public class CuocGoi_Screen extends BaseActivity {
         vc.toggleCaptureDevicePosition();
     }
 
-//chức năng tắt cam
+    //chức năng tắt cam
     private void camoff() {
 
         final VideoController vc = getGiaodiendichvu().getVideoController();
@@ -398,7 +430,7 @@ public class CuocGoi_Screen extends BaseActivity {
 
     //hàm sự kiện của Sinch client
     private class SinchCallListener implements VideoCallListener {
-// lúc end cuộc gọi,hàm toast các thông số về cuộc gọi
+        // lúc end cuộc gọi,hàm toast các thông số về cuộc gọi
         @Override
         public void onCallEnded(Call call) {
             CallEndCause cause = call.getDetails().getEndCause();
@@ -409,7 +441,7 @@ public class CuocGoi_Screen extends BaseActivity {
             endCall();
         }
 
-//lúc bắt đầu cuộc gọi
+        //lúc bắt đầu cuộc gọi
         @Override
         public void onCallEstablished(Call call) {
             Log.d(TAG, "Call established");
@@ -422,7 +454,8 @@ public class CuocGoi_Screen extends BaseActivity {
             mCallStart = System.currentTimeMillis();
             Log.d(TAG, "Call offered video: " + call.getDetails().isVideoOffered());
         }
-//lúc cuộc gọi đang tiến hành
+
+        //lúc cuộc gọi đang tiến hành
         @Override
         public void onCallProgressing(Call call) {
             Log.d(TAG, "Call progressing");
