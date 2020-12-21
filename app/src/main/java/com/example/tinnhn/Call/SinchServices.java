@@ -431,7 +431,7 @@ public class SinchServices extends Service {
                            .setContentIntent(pendingIntent)
                             .setAutoCancel(true);
                     NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getBaseContext());
-                    notificationManager.notify(11, builder.build());
+                    notificationManager.notify(101, builder.build());
                     AudioPlayer mAudioPlayer = new AudioPlayer(getBaseContext());
                     mAudioPlayer.playmestone();
                     try
@@ -497,7 +497,7 @@ public class SinchServices extends Service {
                             .setContentIntent(pendingIntent)
                             .setAutoCancel(true);
                     NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getBaseContext());
-                    notificationManager.notify(11, builder.build());
+                    notificationManager.notify(113, builder.build());
                     AudioPlayer mAudioPlayer = new AudioPlayer(getBaseContext());
                     mAudioPlayer.playmestone();
                     try

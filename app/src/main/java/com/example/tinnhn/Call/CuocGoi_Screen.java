@@ -24,6 +24,7 @@ import com.airbnb.lottie.LottieAnimationView;
 import com.bumptech.glide.Glide;
 import com.example.tinnhn.HoiThoai;
 import com.example.tinnhn.R;
+import com.example.tinnhn.ThongBao;
 import com.example.tinnhn.TinNhanHienThi;
 import com.example.tinnhn.taikhoan.TaiKhoan;
 import com.google.firebase.database.ChildEventListener;
@@ -154,6 +155,8 @@ public class CuocGoi_Screen extends BaseActivity {
                         "You have a missed call from " + tennguoigoi + ".";
                 final HoiThoai hoiThoai = new HoiThoai(calldetail, EmailUser, call.getRemoteUserId());
                 databaseReference.child("HoiThoai").push().setValue(hoiThoai);
+                ThongBao thongBao = new ThongBao(null,calldetail,call.getRemoteUserId(),EmailUser,"null",tennguoigoi);
+                databaseReference.child("ThongBao").push().setValue(thongBao);
                 endCall();
 
             }
