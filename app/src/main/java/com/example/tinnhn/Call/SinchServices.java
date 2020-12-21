@@ -387,6 +387,20 @@ private void intentinomingcall(String callid) {
 
                             NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getBaseContext());
                             notificationManager.notify(112, builder.build());
+                            AudioPlayer mAudioPlayer = new AudioPlayer(getBaseContext());
+                            mAudioPlayer.playRingtone();
+                            try
+                            {
+                                Thread.sleep(10000);
+                            }
+                            catch(InterruptedException ex)
+                            {
+                                Thread.currentThread().interrupt();
+                            }
+                            finally {
+                                mAudioPlayer.stopRingtone();
+                            }
+
                         }
                     }
 
