@@ -153,7 +153,7 @@ public class DangKiActivity extends AppCompatActivity {
                     tvEmail.setTextColor(getResources().getColor(R.color.colorSuccess));
                     kiemTra[1] = true;
                 } else {
-                    tvEmail.setText("Email chưa hợp lệ");
+                    tvEmail.setText("Invalid email");
                     tvEmail.setTextColor(getResources().getColor(R.color.colorDanger));
                     kiemTra[1] = false;
                 }
@@ -201,7 +201,7 @@ public class DangKiActivity extends AppCompatActivity {
                     tvNhapLaiMatKhau.setTextColor(getResources().getColor(R.color.colorSuccess));
                     kiemTra[3] = true;
                 } else {
-                    tvNhapLaiMatKhau.setText("Mật khẩu chưa khớp");
+                    tvNhapLaiMatKhau.setText("Password not matched");
                     tvNhapLaiMatKhau.setTextColor(getResources().getColor(R.color.colorDanger));
                     kiemTra[3] = false;
                 }
@@ -225,7 +225,7 @@ public class DangKiActivity extends AppCompatActivity {
                     tvSoDienThoai.setTextColor(getResources().getColor(R.color.colorSuccess));
                     kiemTra[4] = true;
                 } else {
-                    tvSoDienThoai.setText("Số điện thoại chưa hợp lệ");
+                    tvSoDienThoai.setText("Invalid phone number");
                     tvSoDienThoai.setTextColor(getResources().getColor(R.color.colorDanger));
                     kiemTra[4] = false;
                 }
@@ -254,8 +254,10 @@ public class DangKiActivity extends AppCompatActivity {
                     //
                     final Dialog dialog = new Dialog(DangKiActivity.this);
                     dialog.setContentView(R.layout.dialog_loading);
+                    TextView tvTinhTrang = dialog.findViewById(R.id.tvTinhTrang);
+                    tvTinhTrang.setText(" Processing...");
                     dialog.show();
-                    new CountDownTimer(1300, 100) {
+                    new CountDownTimer(1200, 100) {
                         @Override
                         public void onTick(long millisUntilFinished) {
                         }
@@ -275,34 +277,32 @@ public class DangKiActivity extends AppCompatActivity {
                                 }
                                 TaiKhoan taiKhoan = new TaiKhoan(RandomString(17), tenTaiKhoan, email, matKhau, soDienThoai, tinhThanhDaChon, urlHinhDaiDien);
                                 dbFirebase.ThemTaiKhoan(taiKhoan);
-
                                 DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
                                 TrangThai trangThai = new TrangThai("null",email,"Not Active");
                                 mDatabase.child("TrangThai").push().setValue(trangThai);
-
-                                Toast.makeText(DangKiActivity.this, "Đăng ký thành công: ", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(DangKiActivity.this, "Register success", Toast.LENGTH_SHORT).show();
                                 finish();
                             } else {
                                 if (!kiemTraMatKhau) {
-                                    Toast.makeText(DangKiActivity.this, "Mật khẩu không khớp", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(DangKiActivity.this, "Password not matched", Toast.LENGTH_SHORT).show();
                                 }
                                 if (kiemTraTrungTenTaiKhoan) {
-                                    tvTenTaiKhoan.setText("Tên tài khoản bị trùng");
+                                    tvTenTaiKhoan.setText("Duplicate username");
                                     tvTenTaiKhoan.setTextColor(getResources().getColor(R.color.colorDanger));
                                 }
                                 if (kiemTraTrungEmail) {
-                                    tvEmail.setText("Email bị trùng");
+                                    tvEmail.setText("Duplicate email");
                                     tvEmail.setTextColor(getResources().getColor(R.color.colorDanger));
                                 }
                                 if (kiemTraTrungSoDienThoai) {
-                                    tvSoDienThoai.setText("Số điện thoại bị trùng");
+                                    tvSoDienThoai.setText("Duplicate phone number");
                                     tvSoDienThoai.setTextColor(getResources().getColor(R.color.colorDanger));
                                 }
                             }
                         }
-                    }, 1200);
+                    }, 1300);
                 } else {
-                    Toast.makeText(DangKiActivity.this, "Nhập chưa hợp lệ", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(DangKiActivity.this, "Enter is not valid", Toast.LENGTH_SHORT).show();
                 }
             }
         });

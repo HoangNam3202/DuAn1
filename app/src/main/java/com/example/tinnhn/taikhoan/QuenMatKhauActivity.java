@@ -181,7 +181,6 @@ public class QuenMatKhauActivity extends AppCompatActivity {
                             }
                         }
                     }.start();
-
                 } else
                     Toast.makeText(QuenMatKhauActivity.this, "Enter invalid information", Toast.LENGTH_SHORT).show();
             }
@@ -333,7 +332,7 @@ public class QuenMatKhauActivity extends AppCompatActivity {
                     tvNhapLaiMatKhau.setTextColor(getResources().getColor(R.color.colorSuccess));
                     kiemTra[4] = true;
                 } else {
-                    tvNhapLaiMatKhau.setText("Chưa khớp mật khẩu");
+                    tvNhapLaiMatKhau.setText("Password not matched");
                     tvNhapLaiMatKhau.setTextColor(getResources().getColor(R.color.colorDanger));
                     kiemTra[4] = false;
                 }
@@ -386,23 +385,23 @@ public class QuenMatKhauActivity extends AppCompatActivity {
                                     finish();
                                 } else {
                                     if (xacNhanTaiKhoan == 1) {
-                                        tvTenTaiKhoan.setText("Sai tên tài khoản");
+                                        tvTenTaiKhoan.setText("Wrong username");
                                         tvTenTaiKhoan.setTextColor(getResources().getColor(R.color.colorDanger));
                                     }
                                     if (xacNhanTaiKhoan == 2) {
-                                        tvEmail.setText("Sai email");
+                                        tvEmail.setText("Wrong email");
                                         tvEmail.setTextColor(getResources().getColor(R.color.colorDanger));
                                     }
                                     if (xacNhanTaiKhoan == 3) {
-                                        tvSoDienThoai.setText("Sai số điện thoại");
+                                        tvSoDienThoai.setText("Wrong phone number");
                                         tvSoDienThoai.setTextColor(getResources().getColor(R.color.colorOrange));
                                     }
                                     if (xacNhanTaiKhoan == -1) {
-                                        tvTenTaiKhoan.setText("Kiểm tra lại thông tin");
+                                        tvTenTaiKhoan.setText("Check the information entered");
                                         tvTenTaiKhoan.setTextColor(getResources().getColor(R.color.colorDanger));
-                                        tvEmail.setText("Kiểm tra lại thông tin");
+                                        tvEmail.setText("Check the information entered");
                                         tvEmail.setTextColor(getResources().getColor(R.color.colorDanger));
-                                        tvSoDienThoai.setText("Kiểm tra lại thông tin");
+                                        tvSoDienThoai.setText("Check the information entered");
                                         tvSoDienThoai.setTextColor(getResources().getColor(R.color.colorOrange));
 //                                        Toast.makeText(QuenMatKhauActivity.this, "Không tìm thấy tài khoản :(", Toast.LENGTH_SHORT).show();
                                     }
