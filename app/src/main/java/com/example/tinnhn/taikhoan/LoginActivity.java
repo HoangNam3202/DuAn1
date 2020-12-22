@@ -181,7 +181,7 @@ public class LoginActivity extends BaseActivity {
                     tvMatKhau.setTextColor(getResources().getColor(R.color.colorSuccess));
                     kiemTra[1] = true;
                 } else {
-                    tvMatKhau.setText("Invalid password");
+                    tvMatKhau.setText(getResources().getString(R.string.err_mat_khau));
                     tvMatKhau.setTextColor(getResources().getColor(R.color.colorDanger));
                     kiemTra[1] = false;
                 }
@@ -255,7 +255,7 @@ public class LoginActivity extends BaseActivity {
                             tvMatKhau.setText("Invalid password");
                             tvMatKhau.setTextColor(getResources().getColor(R.color.colorDanger));
                         }
-
+                        Toast.makeText(LoginActivity.this, "Enter is not valid", Toast.LENGTH_SHORT).show();
                     }
                 } else
                     Toast.makeText(LoginActivity.this, "No internet, check network and restart app", Toast.LENGTH_SHORT).show();
