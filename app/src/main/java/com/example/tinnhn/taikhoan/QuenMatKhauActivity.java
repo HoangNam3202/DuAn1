@@ -410,12 +410,12 @@ public class QuenMatKhauActivity extends AppCompatActivity {
                         }, 1300);
                         //
                     } else {
-                        Toast.makeText(QuenMatKhauActivity.this, "Mật khẩu không khớp", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(QuenMatKhauActivity.this, "Password not matched", Toast.LENGTH_SHORT).show();
                     }
 
 
                 } else
-                    Toast.makeText(QuenMatKhauActivity.this, "Nhập thông tin chưa hợp lệ", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(QuenMatKhauActivity.this, "Enter is not valid", Toast.LENGTH_SHORT).show();
             }
         });
     }
