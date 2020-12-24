@@ -1,8 +1,10 @@
 package com.example.tinnhn.taikhoan;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -377,10 +379,14 @@ public class QuenMatKhauActivity extends AppCompatActivity {
                             @Override
                             public void run() {
                                 if (xacNhanTaiKhoan == 0) {
-                                    Toast.makeText(QuenMatKhauActivity.this, "OK men", Toast.LENGTH_SHORT).show();
-                                    edtTenTaiKhoan.setEnabled(false);
-                                    edtEmail.setEnabled(false);
-                                    edtSoDienThoai.setEnabled(false);
+                                    AlertDialog.Builder builder = new AlertDialog.Builder(QuenMatKhauActivity.this);
+                                    builder.setTitle("Changed password!");
+                                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+
+                                        }
+                                    });
                                     dbFirebase.DoiMatKhau(idTaiKhoanQMK, matKhau);
                                     finish();
                                 } else {
