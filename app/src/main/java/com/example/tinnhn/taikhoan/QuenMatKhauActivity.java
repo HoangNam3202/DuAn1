@@ -170,7 +170,14 @@ public class QuenMatKhauActivity extends AppCompatActivity {
                             dialog.dismiss();
                             if (kiemTraDangNhap == 0) {
                                 if (matKhau.equals(nhapLaiMatKhau)) {
-                                    Toast.makeText(QuenMatKhauActivity.this, "Success", Toast.LENGTH_LONG).show();
+                                    AlertDialog.Builder builder = new AlertDialog.Builder(QuenMatKhauActivity.this);
+                                    builder.setTitle("Changed password!");
+                                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+
+                                        }
+                                    });
                                     dbFirebase.DoiMatKhau(idTaiKhoanQMK, matKhau);
                                     finish();
                                 } else {
