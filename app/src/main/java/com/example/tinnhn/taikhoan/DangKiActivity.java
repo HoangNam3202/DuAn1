@@ -278,7 +278,7 @@ public class DangKiActivity extends AppCompatActivity {
                                 TaiKhoan taiKhoan = new TaiKhoan(RandomString(17), tenTaiKhoan, email, matKhau, soDienThoai, tinhThanhDaChon, urlHinhDaiDien);
                                 dbFirebase.ThemTaiKhoan(taiKhoan);
                                 DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
-                                TrangThai trangThai = new TrangThai("null",email,"Not Active");
+                                TrangThai trangThai = new TrangThai("null", email, "Not Active");
                                 mDatabase.child("TrangThai").push().setValue(trangThai);
                                 Toast.makeText(DangKiActivity.this, "Register success", Toast.LENGTH_SHORT).show();
                                 finish();
@@ -414,6 +414,21 @@ public class DangKiActivity extends AppCompatActivity {
             ivHinhDaiDien.setImageBitmap(bitmap);
             kiemTraDaChonHinhAnh = true;
             ChonHinh();
+            final Dialog dialog = new Dialog(DangKiActivity.this);
+            dialog.setContentView(R.layout.dialog_loading);
+            TextView tvTinhTrang = dialog.findViewById(R.id.tvTinhTrang);
+            tvTinhTrang.setText(" Uploading...");
+            dialog.show();
+            new CountDownTimer(1300, 100) {
+                @Override
+                public void onTick(long millisUntilFinished) {
+                }
+
+                @Override
+                public void onFinish() {
+                    dialog.dismiss();
+                }
+            }.start();
         }
     }
 
