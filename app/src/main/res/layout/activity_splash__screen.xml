@@ -17,7 +17,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Chat Room"
+        android:text="Communication and Connection!"
         android:textColor="#000"
         android:layout_below="@+id/image"
         android:textSize="18dp"
